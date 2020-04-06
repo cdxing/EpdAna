@@ -91,10 +91,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
-
-  TH2D *hEpdRawHits = new TH2D("hEpdRawHits","Raw Hits in the EPD",200,-100.0,100.0,200,-100.0,100.0);
-  hEpdRawHits->GetXaxis()->SetTitle("X [cm]");
-  hEpdRawHits->GetYaxis()->SetTitle("Y [cm]");
+  TH2D *hEpdRawHitsAll = new TH2D("hEpdRawHits","Tile Center of EPD hits",200,-100.0,100.0,200,-100.0,100.0);
+  hEpdRawHitsAll->GetXaxis()->SetTitle("X [cm]");
+  hEpdRawHitsAll->GetYaxis()->SetTitle("Y [cm]");
+  TH2D *hEpdRawHits[16];
+  for(int i=0; i<; i++)
+  {
+    TH2D *hEpdRawHits[i] = new TH2D(Form("hEpdRawHitsRow%d",i+1),Form("Tile Center of EPD hits Row %d",i+1),200,-100.0,100.0,200,-100.0,100.0);
+    hEpdRawHits[i]->GetXaxis()->SetTitle("X [cm]");
+    hEpdRawHits[i]->GetYaxis()->SetTitle("Y [cm]");
+  }
 
 
   // Event loop
@@ -125,11 +131,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       nMip = epdHit->nMIP();
       tileId = epdHit->id();
       EW = (tileId<0)?0:1;
-
+      ring = epdHit->row();
       if(nMip<0.3) continue;// Threshold
       if(EW!=0) continue;//Epd East
       TVector3 tileCenter = mEpdGeom->TileCenter(tileId);
-      hEpdRawHits->Fill(tileCenter.X(),tileCenter.Y());
+
+      hEpdRawHitsAll->Fill(tileCenter.X(),tileCenter.Y());
+      for(int row=1;row<17;row++)
+      {
+        if(ring == row) hEpdRawHits[row-1]->Fill(tileCenter.X(),tileCenter.Y());
+      }
       // see: https://www.star.bnl.gov/webdata/dox/html/classStPicoEpdHit.html
       } // loop over EPD hits
   }  // Event Loop
