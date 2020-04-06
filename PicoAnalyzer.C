@@ -92,7 +92,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
 
-  TH2D *hEpdRawHits = new TH2D("hEpdRawHits","Raw Hits in the EPD",400,-100.0,100.0,400,-100.0,100.0);
+  TH2D *hEpdRawHits = new TH2D("hEpdRawHits","Raw Hits in the EPD",200,-100.0,100.0,200,-100.0,100.0);
   hEpdRawHits->GetXaxis()->SetTitle("X [cm]");
   hEpdRawHits->GetYaxis()->SetTitle("Y [cm]");
 
