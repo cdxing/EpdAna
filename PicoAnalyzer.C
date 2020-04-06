@@ -78,6 +78,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   std::cout << "Explicit read status for some branches" << std::endl;
   picoReader->SetStatus("*",0);
   picoReader->SetStatus("Event",1);
+  picoReader->SetStatus("EpdHit",1);
 
   if( !picoReader->chain() ) {
       std::cout << "No chain has been found." << std::endl;
