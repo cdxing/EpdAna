@@ -57,7 +57,7 @@
 #include "StRoot/StPicoEvent/StPicoTrackCovMatrix.h"
 //EPD header files
 #include "StRoot/StPicoEvent/StPicoEpdHit.h"
-#include "StEpdGeom.h"
+#include "StRoot/StEpdUtil/StEpdGeom.h"
 
 
 // Define global constants
