@@ -112,7 +112,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     StPicoDst *dst = picoReader->picoDst();
     int nEpdHits = dst->numberOfEpdHits();
-    std::cout<< "# of Epd Hits = " << nEpdHits << std::endl;
+    // std::cout<< "# of Epd Hits = " << nEpdHits << std::endl;
     StEpdGeom *mEpdGeom = new StEpdGeom();
 
     // Loop over EPD hits
