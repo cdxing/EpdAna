@@ -95,7 +95,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hEpdRawHitsAll->GetXaxis()->SetTitle("X [cm]");
   hEpdRawHitsAll->GetYaxis()->SetTitle("Y [cm]");
   TH2D *hEpdRawHits[16];
-  for(int i=0; i<; i++)
+  for(int i=0; i<16; i++)
   {
     TH2D *hEpdRawHits[i] = new TH2D(Form("hEpdRawHitsRow%d",i+1),Form("Tile Center of EPD hits Row %d",i+1),200,-100.0,100.0,200,-100.0,100.0);
     hEpdRawHits[i]->GetXaxis()->SetTitle("X [cm]");
