@@ -120,10 +120,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       StPicoEpdHit* epdHit =dst->epdHit(iEpdHit);
 
       int tileId,ring,TT,PP,EW,ADC;
-      //float nMip;
+      float nMip;
 
+      nMip = epdHit->nMIP();
       tileId = epdHit->id();
       EW = (tileId<0)?0:1;
+
+      if(nMip<0.3) continue;// Threshold
       if(EW!=0) continue;//Epd East
       TVector3 tileCenter = mEpdGeom->TileCenter(tileId);
       hEpdRawHits->Fill(tileCenter.X(),tileCenter.Y());
