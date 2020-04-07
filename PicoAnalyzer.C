@@ -43,6 +43,7 @@
 #include "TProfile.h"
 #include "TProfile2D.h"
 #include "TProfile3D.h"
+#include "TMath.h"
 
 // PicoDst headers
 #include "StRoot/StPicoEvent/StPicoDstReader.h"
@@ -58,7 +59,8 @@
 //EPD header files
 #include "StRoot/StPicoEvent/StPicoEpdHit.h"
 #include "StRoot/StEpdUtil/StEpdGeom.h"
-
+#include "StRoot/StEpdUtil/StEpdEpFinder.h"
+#include "StRoot/StEpdUtil/StEpdEpInfo.h"
 
 // Define global constants
 // const Int_t daynumber     = 6;
@@ -68,10 +70,12 @@
 
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
-                      TString outFile = "test_EpdEP"//,
-                      //Int_t   inputp1 = 1
+                      TString outFile = "test_EpdEP",
+                      Int_t   inputp1 = 1
                     )
 {
+
+  Int_t EpOrder = inputp1; // EpOrder = 1, 2, 3
 
   StPicoDstReader* picoReader = new StPicoDstReader(inFile);
   picoReader->Init();
@@ -90,18 +94,41 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   std::cout << "Number of events to read: " << events2read << std::endl;
 
   outFile.Append(".picoDst.result.root");
-  TFile *outputFile = new TFile(outFile,"recreate");
-  TH2D *hEpdRawHitsAll = new TH2D("hEpdRawHits","Tile Center of EPD hits",200,-100.0,100.0,200,-100.0,100.0);
-  hEpdRawHitsAll->GetXaxis()->SetTitle("X [cm]");
-  hEpdRawHitsAll->GetYaxis()->SetTitle("Y [cm]");
-  TH2D *hEpdRawHits[16];
-  for(int i=0; i<16; i++)
-  {
-    hEpdRawHits[i] = new TH2D(Form("hEpdRawHitsRow%d",i+1),Form("Tile Center of EPD hits Row %d",i+1),200,-100.0,100.0,200,-100.0,100.0);
-    hEpdRawHits[i]->GetXaxis()->SetTitle("X [cm]");
-    hEpdRawHits[i]->GetYaxis()->SetTitle("Y [cm]");
-  }
+  // EPD EP finder to get EPD event plane
+  TString EpdEpOutputName = "EpdEpCorrectionHistograms_OUTPUT_";
+  EpdEpOutputName += outFile;
+  EpdEpOutputName += ".root";
+  StEpdEpFinder *mEpFinder = new StEpdEpFinder(1,EpdEpOutputName,"/star/u/dchen/GitHub/EpdAna/EpdEpCorrectionHistograms_INPUT.root");
+  int format = 2;
+  mEpFinder->SetEpdHitFormat(format);    // format=0/1/2 for StEpdHit/StMuEpdHit/StPicoEpdHit
+  mEpFinder->SetnMipThreshold(0.3);    // recommended by EPD group
+  mEpFinder->SetMaxTileWeight(3.0);     // recommended by EPD group 3.0
+  TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
+  unsigned int found;
+  // Retrieve picoDst TChain*
+  TChain *mPicoDst = picoReader->chain();
+  mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
+  std::cout << "EpdHit Branch returned found= " << found << std::endl;
+  mPicoDst->SetBranchAddress("EpdHit",&mEpdHits);
 
+  // output root files
+  TFile *outputFile = new TFile(outFile,"recreate");
+  TH2D *hEastRingRawQDotProduct = new TH2D("hEastRingRawQDotProduct","EPD east Raw Q dot product between different rings",120,0.,120.,400,-2.0,2.0);
+  hEastRingRawQDotProduct->GetXaxis()->SetTitle("(Ring_{a},Ring_{b})");
+  hEastRingRawQDotProduct->GetYaxis()->SetTitle("Dot Product");
+  TH2D *hEastRingWeightedQDotProduct = new TH2D("hEastRingWeightedQDotProduct","EPD east Weighted Q dot product between different rings",120,0.,120.,400,-2.0,2.0);
+  hEastRingWeightedQDotProduct->GetXaxis()->SetTitle("(Ring_{a},Ring_{b})");
+  hEastRingWeightedQDotProduct->GetYaxis()->SetTitle("Dot Product");
+  int iBin = 0;
+  for(int i = 0;i<15;i++){
+    for(int j = i+1; j<16;j++){
+      iBin++;
+      hEastRingWeightedQDotProduct->GetXaxis()->SetBinLabel(iBin,Form("(%d, %d)",i+1,j+1));
+      hEastRingWeightedQDotProduct->GetXaxis()->SetBinLabel(iBin,Form("(%d, %d)",i+1,j+1));
+    }
+  }
+  TProfile *tpEastRingRawQDotProduct = nullptr;
+  TProfile *tpEastRingWeightedQDotProduct = nullptr;
 
   // Event loop
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -117,32 +144,40 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
 
     StPicoDst *dst = picoReader->picoDst();
-    int nEpdHits = dst->numberOfEpdHits();
-    // std::cout<< "# of Epd Hits = " << nEpdHits << std::endl;
-    StEpdGeom *mEpdGeom = new StEpdGeom();
+    // Retrieve event information
+    StPicoEvent *event = dst->event();
+    if( !event ) {
+        std::cout << "Something went wrong, Master! Event is hiding from me..." << std::endl;
+        break;
+    }
 
-    // Loop over EPD hits
-    for (int iEpdHit = 0; iEpdHit < nEpdHits; iEpdHit++){
-      StPicoEpdHit* epdHit =dst->epdHit(iEpdHit);
+    TVector3 pVtx     = event->primaryVertex();
+    StEpdEpInfo result = mEpFinder->Results(mEpdHits,pVtx,0);  // and now you have all the EP info you could ever want :-)
 
-      int tileId,ring,TT,PP,EW,ADC;
-      float nMip;
+    TVector2 eastRingRawQ[16];
+    TVector2 eastRingWeightedQ[16];
+    for(int i=0; <16; i++)
+    {
+      eastRingRawQ[i] = (TVector2) result.EastRingRawQ(1,i+1);
+      eastRingWeightedQ[i] = (TVector2) result.EastRingPhiWeightedQ(1,i+1);
+    }
 
-      nMip = epdHit->nMIP();
-      tileId = epdHit->id();
-      EW = (tileId<0)?0:1;
-      ring = epdHit->row();
-      if(nMip<0.3) continue;// Threshold
-      if(EW!=0) continue;//Epd East
-      TVector3 tileCenter = mEpdGeom->TileCenter(tileId);
-
-      hEpdRawHitsAll->Fill(tileCenter.X(),tileCenter.Y());
-      for(int row=1;row<17;row++)
-      {
-        if(ring == row) hEpdRawHits[row-1]->Fill(tileCenter.X(),tileCenter.Y());
+    int ibin = 0;
+    for(int i = 0;i<15;i++){
+      TVector2 RawQa = eastRingRawQ[i];
+      TVector2 WeightedQa = eastRingWeightedQ[i];
+      for(int j = i+1; j<16;j++){
+        TVector2 RawQb = eastRingRawQ[j];
+        TVector2 WeightedQb = eastRingWeightedQ[j];
+        ibin++;
+        hEastRingWeightedQDotProduct->Fill(ibin,Dot(RawQa,RawQb));
+        hEastRingWeightedQDotProduct->Fill(ibin,Dot(WeightedQa,WeightedQb));
       }
-      // see: https://www.star.bnl.gov/webdata/dox/html/classStPicoEpdHit.html
-      } // loop over EPD hits
+    }
+
   }  // Event Loop
+  tpEastRingRawQDotProduct = hEastRingRawQDotProduct->ProfileX();
+  tpEastRingWeightedQDotProduct = hEastRingWeightedQDotProduct->ProfileX();
   outputFile->Write();
+  mEpFinder->Finish();
 }
