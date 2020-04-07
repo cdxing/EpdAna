@@ -169,9 +169,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int j = i+1; j<16;j++){
         TVector2 RawQb = eastRingRawQ[j];
         TVector2 WeightedQb = eastRingWeightedQ[j];
-        ibin++;
-        hEastRingRawQDotProduct->Fill(ibin-1,RawQa.X()*RawQb.X()+RawQa.Y()*RawQb.Y());
+        hEastRingRawQDotProduct->Fill(ibin,RawQa.X()*RawQb.X()+RawQa.Y()*RawQb.Y());
         hEastRingWeightedQDotProduct->Fill(ibin,WeightedQa.X()*WeightedQb.X()+WeightedQa.Y()*WeightedQb.Y());
+        ibin++;
         if(ibin == 1) std::cout << "first bin dot product = " << (RawQa.X()*RawQb.X()+RawQa.Y()*RawQb.Y()) << std::endl;
       }
     }
