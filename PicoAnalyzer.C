@@ -170,8 +170,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TVector2 RawQb = eastRingRawQ[j];
         TVector2 WeightedQb = eastRingWeightedQ[j];
         ibin++;
-        hEastRingWeightedQDotProduct->Fill(ibin,TMath::Dot(RawQa,RawQb));
-        hEastRingWeightedQDotProduct->Fill(ibin,TMath::Dot(WeightedQa,WeightedQb));
+        hEastRingWeightedQDotProduct->Fill(ibin,RawQa.Dot(RawQb));
+        hEastRingWeightedQDotProduct->Fill(ibin,WeightedQa.Dot(WeightedQb));
       }
     }
 
