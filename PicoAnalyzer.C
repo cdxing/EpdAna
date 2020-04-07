@@ -123,7 +123,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int i = 0;i<15;i++){
     for(int j = i+1; j<16;j++){
       iBin++;
-      hEastRingWeightedQDotProduct->GetXaxis()->SetBinLabel(iBin,Form("(%d, %d)",i+1,j+1));
+      hEastRingRawQDotProduct->GetXaxis()->SetBinLabel(iBin,Form("(%d, %d)",i+1,j+1));
       hEastRingWeightedQDotProduct->GetXaxis()->SetBinLabel(iBin,Form("(%d, %d)",i+1,j+1));
     }
   }
@@ -170,7 +170,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TVector2 RawQb = eastRingRawQ[j];
         TVector2 WeightedQb = eastRingWeightedQ[j];
         ibin++;
-        hEastRingWeightedQDotProduct->Fill(ibin,RawQa.X()*RawQb.X()+RawQa.Y()*RawQb.Y());
+        hEastRingRawQDotProduct->Fill(ibin,RawQa.X()*RawQb.X()+RawQa.Y()*RawQb.Y());
         hEastRingWeightedQDotProduct->Fill(ibin,WeightedQa.X()*WeightedQb.X()+WeightedQa.Y()*WeightedQb.Y());
       }
     }
