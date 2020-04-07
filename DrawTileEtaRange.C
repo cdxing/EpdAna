@@ -3,7 +3,7 @@ void PutLabel(TGraph* g,int ring, double x);
 void DrawTileEtaRange(){
   gStyle->SetOptStat(0);
 
-  double vzmax=210.0;  // change this to control how far out in Vz the graph goes.  Other things adjust automatically
+  double vzmax=200.0;  // change this to control how far out in Vz the graph goes.  Other things adjust automatically
 
   double edge[17] = {4.6, 9.0, 13.4, 17.8, 23.33, 28.86, 34.39, 39.92, 45.45, 50.98, 56.51, 62.05, 67.58, 73.11, 78.64, 84.17, 89.70};  // radii of ring boundaries
   double zEPD=375.0;  // epd distance to center of STAR
