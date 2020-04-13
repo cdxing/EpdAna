@@ -64,7 +64,7 @@
 
 // Define global constants
 // const Int_t daynumber     = 6;
-// const Int_t Ncentralities = 7;
+const Int_t Ncentralities = 10;
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 
@@ -141,7 +141,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_DCA = new TH1D("hist_DCA","hist_DCA",100,0,10.0);
   TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz_cut = new TH1D("hist_pz_cut","p_{z} [GeV/c]",2000,0.0,10.0);
-  TH1D *hist_pT_cut = new TH1D("hist_pT_cut","p_{T} [GeV/c]",2000,0.0,10.0);
+  TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
   TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-3.0,0.5);
@@ -229,8 +229,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t grefMult = event->grefMult();
 
     // (5) =============== Track loop to determine good tracks =================
-    Int_t centrality = 0;
-    bool a_b_cent[10]={false};
     int nGoodTracks = 0;
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
       StPicoTrack *picoTrack = dst->track(iTrk);
@@ -252,7 +250,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // --------------- QA plots before major track cuts ----------------------
       hist_px_py->Fill(d_px,d_py);
       hist_pz   ->Fill(d_pz);
-      hist_pT   ->Fill(d_pT);
+      hist_pt   ->Fill(d_pT);
       hist_mom  ->Fill(d_mom);
       hist_mass2->Fill(mass2);
       hist_eta  ->Fill(eta);
@@ -274,7 +272,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // --------------- QA plots after major track cuts ----------------------
       hist_px_py_cut->Fill(d_px,d_py);
       hist_pz_cut   ->Fill(d_pz);
-      hist_pT_cut   ->Fill(d_pT);
+      hist_pt_cut   ->Fill(d_pT);
       hist_mom_cut  ->Fill(d_mom);
       hist_mass2_cut->Fill(mass2);
       hist_eta_cut  ->Fill(eta);
@@ -282,7 +280,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
       hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
       hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
-      if(d_tofBeta0 == -999) continue;
+      if(d_tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
 
