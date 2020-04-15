@@ -131,7 +131,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
   std::cout << "EpdHit Branch returned found= " << found << std::endl; // ? What is the EpdHit branch ? Check it on StRoot.
   mPicoDst->SetBranchAddress("EpdHit",&mEpdHits);
-
+  std::cout<<"epd hits [0] = "<< *mEpdHits[0]<<std::endl;
   // (2) ================ Output files and histograms ==========================
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
