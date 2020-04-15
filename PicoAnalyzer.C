@@ -126,7 +126,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mEpFinder->SetMaxTileWeight(mMax);     // recommended by EPD group 3.0
   TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
   unsigned int found;
-  std::cout<< "entries of mEpdHits " << mEpdHits->GetEntries()<<std::endl;
   // --------------------- Retrieve EpdHits TClonesArray ----------------------------
   TChain *mPicoDst = picoReader->chain();
   mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
@@ -202,12 +201,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
+    std::cout<< "entries of mEpdHits " << mEpdHits->GetEntries()<<std::endl;
 
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
     Int_t nEpdHits    = dst->numberOfEpdHits();
-    std::cout << "# of Epd hits in the event = " <<nEpdHits<< std::endl;
+    // std::cout << "# of Epd hits in the event = " <<nEpdHits<< std::endl;
 
     const Float_t   B = event->bField(); // Magnetic field
     double d_MagField = event->bField();
