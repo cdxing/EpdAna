@@ -373,8 +373,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
-      std::cout<<"east eta = ""<<eta<<std::endl;
-      std::cout<<"east phi = ""<<phi<<std::endl;
+      std::cout<<"east eta = "<<eta<<std::endl;
+      std::cout<<"east phi = "<<phi<<std::endl;
       hist_Epdeta->Fill(eta);
 
     } // loop over EPD hits
