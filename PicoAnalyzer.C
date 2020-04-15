@@ -201,7 +201,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
-    std::cout<< "entries of mEpdHits " << mEpdHits->GetEntries()<<std::endl;
 
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
@@ -377,8 +376,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
-      std::cout<<"east eta = "<<eta<<std::endl;
-      std::cout<<"east phi = "<<phi<<std::endl;
       hist_Epdeta->Fill(eta);
 
     } // loop over EPD hits
