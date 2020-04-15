@@ -113,11 +113,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *wt = new TH2D("Order1etaWeight","Order1etaWeight ",500,-6.5,-1.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
-      double eta = wt.GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt.SetBinContent(ix,iy,1);
+      double eta = wt->GetXaxis()->GetBinCenter(ix);
+      if(iy==1) wt->SetBinContent(ix,iy,1);
       else {
-        if(eta>=etaRange[iy-2] && eta<etaRange[iy-1]) wt.SetBinContent(ix,iy,1);
-        else wt.SetBinContent(ix,iy,0);
+        if(eta>=etaRange[iy-2] && eta<etaRange[iy-1]) wt->SetBinContent(ix,iy,1);
+        else wt->SetBinContent(ix,iy,0);
       }
     }
   }
