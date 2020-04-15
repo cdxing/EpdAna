@@ -116,7 +116,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double eta = wt.GetXaxis()->GetBinCenter(ix);
       if(iy==1) wt.SetBinContent(ix,iy,1);
       else {
-        if(eta>=etaRange[iy-2] && eta<etaRange[iy-1]) wt.SetBinContent(ix,iy,1);
+        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1);
         else wt.SetBinContent(ix,iy,0);
       }
     }
@@ -341,22 +341,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::cout<<"east raw qx sub %d ="<<EastRawQxtest<<std::endl;
     StEpdEpInfo mResult[5];
     Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5];
-    // for(int i=0;i<5;i++){
-    //   mResult[i] = (StEpdEpInfo)mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
-    //   EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
-    //   // std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
-    //   EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
-    //   EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
-    //   EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
-    //   if(EastRawQx[i]!=0 || EastRawQy[i]!=0 )
-    //   {
-    //     hist2_Epd_east_Qy_Qx_raw[i]->Fill(EastRawQx[i],EastRawQy[i]);
-    //     hist2_Epd_east_Qy_Qx_Weighted[i]->Fill(EastWeightedQx[i],EastWeightedQy[i]);
-    //     hist_Epd_east_psi_raw[i]->Fill(mResult[i].EastRawPsi(EpOrder));
-    //     hist_Epd_east_psi_Weighted[i]->Fill(mResult[i].EastPhiWeightedPsi(EpOrder));
-    //     hist_Epd_east_psi_Shifted[i]->Fill(mResult[i].EastPhiWeightedAndShiftedPsi(EpOrder));
-    //   }
-    // }
+    for(int i=0;i<5;i++){
+      mResult[i] = (StEpdEpInfo)mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
+      EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
+      // std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
+      EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
+      EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
+      EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
+      if(EastRawQx[i]!=0 || EastRawQy[i]!=0 )
+      {
+        hist2_Epd_east_Qy_Qx_raw[i]->Fill(EastRawQx[i],EastRawQy[i]);
+        hist2_Epd_east_Qy_Qx_Weighted[i]->Fill(EastWeightedQx[i],EastWeightedQy[i]);
+        hist_Epd_east_psi_raw[i]->Fill(mResult[i].EastRawPsi(EpOrder));
+        hist_Epd_east_psi_Weighted[i]->Fill(mResult[i].EastPhiWeightedPsi(EpOrder));
+        hist_Epd_east_psi_Shifted[i]->Fill(mResult[i].EastPhiWeightedAndShiftedPsi(EpOrder));
+      }
+    }
     // (7.2) ------------------- EPD EP by hand ---------------------------------
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
