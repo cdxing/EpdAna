@@ -121,7 +121,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  mEpFinder->SetEtaWeights(EpOrder,wt);
+  mEpFinder->SetEtaWeights(1,wt);
   mEpFinder->SetnMipThreshold(mThresh);    // recommended by EPD group
   mEpFinder->SetMaxTileWeight(mMax);     // recommended by EPD group 3.0
   TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
