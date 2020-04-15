@@ -358,7 +358,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // (7.2) ------------------- EPD EP by hand ---------------------------------
-    for (int iEpdHit = 0; iEpdHit < nEpdHits; iEpdHit++){
+    for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
       float nMip;
