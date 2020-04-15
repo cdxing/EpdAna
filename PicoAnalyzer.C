@@ -206,8 +206,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
-    Int_t nEpdHits    = dst->numberOfEpdHits();
-    // std::cout << "# of Epd hits in the event = " <<nEpdHits<< std::endl;
 
     const Float_t   B = event->bField(); // Magnetic field
     double d_MagField = event->bField();
@@ -339,12 +337,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder -----------------
+    StEpdEpInfo result = mEpFinder->Results(mEpdHits,pVtx,0);  // and now you have all the EP info you could ever want :-)
+    Double_t EastRawQxtest = (Double_t) result.EastRawQ(EpOrder).X();
+    std::cout<<Form("east raw qx sub %d =",i)<<EastRawQxtest<<std::endl;
     StEpdEpInfo mResult[5];
     Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5];
     for(int i=0;i<5;i++){
       mResult[i] = (StEpdEpInfo)mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
       EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
-      std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
+      // std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
       EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
       EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
       EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
