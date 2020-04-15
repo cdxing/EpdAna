@@ -206,6 +206,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
     Int_t nEpdHits    = dst->numberOfEpdHits();
+    std::cout << "# of Epd hits in the event = " <<nEpdHits<< std::endl;
+
     const Float_t   B = event->bField(); // Magnetic field
     double d_MagField = event->bField();
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
