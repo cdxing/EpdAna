@@ -126,6 +126,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mEpFinder->SetMaxTileWeight(mMax);     // recommended by EPD group 3.0
   TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
   unsigned int found;
+  std::cout<< "entries of mEpdHits " << mEpdHits->GetEntries()<<std::endl;
   // --------------------- Retrieve EpdHits TClonesArray ----------------------------
   TChain *mPicoDst = picoReader->chain();
   mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
