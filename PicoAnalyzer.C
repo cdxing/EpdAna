@@ -171,7 +171,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw[5],*hist2_Epd_east_Qy_Qx_Weighted[5];
-  TH1D *hist_Epd_east_psi_raw[5],*hist_Epd_east_psi_Weighted[5],hist_Epd_east_psi_Shifted[5];
+  TH1D *hist_Epd_east_psi_raw[5],*hist_Epd_east_psi_Weighted[5],*hist_Epd_east_psi_Shifted[5];
   for(int sub=0; sub<5; sub++){
     hist2_Epd_east_Qy_Qx_raw[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_%d",sub),Form("EPD east Qy vs Qx sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
     hist2_Epd_east_Qy_Qx_Weighted[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_Weighted_%d",sub),Form("EPD east Qy vs Qx (Weighted) sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
