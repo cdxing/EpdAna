@@ -342,6 +342,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){
       mResult[i] = mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
       EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
+      std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
       EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
       EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
       EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
