@@ -104,13 +104,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   EpdEpOutputName += outFile;
   EpdEpOutputName += ".root";
   StEpdEpFinder *mEpFinder = new StEpdEpFinder(5,EpdEpOutputName,"/star/u/dchen/GitHub/EpdAna/EpdEpCorrectionHistograms_INPUT.root");
-  StEpdGeom mEpdGeom = new StEpdGeom();
+  StEpdGeom *mEpdGeom = new StEpdGeom();
   int format = 2;
   mEpFinder->SetEpdHitFormat(format);    // format=0/1/2 for StEpdHit/StMuEpdHit/StPicoEpdHit
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 3.0; // EPD EP by hand
   Double_t etaRange[5] = {-5.16,-3.82,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP
-  TH2D wt("Order1etaWeight","Order1etaWeight ",500,-6.5,-1.5,5,0,5);
+  TH2D *wt("Order1etaWeight","Order1etaWeight ",500,-6.5,-1.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
       double eta = wt.GetXaxis()->GetBinCenter(ix);
