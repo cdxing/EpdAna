@@ -104,6 +104,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   EpdEpOutputName += outFile;
   EpdEpOutputName += ".root";
   StEpdEpFinder *mEpFinder = new StEpdEpFinder(5,EpdEpOutputName,"/star/u/dchen/GitHub/EpdAna/EpdEpCorrectionHistograms_INPUT.root");
+  StEpdGeom mEpdGeom = new StEpdGeom();
   int format = 2;
   mEpFinder->SetEpdHitFormat(format);    // format=0/1/2 for StEpdHit/StMuEpdHit/StPicoEpdHit
   Double_t mThresh = 0.3; // EPD EP by hand
