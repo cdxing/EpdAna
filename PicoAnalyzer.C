@@ -175,9 +175,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int sub=0; sub<5; sub++){
     hist2_Epd_east_Qy_Qx_raw[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_%d",sub),Form("EPD east Qy vs Qx sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
     hist2_Epd_east_Qy_Qx_Weighted[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_Weighted_%d",sub),Form("EPD east Qy vs Qx (Weighted) sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
-    hist_Epd_east_psi_raw[i] = new TH1D(Form("hist_Epd_east_psi_raw_%d",sub),Form("EPD east EP sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_Epd_east_psi_Weighted[i] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",sub),Form("EPD east EP (Weighted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_Epd_east_psi_Shifted[i] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
+    hist_Epd_east_psi_raw[sub] = new TH1D(Form("hist_Epd_east_psi_raw_%d",sub),Form("EPD east EP sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
+    hist_Epd_east_psi_Weighted[sub] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",sub),Form("EPD east EP (Weighted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
+    hist_Epd_east_psi_Shifted[sub] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
 
@@ -204,7 +204,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
-    Int_t nTracks     = ->numberOfTracks();
+    Int_t nTracks     = dst->numberOfTracks();
     Int_t nEpdHits    = dst->numberOfEpdHits();
     const Float_t   B = event->bField(); // Magnetic field
     double d_MagField = event->bField();
@@ -337,7 +337,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder -----------------
     StEpdEpInfo mResult[5];
-    Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5]
+    Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5];
     for(int i=0;i<5;i++){
       mResult[i] = mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
       EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
@@ -446,12 +446,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist2_Epd_east_Qy_Qx_raw[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{2} ");
     hist2_Epd_east_Qy_Qx_Weighted[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{2} ");
     hist2_Epd_east_Qy_Qx_Weighted[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{2} ");
-    hist_Epd_east_psi_raw[i]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
-    hist_Epd_east_psi_raw[i]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Weighted[i]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
-    hist_Epd_east_psi_Weighted[i]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Shifted[i]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
-    hist_Epd_east_psi_Shifted[i]->GetYaxis()->SetTitle("# of events");
+    hist_Epd_east_psi_raw[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist_Epd_east_psi_raw[sub]->GetYaxis()->SetTitle("# of events");
+    hist_Epd_east_psi_Weighted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist_Epd_east_psi_Weighted[sub]->GetYaxis()->SetTitle("# of events");
+    hist_Epd_east_psi_Shifted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist_Epd_east_psi_Shifted[sub]->GetYaxis()->SetTitle("# of events");
   }
   hist_Epdeta->GetXaxis()->SetTitle("#eta");
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
