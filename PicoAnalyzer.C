@@ -70,8 +70,8 @@
 
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
-                      TString outFile = "test_EpdEP"//,
-                      //Int_t   inputp1 = 1
+                      TString outFile = "test_EpdEP",
+                      Int_t   inputp1 = 1
                     )
 {
 
