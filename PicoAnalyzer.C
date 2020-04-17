@@ -175,9 +175,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int sub=0; sub<5; sub++){
     hist2_Epd_east_Qy_Qx_raw[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_%d",sub),Form("EPD east Qy vs Qx sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
     hist2_Epd_east_Qy_Qx_Weighted[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_Weighted_%d",sub),Form("EPD east Qy vs Qx (Weighted) sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
-    hist_Epd_east_psi_raw[sub] = new TH1D(Form("hist_Epd_east_psi_raw_%d",sub),Form("EPD east EP sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_Epd_east_psi_Weighted[sub] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",sub),Form("EPD east EP (Weighted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_Epd_east_psi_Shifted[sub] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
+    hist_Epd_east_psi_raw[sub] = new TH1D(Form("hist_Epd_east_psi_raw_%d",sub),Form("EPD east EP sub%d",sub),1024,-1.0,7.0);
+    hist_Epd_east_psi_Weighted[sub] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",sub),Form("EPD east EP (Weighted) sub%d",sub),1024,-1.0,7.0);
+    hist_Epd_east_psi_Shifted[sub] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),1024,-1.0,7.0);
   }
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
 
