@@ -67,6 +67,7 @@
 const Int_t Ncentralities = 10;
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
+double GetPsi(double Qx, double Qy, int order);
 
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
@@ -116,8 +117,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double eta = wt.GetXaxis()->GetBinCenter(ix);
       if(iy==1) wt.SetBinContent(ix,iy,1);
       else {
-        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1);
-        else wt.SetBinContent(ix,iy,0);
+        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1.0);
+        else wt.SetBinContent(ix,iy,0.0);
       }
     }
   }
@@ -172,15 +173,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw[5],*hist2_Epd_east_Qy_Qx_Weighted[5];
   TH1D *hist_Epd_east_psi_raw[5],*hist_Epd_east_psi_Weighted[5],*hist_Epd_east_psi_Shifted[5];
+  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[5];
+  TH1D *hist_Epd_east_psi_raw_ini[5],*hist_Epd_east_psi_Shifted_ini[5];
   for(int sub=0; sub<5; sub++){
     hist2_Epd_east_Qy_Qx_raw[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_%d",sub),Form("EPD east Qy vs Qx sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
     hist2_Epd_east_Qy_Qx_Weighted[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_Weighted_%d",sub),Form("EPD east Qy vs Qx (Weighted) sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
     hist_Epd_east_psi_raw[sub] = new TH1D(Form("hist_Epd_east_psi_raw_%d",sub),Form("EPD east EP sub%d",sub),1024,-1.0,7.0);
     hist_Epd_east_psi_Weighted[sub] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",sub),Form("EPD east EP (Weighted) sub%d",sub),1024,-1.0,7.0);
     hist_Epd_east_psi_Shifted[sub] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),1024,-1.0,7.0);
-  }
-  TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
 
+    hist2_Epd_east_Qy_Qx_raw_ini[sub]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",sub),Form("EPD east Qy vs Qx sub%d",sub),600,-3.0,3.0,600,-3.0,3.0);
+    hist_Epd_east_psi_raw_ini[sub] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",sub),Form("EPD east EP sub%d",sub),1024,-1.0,7.0);
+    hist_Epd_east_psi_Shifted_ini[sub] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",sub),Form("EPD east EP (Weighted & Shifted) sub%d",sub),1024,-1.0,7.0);
+  }
+  // ------------------ EPD event plane ab intio QA histograms ----------------------------------
+  TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
+  TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
@@ -336,9 +344,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder -----------------
-    StEpdEpInfo result = mEpFinder->Results(mEpdHits,pVtx,0);  // and now you have all the EP info you could ever want :-)
-    Double_t EastRawQxtest = (Double_t) result.EastRawQ(EpOrder).X();
-    // std::cout<<"east raw qx sub %d ="<<EastRawQxtest<<std::endl;
     StEpdEpInfo mResult[5];
     Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5];
     for(int i=0;i<5;i++){
@@ -358,6 +363,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // (7.2) ------------------- EPD EP by hand ---------------------------------
+    // refer to Mike's StEpdEpFinder and Yang's BBC Ep
+    Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
+    double QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
+    double PsiEastRaw[5]=-999.0;           /// indices: [etaBin]
+    double PsiEastShifted[5]=-999.0;       /// indices: [etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
@@ -371,14 +381,51 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     	ADC = epdHit->adc();
     	nMip = epdHit->nMIP();   // malisa 20feb2019 - I have finally made the transition from ADC (next line) to truly nMip, now that calibrations are done.
       //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
+      if(PP==1 && TT==1) hist_nMip->Fill(nMip);
       if (nMip<mThresh) continue;
       double TileWeight = (nMip<mMax)?nMip:mMax;
       TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
       hist_Epdeta->Fill(eta);
-
+      //--------------------------------
+      // now calculate Q-vectors
+      //--------------------------------
+      for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
+        int etaBin = wt->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = wt ->GetBinContent(etaBin,EventTypeId+1);
+        if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
+        double Cosine = cos(phi*(double)order);
+        double Sine   = sin(phi*(double)order);
+        QrawEastSide[EventTypeId][0] += etaWeight * TileWeight * Cosine;
+        QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
+      }
     } // loop over EPD hits
+    // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
+    //  I want the rapidity-odd first-order event plane.
+    for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
+      for (int xy=0; xy<2; xy++){
+        QrawEastSide[EventTypeId][xy]           *= -1.0;
+      }
+    }
+    //---------------------------------
+    // Calculate unshifted EP angles
+    //---------------------------------
+    for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
+      if(N_Epd_east[EventTypeId]<5) continue;
+      PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
+    }
+
+    for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
+      if(QrawEastSide[EventTypeId][0]!=0 || QrawEastSide[EventTypeId][1]!=0 )
+      {
+        hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(EastRawQx[EventTypeId],EastRawQy[EventTypeId]);
+      }
+      if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
+      // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
+
+    }
+
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
@@ -446,20 +493,41 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("gRefMult");
   for(int sub=0; sub<5; sub++){
-    hist2_Epd_east_Qy_Qx_raw[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{2} ");
-    hist2_Epd_east_Qy_Qx_raw[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{2} ");
-    hist2_Epd_east_Qy_Qx_Weighted[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{2} ");
-    hist2_Epd_east_Qy_Qx_Weighted[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{2} ");
-    hist_Epd_east_psi_raw[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist2_Epd_east_Qy_Qx_raw[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_raw[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_Weighted[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_Weighted[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
+    hist_Epd_east_psi_raw[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
     hist_Epd_east_psi_raw[sub]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Weighted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist_Epd_east_psi_Weighted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
     hist_Epd_east_psi_Weighted[sub]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Shifted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{2} [Radian]");
+    hist_Epd_east_psi_Shifted[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
     hist_Epd_east_psi_Shifted[sub]->GetYaxis()->SetTitle("# of events");
+    hist2_Epd_east_Qy_Qx_raw_ini[sub]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_raw_ini[sub]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
+    hist_Epd_east_psi_raw_ini[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
+    hist_Epd_east_psi_raw_ini[sub]->GetYaxis()->SetTitle("# of events");
+    hist_Epd_east_psi_Shifted_ini[sub]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
+    hist_Epd_east_psi_Shifted_ini[sub]->GetYaxis()->SetTitle("# of events");
   }
   hist_Epdeta->GetXaxis()->SetTitle("#eta");
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
+  hist_nMip->GetXaxis()->SetTitle("nMIP");
+  hist_nMip->GetYaxis()->SetTitle("# of hits");
   wt.Write();
   outputFile->Write();
   mEpFinder->Finish();
+}
+
+// =========================== Get Psi from Q vector =============================================
+double GetPsi(double Qx, double Qy, int order){
+  double temp;
+  if ((Qx==0.0)||(Qy==0.0)) temp=-999.0;
+  else{
+    temp = atan2(Qy,Qx)/((double)order);
+    double AngleWrapAround = 2.0*TMath::Pi()/(double)order;
+    if (temp<0.0) temp+= AngleWrapAround;
+    else if (temp>AngleWrapAround) temp -= AngleWrapAround;
+  }
+  return temp;
 }
