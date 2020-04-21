@@ -366,8 +366,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // refer to Mike's StEpdEpFinder and Yang's BBC Ep
     Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
     double QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
-    double PsiEastRaw[5]=-999.0;           /// indices: [etaBin]
-    double PsiEastShifted[5]=-999.0;       /// indices: [etaBin]
+    double PsiEastRaw[5]={-999.0};           /// indices: [etaBin]
+    double PsiEastShifted[5]={-999.0};       /// indices: [etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
@@ -392,11 +392,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // now calculate Q-vectors
       //--------------------------------
       for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
-        int etaBin = wt->GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = wt ->GetBinContent(etaBin,EventTypeId+1);
+        int etaBin = (int)wt->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt ->GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
-        double Cosine = cos(phi*(double)order);
-        double Sine   = sin(phi*(double)order);
+        double Cosine = cos(phi*(double)EpOrder);
+        double Sine   = sin(phi*(double)EpOrder);
         QrawEastSide[EventTypeId][0] += etaWeight * TileWeight * Cosine;
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
       }
