@@ -392,8 +392,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // now calculate Q-vectors
       //--------------------------------
       for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
-        int etaBin = (int)wt->GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt ->GetBinContent(etaBin,EventTypeId+1);
+        int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
         double Cosine = cos(phi*(double)EpOrder);
         double Sine   = sin(phi*(double)EpOrder);
