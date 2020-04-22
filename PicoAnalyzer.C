@@ -43,7 +43,6 @@
 #include "TProfile.h"
 #include "TProfile2D.h"
 #include "TProfile3D.h"
-#include "TMath.h"
 
 // PicoDst headers
 #include "StRoot/StPicoEvent/StPicoDstReader.h"
@@ -529,7 +528,7 @@ Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order){
   Double_t temp;
   if ((Qx==0.0) && (Qy==0.0)) temp=-999.0;
   else{
-    temp = atan2(Qy,Qx)/((Double_t)order);
+    temp =  TMath::ATan2(Qy,Qx)/((Double_t)order);
     Double_t AngleWrapAround = 2.0*TMath::Pi()/(Double_t)order;
     if (temp<0.0) temp+= AngleWrapAround;
     else if (temp>AngleWrapAround) temp -= AngleWrapAround;
