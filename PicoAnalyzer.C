@@ -76,8 +76,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 {
 
   Int_t EpOrder = inputp1; // Event plane Fourier expansion order = 1, 2, 3
-  int mEvtcut[5] = {0};
-  int mTrkcut[6] = {0};
+  int mEvtcut[5] = {[0 ... 4] = 0};
+  int mTrkcut[6] = {[0 ... 5] = 0};
   // (0) ================== Read input files and set status =====================
   StPicoDstReader* picoReader = new StPicoDstReader(inFile);
   picoReader->Init();
@@ -320,7 +320,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
-    bool a_b_cent[10]={false};
+    bool a_b_cent[10]={[0 ... 9] = false};
     bool b_pileup   = (nGoodTracks > 270);
     bool b_low_mult = (nGoodTracks < 10);
     a_b_cent[0]     = (nGoodTracks >= 200); // 0 - 10%
@@ -363,10 +363,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // (7.2) ------------------- EPD EP by hand ---------------------------------
     // refer to Mike's StEpdEpFinder and Yang's BBC Ep
-    Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
-    Double_t QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
+    Int_t N_Epd_east[5]={[0 ... 4] = 0}; //Count # of hits in each eta region /// indices: [etaBin]
+    Double_t QrawEastSide[5][2]={[0 ... 4][0 ... 1] = 0};       /// indices: [etaBin][x,y]
     Double_t PsiEastRaw[5]={-999.0,-999.0,-999.0,-999.0,-999.0};           /// indices: [etaBin]
-    Double_t PsiEastShifted[5]={-999.0};       /// indices: [etaBin]
+    Double_t PsiEastShifted[5]={-999.0,-999.0,-999.0,-999.0,-999.0};       /// indices: [etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
