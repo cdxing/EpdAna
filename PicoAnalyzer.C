@@ -322,7 +322,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t centrality = 0;
     bool a_b_cent[10]={false};
     for(int i=0;i<10;i++){
-      std::cout<< Form("cent bin %d = ",i)<<a_b_cent[10]<<std::endl;
+      std::cout<< Form("cent bin %d = ",i)<<a_b_cent[i]<<std::endl;
     }
     bool b_pileup   = (nGoodTracks > 270);
     bool b_low_mult = (nGoodTracks < 10);
