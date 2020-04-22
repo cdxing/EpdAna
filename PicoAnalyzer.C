@@ -67,7 +67,7 @@
 const Int_t Ncentralities = 10;
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
-double GetPsi(double Qx, double Qy, int order);
+Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
@@ -525,12 +525,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 }
 
 // =========================== Get Psi from Q vector =============================================
-double GetPsi(double Qx, double Qy, int order){
-  double temp;
+Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order){
+  Double_t temp;
   if ((Qx==0.0)||(Qy==0.0)) temp=-999.0;
   else{
     temp = atan2(Qy,Qx)/((double)order);
-    double AngleWrapAround = 2.0*TMath::Pi()/(double)order;
+    Double_t AngleWrapAround = 2.0*TMath::Pi()/(Double_t)order;
     if (temp<0.0) temp+= AngleWrapAround;
     else if (temp>AngleWrapAround) temp -= AngleWrapAround;
   }
