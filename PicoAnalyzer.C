@@ -365,9 +365,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (7.2) ------------------- EPD EP by hand ---------------------------------
     // refer to Mike's StEpdEpFinder and Yang's BBC Ep
     Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
-    double QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
-    double PsiEastRaw[5]={-999.0};           /// indices: [etaBin]
-    double PsiEastShifted[5]={-999.0};       /// indices: [etaBin]
+    Double_t QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
+    Double_t PsiEastRaw[5]={-999.0};           /// indices: [etaBin]
+    Double_t PsiEastShifted[5]={-999.0};       /// indices: [etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
