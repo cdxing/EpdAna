@@ -365,7 +365,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // refer to Mike's StEpdEpFinder and Yang's BBC Ep
     Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
     Double_t QrawEastSide[5][2]={0.0};       /// indices: [etaBin][x,y]
-    Double_t PsiEastRaw[5]={-999.0};           /// indices: [etaBin]
+    Double_t PsiEastRaw[5]={-999.0,-999.0,-999.0,-999.0,-999.0};           /// indices: [etaBin]
     Double_t PsiEastShifted[5]={-999.0};       /// indices: [etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
@@ -427,7 +427,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
-
     }
 
   }  // Event Loop
