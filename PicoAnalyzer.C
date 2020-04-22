@@ -417,12 +417,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
 
     for(int EventTypeId=0;EventTypeId<5;EventTypeId++){
-      if(QrawEastSide[EventTypeId][0]!=0 || QrawEastSide[EventTypeId][1]!=0 )
+      if(QrawEastSide[EventTypeId][0]!=0.0 || QrawEastSide[EventTypeId][1]!=0.0 )
       {
         hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(EastRawQx[EventTypeId],EastRawQy[EventTypeId]);
+        if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
+        // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
-      if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
-      // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
 
     }
 
