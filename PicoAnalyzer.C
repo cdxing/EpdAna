@@ -421,6 +421,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(EastRawQx[EventTypeId],EastRawQy[EventTypeId]);
         if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
+        if(PsiEastRaw[EventTypeId]==0.0){
+          std::cout<<"Qx = " <<QrawEastSide[EventTypeId][0]<<endl;
+          std::cout<<"Qy = " <<QrawEastSide[EventTypeId][1]<<endl;
+        }
         // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
 
