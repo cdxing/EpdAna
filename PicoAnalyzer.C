@@ -527,7 +527,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 // =========================== Get Psi from Q vector =============================================
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order){
   Double_t temp;
-  if ((Qx==0.0)||(Qy==0.0)) temp=-999.0;
+  if ((Qx==0.0) && (Qy==0.0)) temp=-999.0;
   else{
     temp = atan2(Qy,Qx)/((Double_t)order);
     Double_t AngleWrapAround = 2.0*TMath::Pi()/(Double_t)order;
