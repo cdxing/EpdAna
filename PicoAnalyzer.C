@@ -64,6 +64,9 @@
 // Define global constants
 // const Int_t daynumber     = 6;
 const Int_t Ncentralities = 10;
+const Int_t _EpTermsMaxIni = 6;
+const Int_t nEventTypeBinsIni = 5; // 5 etaRange
+
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
@@ -135,7 +138,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
   // ------------------- Event cuts QA histograms ------------------------------
-  TH1D  *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
+  TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
   TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
@@ -188,6 +191,29 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  // "Shift correction" histograms that we INPUT and apply here
+  TFile* mCorrectionInputFile = new TFile("EpdEpCorrectionAbInitioInput.root","READ");
+  if (mCorrectionInputFile->IsZombie()) {
+    std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
+    std::cout << "I will use no correction at all." << std::endl;
+    for (int ewFull=0; ewFull<3; ewFull++){
+      for (int order=1; order<_EpOrderMax+1; order++){
+	mEpdShiftInput_sin[ewFull][order-1] = 0;
+	mEpdShiftInput_cos[ewFull][order-1] = 0;
+      }
+    }
+    for (int ew=0; ew<2; ew++){
+      mPhiWeightInput[ew] = 0;
+    }
+  }
+  // "Shift correction" histograms that we produce and OUTPUT
+  TProfile2D *mEpdShiftOutputIni_sin[5], *mEpdShiftOutputIni_cos[5];
+  for(int sub=0; sub<5; sub++){
+    mEpdShiftOutputIni_sin[sub] = new TProfile2D(Form("EpdShiftEW0PsiIni%d_sin",sub),Form("EpdShiftEW0PsiIni%d_sin",sub),
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5,nEventTypeBinsIni,-0.5,(double)nEventTypeBinsIni-0.5,-1.0,1.0);
+    mEpdShiftOutputIni_cos[sub] = new TProfile2D(Form("EpdShiftEW0PsiIni%d_cos",sub),Form("EpdShiftEW0PsiIni%d_cos",sub),
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5,nEventTypeBinsIni,-0.5,(double)nEventTypeBinsIni-0.5,-1.0,1.0);
+  }
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
@@ -348,7 +374,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){
       mResult[i] = (StEpdEpInfo)mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
       EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
-      // std::cout<<Form("east raw qx sub %d =",i)<<EastRawQx[i]<<std::endl;
       EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
       EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
       EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
@@ -428,7 +453,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
     }
-
+    // -------------------- "Shift correction histograms Output" ----------------
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
