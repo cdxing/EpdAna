@@ -573,6 +573,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_nMip->GetYaxis()->SetTitle("# of hits");
   outputFile->cd();
   wt.Write();
+  for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+    mEpdShiftOutput_sin[EventTypeId]->Write();
+    mEpdShiftOutput_cos[EventTypeId]->Write();
+  }
   outputFile->Write();
   mEpFinder->Finish();
 }
