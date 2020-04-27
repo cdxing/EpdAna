@@ -64,7 +64,7 @@
 // Define global constants
 // const Int_t daynumber     = 6;
 const Int_t Ncentralities = 10;
-const Int_t _EpTermsMax = 6;
+const Int_t EpTermsMaxIni = 6;
 const Int_t nEventTypeBins = 5; // 5 etaRange
 
 // const Int_t order         = 20;
@@ -197,7 +197,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
-    for (int EventTypeId=0; EventTypeId<nEventTypeBins; ewFull++){
+    for (int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
       mEpdShiftInput_sin[EventTypeId] = 0;
     	mEpdShiftInput_cos[EventTypeId] = 0;
     }
@@ -213,9 +213,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mEpdShiftOutput_sin[nEventTypeBins], *mEpdShiftOutput_cos[nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
-            _EpTermsMax,0.5,1.0*_EpTermsMax+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
+            EpTermsMaxIni,0.5,1.0*EpTermsMaxIni+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
     mEpdShiftOutput_cos[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_cos",EventTypeId),Form("EpdShiftEW0Psi%d_cos",EventTypeId),
-            _EpTermsMax,0.5,1.0*_EpTermsMax+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
+            EpTermsMaxIni,0.5,1.0*EpTermsMaxIni+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
   }
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -449,9 +449,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(EastRawQx[EventTypeId],EastRawQy[EventTypeId]);
         if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
         if(PsiEastRaw[EventTypeId]==0.0){
-          std::cout<<"Psi = " <<PsiEastRaw[EventTypeId]<<endl;
-          std::cout<<"Qx = " <<QrawEastSide[EventTypeId][0]<<endl;
-          std::cout<<"Qy = " <<QrawEastSide[EventTypeId][1]<<endl;
+          std::cout<<"Psi = " <<PsiEastRaw[EventTypeId]<<std::endl;
+          std::cout<<"Qx = " <<QrawEastSide[EventTypeId][0]<<std::endl;
+          std::cout<<"Qy = " <<QrawEastSide[EventTypeId][1]<<std::endl;
         }
       }
     }
@@ -460,7 +460,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId];
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0){
-          for (int i=1; i<=_EpTermsMax; i++){
+          for (int i=1; i<=EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
         	  double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,EventTypeId+1);    /// note the "+1" since EventTypeId begins at zero
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,EventTypeId+1);    /// note the "+1" since EventTypeId begins at zero
@@ -475,7 +475,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
-    for (int i=1; i<=_EpTermsMax; i++){
+    for (int i=1; i<=EpTermsMaxIni; i++){
       for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
         if(PsiEastRaw[EventTypeId]==-999.0) continue;
