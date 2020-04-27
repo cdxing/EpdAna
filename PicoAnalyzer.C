@@ -571,6 +571,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
   hist_nMip->GetXaxis()->SetTitle("nMIP");
   hist_nMip->GetYaxis()->SetTitle("# of hits");
+  outputFile->cd();
   wt.Write();
   outputFile->Write();
   mEpFinder->Finish();
