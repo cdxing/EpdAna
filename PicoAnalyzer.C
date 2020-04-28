@@ -203,7 +203,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   else{
-      for (int EventTypeId=1; EventTypeId<nEventTypeBins; EventTypeId++){
+      for (int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
         mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
         mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
       }
