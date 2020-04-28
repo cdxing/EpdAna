@@ -210,7 +210,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
 
   // "Shift correction" histograms that we produce and OUTPUT
-  TFile* mCorrectionOutputFile = new TFile("EpdEpCorrectionAbInitioOutput.root","RECREATE");
+  TString EpdEpOutputNameIni = "EpdEpCorrectionAbInitio_OUTPUT_";
+  EpdEpOutputNameIni += outFile;
+  EpdEpOutputNameIni += ".root";
+
+  TFile* mCorrectionOutputFile = new TFile(EpdEpOutputNameIni,"RECREATE");
   TProfile2D *mEpdShiftOutput_sin[nEventTypeBins], *mEpdShiftOutput_cos[nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
