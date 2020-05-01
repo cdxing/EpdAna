@@ -139,6 +139,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TFile *outputFile = new TFile(outFile,"recreate");
   // ------------------- Event cuts QA histograms ------------------------------
   TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
+  TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
   TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
@@ -172,6 +173,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_refmult = new TH2D("hist_realTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw[5],*hist2_Epd_east_Qy_Qx_Weighted[5];
   TH1D *hist_Epd_east_psi_raw[5],*hist_Epd_east_psi_Weighted[5],*hist_Epd_east_psi_Shifted[5];
@@ -191,6 +193,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  // ------------------ EPD event plane ab intio Correlations histograms ----------------------------------
+  TProfile *profile_correlation_epd_east[6];
+  TH2D *correlation2D_epd_east[6];
+  int pairs =0;
+  for(int i = 0; i<3){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+    for(int j=i+1;j<4;j++){
+      profile_correlation_epd_east[pairs]  =
+      new TProfile(Form("profile_correlation_epd_east%d",pairs),
+      Form("#sqrt{<cos(#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d])>}",i+1,j+1),
+      Ncentralities,0.0,100,-1.0,1.0,"");
+      correlation2D_epd_east[pairs]   =
+      new TH2D(Form("correlation2D_epd_east%d",pairs),
+      Form("#sqrt{#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]",i+1,j+1),
+      50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+      pairs++;
+    }
+  }
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[nEventTypeBins], *mEpdShiftInput_cos[nEventTypeBins];
   TFile* mCorrectionInputFile = new TFile("EpdEpCorrectionAbInitioInput.root","READ");
@@ -269,7 +288,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630802) b_bad_trig = false; // hlt_fixedTargetGood 7.2GeV
+        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
       }
 
     // --------------------------- Vertex cut -----------------------------------
@@ -295,7 +314,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     Int_t  refMult = event->refMult(); // refMult
     Int_t grefMult = event->grefMult();
-
+    Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
@@ -330,7 +349,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(!picoTrack->isPrimary()) continue;
       mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.52);
+      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
       bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
       bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
@@ -374,7 +393,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_realTrackMult->Fill(nGoodTracks);
     hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
     hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
-
+    hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder -----------------
     StEpdEpInfo mResult[5];
@@ -478,6 +497,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
       }
+      pairs = 0;
+      for(int i = 0; i<3){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+        for(int j=i+1;j<4;j++){
+          if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
+            if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))>0){
+              profile_correlation_epd_east[pairs]->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))));
+            }
+            correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
+          }
+          pairs++;
+        }
+      }
+
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=EpTermsMaxIni; i++){
@@ -492,6 +524,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
   hist_runId->GetYaxis()->SetTitle("# of events");
+  hist_eventCuts->SetBinContent(1,mEvtcut[0]);
+  hist_eventCuts->SetBinContent(2,mEvtcut[1]);
+  hist_eventCuts->GetXaxis()->SetBinLabel(1,"no cuts");
+  hist_eventCuts->GetXaxis()->SetBinLabel(2,"Vertex cuts");
   hist_Vz_pri->GetXaxis()->SetTitle("V_{Z} [cm]");
   hist_Vz_pri->GetYaxis()->SetTitle("# of events");
   hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
@@ -554,6 +590,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult_refmult->GetXaxis()->SetTitle("RefMult");
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("gRefMult");
+  hist_realTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
+  hist_realTrackMult_tofmult->GetXaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
     hist2_Epd_east_Qy_Qx_raw[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
