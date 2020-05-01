@@ -197,7 +197,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *profile_correlation_epd_east[6];
   TH2D *correlation2D_epd_east[6];
   int pairs =0;
-  for(int i = 0; i<3){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+  for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
       profile_correlation_epd_east[pairs]  =
       new TProfile(Form("profile_correlation_epd_east%d",pairs),
@@ -498,7 +498,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
       }
       pairs = 0;
-      for(int i = 0; i<3){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+      for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
         for(int j=i+1;j<4;j++){
           if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
             if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))>0){
