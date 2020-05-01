@@ -205,7 +205,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Ncentralities,0.0,100,-1.0,1.0,"");
       correlation2D_epd_east[pairs]   =
       new TH2D(Form("correlation2D_epd_east%d",pairs),
-      Form("#sqrt{#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]",i+1,j+1),
+      Form("#sqrt{#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]}",i+1,j+1),
       50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
       pairs++;
     }
