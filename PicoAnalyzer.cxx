@@ -304,6 +304,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
+    std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
       StPicoTrack *picoTrack = dst->track(iTrk);
       mTrkcut[0]++; // 0. No track cut
@@ -343,6 +344,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(b_bad_track) continue;
       mTrkcut[3]++; // 3. Bad track cuts
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
+      vGoodTracks.push_back(picoTrack);
       // --------------- QA plots after major track cuts ----------------------
       hist_px_py_cut->Fill(d_px,d_py);
       hist_pz_cut   ->Fill(d_pz);
@@ -494,34 +496,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t PsiTpcAllRaw=-999.0;
     Double_t PsiTpcAllShifted=-999.0;
     // TPC Q-vector loop
-    // for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
-    //   StPicoTrack *picoTrack = dst->track(iTrk);
-    //   if(!picoTrack) continue;
-    //   StPicoBTofPidTraits *trait = NULL;
-    //   // ----------------------- Physics values of tracks --------------------------
-    //   double        d_tofBeta    = -999.;
-    //   if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
-    //   if(trait)        d_tofBeta = trait->btofBeta();
-    //   double d_px  = picoTrack->gMom().x();
-    //   double d_py  = picoTrack->gMom().y();
-    //   double d_pz  = picoTrack->gMom().z();
-    //   double d_pT  = picoTrack->gPt();
-    //   double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
-    //   double mass2 = d_mom*d_mom*((1.0/(d_tofBeta*d_tofBeta))-1.0);
-    //   Double_t eta = picoTrack->pMom().Eta();
-    //
-    //   if(!picoTrack->isPrimary()) continue;
-    //   bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
-    //   bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
-    //   bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
-    //   bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
-    //   bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
-    //   if(b_bad_track) continue;
-    //   nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
-    //   // --------------- QA plots after major track cuts ----------------------
-    //   if(d_tofBeta == -999) continue;
-    // } // TPC Q-vector loop
-
+    for(StPicoTrack* picoTrack : vGoodTracks){
+      Double_t pt = picoTrack->pPt();
+      std::cout<<"pT = "<<pt<<std::endl;
+    } // TPC Q-vector loop
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
