@@ -496,7 +496,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t PsiTpcAllRaw=-999.0;
     Double_t PsiTpcAllShifted=-999.0;
     // TPC Q-vector loop
-    for(StPicoTrack* picoTrack : vGoodTracks){
+    std::cout<<"size of vGoodTracks = "<<vGoodTracks.size()<<std::endl;
+    for(int i=0; i<vGoodTracks.size();i++){
+      StPicoTrack* picoTrack = vGoodTracks[i];
       Double_t pt = picoTrack->pPt();
       std::cout<<"pT = "<<pt<<std::endl;
     } // TPC Q-vector loop
