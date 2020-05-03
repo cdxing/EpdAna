@@ -106,10 +106,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TString EpdEpOutputName = "EpdEpCorrectionHistograms_OUTPUT_";
   EpdEpOutputName += outFile;
   EpdEpOutputName += ".root";
-  StEpdEpFinder *mEpFinder = new StEpdEpFinder(5,EpdEpOutputName,"/star/u/dchen/GitHub/EpdAna/EpdEpCorrectionHistograms_INPUT.root");
   StEpdGeom *mEpdGeom = new StEpdGeom();
-  int format = 2;
-  mEpFinder->SetEpdHitFormat(format);    // format=0/1/2 for StEpdHit/StMuEpdHit/StPicoEpdHit
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 3.0; // EPD EP by hand
   Double_t etaRange[5] = {-5.16,-3.82,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP
@@ -124,9 +121,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  mEpFinder->SetEtaWeights(1,wt);
-  mEpFinder->SetnMipThreshold(mThresh);    // recommended by EPD group
-  mEpFinder->SetMaxTileWeight(mMax);     // recommended by EPD group 3.0
   TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
   unsigned int found;
   // --------------------- Retrieve EpdHits TClonesArray ----------------------------
@@ -140,6 +134,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------- Event cuts QA histograms ------------------------------
   TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
+  TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
   TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
@@ -175,17 +170,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
-  TH2D *hist2_Epd_east_Qy_Qx_raw[5],*hist2_Epd_east_Qy_Qx_Weighted[5];
-  TH1D *hist_Epd_east_psi_raw[5],*hist_Epd_east_psi_Weighted[5],*hist_Epd_east_psi_Shifted[5];
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[5];
   TH1D *hist_Epd_east_psi_raw_ini[5],*hist_Epd_east_psi_Shifted_ini[5];
   for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
-    hist2_Epd_east_Qy_Qx_raw[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
-    hist2_Epd_east_Qy_Qx_Weighted[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_Weighted_%d",EventTypeId),Form("EPD east Qy vs Qx (Weighted) EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
-    hist_Epd_east_psi_raw[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
-    hist_Epd_east_psi_Weighted[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_%d",EventTypeId),Form("EPD east EP (Weighted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
-    hist_Epd_east_psi_Shifted[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_%d",EventTypeId),Form("EPD east EP (Weighted & Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
-
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
     hist_Epd_east_psi_raw_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
     hist_Epd_east_psi_Shifted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",EventTypeId),Form("EPD east EP (Weighted & Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
@@ -370,7 +357,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
-
+    for(int i=0;i<5;i++){ // fill the tracks after cut
+      hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
+    }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[10]={false};
@@ -395,24 +384,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
     hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
     // (7) ================ EPD event plane ====================================
-    // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder -----------------
-    StEpdEpInfo mResult[5];
-    Double_t EastRawQx[5],EastRawQy[5],EastWeightedQx[5],EastWeightedQy[5];
-    for(int i=0;i<5;i++){
-      mResult[i] = (StEpdEpInfo)mEpFinder->Results(mEpdHits,pVtx,i);  // and now you have all the EP info you could ever want :-)
-      EastRawQx[i] = (Double_t) mResult[i].EastRawQ(EpOrder).X();
-      EastRawQy[i] = (Double_t) mResult[i].EastRawQ(EpOrder).Y();
-      EastWeightedQx[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).X();
-      EastWeightedQy[i] = (Double_t) mResult[i].EastPhiWeightedQ(EpOrder).Y();
-      if(EastRawQx[i]!=0 || EastRawQy[i]!=0 )
-      {
-        hist2_Epd_east_Qy_Qx_raw[i]->Fill(EastRawQx[i],EastRawQy[i]);
-        hist2_Epd_east_Qy_Qx_Weighted[i]->Fill(EastWeightedQx[i],EastWeightedQy[i]);
-        hist_Epd_east_psi_raw[i]->Fill(mResult[i].EastRawPsi(EpOrder));
-        hist_Epd_east_psi_Weighted[i]->Fill(mResult[i].EastPhiWeightedPsi(EpOrder));
-        hist_Epd_east_psi_Shifted[i]->Fill(mResult[i].EastPhiWeightedAndShiftedPsi(EpOrder));
-      }
-    }
+    // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
     // refer to Mike's StEpdEpFinder and Yang's BBC Ep
     Int_t N_Epd_east[5]={0}; //Count # of hits in each eta region /// indices: [etaBin]
@@ -470,13 +442,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId=0;EventTypeId<nEventTypeBins;EventTypeId++){
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
-        hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(EastRawQx[EventTypeId],EastRawQy[EventTypeId]);
+        hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
         if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
-        if(PsiEastRaw[EventTypeId]==0.0){
-          std::cout<<"Psi = " <<PsiEastRaw[EventTypeId]<<std::endl;
-          std::cout<<"Qx = " <<QrawEastSide[EventTypeId][0]<<std::endl;
-          std::cout<<"Qy = " <<QrawEastSide[EventTypeId][1]<<std::endl;
-        }
       }
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
@@ -520,6 +487,41 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       	mEpdShiftOutput_cos[EventTypeId]->Fill(i,EventTypeId,cos(tmp*PsiEastRaw[EventTypeId]));
       }
     }
+    // (8) ================ TPC event plane ====================================
+    // Define TPC EP parameters
+    Int_t NTpcAll = 0;
+    Double_t QrawTpcAll[2]={0.0};       /// indices: [x,y]
+    Double_t PsiTpcAllRaw=-999.0;
+    Double_t PsiTpcAllShifted=-999.0;
+    // TPC Q-vector loop
+    // for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
+    //   StPicoTrack *picoTrack = dst->track(iTrk);
+    //   if(!picoTrack) continue;
+    //   StPicoBTofPidTraits *trait = NULL;
+    //   // ----------------------- Physics values of tracks --------------------------
+    //   double        d_tofBeta    = -999.;
+    //   if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+    //   if(trait)        d_tofBeta = trait->btofBeta();
+    //   double d_px  = picoTrack->gMom().x();
+    //   double d_py  = picoTrack->gMom().y();
+    //   double d_pz  = picoTrack->gMom().z();
+    //   double d_pT  = picoTrack->gPt();
+    //   double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
+    //   double mass2 = d_mom*d_mom*((1.0/(d_tofBeta*d_tofBeta))-1.0);
+    //   Double_t eta = picoTrack->pMom().Eta();
+    //
+    //   if(!picoTrack->isPrimary()) continue;
+    //   bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
+    //   bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
+    //   bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
+    //   bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
+    //   bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
+    //   if(b_bad_track) continue;
+    //   nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
+    //   // --------------- QA plots after major track cuts ----------------------
+    //   if(d_tofBeta == -999) continue;
+    // } // TPC Q-vector loop
+
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
@@ -528,6 +530,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_eventCuts->SetBinContent(2,mEvtcut[1]);
   hist_eventCuts->GetXaxis()->SetBinLabel(1,"no cuts");
   hist_eventCuts->GetXaxis()->SetBinLabel(2,"Vertex cuts");
+  hist_trackCuts->GetXaxis()->SetBinLabel(1,"no cuts");
+  hist_trackCuts->GetXaxis()->SetBinLabel(2,"picoTrack");
+  hist_trackCuts->GetXaxis()->SetBinLabel(3,"primary track");
+  hist_trackCuts->GetXaxis()->SetBinLabel(4,"Good track");
+  hist_trackCuts->GetXaxis()->SetBinLabel(4,"With TOF");
   hist_Vz_pri->GetXaxis()->SetTitle("V_{Z} [cm]");
   hist_Vz_pri->GetYaxis()->SetTitle("# of events");
   hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
@@ -593,16 +600,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult_tofmult->GetXaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
-    hist2_Epd_east_Qy_Qx_raw[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_raw[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_Weighted[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_Weighted[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
-    hist_Epd_east_psi_raw[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
-    hist_Epd_east_psi_raw[EventTypeId]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Weighted[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
-    hist_Epd_east_psi_Weighted[EventTypeId]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Shifted[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
-    hist_Epd_east_psi_Shifted[EventTypeId]->GetYaxis()->SetTitle("# of events");
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
     hist_Epd_east_psi_raw_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
@@ -616,13 +613,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_nMip->GetYaxis()->SetTitle("# of hits");
   outputFile->cd();
   wt.Write();
-  // for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
-  //   mEpdShiftOutput_sin[EventTypeId]->Write();
-  //   mEpdShiftOutput_cos[EventTypeId]->Write();
-  // }
   outputFile->Write();
   mCorrectionOutputFile->Write();
-  mEpFinder->Finish();
 }
 
 // =========================== Get Psi from Q vector =============================================
