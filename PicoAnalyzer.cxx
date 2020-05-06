@@ -246,6 +246,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
+  TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------------ EPD event plane ab intio Correlations histograms ----------------------------------
   TProfile *profile_correlation_epd_east[6];
   TH2D *correlation2D_epd_east[6];
@@ -564,7 +565,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t QrawTpcAll[2]={0.0,0.0};       /// indices: [x,y]
     Double_t PsiTpcAllRaw=-999.0;
     Double_t PsiTpcAllShifted=-999.0;
-    std::vector<std::vector<Double_t>> vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
+    std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     // TPC Q-vector loop
     std::cout<<"size of vGoodTracks = "<<vGoodTracks.size()<<std::endl;
@@ -697,9 +698,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
       if(particleType==-999) continue; // No particle identified
-      if(particleType==0) rapWeight= rapProton + 2.02 // y_CM = -2.02, COM rapidity
-      if(particleType==1||(particleType==2) rapWeight= rapKaon + 2.02 // y_CM = -2.02, COM rapidity
-      if(particleType==3||(particleType==4) rapWeight= rapPion + 2.02 // y_CM = -2.02, COM rapidity
+      if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
+      if(particleType==1||(particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
+      if(particleType==3||(particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
       if(rapWeight!=0) NTpcAll++;
       Double_t Cosine = cos(phi*(Double_t)EpOrder);
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
@@ -707,11 +708,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       QrawTpcAll[1] += rapWeight * Sine;
     } // TPC Q-vector loop
     // Track multiplicity for each particle
-    hist_trackmult_proton->Fill(Nprotons);
-    hist_trackmult_pionPlus->Fill(NpionPlus);
-    hist_trackmult_pionMinus->Fill(NpionMinus);
-    hist_trackmult_kaonPlus->Fill(NkaonPlus);
-    hist_trackmult_kaonMinus->Fill(NkaonMinus);
+    hist_trackmult_proton->Fill(nProtons);
+    hist_trackmult_pionPlus->Fill(nPionPlus);
+    hist_trackmult_pionMinus->Fill(nPionMinus);
+    hist_trackmult_kaonPlus->Fill(nKaonPlus);
+    hist_trackmult_kaonMinus->Fill(nKaonMinus);
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
