@@ -568,7 +568,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     // TPC Q-vector loop
-    std::cout<<"size of vGoodTracks = "<<vGoodTracks.size()<<std::endl;
     for(unsigned int i=0; i<vGoodTracks.size();i++){
       StPicoTrack* picoTrack = vGoodTracks[i];
       StPicoBTofPidTraits *trait        = NULL;
