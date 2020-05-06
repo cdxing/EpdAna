@@ -63,10 +63,12 @@
 
 // Define global constants
 // const Int_t daynumber     = 6;
-const Int_t Ncentralities = 10;
-const Int_t EpTermsMaxIni = 6;
-const Int_t nEventTypeBins = 5; // 5 etaRange
-
+const Int_t _Ncentralities = 10;
+const Int_t _EpTermsMaxIni = 6;
+const Int_t _nEventTypeBins = 5; // 5 etaRange
+const Double_t _massPion     = 0.13957061;
+const Double_t _massKaon     = 0.493677;
+const Double_t _massProton   = 0.938272081;
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
@@ -149,6 +151,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2 = new TH1D("hist_mass2","hist_mass2",4000,-10.0,10.0);
   TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-3.0,0.5);
+  TH1D *hist_phi = new TH1D("hist_phi","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_ratio = new TH1D("hist_ratio","hist_ratio",100,0,2);
   TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
   TH1D *hist_ndEdx = new TH1D("hist_ndEdx","hist_ndEdx",100,-0.5,99.5);
@@ -159,12 +162,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
   TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-3.0,0.5);
+  TH1D *hist_phi_cut = new TH1D("hist_phi_cut","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_ratio_cut = new TH1D("hist_ratio_cut","hist_ratio_cut",100,0,2);
   TH1D *hist_nHits_cut = new TH1D("hist_nHits_cut","hist_nHits_cut",100,-0.5,99.5);
   TH1D *hist_ndEdx_cut = new TH1D("hist_ndEdx_cut","hist_ndEdx_cut",100,-0.5,99.5);
   TH1D *hist_DCA_cut = new TH1D("hist_DCA_cut","hist_DCA_cut",100,0,10.0);
   // ------------------ Centrality QA histograms ----------------------------------
-  TH1D *hist_cent = new TH1D("hist_cent","Centrality",Ncentralities+1,-0.5,Ncentralities+0.5);
+  TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_refmult = new TH2D("hist_realTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
@@ -172,7 +176,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[5];
   TH1D *hist_Epd_east_psi_raw_ini[5],*hist_Epd_east_psi_Shifted_ini[5];
-  for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
     hist_Epd_east_psi_raw_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
     hist_Epd_east_psi_Shifted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",EventTypeId),Form("EPD east EP (Weighted & Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
@@ -180,6 +184,68 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  // --------------------- TPC event plane QA histograms ----------------------------------
+  TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *h2_dEdxVspTq = new TH2D("h2_dEdxVspTq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *h2_beta = new TH2D("h2_beta","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *h2_mass = new TH2D("hist_mass","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // --------------------- TPC EP PID QA histograms ----------------------------------
+  TH1D *  hist_trackmult_proton = new TH1D("hist_trackmult_proton","hist_trackmult_proton",100,-0.5,99.5);
+  TH1D *  hist_trackmult_kaonPlus = new TH1D("hist_trackmult_kaonPlus","hist_trackmult_kaonPlus",100,-0.5,99.5);
+  TH1D *  hist_trackmult_kaonMinus = new TH1D("hist_trackmult_kaonMinus","hist_trackmult_kaonMinus",100,-0.5,99.5);
+  TH1D *  hist_trackmult_pionPlus = new TH1D("hist_trackmult_pionPlus","hist_trackmult_pionPlus",100,-0.5,99.5);
+  TH1D *  hist_trackmult_pionMinus = new TH1D("hist_trackmult_pionMinus","hist_trackmult_pionMinus",100,-0.5,99.5);
+  TH1D *hist_pt_proton = new TH1D("hist_pt_proton","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_proton = new TH1D("hist_eta_proton","#eta",200,-3.0,0.5);
+  TH1D *hist_y_proton = new TH1D("hist_y_proton","Rapidity y",200,-3.0,0.5);
+  TH1D *hist_phi_proton = new TH1D("hist_phi_proton","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_proton = new TH2D("hist_rap_eta_proton","proton y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_proton = new TH2D("hist_pt_y_proton","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_proton = new TH2D("hist_pt_eta_proton","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_proton = new TH2D("hist_dEdx_proton","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_proton = new TH2D("hist_beta_proton","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_proton = new TH2D("hist_mass_proton","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_pt_kaonPlus = new TH1D("hist_pt_kaonPlus","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_kaonPlus = new TH1D("hist_eta_kaonPlus","#eta",200,-3.0,0.5);
+  TH1D *hist_y_kaonPlus = new TH1D("hist_y_kaonPlus","y",200,-3.0,0.5);
+  TH1D *hist_phi_kaonPlus = new TH1D("hist_phi_kaonPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_kaonPlus = new TH2D("hist_rap_eta_kaonPlus","kaonPlus y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_kaonPlus = new TH2D("hist_pt_y_kaonPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonPlus = new TH2D("hist_pt_eta_kaonPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_kaonPlus = new TH2D("hist_dEdx_kaonPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_kaonPlus = new TH2D("hist_beta_kaonPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_kaonPlus = new TH2D("hist_mass_kaonPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_pt_kaonMinus = new TH1D("hist_pt_kaonMinus","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_kaonMinus = new TH1D("hist_eta_kaonMinus","#eta",200,-3.0,0.5);
+  TH1D *hist_y_kaonMinus = new TH1D("hist_y_kaonMinus","y",200,-3.0,0.5);
+  TH1D *hist_phi_kaonMinus = new TH1D("hist_phi_kaonMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_kaonMinus = new TH2D("hist_rap_eta_kaonMinus","kaonMinus y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_kaonMinus = new TH2D("hist_pt_y_kaonMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonMinus = new TH2D("hist_pt_eta_kaonMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_kaonMinus = new TH2D("hist_dEdx_kaonMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_kaonMinus = new TH2D("hist_beta_kaonMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_kaonMinus = new TH2D("hist_mass_kaonMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_pt_pionPlus = new TH1D("hist_pt_pionPlus","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_pionPlus = new TH1D("hist_eta_pionPlus","#eta",200,-3.0,0.5);
+  TH1D *hist_y_pionPlus = new TH1D("hist_y_pionPlus","y",200,-3.0,0.5);
+  TH1D *hist_phi_pionPlus = new TH1D("hist_phi_pionPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_pionPlus = new TH2D("hist_rap_eta_pionPlus","pionPlus y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_pionPlus = new TH2D("hist_pt_y_pionPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_pionPlus = new TH2D("hist_pt_eta_pionPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_pionPlus = new TH2D("hist_dEdx_pionPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_pionPlus = new TH2D("hist_beta_pionPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_pionPlus = new TH2D("hist_mass_pionPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_pt_pionMinus = new TH1D("hist_pt_pionMinus","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_pionMinus = new TH1D("hist_eta_pionMinus","#eta",200,-3.0,0.5);
+  TH1D *hist_y_pionMinus = new TH1D("hist_y_pionMinus","y",200,-3.0,0.5);
+  TH1D *hist_phi_pionMinus = new TH1D("hist_phi_pionMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_pionMinus = new TH2D("hist_rap_eta_pionMinus","pionMinus y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_pionMinus = new TH2D("hist_pt_y_pionMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_pionMinus = new TH2D("hist_pt_eta_pionMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_pionMinus = new TH2D("hist_dEdx_pionMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // -------------------------- TPC event planes ----------------------------------
   // ------------------ EPD event plane ab intio Correlations histograms ----------------------------------
   TProfile *profile_correlation_epd_east[6];
   TH2D *correlation2D_epd_east[6];
@@ -189,7 +255,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       profile_correlation_epd_east[pairs]  =
       new TProfile(Form("profile_correlation_epd_east%d",pairs),
       Form("#sqrt{<cos(#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d])>}",i+1,j+1),
-      Ncentralities,0.0,100,-1.0,1.0,"");
+      _Ncentralities,0.0,100,-1.0,1.0,"");
       correlation2D_epd_east[pairs]   =
       new TH2D(Form("correlation2D_epd_east%d",pairs),
       Form("#sqrt{#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]}",i+1,j+1),
@@ -198,35 +264,33 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // "Shift correction" histograms that we INPUT and apply here
-  TProfile2D *mEpdShiftInput_sin[nEventTypeBins], *mEpdShiftInput_cos[nEventTypeBins];
+  TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
   TFile* mCorrectionInputFile = new TFile("EpdEpCorrectionAbInitioInput.root","READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
-    for (int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+    for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
       mEpdShiftInput_sin[EventTypeId] = 0;
     	mEpdShiftInput_cos[EventTypeId] = 0;
     }
   }
   else{
-      for (int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+      for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
         mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
         mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
       }
   }
-
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpdEpOutputNameIni = "EpdEpCorrectionAbInitio_OUTPUT_";
   EpdEpOutputNameIni += outFile;
   EpdEpOutputNameIni += ".root";
-
   TFile* mCorrectionOutputFile = new TFile(EpdEpOutputNameIni,"RECREATE");
-  TProfile2D *mEpdShiftOutput_sin[nEventTypeBins], *mEpdShiftOutput_cos[nEventTypeBins];
-  for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+  TProfile2D *mEpdShiftOutput_sin[_nEventTypeBins], *mEpdShiftOutput_cos[_nEventTypeBins];
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
-            EpTermsMaxIni,0.5,1.0*EpTermsMaxIni+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5,_nEventTypeBins,-0.5,(double)_nEventTypeBins-0.5,-1.0,1.0);
     mEpdShiftOutput_cos[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_cos",EventTypeId),Form("EpdShiftEW0Psi%d_cos",EventTypeId),
-            EpTermsMaxIni,0.5,1.0*EpTermsMaxIni+.5,nEventTypeBins,-0.5,(double)nEventTypeBins-0.5,-1.0,1.0);
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5,_nEventTypeBins,-0.5,(double)_nEventTypeBins-0.5,-1.0,1.0);
   }
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -312,16 +376,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mTrkcut[1]++; // 1. pico track cut
       StPicoBTofPidTraits *trait = NULL;
       // ----------------------- Physics values of tracks --------------------------
-      double        d_tofBeta    = -999.;
+      double        tofBeta    = -999.;
       if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
-      if(trait)        d_tofBeta = trait->btofBeta();
+      if(trait)        tofBeta = trait->btofBeta();
       double d_px  = picoTrack->gMom().x();
       double d_py  = picoTrack->gMom().y();
       double d_pz  = picoTrack->gMom().z();
       double d_pT  = picoTrack->gPt();
       double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
-      double mass2 = d_mom*d_mom*((1.0/(d_tofBeta*d_tofBeta))-1.0);
+      double mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0);
       Double_t eta = picoTrack->pMom().Eta();
+      Double_t phi    = picoTrack->pMom().Phi();
+      if(phi < 0.0            ) phi += 2.0*TMath::Pi();
+      if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
       hist_px_py->Fill(d_px,d_py);
       hist_pz   ->Fill(d_pz);
@@ -329,6 +396,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_mom  ->Fill(d_mom);
       hist_mass2->Fill(mass2);
       hist_eta  ->Fill(eta);
+      hist_phi  ->Fill(phi);
       hist_ratio->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
       hist_nHits->Fill((double)picoTrack->nHitsFit());
       hist_ndEdx->Fill(picoTrack->nHitsDedx());
@@ -352,11 +420,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_mom_cut  ->Fill(d_mom);
       hist_mass2_cut->Fill(mass2);
       hist_eta_cut  ->Fill(eta);
+      hist_phi_cut  ->Fill(phi);
       hist_ratio_cut->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
       hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
       hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
       hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
-      if(d_tofBeta == -999) continue;
+      if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
     for(int i=0;i<5;i++){ // fill the tracks after cut
@@ -416,7 +485,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //--------------------------------
       // now calculate Q-vectors
       //--------------------------------
-      for(int EventTypeId=0;EventTypeId<nEventTypeBins;EventTypeId++){
+      for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
@@ -428,7 +497,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
-    for(int EventTypeId=0;EventTypeId<nEventTypeBins;EventTypeId++){
+    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       for (int xy=0; xy<2; xy++){
         QrawEastSide[EventTypeId][xy]           *= -1.0;
       }
@@ -436,12 +505,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
-    for(int EventTypeId=0;EventTypeId<nEventTypeBins;EventTypeId++){
+    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
     }
 
-    for(int EventTypeId=0;EventTypeId<nEventTypeBins;EventTypeId++){
+    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
         hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
@@ -449,11 +518,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
-    for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
+    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId];
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0){
-          for (int i=1; i<=EpTermsMaxIni; i++){
+          for (int i=1; i<=_EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
         	  double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,EventTypeId+1);    /// note the "+1" since EventTypeId begins at zero
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,EventTypeId+1);    /// note the "+1" since EventTypeId begins at zero
@@ -481,27 +550,177 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
-    for (int i=1; i<=EpTermsMaxIni; i++){
-      for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
+    for (int i=1; i<=_EpTermsMaxIni; i++){
+      for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
         if(PsiEastRaw[EventTypeId]==-999.0) continue;
       	mEpdShiftOutput_sin[EventTypeId]->Fill(i,EventTypeId,sin(tmp*PsiEastRaw[EventTypeId]));
       	mEpdShiftOutput_cos[EventTypeId]->Fill(i,EventTypeId,cos(tmp*PsiEastRaw[EventTypeId]));
       }
     }
-    // (8) ================ TPC event plane ====================================
+    // (8) ================ TPC event plane : use identedfied particles ====================================
     // Define TPC EP parameters
     Int_t NTpcAll = 0;
-    Double_t QrawTpcAll[2]={0.0};       /// indices: [x,y]
+    Double_t QrawTpcAll[2]={0.0,0.0};       /// indices: [x,y]
     Double_t PsiTpcAllRaw=-999.0;
     Double_t PsiTpcAllShifted=-999.0;
+    std::vector<std::vector<Double_t>> vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
+    Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     // TPC Q-vector loop
     std::cout<<"size of vGoodTracks = "<<vGoodTracks.size()<<std::endl;
     for(unsigned int i=0; i<vGoodTracks.size();i++){
       StPicoTrack* picoTrack = vGoodTracks[i];
-      Double_t pt = picoTrack->pPt();
-      std::cout<<"pT = "<<pt<<std::endl;
+      StPicoBTofPidTraits *trait        = NULL;
+      Int_t charge;
+      Double_t pt,pz,eta,ptot,phi;
+      Double_t mass2 =-999.0,tofBeta =-999.0;
+      Double_t rapWeight = 0.0; // Weight based on rapidity
+      charge = picoTrack->charge();
+      pt     = picoTrack->pPt();
+      pz     = picoTrack->pMom().Z();
+      eta    = picoTrack->pMom().Eta();
+      ptot = picoTrack->pPtot();
+      phi    = picoTrack->pMom().Phi();
+      if(phi < 0.0            ) phi += 2.0*TMath::Pi();
+      if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
+      // ---------------- Check if TOF info available --------------------------
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait) tofBeta               = trait->btofBeta();
+      if(tofBeta != -999.0) mass2 = ptot * ptot *( ( 1.0 / ( tofBeta*tofBeta ) ) - 1.0 );
+      // ---------------- Particle Physics Variables presumed --------------------------
+      Double_t energyProton,energyKaon,energyPion,rapProton,rapKaon,rapPion,mtProton,mtKaon,mtPion;
+      Int_t particleType = -999; //default -999. 0,1,2,3,4 indicate p, K+, K-, \Pi+, \Pi-
+      energyProton = TMath::Sqrt(ptot*ptot + _massProton*_massProton);
+      energyKaon = TMath::Sqrt(ptot*ptot + _massKaon*_massKaon);
+      energyPion = TMath::Sqrt(ptot*ptot + _massPion*_massPion);
+      rapProton    = 0.5*TMath::Log( (energyProton + pz) / (energyProton - pz) );
+      rapKaon    = 0.5*TMath::Log( (energyKaon + pz) / (energyKaon - pz) );
+      rapPion    = 0.5*TMath::Log( (energyPion + pz) / (energyPion - pz) );
+      mtProton   = TMath::Sqrt(pt*pt + _massProton*_massProton);
+      mtKaon   = TMath::Sqrt(pt*pt + _massProton*_massProton);
+      mtPion   = TMath::Sqrt(pt*pt + _massProton*_massProton);
+      // ------------------------ TPC EP QA plots ------------------------------
+      h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
+      h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
+      if(tofBeta!=-999.0){
+        h2_beta->Fill(charge*ptot,1.0/tofBeta);
+        h2_mass->Fill(charge*ptot,mass2);
+      }
+      // ------------------------ Particle identifications ------------------------------
+      if( // Proton PID: require both TPC and TOF
+        TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
+        tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1 &&
+        pt > 0.2 &&
+        charge > 0
+      ){
+        particleType=0;// Proton
+        nProtons++;
+        // Fill histograms
+        hist_pt_proton->Fill(pt);
+        hist_eta_proton->Fill(eta);
+        hist_y_proton->Fill(rapProton);
+        hist_phi_proton->Fill(phi);
+        hist_rap_eta_proton->Fill(eta,rapProton);
+        hist_pt_y_proton->Fill(rapProton,pt,1);
+        hist_pt_eta_proton->Fill(eta,pt,1);
+        hist_dEdx_proton->Fill(charge*ptot,picoTrack->dEdx());
+        hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
+        hist_mass_proton->Fill(charge*ptot,mass2);
+      } else if( // Kaons PID: require both TPC and TOF
+        TMath::Abs(picoTrack->nSigmaKaon()) < 2.0 &&
+        tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1
+        && pt > 0.2
+      ){
+        if(charge > 0){
+          particleType=1;// K+
+          nKaonPlus++;
+          // Fill histograms
+          hist_pt_kaonPlus->Fill(pt);
+          hist_eta_kaonPlus->Fill(eta);
+          hist_y_kaonPlus->Fill(rapKaon);
+          hist_phi_kaonPlus->Fill(phi);
+          hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
+          hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonPlus->Fill(eta,pt,1);
+          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonPlus->Fill(charge*ptot,mass2);
+        } else { // charge < 0
+          particleType=2;// K-
+          nKaonMinus++;
+          // Fill histograms
+          hist_pt_kaonMinus->Fill(pt);
+          hist_eta_kaonMinus->Fill(eta);
+          hist_y_kaonMinus->Fill(rapKaon);
+          hist_phi_kaonMinus->Fill(phi);
+          hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
+          hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonMinus->Fill(eta,pt,1);
+          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonMinus->Fill(charge*ptot,mass2);
+        }
+      } else if( // Pions PID: require both TPC and TOF
+        TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
+        tofBeta != -999.0 && mass2 > -0.01 && mass2 < 0.05 &&
+        pt > 0.2  &&
+        !(TMath::Abs(mass2)<0.005 && ptot<0.25) // Remove electron influence
+      ){
+        if(charge > 0){
+          particleType=3;// \Pi+
+          nPionPlus++;
+          // Fill histograms
+          hist_pt_pionPlus->Fill(pt);
+          hist_eta_pionPlus->Fill(eta);
+          hist_y_pionPlus->Fill(rapPion);
+          hist_phi_pionPlus->Fill(phi);
+          hist_rap_eta_pionPlus->Fill(eta,rapPion);
+          hist_pt_y_pionPlus->Fill(rapPion,pt,1);
+          hist_pt_eta_pionPlus->Fill(eta,pt,1);
+          hist_dEdx_pionPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_pionPlus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_pionPlus->Fill(charge*ptot,mass2);
+        } else { // charge < 0
+          particleType=4;// \Pi-
+          nPionMinus++;
+          // Fill histograms
+          hist_pt_pionMinus->Fill(pt);
+          hist_eta_pionMinus->Fill(eta);
+          hist_y_pionMinus->Fill(rapPion);
+          hist_phi_pionMinus->Fill(phi);
+          hist_rap_eta_pionMinus->Fill(eta,rapPion);
+          hist_pt_y_pionMinus->Fill(rapPion,pt,1);
+          hist_pt_eta_pionMinus->Fill(eta,pt,1);
+          hist_dEdx_pionMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_pionMinus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_pionMinus->Fill(charge*ptot,mass2);
+        }
+      }
+      if(particleType==-999) continue; // No particle identified
+      if(particleType==0) rapWeight= rapProton + 2.02 // y_CM = -2.02, COM rapidity
+      if(particleType==1||(particleType==2) rapWeight= rapKaon + 2.02 // y_CM = -2.02, COM rapidity
+      if(particleType==3||(particleType==4) rapWeight= rapPion + 2.02 // y_CM = -2.02, COM rapidity
+      if(rapWeight!=0) NTpcAll++;
+      Double_t Cosine = cos(phi*(Double_t)EpOrder);
+      Double_t Sine   = sin(phi*(Double_t)EpOrder);
+      QrawTpcAll[0] += rapWeight * Cosine;
+      QrawTpcAll[1] += rapWeight * Sine;
     } // TPC Q-vector loop
+    // Track multiplicity for each particle
+    hist_trackmult_proton->Fill(Nprotons);
+    hist_trackmult_pionPlus->Fill(NpionPlus);
+    hist_trackmult_pionMinus->Fill(NpionMinus);
+    hist_trackmult_kaonPlus->Fill(NkaonPlus);
+    hist_trackmult_kaonMinus->Fill(NkaonMinus);
+    //---------------------------------
+    // Calculate unshifted EP angles
+    //---------------------------------
+    if(NTpcAll<5) continue; // at least 5 tracks to get TPC event plane
+    if(QrawTpcAll[0] || QrawTpcAll[1] ){ // Qx, Qy cannot be 0 at the same time
+      PsiTpcAllRaw = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[1],QrawTpcAll[0]);
+      if(PsiTpcAllRaw!=-999.0) hist_tpc_all_psi_raw->Fill(PsiTpcAllRaw);
+    }
+
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
@@ -541,6 +760,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_mass2->GetYaxis()->SetTitle("# of tracks");
   hist_eta->GetXaxis()->SetTitle("#eta");
   hist_eta->GetYaxis()->SetTitle("# of tracks");
+  hist_phi->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi->GetYaxis()->SetTitle("# of tracks");
   hist_ratio->GetXaxis()->SetTitle("nHitsFit/nHitsPoss");
   hist_ratio->GetYaxis()->SetTitle("# of Tracks");
   hist_nHits->GetXaxis()->SetTitle("nHits");
@@ -561,6 +782,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_mass2_cut->GetYaxis()->SetTitle("# of tracks");
   hist_eta_cut->GetXaxis()->SetTitle("#eta");
   hist_eta_cut->GetYaxis()->SetTitle("# of tracks");
+  hist_phi_cut->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_cut->GetYaxis()->SetTitle("# of tracks");
   hist_ratio_cut->GetXaxis()->SetTitle("nHitsFit/nHitsPoss");
   hist_ratio_cut->GetYaxis()->SetTitle("# of Tracks");
   hist_nHits_cut->GetXaxis()->SetTitle("nHits");
@@ -579,7 +802,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("gRefMult");
   hist_realTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult_tofmult->GetXaxis()->SetTitle("tofMult");
-  for(int EventTypeId=0; EventTypeId<nEventTypeBins; EventTypeId++){
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
     hist_Epd_east_psi_raw_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
@@ -591,6 +814,124 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
   hist_nMip->GetXaxis()->SetTitle("nMIP");
   hist_nMip->GetYaxis()->SetTitle("# of hits");
+  h2_dEdxVsPq->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  h2_dEdxVsPq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  h2_dEdxVspTq->GetXaxis()->SetTitle("q*|pT| (GeV/c)");
+  h2_dEdxVspTq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  h2_beta->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  h2_beta->GetYaxis()->SetTitle("1/#beta");
+  h2_mass->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  h2_mass->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_trackmult_proton->GetXaxis()->SetTitle("# of Protons");
+  hist_trackmult_proton->GetYaxis()->SetTitle("# of Events");
+  hist_trackmult_pionPlus->GetXaxis()->SetTitle("# of #pi^{#plus}");
+  hist_trackmult_pionPlus->GetYaxis()->SetTitle("# of Events");
+  hist_trackmult_pionMinus->GetXaxis()->SetTitle("# of #pi^{#minus}");
+  hist_trackmult_pionMinus->GetYaxis()->SetTitle("# of Events");
+  hist_trackmult_kaonPlus->GetXaxis()->SetTitle("# of K^{#plus}");
+  hist_trackmult_kaonPlus->GetYaxis()->SetTitle("# of Events");
+  hist_trackmult_kaonMinus->GetXaxis()->SetTitle("# of K^{#minus}");
+  hist_trackmult_kaonMinus->GetYaxis()->SetTitle("# of Events");
+  hist_pt_proton->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_proton->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_proton->GetXaxis()->SetTitle("#eta");
+  hist_eta_proton->GetYaxis()->SetTitle("# of tracks");
+  hist_y_proton->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_proton->GetYaxis()->SetTitle("# of tracks");
+  hist_phi_proton->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_proton->GetYaxis()->SetTitle("# of tracks");
+  hist_rap_eta_proton->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_proton->GetYaxis()->SetTitle("Rapidity y");
+  hist_pt_y_proton->GetXaxis()->SetTitle("y");
+  hist_pt_y_proton->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_eta_proton->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_proton->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_dEdx_proton->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_proton->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_beta_proton->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_proton->GetYaxis()->SetTitle("1/#beta");
+  hist_mass_proton->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_proton->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_mass_kaonPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_kaonPlus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_beta_kaonPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_kaonPlus->GetYaxis()->SetTitle("1/#beta");
+  hist_dEdx_kaonPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_kaonPlus->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_pt_eta_kaonPlus->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_kaonPlus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_y_kaonPlus->GetXaxis()->SetTitle("y");
+  hist_pt_y_kaonPlus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_rap_eta_kaonPlus->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_kaonPlus->GetYaxis()->SetTitle("Rapidity y");
+  hist_phi_kaonPlus->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_kaonPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_y_kaonPlus->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_kaonPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_kaonPlus->GetXaxis()->SetTitle("#eta");
+  hist_eta_kaonPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_kaonPlus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_kaonPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_mass_kaonMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_kaonMinus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_beta_kaonMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_kaonMinus->GetYaxis()->SetTitle("1/#beta");
+  hist_dEdx_kaonMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_kaonMinus->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_pt_eta_kaonMinus->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_kaonMinus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_y_kaonMinus->GetXaxis()->SetTitle("y");
+  hist_pt_y_kaonMinus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_rap_eta_kaonMinus->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_kaonMinus->GetYaxis()->SetTitle("Rapidity y");
+  hist_phi_kaonMinus->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_y_kaonMinus->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_kaonMinus->GetXaxis()->SetTitle("#eta");
+  hist_eta_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_kaonMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_pionPlus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_pionPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_pionPlus->GetXaxis()->SetTitle("#eta");
+  hist_eta_pionPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_y_pionPlus->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_pionPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_phi_pionPlus->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_pionPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_rap_eta_pionPlus->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_pionPlus->GetYaxis()->SetTitle("Rapidity y");
+  hist_pt_y_pionPlus->GetXaxis()->SetTitle("y");
+  hist_pt_y_pionPlus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_eta_pionPlus->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_pionPlus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_dEdx_pionPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_pionPlus->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_beta_pionPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_pionPlus->GetYaxis()->SetTitle("1/#beta");
+  hist_mass_pionPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_pionPlus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_mass_pionMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_pionMinus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_beta_pionMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_pionMinus->GetYaxis()->SetTitle("1/#beta");
+  hist_dEdx_pionMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_pionMinus->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_pt_eta_pionMinus->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_pionMinus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_y_pionMinus->GetXaxis()->SetTitle("y");
+  hist_pt_y_pionMinus->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_rap_eta_pionMinus->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_pionMinus->GetYaxis()->SetTitle("Rapidity y");
+  hist_phi_pionMinus->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_pionMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_y_pionMinus->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_pionMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_pionMinus->GetXaxis()->SetTitle("#eta");
+  hist_eta_pionMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_pionMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
   outputFile->cd();
   wt.Write();
   outputFile->Write();
