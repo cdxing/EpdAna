@@ -536,16 +536,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
       }
-      pairs = 0;
+      pairs = -1;
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
         for(int j=i+1;j<4;j++){
+          pairs++;
           if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
             if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))>0){
               profile_correlation_epd_east[pairs]->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))));
             }
             correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
           }
-          pairs++;
         }
       }
 
@@ -628,7 +628,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_mass_proton->Fill(charge*ptot,mass2);
       } else if( // Kaons PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaKaon()) < 2.0 &&
-        tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1
+        tofBeta != -999.0 && mass2 > 0.16 && mass2 < 0.32
         && pt > 0.2
       ){
         if(charge > 0){
@@ -718,6 +718,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if(NTpcAll<5) continue; // at least 5 tracks to get TPC event plane
     if(QrawTpcAll[0] || QrawTpcAll[1] ){ // Qx, Qy cannot be 0 at the same time
       PsiTpcAllRaw = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[1],QrawTpcAll[0]);
+      if(PsiTpcAllRaw < 0.0                             ) PsiTpcAllRaw += (1. / EpOrder) * 2.0*TMath::Pi();
+      if(PsiTpcAllRaw > (1. / EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw -= (1. / EpOrder) * 2.0*TMath::Pi();
       if(PsiTpcAllRaw!=-999.0) hist_tpc_all_psi_raw->Fill(PsiTpcAllRaw);
     }
 
@@ -795,13 +797,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_cent->GetXaxis()->SetTitle("Centrality bin");
   hist_cent->GetYaxis()->SetTitle("# of events");
   hist_realTrackMult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult->GetXaxis()->SetTitle("# of events");
+  hist_realTrackMult->GetYaxis()->SetTitle("# of events");
   hist_realTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_refmult->GetXaxis()->SetTitle("RefMult");
+  hist_realTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
   hist_realTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_grefmult->GetXaxis()->SetTitle("gRefMult");
+  hist_realTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
   hist_realTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_tofmult->GetXaxis()->SetTitle("tofMult");
+  hist_realTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
