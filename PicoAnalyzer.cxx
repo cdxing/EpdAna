@@ -64,7 +64,7 @@
 // Define global constants
 // const Int_t daynumber     = 6;
 const Int_t _Ncentralities = 10;
-const Int_t _EpTermsMaxIni = 6;
+const Int_t _EpTermsMaxIni = 20;
 const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Double_t _massPion     = 0.13957061;
 const Double_t _massKaon     = 0.493677;
