@@ -544,7 +544,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))>0){
               profile_correlation_epd_east[pairs]->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))));
             }
-            correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
+            correlation2D_epd_east[pairs]->Fill(TMath::Cos(EpOrder * PsiEastShifted[i+1]),TMath::Cos(EpOrder * PsiEastShifted[j+1]));
           }
         }
       }
