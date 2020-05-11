@@ -279,7 +279,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // "Shift correction" histograms that we INPUT and apply here
   TProfile3D *mEpdShiftInput_sin, *mEpdShiftInput_cos; // EPD EP input
   TProfile2D *mTpcShiftInput_sin, *mTpcShiftInput_cos; // TPC EP input
-  TFile* mCorrectionInputFile = new TFile("EpCorrectionInput.root","READ");
+  TFile* mCorrectionInputFile = new TFile("EpCorrection_INPUT.root","READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
