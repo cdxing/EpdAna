@@ -305,12 +305,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5, // Shift order
           _nEventTypeBins,-0.5,_nEventTypeBins-0.5, // etaRange
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          -1.0,1.0);
+          "");
+  mEpdShiftOutput_sin->BuildOptions(-1,1,"");
   mEpdShiftOutput_cos = new TProfile3D("mEpdShiftOutput_cos","mEpdShiftOutput_cos",
           _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5,
           _nEventTypeBins,-0.5,_nEventTypeBins-0.5,
           _Ncentralities,0.5,_Ncentralities+0.5,
-          -1.0,1.0);
+          "");
+  mEpdShiftOutput_cos->BuildOptions(-1,1,"");
   mTpcShiftOutput_sin = new TProfile2D("mTpcShiftOutput_sin","mTpcShiftOutput_sin",
           _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5, // Shift order
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
@@ -318,7 +320,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mTpcShiftOutput_cos = new TProfile2D("mTpcShiftOutput_cos","mTpcShiftOutput_cos",
           _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5,
           _Ncentralities,0.5,_Ncentralities+0.5,
-          ,-1.0,1.0);
+          -1.0,1.0);
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -770,7 +772,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
         if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted ))>0){
-          profile_correlation_epd_tpc->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] ))));
+          profile_correlation_epd_tpc->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted ))));
         }
         correlation2D_epd_tpc->Fill(PsiTpcAllShifted,PsiEastShifted[i+1]);
       }
@@ -996,7 +998,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_eta_pionMinus->GetYaxis()->SetTitle("# of tracks");
   hist_pt_pionMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
-  int pairs =0;
+  pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
       correlation2D_epd_east[pairs] ->GetXaxis()->SetTitle(Form("#phi of EPD%d",i+1));
@@ -1008,7 +1010,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     correlation2D_epd_tpc[i] ->GetXaxis()->SetTitle("#phi of TPC");
     correlation2D_epd_tpc[i] ->GetYaxis()->SetTitle(Form("#phi of EPD%d",i+1));
   }
-
+  mEpdShiftOutput_sin->GetXaxis()->SetTitle("Shift order");
+  mEpdShiftOutput_sin->GetYaxis()->SetTitle("etaRange");
+  mEpdShiftOutput_sin->GetZaxis()->SetTitle("Centrality");
+  mEpdShiftOutput_cos->GetXaxis()->SetTitle("Shift order");
+  mEpdShiftOutput_cos->GetYaxis()->SetTitle("etaRange");
+  mEpdShiftOutput_cos->GetZaxis()->SetTitle("Centrality");
+  mTpcShiftOutput_sin->GetXaxis()->SetTitle("Shift order");
+  mTpcShiftOutput_sin->GetYaxis()->SetTitle("Centrality");
+  mTpcShiftOutput_cos->GetXaxis()->SetTitle("Shift order");
+  mTpcShiftOutput_cos->GetYaxis()->SetTitle("Centrality");
   outputFile->cd();
   wt.Write();
   outputFile->Write();
