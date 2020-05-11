@@ -772,9 +772,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
         if(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted ))>0){
-          profile_correlation_epd_tpc->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted ))));
+          profile_correlation_epd_tpc[i]->Fill(centrality,TMath::Sqrt(TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted ))));
         }
-        correlation2D_epd_tpc->Fill(PsiTpcAllShifted,PsiEastShifted[i+1]);
+        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted,PsiEastShifted[i+1]);
       }
     }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
