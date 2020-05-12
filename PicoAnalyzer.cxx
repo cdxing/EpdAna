@@ -562,9 +562,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId];
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
-        if (mEpdShiftInput_sin != 0 && mEpdShiftInput_cos!= 0){
+        if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
           for (int i=1; i<=_EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
+            std::cout << "test 5.41 " << std::endl;
             double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,centrality);
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,centrality);
         	  PsiEastShifted[EventTypeId] +=
