@@ -277,49 +277,51 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
 
   // "Shift correction" histograms that we INPUT and apply here
-  TProfile3D *mEpdShiftInput_sin, *mEpdShiftInput_cos; // EPD EP input
+  TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
   TProfile2D *mTpcShiftInput_sin, *mTpcShiftInput_cos; // TPC EP input
   TFile* mCorrectionInputFile = new TFile("EpCorrection_INPUT.root","READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
-    mEpdShiftInput_sin = 0;
-    mEpdShiftInput_cos = 0;
+    for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+      mEpdShiftInput_sin[EventTypeId] = 0;
+    	mEpdShiftInput_cos[EventTypeId] = 0;
+    }
     mTpcShiftInput_sin = 0;
     mTpcShiftInput_cos = 0;
   }
   else{
-      mEpdShiftInput_sin = (TProfile3D*)mCorrectionInputFile->Get("mEpdShiftOutput_sin");
-      mEpdShiftInput_cos = (TProfile3D*)mCorrectionInputFile->Get("mEpdShiftOutput_cos");
-      mTpcShiftInput_sin = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_sin");
-      mTpcShiftInput_cos = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_cos");
+    for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+      mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
+      mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
+    }
+    mTpcShiftInput_sin = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_sin");
+    mTpcShiftInput_cos = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_cos");
   }
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpOutputNameIni = "EpCorrection_OUTPUT_";
   EpOutputNameIni += outFile;
   EpOutputNameIni += ".root";
   TFile* mCorrectionOutputFile = new TFile(EpOutputNameIni,"RECREATE");
-  TProfile3D *mEpdShiftOutput_sin, *mEpdShiftOutput_cos; // EPD EP output
+  TProfile2D *mEpdShiftOutput_sin[_nEventTypeBins], *mEpdShiftOutput_cos[_nEventTypeBins]; // EPD EP output
   TProfile2D *mTpcShiftOutput_sin, *mTpcShiftOutput_cos; // TPC EP output
-  mEpdShiftOutput_sin = new TProfile3D("mEpdShiftOutput_sin","mEpdShiftOutput_sin",
-          _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5, // Shift order
-          _nEventTypeBins,-0.5,_nEventTypeBins-0.5, // etaRange
-          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          "");
-  mEpdShiftOutput_sin->BuildOptions(-1,1,"");
-  mEpdShiftOutput_cos = new TProfile3D("mEpdShiftOutput_cos","mEpdShiftOutput_cos",
-          _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5,
-          _nEventTypeBins,-0.5,_nEventTypeBins-0.5,
-          _Ncentralities,0.5,_Ncentralities+0.5,
-          "");
-  mEpdShiftOutput_cos->BuildOptions(-1,1,"");
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+    mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+            _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+            -1.0,1.0);
+    mEpdShiftOutput_cos[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_cos",EventTypeId),Form("EpdShiftEW0Psi%d_cos",EventTypeId),
+            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+            _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+            ,-1.0,1.0);
+  }
   mTpcShiftOutput_sin = new TProfile2D("mTpcShiftOutput_sin","mTpcShiftOutput_sin",
-          _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5, // Shift order
+          _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0);
   mTpcShiftOutput_cos = new TProfile2D("mTpcShiftOutput_cos","mTpcShiftOutput_cos",
-          _EpTermsMaxIni,0.5,_EpTermsMaxIni+0.5,
-          _Ncentralities,0.5,_Ncentralities+0.5,
+          _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0);
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
@@ -554,8 +556,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if (mEpdShiftInput_sin != 0 && mEpdShiftInput_cos!= 0){
           for (int i=1; i<=_EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
-        	  double sinAve = mEpdShiftInput_sin->GetBinContent(i,EventTypeId+1,centrality);    /// note the "+1" since EventTypeId begins at zero
-        	  double cosAve = mEpdShiftInput_cos->GetBinContent(i,EventTypeId+1,centrality);    /// note the "+1" since EventTypeId begins at zero
+            double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,centrality);
+        	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,centrality);
         	  PsiEastShifted[EventTypeId] +=
         	    2.0*(cosAve*sin(tmp*PsiEastRaw[EventTypeId]) - sinAve*cos(tmp*PsiEastRaw[EventTypeId]))/tmp;
         	}
@@ -585,8 +587,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
         if(PsiEastRaw[EventTypeId]==-999.0) continue;
-      	mEpdShiftOutput_sin->Fill(i,EventTypeId+1,centrality,sin(tmp*PsiEastRaw[EventTypeId])); // Notice EventTypeID start from 0, when Fill should + 1
-      	mEpdShiftOutput_cos->Fill(i,EventTypeId+1,centrality,cos(tmp*PsiEastRaw[EventTypeId])); // Notice EventTypeID start from 0, when Fill should + 1
+        mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRaw[EventTypeId]));
+        mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRaw[EventTypeId]));
       }
     }
     // (8) ================ TPC event plane : use identedfied particles ====================================
