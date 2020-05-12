@@ -313,7 +313,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mEpdShiftOutput_cos[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_cos",EventTypeId),Form("EpdShiftEW0Psi%d_cos",EventTypeId),
             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-            ,-1.0,1.0);
+            -1.0,1.0);
   }
   mTpcShiftOutput_sin = new TProfile2D("mTpcShiftOutput_sin","mTpcShiftOutput_sin",
           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
@@ -1012,12 +1012,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     correlation2D_epd_tpc[i] ->GetXaxis()->SetTitle("#phi of TPC");
     correlation2D_epd_tpc[i] ->GetYaxis()->SetTitle(Form("#phi of EPD%d",i+1));
   }
-  mEpdShiftOutput_sin->GetXaxis()->SetTitle("Shift order");
-  mEpdShiftOutput_sin->GetYaxis()->SetTitle("etaRange");
-  mEpdShiftOutput_sin->GetZaxis()->SetTitle("Centrality");
-  mEpdShiftOutput_cos->GetXaxis()->SetTitle("Shift order");
-  mEpdShiftOutput_cos->GetYaxis()->SetTitle("etaRange");
-  mEpdShiftOutput_cos->GetZaxis()->SetTitle("Centrality");
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+    mEpdShiftOutput_sin[EventTypeId]->GetXaxis()->SetTitle("Shift order");
+    mEpdShiftOutput_sin[EventTypeId]->GetYaxis()->SetTitle("Centrality");
+    mEpdShiftOutput_cos[EventTypeId]->GetXaxis()->SetTitle("Shift order");
+    mEpdShiftOutput_cos[EventTypeId]->GetYaxis()->SetTitle("Centrality");
+  }
   mTpcShiftOutput_sin->GetXaxis()->SetTitle("Shift order");
   mTpcShiftOutput_sin->GetYaxis()->SetTitle("Centrality");
   mTpcShiftOutput_cos->GetXaxis()->SetTitle("Shift order");
