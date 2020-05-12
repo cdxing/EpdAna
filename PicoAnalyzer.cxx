@@ -298,7 +298,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mTpcShiftInput_sin = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_sin");
     mTpcShiftInput_cos = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_cos");
   }
-  std::cout << "test 0 " << std::endl;
 
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpOutputNameIni = "EpCorrection_OUTPUT_";
@@ -325,7 +324,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0);
-          std::cout << "test 1 " << std::endl;
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -347,7 +345,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
-    std::cout << "test 2 " << std::endl;
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
@@ -401,7 +398,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  refMult = event->refMult(); // refMult
     Int_t grefMult = event->grefMult();
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
-    std::cout << "test 3 " << std::endl;
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
@@ -467,7 +463,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){ // fill the tracks after cut
       hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
     }
-    std::cout << "test 4 " << std::endl;
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[10]={false};
@@ -491,7 +486,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
     hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
     hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
-    std::cout << "test 5 " << std::endl;
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
@@ -533,7 +527,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
       }
     } // loop over EPD hits
-    std::cout << "test 5.1 " << std::endl;
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
@@ -541,7 +534,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         QrawEastSide[EventTypeId][xy]           *= -1.0;
       }
     }
-    std::cout << "test 5.2 " << std::endl;
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
@@ -549,7 +541,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
     }
-    std::cout << "test 5.3 " << std::endl;
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
@@ -557,7 +548,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
     }
-    std::cout << "test 5.4 " << std::endl;
     // --------------------------- " Do the SHIFT thing " ------------------------
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId];
@@ -565,7 +555,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
           for (int i=1; i<=_EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
-            std::cout << "test 5.41 " << std::endl;
             double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,centrality);
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,centrality);
         	  PsiEastShifted[EventTypeId] +=
@@ -577,7 +566,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
       }
-      std::cout << "test 5.5 " << std::endl;
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
       pairs = -1;
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
@@ -591,7 +579,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
       }
-      std::cout << "test 5.6 " << std::endl;
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=_EpTermsMaxIni; i++){
@@ -602,7 +589,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRaw[EventTypeId]));
       }
     }
-    std::cout << "test 6 " << std::endl;
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Define TPC EP parameters
     Int_t NTpcAll = 0;
@@ -799,7 +785,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_sin->Fill(i,centrality,sin(tmp*PsiTpcAllRaw));
         mTpcShiftOutput_cos->Fill(i,centrality,cos(tmp*PsiTpcAllRaw));
     }
-    std::cout << "test 7 " << std::endl;
 
 
   }  // Event Loop
