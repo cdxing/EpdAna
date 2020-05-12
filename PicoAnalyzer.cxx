@@ -325,6 +325,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0);
+          std::cout << "test 1 " << std::endl;
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -346,7 +347,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
-
+    std::cout << "test 2 " << std::endl;
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
