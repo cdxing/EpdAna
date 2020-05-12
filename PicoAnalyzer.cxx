@@ -533,6 +533,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
       }
     } // loop over EPD hits
+    std::cout << "test 5.1 " << std::endl;
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
@@ -540,6 +541,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         QrawEastSide[EventTypeId][xy]           *= -1.0;
       }
     }
+    std::cout << "test 5.2 " << std::endl;
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
@@ -547,7 +549,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
     }
-
+    std::cout << "test 5.3 " << std::endl;
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
@@ -555,6 +557,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastRaw[EventTypeId]!=-999.0) hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
       }
     }
+    std::cout << "test 5.4 " << std::endl;
     // --------------------------- " Do the SHIFT thing " ------------------------
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId];
@@ -573,6 +576,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
       }
+      std::cout << "test 5.5 " << std::endl;
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
       pairs = -1;
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
@@ -586,7 +590,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
       }
-
+      std::cout << "test 5.6 " << std::endl;
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=_EpTermsMaxIni; i++){
