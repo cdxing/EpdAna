@@ -401,6 +401,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  refMult = event->refMult(); // refMult
     Int_t grefMult = event->grefMult();
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
+    std::cout << "test 3 " << std::endl;
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
@@ -466,6 +467,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){ // fill the tracks after cut
       hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
     }
+    std::cout << "test 4 " << std::endl;
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[10]={false};
@@ -489,6 +491,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
     hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
     hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
+    std::cout << "test 5 " << std::endl;
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
@@ -594,6 +597,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRaw[EventTypeId]));
       }
     }
+    std::cout << "test 6 " << std::endl;
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Define TPC EP parameters
     Int_t NTpcAll = 0;
@@ -790,6 +794,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_sin->Fill(i,centrality,sin(tmp*PsiTpcAllRaw));
         mTpcShiftOutput_cos->Fill(i,centrality,cos(tmp*PsiTpcAllRaw));
     }
+    std::cout << "test 7 " << std::endl;
 
 
   }  // Event Loop
