@@ -305,7 +305,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int j=i+1;j<4;j++){
       profile_correlation_epd_east[pairs]  =
       new TProfile(Form("profile_correlation_epd_east%d",pairs),
-      Form("#sqrt{<cos(#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d])>}",i+1,j+1),
+      Form("<cos(#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d])>",i+1,j+1),
       _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
       correlation2D_epd_east[pairs]   =
       new TH2D(Form("correlation2D_epd_east%d",pairs),
@@ -317,7 +317,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int i=0;i<4;i++){// Correlaitons between TPC and 4 EPD event planes 1,2,3,4
     profile_correlation_epd_tpc[i]  =
     new TProfile(Form("profile_correlation_epd%d_tpc",i+1),
-    Form("#sqrt{<cos(#psi^{EPD east}[%d] #minus #psi^{TPC})>}",i+1),
+    Form("<cos(#psi^{EPD east}[%d] #minus #psi^{TPC})>",i+1),
     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
     correlation2D_epd_tpc[i]   =
     new TH2D(Form("correlation2D_epd%d_tpc",i+1),
