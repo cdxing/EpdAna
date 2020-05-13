@@ -466,18 +466,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[10]={false};
-    bool b_pileup   = (nGoodTracks > 270);
-    bool b_low_mult = (nGoodTracks < 10);
-    a_b_cent[0]     = (nGoodTracks >= 200); // 0 - 10%
-    a_b_cent[1]     = (nGoodTracks >= 150 && nGoodTracks < 200); // 10 - 20%
-    a_b_cent[2]     = (nGoodTracks >= 124 && nGoodTracks < 150); // 20 - 30%
-    a_b_cent[3]     = (nGoodTracks >= 100 && nGoodTracks < 124); // 30 - 40%
-    a_b_cent[4]     = (nGoodTracks >= 72  && nGoodTracks < 100); // 40 - 50%
-    a_b_cent[5]     = (nGoodTracks >= 50  && nGoodTracks < 72); // 50 - 60%
-    a_b_cent[6]     = (nGoodTracks >= 40  && nGoodTracks < 50); // 60 - 70%
-    a_b_cent[7]     = (nGoodTracks >= 30  && nGoodTracks < 40); // 70 - 80%
-    a_b_cent[8]     = (nGoodTracks >= 20  && nGoodTracks < 30); // 80 - 90%
-    a_b_cent[9]     = (nGoodTracks >= 10  && nGoodTracks < 20); // >90%
+    Int_t cenSection[10]={10,17,28,41,57,77,100,127,160,245}
+    bool b_pileup   = (nGoodTracks > 245);
+    bool b_low_mult = (nGoodTracks < 5);
+    a_b_cent[0]     = (nGoodTracks >= cenSection[8] && nGoodTracks < cenSection[9]); // 0 - 10%
+    a_b_cent[1]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 10 - 20%
+    a_b_cent[2]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 20 - 30%
+    a_b_cent[3]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 30 - 40%
+    a_b_cent[4]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 40 - 50%
+    a_b_cent[5]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 50 - 60%
+    a_b_cent[6]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 60 - 70%
+    a_b_cent[7]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 70 - 80%
+    a_b_cent[8]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 80 - 90%
+    a_b_cent[9]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // >90%
     for(int i=0;i<10;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
@@ -486,6 +487,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
     hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
     hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
+    if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
+    mEvtcut[2]++; // 2. Pile Up event cut
+
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
@@ -793,8 +797,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_runId->GetYaxis()->SetTitle("# of events");
   hist_eventCuts->SetBinContent(1,mEvtcut[0]);
   hist_eventCuts->SetBinContent(2,mEvtcut[1]);
+  hist_eventCuts->SetBinContent(3,mEvtcut[2]);
   hist_eventCuts->GetXaxis()->SetBinLabel(1,"no cuts");
   hist_eventCuts->GetXaxis()->SetBinLabel(2,"Vertex cuts");
+  hist_eventCuts->GetXaxis()->SetBinLabel(2,"Pile up/lowMult cut");
   hist_trackCuts->GetXaxis()->SetBinLabel(1,"no cuts");
   hist_trackCuts->GetXaxis()->SetBinLabel(2,"picoTrack");
   hist_trackCuts->GetXaxis()->SetBinLabel(3,"primary track");
