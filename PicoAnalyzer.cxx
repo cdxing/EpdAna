@@ -63,7 +63,7 @@
 
 // Define global constants
 // const Int_t daynumber     = 6;
-const Int_t _Ncentralities = 10;
+const Int_t _Ncentralities = 9;
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Double_t _massPion     = 0.13957061;
@@ -399,7 +399,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t grefMult = event->grefMult();
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
-    int nGoodTracks = 0;
     int FXTmult = 0;
 
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
@@ -446,7 +445,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
       if(b_bad_track) continue;
       mTrkcut[3]++; // 3. Bad track cuts
-      nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
       vGoodTracks.push_back(picoTrack);
       // --------------- QA plots after major track cuts ----------------------
       hist_px_py_cut->Fill(d_px,d_py);
@@ -470,19 +468,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
     Int_t cenSection[9]={3,7,14,24,38,57,83,118,141,196};
-    bool b_pileup   = (nGoodTracks > 195);
-    bool b_low_mult = (nGoodTracks < 3);
-    a_b_cent[0]     = (nGoodTracks >= cenSection[8] && nGoodTracks < cenSection[9]); // 0 - 10%
-    a_b_cent[1]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 10 - 20%
-    a_b_cent[2]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 20 - 30%
-    a_b_cent[3]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 30 - 40%
-    a_b_cent[4]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 40 - 50%
-    a_b_cent[5]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 50 - 60%
-    a_b_cent[6]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 60 - 70%
-    a_b_cent[7]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 70 - 80%
-    a_b_cent[8]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 80 - 90%
-    a_b_cent[9]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // >90%
-    for(int i=0;i<10;i++){
+    bool b_pileup   = (FXTmult > 195);
+    bool b_low_mult = (FXTmult < 3);
+    a_b_cent[0]     = (FXTmult >= cenSection[8] && FXTmult < cenSection[9]); // 0 - 5%
+    a_b_cent[1]     = (FXTmult >= cenSection[7] && FXTmult < cenSection[8]); // 5 - 10%
+    a_b_cent[2]     = (FXTmult >= cenSection[6] && FXTmult < cenSection[7]); // 10 - 20%
+    a_b_cent[3]     = (FXTmult >= cenSection[5] && FXTmult < cenSection[6]); // 20 - 30%
+    a_b_cent[4]     = (FXTmult >= cenSection[4]  && FXTmult < cenSection[5]); // 30 - 40%
+    a_b_cent[5]     = (FXTmult >= cenSection[3]  && FXTmult < cenSection[4]); // 40 - 50%
+    a_b_cent[6]     = (FXTmult >= cenSection[2]  && FXTmult < cenSection[3]); // 50 - 60%
+    a_b_cent[7]     = (FXTmult >= cenSection[1]  && FXTmult < cenSection[2]); // 60 - 70%
+    a_b_cent[8]     = (FXTmult >= cenSection[0]  && FXTmult < cenSection[1]); // 70 - 80%
+    for(int i=0;i<9;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
     hist_cent->Fill(centrality);
