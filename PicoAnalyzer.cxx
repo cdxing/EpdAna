@@ -467,7 +467,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
-    Int_t cenSection[9]={3,7,14,24,38,57,83,118,141,196};
+    Int_t cenSection[10]={3,7,14,24,38,57,83,118,141,196};
     bool b_pileup   = (FXTmult > 195);
     bool b_low_mult = (FXTmult < 3);
     a_b_cent[0]     = (FXTmult >= cenSection[8] && FXTmult < cenSection[9]); // 0 - 5%
