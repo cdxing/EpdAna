@@ -400,6 +400,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
+    int FXTmult = 0;
+
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
       StPicoTrack *picoTrack = dst->track(iTrk);
@@ -422,6 +424,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
+      if(!picoTrack->isPrimary()) continue;
+      mTrkcut[2]++; // 2. Primary track cut
+      FXTmult++; // all primary tracks
       hist_px_py->Fill(d_px,d_py);
       hist_pz   ->Fill(d_pz);
       hist_pt   ->Fill(d_pT);
@@ -434,8 +439,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_ndEdx->Fill(picoTrack->nHitsDedx());
       hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
 
-      if(!picoTrack->isPrimary()) continue;
-      mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
       bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
       bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
@@ -465,10 +468,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
-    bool a_b_cent[10]={false};
-    Int_t cenSection[10]={10,17,28,41,57,77,100,127,160,245};
-    bool b_pileup   = (nGoodTracks > 245);
-    bool b_low_mult = (nGoodTracks < 5);
+    bool a_b_cent[9]={false};
+    Int_t cenSection[9]={3,7,14,24,38,57,83,118,141,196};
+    bool b_pileup   = (nGoodTracks > 195);
+    bool b_low_mult = (nGoodTracks < 3);
     a_b_cent[0]     = (nGoodTracks >= cenSection[8] && nGoodTracks < cenSection[9]); // 0 - 10%
     a_b_cent[1]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 10 - 20%
     a_b_cent[2]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 20 - 30%
@@ -483,10 +486,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(a_b_cent[i]) centrality = i+1;
     }
     hist_cent->Fill(centrality);
-    hist_realTrackMult->Fill(nGoodTracks);
-    hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
-    hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
-    hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
+    hist_realTrackMult->Fill(FXTmult);
+    hist_realTrackMult_refmult->Fill(FXTmult,refMult);
+    hist_realTrackMult_grefmult->Fill(FXTmult,grefMult);
+    hist_realTrackMult_tofmult->Fill(FXTmult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
 
