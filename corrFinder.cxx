@@ -93,12 +93,12 @@ int corrFinder(){
     c1[i] = new TCanvas(Form("c1_%d",i),Form("Event Plane Resolutions %d",i+1),200,10,700,500);
     c1[i]->GetFrame()->SetFillColor(21);
     c1[i]->GetFrame()->SetBorderSize(12);
-    c1[i]->DrawFrame(0.5, 0, 10.5, 0.6);
+    c1[i]->DrawFrame(0., 0.01, 100., 0.8);
     legend[i] = new TLegend(0.1,0.7,0.48,0.9);
   }
   const Int_t n = _Ncentralities;
-  Double_t x[n]  = {1,2,3,4,5,6,7,8,9,10};
-  Double_t ex[n] = {0};
+  Double_t x[n]  = {5,15,25,35,45,55,65,75,85,95};
+  Double_t ex[n] = {5,5,5,5,5,5,5,5,5,5};
   Double_t y1_1[n]  = {0,0,0,0,0,0,0,0,0,0};
   Double_t y1_2[n]  = {0,0,0,0,0,0,0,0,0,0};
   Double_t y1_3[n]  = {0,0,0,0,0,0,0,0,0,0};
@@ -257,7 +257,7 @@ int corrFinder(){
     y5_3[j]=ep5Reso[2][j];
     ey5_3[j]=ep5Err[2][j];
   }
-  ey3_1[5]=0;
+  // ey3_1[5]=0;
   gr1[0] = new TGraphErrors(n,x,y1_1,ex,ey1_1);
   gr1[0]->SetTitle("EPD sub1 event plane ");
   gr1[0]->SetMarkerColor(1);
