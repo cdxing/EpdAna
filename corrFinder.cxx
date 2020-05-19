@@ -93,7 +93,7 @@ int corrFinder(){
     c1[i] = new TCanvas(Form("c1_%d",i),Form("Event Plane Resolutions %d",i+1),200,10,700,500);
     c1[i]->GetFrame()->SetFillColor(21);
     c1[i]->GetFrame()->SetBorderSize(12);
-    c1[i]->DrawFrame(0., 0.01, 100., 0.8);
+    c1[i]->DrawFrame(0., 0.01, 100., 0.9);
     legend[i] = new TLegend(0.1,0.7,0.48,0.9);
   }
   const Int_t n = _Ncentralities;
