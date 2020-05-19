@@ -371,7 +371,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        if(triggerIDs[i] == 620052) b_bad_trig = false; // bbce_tofmult1 3.0 GeV
       }
 
     // --------------------------- Vertex cut -----------------------------------
@@ -729,9 +729,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
       if(particleType==-999) continue; // No particle identified
-      if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==1||particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
+      if(particleType==0) rapWeight= rapProton + 1.045; // y_CM = -1.045, COM rapidity
+      if(particleType==1||particleType==2) rapWeight= rapKaon + 1.045; // y_CM = -1.045, COM rapidity
+      if(particleType==3||particleType==4) rapWeight= rapPion + 1.045;// y_CM = -1.045, COM rapidity
       if(rapWeight!=0) NTpcAll++;
       Double_t Cosine = cos(phi*(Double_t)EpOrder);
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
