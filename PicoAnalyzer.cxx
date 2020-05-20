@@ -564,7 +564,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         	  PsiEastShifted[EventTypeId] +=
         	    2.0*(cosAve*sin(tmp*PsiEastRaw[EventTypeId]) - sinAve*cos(tmp*PsiEastRaw[EventTypeId]))/tmp;
         	}
-	         double AngleWrapAround = 2.0*pi/(double)EpOrder;
+	         double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
   	        if (PsiEastShifted[EventTypeId]<0) PsiEastShifted[EventTypeId] += AngleWrapAround;
   	         else if (PsiEastShifted[EventTypeId]>AngleWrapAround) PsiEastShifted[EventTypeId] -= AngleWrapAround;
         }
@@ -774,7 +774,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         	PsiTpcAllShifted +=
         	  2.0*(cosAve*sin(tmp*PsiTpcAllRaw) - sinAve*cos(tmp*PsiTpcAllRaw))/tmp;
       }
-	       double AngleWrapAround = 2.0*pi/(double)EpOrder;
+	       double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
   	      if (PsiTpcAllShifted<0) PsiTpcAllShifted += AngleWrapAround;
   	       else if (PsiTpcAllShifted>AngleWrapAround) PsiTpcAllShifted -= AngleWrapAround;
     }
