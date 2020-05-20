@@ -607,6 +607,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t pt,pz,eta,ptot,phi;
       Double_t mass2 =-999.0,tofBeta =-999.0;
       Double_t rapWeight = 0.0; // Weight based on rapidity
+      Double_t ptWeight = 0.0; // Weight based on transverse momentum
+
       charge = picoTrack->charge();
       pt     = picoTrack->pPt();
       pz     = picoTrack->pMom().Z();
@@ -728,15 +730,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_mass_pionMinus->Fill(charge*ptot,mass2);
         }
       }
-      if(particleType==-999) continue; // No particle identified
-      if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==1||particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
-      if(rapWeight!=0) NTpcAll++;
+      // if(particleType==-999) continue; // No particle identified
+      // if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
+      // if(particleType==1||particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
+      // if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
+      // if(rapWeight!=0) NTpcAll++;
+      ptWeight = pt; // 2nd order event plane weight
+      if(ptWeight<0.2) continue;
+      NTpcAll++;
+
       Double_t Cosine = cos(phi*(Double_t)EpOrder);
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
-      QrawTpcAll[0] += rapWeight * Cosine;
-      QrawTpcAll[1] += rapWeight * Sine;
+      // QrawTpcAll[0] += rapWeight * Cosine;
+      // QrawTpcAll[1] += rapWeight * Sine;
+      QrawTpcAll[0] += ptWeight * Cosine; // 2nd order event plane calculation
+      QrawTpcAll[1] += ptWeight * Sine;
+
     } // TPC Q-vector loop
     // Track multiplicity for each particle
     hist_trackmult_proton->Fill(nProtons);
