@@ -576,7 +576,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int j=i+1;j<4;j++){
           pairs++;
           if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
-            profile_correlation_epd_east[pairs]->Fill(centrality,TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] )));
+            profile_correlation_epd_east[pairs]->Fill(centrality,TMath::Cos((double)EpOrder * (PsiEastShifted[i+1] - PsiEastShifted[j+1] )));
             correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
           }
         }
@@ -759,8 +759,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if(NTpcAll<5) continue; // at least 5 tracks to get TPC event plane
     if(QrawTpcAll[0] || QrawTpcAll[1] ){ // Qx, Qy cannot be 0 at the same time
       PsiTpcAllRaw = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[1],QrawTpcAll[0]);
-      if(PsiTpcAllRaw < 0.0                             ) PsiTpcAllRaw += (1. / EpOrder) * 2.0*TMath::Pi();
-      if(PsiTpcAllRaw > (1. / EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw -= (1. / EpOrder) * 2.0*TMath::Pi();
+      if(PsiTpcAllRaw < 0.0                             )         PsiTpcAllRaw += (1. / (double)EpOrder) * 2.0*TMath::Pi();
+      if(PsiTpcAllRaw > (1. / (double)EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw -= (1. / (double)EpOrder) * 2.0*TMath::Pi();
       if(PsiTpcAllRaw!=-999.0) hist_tpc_all_psi_raw->Fill(PsiTpcAllRaw);
     }
     // --------------------------- " Do the SHIFT thing (TPC) " ------------------------
@@ -782,7 +782,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
-        profile_correlation_epd_tpc[i]->Fill(centrality,TMath::Cos(EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted  - TMath::Pi() )));
+        profile_correlation_epd_tpc[i]->Fill(centrality,TMath::Cos((double)EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted  - TMath::Pi()/(double)EpOrder )));
         correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted,PsiEastShifted[i+1]);
       }
     }
