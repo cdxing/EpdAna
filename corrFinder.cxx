@@ -20,7 +20,7 @@ Double_t resoErr(Double_t corrAB, Double_t corrAC, Double_t corrBC,
 Double_t resoVal(Double_t corrAB, Double_t corrAC, Double_t corrBC);
 const int _Ncentralities = 10;
 int corrFinder(){
-  TFile* inFile = new TFile("corrINPUT.root","READ");
+  TFile* inFile = new TFile("corrINPUT_26p5_2ndEp.root","READ");
 
   TProfile *profile_correlation_epd_east[6], *profile_correlation_epd_tpc[4];
   Double_t binContentEpd[6][_Ncentralities];
@@ -69,7 +69,7 @@ int corrFinder(){
   }
   for(int i=0;i<4;i++){
     for(int j=0;j<_Ncentralities;j++){
-      if(binContentEpd[i][j]>=0){ // make sure bin content is not negative to sqrt
+      if(binContentTpc[i][j]>0){ // make sure bin content is not negative to sqrt
         binErrorTpc[i][j] *=1./(2.*sqrt(binContentTpc[i][j])); // Error proagation;
         std::cout<<Form("profile_correlation_epd%d_tpc binNumber%d sqrt binError: ",i+1,j+1) << binErrorTpc[i][j];
         binContentTpc[i][j]=sqrt(binContentTpc[i][j]);
@@ -85,7 +85,7 @@ int corrFinder(){
   }
 
   // ------------------ Fill into historgrams ----------------------------------
-  TFile* outFile = new TFile("corrResult.root","RECREATE");
+  TFile* outFile = new TFile("corrResult_26p5_2ndEp.root","RECREATE");
   TH1D *hist_correlation_epd_east[6], *hist_correlation_epd_tpc[4];
   TCanvas* c1[5];
   TLegend *legend[5];
@@ -93,7 +93,7 @@ int corrFinder(){
     c1[i] = new TCanvas(Form("c1_%d",i),Form("Event Plane Resolutions %d",i+1),200,10,700,500);
     c1[i]->GetFrame()->SetFillColor(21);
     c1[i]->GetFrame()->SetBorderSize(12);
-    c1[i]->DrawFrame(0., 0.01, 100., 0.9);
+    c1[i]->DrawFrame(0., 0.01, 100., 0.6);
     legend[i] = new TLegend(0.1,0.7,0.48,0.9);
   }
   const Int_t n = _Ncentralities;
