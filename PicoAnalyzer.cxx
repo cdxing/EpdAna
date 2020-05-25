@@ -63,7 +63,7 @@
 
 // Define global constants
 // const Int_t daynumber     = 6;
-const Int_t _Ncentralities = 10;
+const Int_t _Ncentralities = 9;
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Double_t _massPion     = 0.13957061;
@@ -465,21 +465,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
-    bool a_b_cent[10]={false};
-    Int_t cenSection[10]={10,17,28,41,57,77,100,127,160,245};
+    bool a_b_cent[9]={false};
+    Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
     bool b_pileup   = (nGoodTracks > 245);
     bool b_low_mult = (nGoodTracks < 5);
-    a_b_cent[0]     = (nGoodTracks >= cenSection[8] && nGoodTracks < cenSection[9]); // 0 - 10%
-    a_b_cent[1]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 10 - 20%
-    a_b_cent[2]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 20 - 30%
-    a_b_cent[3]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 30 - 40%
-    a_b_cent[4]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 40 - 50%
-    a_b_cent[5]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 50 - 60%
-    a_b_cent[6]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 60 - 70%
-    a_b_cent[7]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 70 - 80%
-    a_b_cent[8]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 80 - 90%
-    a_b_cent[9]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // >90%
-    for(int i=0;i<10;i++){
+    a_b_cent[0]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 0 - 5%
+    a_b_cent[1]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 5 - 10%
+    a_b_cent[2]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 10 - 20%
+    a_b_cent[3]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 20 - 30%
+    a_b_cent[4]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 30 - 40%
+    a_b_cent[5]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 40 - 50%
+    a_b_cent[6]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 50 - 60%
+    a_b_cent[7]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 60 - 70%
+    a_b_cent[8]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // 70 - 80%
+    for(int i=0;i<_Ncentralities;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
     hist_cent->Fill(centrality);
@@ -773,7 +772,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
-        profile_correlation_epd_tpc[i]->Fill(centrality,TMath::Cos((double)EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted - TMath::Pi()/(double)EpOrder )));
+        profile_correlation_epd_tpc[i]->Fill(centrality,TMath::Cos((double)EpOrder * (PsiEastShifted[i+1] - PsiTpcAllShifted /*- TMath::Pi()/(double)EpOrder*/ )));
         correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted,PsiEastShifted[i+1]);
       }
     }

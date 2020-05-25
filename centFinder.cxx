@@ -5,7 +5,7 @@
 #include "TH1.h"
 #include "TMath.h"
 
-int centFinder(Int_t Ncentralities = 10,
+int centFinder(Int_t Ncentralities = 16,
                Int_t pileUp = 245,
                Int_t lowMult = 5){
   TFile* inFile = new TFile("./plots/centAllEvents.root","READ");
@@ -16,7 +16,7 @@ int centFinder(Int_t Ncentralities = 10,
     binCenter[i]=0;
   }
   // Int_t binNumber[Ncentralities];
-  Int_t sections[Ncentralities];
+  Double_t sections[Ncentralities];
   Int_t Nentries = 0;
   Int_t Ncounts = 0;
   TLine* lines[Ncentralities];
@@ -24,7 +24,7 @@ int centFinder(Int_t Ncentralities = 10,
     Nentries+=(Int_t)h1->GetBinContent(i);
   }
   for(Int_t cent =0; cent<Ncentralities;cent++){
-    sections[cent] = (cent+1)*Nentries/Ncentralities;
+    sections[cent] = (Double_t)(cent+1)*Nentries/Ncentralities;
   }
 
   for(Int_t i=(Int_t)h1->FindBin(lowMult);i<=(Int_t)h1->FindBin(pileUp);i++){
