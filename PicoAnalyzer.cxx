@@ -533,8 +533,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double Sine   = sin(phi*(double)EpOrder);
         QrawEastSide[EventTypeId][0] += etaWeight * TileWeight * Cosine;
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
-        h2_TtVsPp[EventTypeId]->Fill(PP,TT);
-        h2_RowVsPp[EventTypeId]->Fill(PP,ring);
+        if(etaWeight==1){
+          h2_TtVsPp[EventTypeId]->Fill(PP,TT);
+          h2_RowVsPp[EventTypeId]->Fill(PP,ring);
+        }
       }
     } // loop over EPD hits
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
