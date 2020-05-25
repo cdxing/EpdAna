@@ -174,8 +174,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
-  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[5];
-  TH1D *hist_Epd_east_psi_raw_ini[5],*hist_Epd_east_psi_Shifted_ini[5];
+  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
+  TH1D *hist_Epd_east_psi_raw_ini[_nEventTypeBins],*hist_Epd_east_psi_Shifted_ini[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
     hist_Epd_east_psi_raw_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
@@ -184,6 +184,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_RowVsPp[_nEventTypeBins];
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+    h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,31,-0.5,31.5);
+    h2_RowVsPp[EventTypeId] = new TH1D(Form("h2_RowVsPp_%d",EventTypeId),Form("row vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,16,0.5,16.5);
+  }
   // --------------------- TPC event plane QA histograms ----------------------------------
   TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *h2_dEdxVspTq = new TH2D("h2_dEdxVspTq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
@@ -528,6 +533,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double Sine   = sin(phi*(double)EpOrder);
         QrawEastSide[EventTypeId][0] += etaWeight * TileWeight * Cosine;
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
+        h2_TtVsPp[EventTypeId]->Fill(PP,TT);
+        h2_RowVsPp[EventTypeId]->Fill(PP,ring);
       }
     } // loop over EPD hits
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
@@ -881,6 +888,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
   hist_nMip->GetXaxis()->SetTitle("nMIP");
   hist_nMip->GetYaxis()->SetTitle("# of hits");
+  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+    h2_TtVsPp[EventTypeId]->GetXaxis()->SetTitle("Supersector");
+    h2_TtVsPp[EventTypeId]->GetYaxis()->SetTitle("Tile");
+    h2_RowVsPp[EventTypeId]->GetXaxis()->SetTitle("Supersector");
+    h2_RowVsPp[EventTypeId]->GetYaxis()->SetTitle("Row");
+  }
   h2_dEdxVsPq->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   h2_dEdxVsPq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
   h2_dEdxVspTq->GetXaxis()->SetTitle("q*|pT| (GeV/c)");
