@@ -187,7 +187,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *h2_TtVsPp[_nEventTypeBins], *h2_RowVsPp[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,31,-0.5,31.5);
-    h2_RowVsPp[EventTypeId] = new TH1D(Form("h2_RowVsPp_%d",EventTypeId),Form("row vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,16,0.5,16.5);
+    h2_RowVsPp[EventTypeId] = new TH2D(Form("h2_RowVsPp_%d",EventTypeId),Form("row vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,16,0.5,16.5);
   }
   // --------------------- TPC event plane QA histograms ----------------------------------
   TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
