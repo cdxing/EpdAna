@@ -184,10 +184,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
-  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_RowVsPp[_nEventTypeBins];
+  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
-    h2_RowVsPp[EventTypeId] = new TH2D(Form("h2_RowVsPp_%d",EventTypeId),Form("row vs Supersector in #eta range %d",EventTypeId),12,0.5,12.5,16,0.5,16.5);
+    h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
+    h2_TtVsPpNmip[EventTypeId] = new TH2D(Form("h2_TtVsPpNmip_%d",EventTypeId),Form("nMIP in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
   }
   // --------------------- TPC event plane QA histograms ----------------------------------
   TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
@@ -535,7 +535,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
         if(etaWeight==1){
           h2_TtVsPp[EventTypeId]->Fill(PP,TT);
-          h2_RowVsPp[EventTypeId]->Fill(PP,ring);
+          h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,nMip);
         }
       }
     } // loop over EPD hits
@@ -893,8 +893,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     h2_TtVsPp[EventTypeId]->GetXaxis()->SetTitle("Supersector");
     h2_TtVsPp[EventTypeId]->GetYaxis()->SetTitle("Tile");
-    h2_RowVsPp[EventTypeId]->GetXaxis()->SetTitle("Supersector");
-    h2_RowVsPp[EventTypeId]->GetYaxis()->SetTitle("Row");
+    h2_TtVsPpNmip[EventTypeId]->GetXaxis()->SetTitle("Supersector");
+    h2_TtVsPpNmip[EventTypeId]->GetYaxis()->SetTitle("Tile");
   }
   h2_dEdxVsPq->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   h2_dEdxVsPq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
