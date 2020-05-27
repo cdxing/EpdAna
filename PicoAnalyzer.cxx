@@ -540,7 +540,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // std::cout<<"Phi bin is : "<<phiBin<<std::endl;
 
           mPhiWeightOutput[EventTypeId]->Fill(phi,TileWeight);
-          for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/12.0-0.1,TileWeight/12.0);
+          for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/6.0-0.1,TileWeight/12.0);
         }
       }
       //--------------------------------
