@@ -558,7 +558,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if (mPhiWeightInput[EventTypeId]){
           int phiBin = (int)mPhiWeightInput[EventTypeId]->GetXaxis()->FindBin(phi);
           PhiWeightedTileWeight /= mPhiWeightInput[EventTypeId]->GetBinContent(phiBin); // Phi weighting :https://drupal.star.bnl.gov/STAR/blog/lisa/phi-weighting-and-optimizing-ring-weights-auau-27-gev
-          // std::cout<<"Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
+          std::cout<<"Tile weight: "<< TileWeight ;
+          std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
         }
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
