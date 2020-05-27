@@ -533,12 +533,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // Obviously, do this BEFORE phi weighting!
       //---------------------------------
       for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        // Int_t phiBin = (Int_t)mPhiWeightOutput[EventTypeId]->GetXaxis()->FindBin((Double_t)phi*6.0/TMath::Pi());
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight==1){
-          // std::cout<<"Phi bin is : "<<phiBin<<std::endl;
-
           mPhiWeightOutput[EventTypeId]->Fill(phi,TileWeight);
           for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/6.0-0.1,TileWeight/12.0);
         }
@@ -1060,6 +1057,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   outputFile->cd();
   wt.Write();
   outputFile->Write();
+  for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+    mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
+    delete mPhiAveraged[EventTypeId];
+  }
   mCorrectionOutputFile->Write();
 }
 
