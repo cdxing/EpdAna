@@ -277,7 +277,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
       mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
       mPhiWeightInput[EventTypeId] = (TH1D*)mCorrectionInputFile->Get(Form("PhiWeight%d",EventTypeId));
-      mPhiWeightInput[EventTypeId]->Scale((double)12.0/(double)(mPhiWeightInput[EventTypeId]->GetEntries()));
+      mPhiWeightInput[EventTypeId]->Scale((double)12.0/((double)(mPhiWeightInput[EventTypeId]->GetEntries())));
     }
     mTpcShiftInput_sin = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_sin");
     mTpcShiftInput_cos = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_cos");
