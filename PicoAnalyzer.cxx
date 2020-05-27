@@ -287,8 +287,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,12.0); // bins are Phi bin
-    mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,12.0); // just for normalization. discard after use
+    mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
+    mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
@@ -533,14 +533,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // Obviously, do this BEFORE phi weighting!
       //---------------------------------
       for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        Int_t phiBin = (Int_t)mPhiWeightOutput[EventTypeId]->GetXaxis()->FindBin((Double_t)phi*6.0/TMath::Pi());
+        // Int_t phiBin = (Int_t)mPhiWeightOutput[EventTypeId]->GetXaxis()->FindBin((Double_t)phi*6.0/TMath::Pi());
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight==1){
-          std::cout<<"Phi bin is : "<<phiBin<<std::endl;
+          // std::cout<<"Phi bin is : "<<phiBin<<std::endl;
 
-          mPhiWeightOutput[EventTypeId]->Fill(phiBin,TileWeight);
-          for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill(bin,TileWeight/12.0);
+          mPhiWeightOutput[EventTypeId]->Fill(phi,TileWeight);
+          for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/12.0-0.1,TileWeight/12.0);
         }
       }
       //--------------------------------
