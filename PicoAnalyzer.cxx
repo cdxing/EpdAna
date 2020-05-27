@@ -184,6 +184,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
+  TH1D *hist_Epdphi = new TH1D("hist_Epdphi","epd phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
   TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -535,6 +536,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       hist_Epdeta->Fill(eta);
+      hist_Epdphi->Fill(phi);
+
       //---------------------------------
       // fill Phi Weight histograms to be used in next iteration (if desired)
       // Obviously, do this BEFORE phi weighting!
@@ -931,6 +934,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   hist_Epdeta->GetXaxis()->SetTitle("#eta");
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
+  hist_Epdphi->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_Epdphi->GetYaxis()->SetTitle("# of hits");
   hist_nMip->GetXaxis()->SetTitle("nMIP");
   hist_nMip->GetYaxis()->SetTitle("# of hits");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
