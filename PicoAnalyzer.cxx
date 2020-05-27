@@ -534,10 +534,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //---------------------------------
       for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
         Int_t phiBin = (Int_t)mPhiWeightOutput[EventTypeId]->GetXaxis()->FindBin(phi);
-        std::cout<<"Phi bin is : "<<phiBin<<std::endl;
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         if(etaWeight==1){
+          std::cout<<"Phi bin is : "<<phiBin<<std::endl;
+
           mPhiWeightOutput[EventTypeId]->Fill(phiBin,TileWeight);
           for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill(bin,TileWeight/12.0);
         }
