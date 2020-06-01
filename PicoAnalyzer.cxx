@@ -554,7 +554,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       hist_Epdeta->Fill(eta);
       hist_Epdphi->Fill(phi);
-      profile2D_PpVsEta->Fill(PP,eta,TileWeight);
+      profile2D_PpVsEta->Fill(eta,PP,TileWeight);
       //---------------------------------
       // fill Phi Weight histograms to be used in next iteration (if desired)
       // Obviously, do this BEFORE phi weighting!
