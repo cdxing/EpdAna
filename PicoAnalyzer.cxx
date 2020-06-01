@@ -183,8 +183,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_Epd_east_psi_Shifted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",EventTypeId),Form("EPD east EP (Weighted & Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
   }
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
-  TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
+  TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",512,-6.5,0.5);
   TH1D *hist_Epdphi = new TH1D("hist_Epdphi","epd phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TProfile2D *profile2D_PpVsEta = new TProfile2D("profile2D_PpVsEta","mean tile weight vs. epd #eta in each supersector",512,-6.5,0.5,12,0.5,12.5,0.3,3.0,"");
+  profile2D_PpVsEta->Sumw2();
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
   TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -253,6 +255,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
+  TProfile *profile_v1VsEtaTpcOnly = new TProfile("profile_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
+  ,64,-3.0,3.0,"");
+  TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
 
@@ -292,6 +297,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mTpcShiftOutput_sin, *mTpcShiftOutput_cos; // TPC EP output
   TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
+  TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
+          80,-7.0,3.0, // total eta range
+          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+          -1.0,1.0,"");//Use EPD-1 as primary event plane
+  profile2D_v1VsCentVsEta->Sumw2();
+  TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
+  for(int cent=0; cent<_Ncentralities; cent++){
+    profile_v1VsEta[EventTypeId]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),80,-7.0,3.0,-1.0,1.0,"");
+    profile_v1VsEta[EventTypeId]->Sumw2();
+  }
+
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
     mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
@@ -537,7 +553,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       hist_Epdeta->Fill(eta);
       hist_Epdphi->Fill(phi);
-
+      profile2D_PpVsEta->Fill(PP,eta,TileWeight);
       //---------------------------------
       // fill Phi Weight histograms to be used in next iteration (if desired)
       // Obviously, do this BEFORE phi weighting!
@@ -607,7 +623,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
-        PsiEastShifted[EventTypeId] = PsiEastPhiWeighted[EventTypeId];
+        PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId]; // use raw EP rather than Phi weighing EP
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
           for (int i=1; i<=_EpTermsMaxIni; i++){
@@ -615,7 +631,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,centrality);
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,centrality);
         	  PsiEastShifted[EventTypeId] +=
-        	    2.0*(cosAve*sin(tmp*PsiEastPhiWeighted[EventTypeId]) - sinAve*cos(tmp*PsiEastPhiWeighted[EventTypeId]))/tmp;
+        	    2.0*(cosAve*sin(tmp*PsiEastRaw[EventTypeId]) - sinAve*cos(tmp*PsiEastRaw[EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
         	}
 	         double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
   	        if (PsiEastShifted[EventTypeId]<0) PsiEastShifted[EventTypeId] += AngleWrapAround;
@@ -634,14 +650,45 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
       }
+      //---------------------------- Fill the directed flow from EPD (forward) region -----
+      for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
+        StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
+        int tileId,ring,TT,PP,EW,ADC;
+        float nMip;
+        tileId = epdHit->id();
+        EW = (tileId<0)?0:1;
+        if(EW!=0) continue; // EPD east event plane needed
+        ring = epdHit->row();
+        TT = epdHit->tile();
+        PP = epdHit->position();
+        ADC = epdHit->adc();
+        nMip = epdHit->nMIP();   // malisa 20feb2019 - I have finally made the transition from ADC (next line) to truly nMip, now that calibrations are done.
+        //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
+        if (nMip<mThresh) continue;
+        double TileWeight = (nMip<mMax)?nMip:mMax;
+        TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
+        double phi = StraightLine.Phi();
+        double eta = StraightLine.Eta();
+        if(phi < 0.0            ) phi += 2.0*TMath::Pi();
+        if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
+
+        //--------------------------------
+        // Fill the directed flow into the TProfile2D and TProfile
+        //--------------------------------
+        if(PsiEastRaw[EventTypeId]!=-999.0){
+          profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
+          profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+        };
+      } // loop over EPD hits
+
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=_EpTermsMaxIni; i++){
       for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
         if(PsiEastRaw[EventTypeId]==-999.0) continue;
-        mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastPhiWeighted[EventTypeId]));
-        mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastPhiWeighted[EventTypeId]));
+        mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRaw[EventTypeId]));// use raw EP rather than Phi weighing EP
+        mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRaw[EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
     // (8) ================ TPC event plane : use identedfied particles ====================================
@@ -790,6 +837,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
       QrawTpcAll[0] += rapWeight * Cosine;
       QrawTpcAll[1] += rapWeight * Sine;
+      // ------------- Fill histograms for the determination of TPC eta range -----
+      if(PsiEastShifted[1]!=-999.0) profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+      hist_nTracksVsEta->Fill(eta);
     } // TPC Q-vector loop
     // Track multiplicity for each particle
     hist_trackmult_proton->Fill(nProtons);
@@ -823,6 +873,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   	       else if (PsiTpcAllShifted>AngleWrapAround) PsiTpcAllShifted -= AngleWrapAround;
     }
     hist_tpc_all_psi_shifted->Fill(PsiTpcAllShifted);
+    // ------------------- Fill the eta weighting histograms --------------------------
+    profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
+    profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
@@ -937,6 +990,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
   hist_Epdphi->GetXaxis()->SetTitle("#phi [Radian]");
   hist_Epdphi->GetYaxis()->SetTitle("# of hits");
+  profile2D_PpVsEta->GetXaxis()->SetTitle("#eta");
+  profile2D_PpVsEta->GetYaxis()->SetTitle("Supersector");
   hist_nMip->GetXaxis()->SetTitle("nMIP");
   hist_nMip->GetYaxis()->SetTitle("# of hits");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -1063,6 +1118,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_eta_pionMinus->GetYaxis()->SetTitle("# of tracks");
   hist_pt_pionMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_nTracksVsEta->GetXaxis()->SetTitle("#eta");
+  hist_nTracksVsEta->GetYaxis()->SetTitle("# of tracks");
+  profile_v1VsEtaTpcOnly->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  profile_v1VsEtaTpcOnly->GetYaxis()->SetTitle("< (y - y_{CM})*cos (#phi_{Track} - #psi_{1}^{EPD-1}) >");
   pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
