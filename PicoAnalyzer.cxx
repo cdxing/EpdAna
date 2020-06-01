@@ -263,6 +263,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *profile_v1VsEtaTpcOnly = new TProfile("profile_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
   ,64,-3.0,3.0,"");
   profile_v1VsEtaTpcOnly->Sumw2();
+  std::cout << "test 1.3" << std::endl;
+
   TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
@@ -293,6 +295,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mTpcShiftInput_sin = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_sin");
     mTpcShiftInput_cos = (TProfile2D*)mCorrectionInputFile->Get("mTpcShiftOutput_cos");
   }
+  std::cout << "test 1.4" << std::endl;
 
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpOutputNameIni = "EpCorrection_OUTPUT_";
@@ -307,13 +310,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           80,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0,"");//Use EPD-1 as primary event plane
+  std::cout << "test 1.5" << std::endl;
   profile2D_v1VsCentVsEta->Sumw2();
   TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
   for(int cent=0; cent<_Ncentralities; cent++){
     profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),80,-7.0,3.0,-1.0,1.0,"");
     profile_v1VsEta[cent]->Sumw2();
   }
-
+  std::cout << "test 1.6" << std::endl;
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
     mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
