@@ -130,6 +130,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
   std::cout << "EpdHit Branch returned found= " << found << std::endl; // ? What is the EpdHit branch ? Check it on StRoot.
   mPicoDst->SetBranchAddress("EpdHit",&mEpdHits);
+  std::cout << "test 1" << std::endl;
   // (2) ================ Output files and histograms ==========================
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
@@ -356,6 +357,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
+  std::cout << "test 2" << std::endl;
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
@@ -376,6 +378,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
+    std::cout << "test 3" << std::endl;
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
@@ -429,6 +432,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  refMult = event->refMult(); // refMult
     Int_t grefMult = event->grefMult();
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
+    std::cout << "test 4" << std::endl;
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
@@ -494,6 +498,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){ // fill the tracks after cut
       hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
     }
+    std::cout << "test 5" << std::endl;
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
@@ -520,6 +525,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
 
+    std::cout << "test 6" << std::endl;
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
@@ -691,6 +697,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRaw[EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
+    std::cout << "test 7" << std::endl;
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Define TPC EP parameters
     Int_t NTpcAll = 0;
