@@ -186,8 +186,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",512,-6.5,0.5);
   TH1D *hist_Epdphi = new TH1D("hist_Epdphi","epd phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  std::cout << "test 1.1" << std::endl;
+
   TProfile2D *profile2D_PpVsEta = new TProfile2D("profile2D_PpVsEta","mean tile weight vs. epd #eta in each supersector",512,-6.5,0.5,12,0.5,12.5,0.3,3.0,"");
   profile2D_PpVsEta->Sumw2();
+  std::cout << "test 1.2" << std::endl;
+
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
   TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -258,6 +262,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // -------------------------- TPC event planes ----------------------------------
   TProfile *profile_v1VsEtaTpcOnly = new TProfile("profile_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
   ,64,-3.0,3.0,"");
+  profile_v1VsEtaTpcOnly->Sumw2();
   TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
