@@ -304,8 +304,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile2D_v1VsCentVsEta->Sumw2();
   TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
   for(int cent=0; cent<_Ncentralities; cent++){
-    profile_v1VsEta[EventTypeId]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),80,-7.0,3.0,-1.0,1.0,"");
-    profile_v1VsEta[EventTypeId]->Sumw2();
+    profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),80,-7.0,3.0,-1.0,1.0,"");
+    profile_v1VsEta[cent]->Sumw2();
   }
 
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -675,7 +675,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         //--------------------------------
         // Fill the directed flow into the TProfile2D and TProfile
         //--------------------------------
-        if(PsiEastRaw[EventTypeId]!=-999.0){
+        if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
           profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
           profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
         };
@@ -837,9 +837,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
       QrawTpcAll[0] += rapWeight * Cosine;
       QrawTpcAll[1] += rapWeight * Sine;
-      // ------------- Fill histograms for the determination of TPC eta range -----
-      if(PsiEastShifted[1]!=-999.0) profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
-      hist_nTracksVsEta->Fill(eta);
+      if(PsiEastShifted[1]!=-999.0){
+        // ------------- Fill histograms for the determination of TPC eta range -----
+        profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+        // ------------------- Fill the eta weighting histograms --------------------------
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
+        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+      }
+      hist_nTracksVsEta->Fill(eta);//histograms for the determination of TPC eta range
+
     } // TPC Q-vector loop
     // Track multiplicity for each particle
     hist_trackmult_proton->Fill(nProtons);
@@ -873,9 +879,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   	       else if (PsiTpcAllShifted>AngleWrapAround) PsiTpcAllShifted -= AngleWrapAround;
     }
     hist_tpc_all_psi_shifted->Fill(PsiTpcAllShifted);
-    // ------------------- Fill the eta weighting histograms --------------------------
-    profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
-    profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted!=-999.0){
