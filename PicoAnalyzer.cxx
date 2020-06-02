@@ -362,8 +362,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   std::map<int,int> mptest;
   mptest.insert(pair<int, int>(1, 40));
   mptest.insert(pair<int, int>(2, 30));
-  std::cout << "value 1: " << mptest.get(1);
-  std::cout << "value 2: " << mptest.get(2)<<std::endl;
+  std::cout << "value 1: " << mptest.at(1);
+  std::cout << "value 2: " << mptest.at(2)<<std::endl;
 
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
