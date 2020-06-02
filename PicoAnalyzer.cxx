@@ -24,6 +24,7 @@
 
 // C++ headers
 #include <iostream>
+#include <map>
 #include <stdio.h>
 
 // ROOT headers
@@ -357,6 +358,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
+  //Map test
+  std::map<int,int> mptest;
+  mptest.insert(pair<int, int>(1, 40));
+  mptest.insert(pair<int, int>(2, 30));
+  std::cout << "value 1: " << mptest.get(1);
+  std::cout << "value 2: " << mptest.get(2)<<std::endl;
+
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
