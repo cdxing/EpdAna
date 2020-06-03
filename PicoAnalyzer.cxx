@@ -761,7 +761,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // Fill the directed flow into the TProfile2D and TProfile
         //--------------------------------
         if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
-          if((double)mpPsiShiftedEpd1.find(iEpdHit)) std::cout <<"Key:  "<<iEpdHit << " Value: " <<mpPsiShiftedEpd1.at(iEpdHit) << std::endl;
+          std::map<int, double>::iterator itr2;
+          itr2=mpPsiShiftedEpd1.find(iEpdHit);
+          if(itr2!=mpPsiShiftedEpd1.size()) std::cout <<"Key:  "<<iEpdHit << " Value: " <<mpPsiShiftedEpd1.at(iEpdHit) << std::endl;
           profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
           profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
         };
