@@ -700,6 +700,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           	  PsiShiftedEpd1 +=
           	    2.0*(cosAve*sin(tmp*((double)itr1->second)) - sinAve*cos(tmp*((double)itr1->second)))/tmp; // use raw EP rather than Phi weighing EP
           	}
+            double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
+             if (PsiShiftedEpd1<0) PsiShiftedEpd1 += AngleWrapAround;
+              else if (PsiShiftedEpd1>AngleWrapAround) PsiShiftedEpd1 -= AngleWrapAround;
+
             mpPsiShiftedEpd1.insert(pair<int, double>(itr1->first, PsiShiftedEpd1));
             // std::cout << '\t' << itr1->first
             //      << '\t' << PsiShiftedEpd1 << '\n';
