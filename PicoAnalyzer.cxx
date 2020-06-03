@@ -690,7 +690,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::map<int, double>::iterator itr1;
     std::cout << "\nThe map mpPsiShiftedEpd1 is : \n";
     cout << "\tKEY\tELEMENT\n";
-    std::map<int,double> mpPsiRawEpd1;
+    std::map<int,double> mpPsiShiftedEpd1;
     for (itr1 = mpPsiRawEpd1.begin(); itr1 != mpPsiRawEpd1.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
         Double_t PsiShiftedEpd1 = (double)itr1->second ;
         if(PsiShiftedEpd1==-999.0) continue;
