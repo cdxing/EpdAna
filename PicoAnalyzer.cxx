@@ -643,14 +643,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mpQvctrEpd1.insert(pair<int, TVector2>(iEpdHit, Qvec));
       }
     } // loop over EPD hits
-    //Print out the map
+    //Print out the map and fill the PsiRawEpd1 map
     std::map<int, TVector2>::iterator itr;
     std::cout << "\nThe map mpQvctrEpd1 is : \n";
     cout << "\tKEY\tELEMENT\n";
-    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) {
-        std::cout << '\t' << itr->first
-             << '\t' << (double)(itr->second).X()
-             << '\t' << (double)(itr->second).Y() << '\n';
+    std::map<int,double> mpPsiRawEpd1;
+    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
+        // std::cout << '\t' << itr->first
+        //      << '\t' << (double)(itr->second).X()
+        //      << '\t' << (double)(itr->second).Y() << '\n';
+        if(N_Epd_east[1]<5) continue;
+        Double_t PsiRawEpd1;
+        if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
+          PsiRawEpd1 = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
+          mpPsiRawEpd1.insert(pair<int, TVector2>(itr->first, PsiRawEpd1));
+          std::cout << '\t' << itr->first
+               << '\t' << PsiRawEpd1 << '\n';
+        }
     }
     std::cout << std::endl;
     //---------------------------------
