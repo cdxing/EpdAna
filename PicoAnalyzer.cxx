@@ -25,6 +25,7 @@
 // C++ headers
 #include <iostream>
 #include <map>
+#include <iterator>
 #include <stdio.h>
 
 // ROOT headers
@@ -37,6 +38,8 @@
 #include "TH2.h"
 #include "TMath.h"
 #include "TString.h"
+#include "TVector2.h"
+#include "TVector3.h"
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TH3D.h"
@@ -298,8 +301,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TFile* mCorrectionOutputFile = new TFile(EpOutputNameIni,"RECREATE");
   TProfile2D *mEpdShiftOutput_sin[_nEventTypeBins], *mEpdShiftOutput_cos[_nEventTypeBins]; // EPD EP output
   TProfile2D *mTpcShiftOutput_sin, *mTpcShiftOutput_cos; // TPC EP output
-  TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
-  TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
+  // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
+  // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
           80,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
@@ -311,8 +314,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     profile_v1VsEta[cent]->Sumw2();
   }
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
-    mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
+    // mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
+    // mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
@@ -358,13 +361,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
-  //Map test
-  std::map<int,int> mptest;
-  mptest.insert(pair<int, int>(1, 40));
-  mptest.insert(pair<int, int>(2, 30));
-  std::cout << "value 1: " << mptest.at(1);
-  std::cout << "value 2: " << mptest.at(2)<<std::endl;
-
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
@@ -567,14 +563,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // fill Phi Weight histograms to be used in next iteration (if desired)
       // Obviously, do this BEFORE phi weighting!
       //---------------------------------
-      for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
-        if(etaWeight==1){
-          mPhiWeightOutput[EventTypeId]->Fill(phi,TileWeight);
-          for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/6.0-0.1,TileWeight/12.0);
-        }
-      }
+      // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+      //   int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
+      //   double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
+        // if(etaWeight==1){
+          // mPhiWeightOutput[EventTypeId]->Fill(phi,TileWeight);
+          // for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/6.0-0.1,TileWeight/12.0);
+        // }
+      // }
       //--------------------------------
       // now calculate Q-vectors
       //--------------------------------
@@ -610,6 +606,52 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
       }
     }
+    // To remove autocorrelation in EPD-1, calculate Qvector for each epd hit in EPD-1: -5.16 <= eta < -3.82
+    std::map<int,TVector2> mpQvctrEpd1;
+    for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
+      StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
+      int tileId,ring,TT,PP,EW,ADC;
+      float nMip;
+      tileId = epdHit->id();
+      EW = (tileId<0)?0:1;
+      if(EW!=0) continue; // EPD east event plane needed
+      ring = epdHit->row();
+      TT = epdHit->tile();
+      PP = epdHit->position();
+      ADC = epdHit->adc();
+      nMip = epdHit->nMIP();   // malisa 20feb2019 - I have finally made the transition from ADC (next line) to truly nMip, now that calibrations are done.
+      //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
+      if (nMip<mThresh) continue;
+      double TileWeight = (nMip<mMax)?nMip:mMax;
+      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
+      double phi = StraightLine.Phi();
+      double eta = StraightLine.Eta();
+      if(phi < 0.0            ) phi += 2.0*TMath::Pi();
+      if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
+      //--------------------------------
+      // now calculate Q-vectors for each hit in EPD-1
+      //--------------------------------
+      if(eta>=etaRange[0] && eta < etaRange[1]){
+        double QxEpd1, QyEpd1;
+        TVector2 Qvec;
+        double Cosine = cos(phi*(double)EpOrder);
+        double Sine   = sin(phi*(double)EpOrder);
+        QxEpd1 = QrawEastSide[1][0] + TileWeight * Cosine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here shoud "+ Qx_i" to remove autocorrelation
+        QyEpd1 = QrawEastSide[1][1] + TileWeight * Sine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here should "+ Qy_i" to remove autocorrelation
+        Qvec.SetX(QxEpd1);
+        Qvec.SetX(QyEpd1);
+        mpQvctrEpd1.insert(pair<int, TVector2>(iEpdHit, Qvec));
+      }
+    } // loop over EPD hits
+    //Print out the map
+    std::map<int, TVector2>::iterator itr;
+    std::cout << "\nThe map mpQvctrEpd1 is : \n";
+    cout << "\tKEY\tELEMENT\n";
+    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); ++itr) {
+        std::cout << '\t' << itr->first
+             << '\t' << itr->second << '\n';
+    }
+    std::cout << std::endl;
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
@@ -618,6 +660,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
         PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
         // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
+        if(EventTypeId == 1){// to be continued with map
+
+        }
       }
     }
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
@@ -1159,10 +1204,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   outputFile->cd();
   wt.Write();
   outputFile->Write();
-  for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-    mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
-    delete mPhiAveraged[EventTypeId];
-  }
+  // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+  //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
+  //   delete mPhiAveraged[EventTypeId];
+  // }
   mCorrectionOutputFile->Write();
 }
 
