@@ -692,7 +692,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // cout << "\tKEY\tELEMENT\n";
     std::map<int,double> mpPsiShiftedEpd1;
     for (itr1 = mpPsiRawEpd1.begin(); itr1 != mpPsiRawEpd1.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
-        Double_t PsiShiftedEpd1 = (double)itr1->second ;
+        Double_t PsiRawEpd1 = (double)itr1->second ;
+        Double_t PsiShiftedEpd1 = PsiRawEpd1 ;
         if(PsiShiftedEpd1==-999.0) continue;
         if (mEpdShiftInput_sin[1] != 0 && mEpdShiftInput_cos[1]!= 0){
           if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
@@ -701,7 +702,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               double sinAve = mEpdShiftInput_sin[1]->GetBinContent(i,centrality);
           	  double cosAve = mEpdShiftInput_cos[1]->GetBinContent(i,centrality);
           	  PsiShiftedEpd1 +=
-          	    2.0*(cosAve*sin(tmp*((double)itr1->second)) - sinAve*cos(tmp*((double)itr1->second)))/tmp; // use raw EP rather than Phi weighing EP
+          	    2.0*(cosAve*sin(tmp*PsiRawEpd1) - sinAve*cos(tmp*PsiRawEpd1))/tmp; // use raw EP rather than Phi weighing EP
           	}
             double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
              if (PsiShiftedEpd1<0) PsiShiftedEpd1 += AngleWrapAround;
