@@ -645,8 +645,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     //Print out the map and fill the PsiRawEpd1 map
     std::map<int, TVector2>::iterator itr;
-    std::cout << "\nThe map mpPsiRawEpd1 is : \n";
-    cout << "\tKEY\tELEMENT\n";
+    // std::cout << "\nThe map mpPsiRawEpd1 is : \n";
+    // cout << "\tKEY\tELEMENT\n";
     std::map<int,double> mpPsiRawEpd1;
     for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
         // std::cout << '\t' << itr->first
@@ -657,11 +657,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
           PsiRawEpd1 = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
           mpPsiRawEpd1.insert(pair<int, double>(itr->first, PsiRawEpd1));
-          std::cout << '\t' << itr->first
-               << '\t' << PsiRawEpd1 << '\n';
+          // std::cout << '\t' << itr->first
+          //      << '\t' << PsiRawEpd1 << '\n';
         }
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
@@ -670,9 +670,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
         PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
         // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
-        if(EventTypeId == 1){// to be continued with map
-
-        }
       }
     }
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
@@ -688,8 +685,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // --------------------------- " Do the SHIFT thing " ------------------------
     // Fill the PsiShiftedEpd1 map: Key: iEpdHit, value: PsiShiftedEpd1
     std::map<int, double>::iterator itr1;
-    std::cout << "\nThe map mpPsiShiftedEpd1 is : \n";
-    cout << "\tKEY\tELEMENT\n";
+    // std::cout << "\nThe map mpPsiShiftedEpd1 is : \n";
+    // cout << "\tKEY\tELEMENT\n";
     std::map<int,double> mpPsiShiftedEpd1;
     for (itr1 = mpPsiRawEpd1.begin(); itr1 != mpPsiRawEpd1.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
         Double_t PsiShiftedEpd1 = (double)itr1->second ;
@@ -704,12 +701,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           	    2.0*(cosAve*sin(tmp*((double)itr1->second)) - sinAve*cos(tmp*((double)itr1->second)))/tmp; // use raw EP rather than Phi weighing EP
           	}
             mpPsiShiftedEpd1.insert(pair<int, double>(itr1->first, PsiShiftedEpd1));
-            std::cout << '\t' << itr1->first
-                 << '\t' << PsiShiftedEpd1 << '\n';
+            // std::cout << '\t' << itr1->first
+            //      << '\t' << PsiShiftedEpd1 << '\n';
           }
         }
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId]; // use raw EP rather than Phi weighing EP
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
@@ -764,6 +761,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // Fill the directed flow into the TProfile2D and TProfile
         //--------------------------------
         if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
+          if(mpPsiShiftedEpd1.at(iEpdHit)) std::cout <<"Key:  "<<iEpdHit << "Value: " <<mpPsiShiftedEpd1.at(iEpdHit) << std::endl;
           profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
           profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
         };
