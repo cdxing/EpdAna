@@ -645,7 +645,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     //Print out the map and fill the PsiRawEpd1 map
     std::map<int, TVector2>::iterator itr;
-    std::cout << "\nThe map mpQvctrEpd1 is : \n";
+    std::cout << "\nThe map mpPsiRawEpd1 is : \n";
     cout << "\tKEY\tELEMENT\n";
     std::map<int,double> mpPsiRawEpd1;
     for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
@@ -686,6 +686,30 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
+    // Fill the PsiShiftedEpd1 map: Key: iEpdHit, value: PsiShiftedEpd1
+    std::map<int, double>::iterator itr1;
+    std::cout << "\nThe map mpPsiShiftedEpd1 is : \n";
+    cout << "\tKEY\tELEMENT\n";
+    std::map<int,double> mpPsiRawEpd1;
+    for (itr1 = mpPsiRawEpd1.begin(); itr1 != mpPsiRawEpd1.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
+        Double_t PsiShiftedEpd1 = (double)itr1->second ;
+        if(PsiShiftedEpd1==-999.0) continue;
+        if (mEpdShiftInput_sin[1] != 0 && mEpdShiftInput_cos[1]!= 0){
+          if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
+            for (int i=1; i<=_EpTermsMaxIni; i++){
+          	  double tmp = (double)(EpOrder*i);
+              double sinAve = mEpdShiftInput_sin[1]->GetBinContent(i,centrality);
+          	  double cosAve = mEpdShiftInput_cos[1]->GetBinContent(i,centrality);
+          	  PsiShiftedEpd1 +=
+          	    2.0*(cosAve*sin(tmp*((double)itr1->second)) - sinAve*cos(tmp*((double)itr1->second)))/tmp; // use raw EP rather than Phi weighing EP
+          	}
+            mpPsiShiftedEpd1.insert(pair<int, double>(itr1->first, PsiShiftedEpd1));
+            std::cout << '\t' << itr1->first
+                 << '\t' << PsiShiftedEpd1 << '\n';
+          }
+        }
+    }
+    std::cout << std::endl;
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId]; // use raw EP rather than Phi weighing EP
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
