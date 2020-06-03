@@ -180,7 +180,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
   TH1D *hist_Epd_1_psi_raw_ini = new TH1D("hist_Epd_1_psi_raw_ini","raw EPD-1 EP for every EPD hit in EPD-1",1024,-1.0,7.0);
-  TH1D *hist_Epd_1_shifted_raw_ini = new TH1D("hist_Epd_1_shifted_raw_ini","shifted EPD-1 EP for every EPD hit in EPD-1",1024,-1.0,7.0);
+  TH1D *hist_Epd_1_psi_Shifted_ini = new TH1D("hist_Epd_1_psi_Shifted_ini","shifted EPD-1 EP for every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_east_psi_raw_ini[_nEventTypeBins],/**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
