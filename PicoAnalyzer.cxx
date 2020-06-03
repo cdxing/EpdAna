@@ -649,7 +649,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     cout << "\tKEY\tELEMENT\n";
     for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); ++itr) {
         std::cout << '\t' << itr->first
-             << '\t' << itr->second << '\n';
+             << '\t' << (double)(itr->second).X()
+             << '\t' << (double)(itr->second).Y() << '\n';
     }
     std::cout << std::endl;
     //---------------------------------
