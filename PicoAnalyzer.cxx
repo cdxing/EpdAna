@@ -654,7 +654,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         //      << '\t' << (double)(itr->second).Y() << '\n';
         if(N_Epd_east[1]<5) continue;
         Double_t PsiRawEpd1;
-        if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
+        if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
           PsiRawEpd1 = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
           mpPsiRawEpd1.insert(pair<int, TVector2>(itr->first, PsiRawEpd1));
           std::cout << '\t' << itr->first
