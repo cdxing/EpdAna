@@ -638,8 +638,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double Sine   = sin(phi*(double)EpOrder);
         QxEpd1 = QrawEastSide[1][0] + TileWeight * Cosine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here shoud "+ Qx_i" to remove autocorrelation
         QyEpd1 = QrawEastSide[1][1] + TileWeight * Sine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here should "+ Qy_i" to remove autocorrelation
-        Qvec.SetX(QxEpd1);
-        Qvec.SetX(QyEpd1);
+        Qvec=TVector2(QxEpd1,QyEpd1);
+
         mpQvctrEpd1.insert(pair<int, TVector2>(iEpdHit, Qvec));
       }
     } // loop over EPD hits
