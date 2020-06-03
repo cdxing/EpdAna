@@ -767,7 +767,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
           std::map<int, double>::iterator itr2;
           itr2=mpPsiShiftedEpd1.find(iEpdHit);
-          if((itr2->second) != string::npos){
+          if(itr2 != mpPsiShiftedEpd1.end()){
             std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-(itr2->second)));//Use EPD-1 as primary event plane
             profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-(itr2->second))); // [] is from 0 to 8, centrality is from 1 to 9.
