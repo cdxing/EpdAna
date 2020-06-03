@@ -179,6 +179,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
+  TH1D *hist_Epd_1_psi_raw_ini = new TH1D("hist_Epd_1_psi_raw_ini","raw EPD-1 EP for every EPD hit in EPD-1",1024,-1.0,7.0);
+  TH1D *hist_Epd_1_shifted_raw_ini = new TH1D("hist_Epd_1_shifted_raw_ini","shifted EPD-1 EP for every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_east_psi_raw_ini[_nEventTypeBins],/**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
@@ -657,6 +659,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
           PsiRawEpd1 = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
           mpPsiRawEpd1.insert(pair<int, double>(itr->first, PsiRawEpd1));
+          hist_Epd_1_psi_raw_ini->Fill(PsiRawEpd1);
           // std::cout << '\t' << itr->first
           //      << '\t' << PsiRawEpd1 << '\n';
         }
@@ -705,6 +708,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               else if (PsiShiftedEpd1>AngleWrapAround) PsiShiftedEpd1 -= AngleWrapAround;
 
             mpPsiShiftedEpd1.insert(pair<int, double>(itr1->first, PsiShiftedEpd1));
+            hist_Epd_1_psi_Shifted_ini->Fill(PsiShiftedEpd1);
             // std::cout << '\t' << itr1->first
             //      << '\t' << PsiShiftedEpd1 << '\n';
           }
@@ -767,7 +771,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
           std::map<int, double>::iterator itr2;
           itr2=mpPsiShiftedEpd1.find(iEpdHit);
-          std::cout << "end "<< mpPsiShiftedEpd1.end()->second;
           if(itr2 != mpPsiShiftedEpd1.end()){
             std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-(itr2->second)));//Use EPD-1 as primary event plane
