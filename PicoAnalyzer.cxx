@@ -767,6 +767,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
           std::map<int, double>::iterator itr2;
           itr2=mpPsiShiftedEpd1.find(iEpdHit);
+          std::cout << "end "<< mpPsiShiftedEpd1.end()->second;
           if(itr2 != mpPsiShiftedEpd1.end()){
             std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-(itr2->second)));//Use EPD-1 as primary event plane
@@ -777,6 +778,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         };
       } // loop over EPD hits
+      std::cout << std::endl;
 
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
