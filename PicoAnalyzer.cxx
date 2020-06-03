@@ -647,7 +647,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::map<int, TVector2>::iterator itr;
     std::cout << "\nThe map mpQvctrEpd1 is : \n";
     cout << "\tKEY\tELEMENT\n";
-    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); ++itr) {
+    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) {
         std::cout << '\t' << itr->first
              << '\t' << (double)(itr->second).X()
              << '\t' << (double)(itr->second).Y() << '\n';
