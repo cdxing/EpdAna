@@ -179,8 +179,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
-  TH1D *hist_Epd_1_psi_raw_ini = new TH1D("hist_Epd_1_psi_raw_ini","raw EPD-1 EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
-  TH1D *hist_Epd_1_psi_Shifted_ini = new TH1D("hist_Epd_1_psi_Shifted_ini","shifted EPD-1 EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
+  TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
+  TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_east_psi_raw_ini[_nEventTypeBins],/**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east Qy vs Qx EventTypeId%d",EventTypeId),600,-3.0,3.0,600,-3.0,3.0);
@@ -308,7 +308,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
           40,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          -1.0,1.0,"");//Use EPD-1 as primary event plane
+          -1.0,1.0,"");//Use EPD-3 as primary event plane
   profile2D_v1VsCentVsEta->Sumw2();
   TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
   for(int cent=0; cent<_Ncentralities; cent++){
@@ -608,8 +608,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
       }
     }
-    // To remove autocorrelation in EPD-1, calculate Qvector for each epd hit in EPD-1: -5.16 <= eta < -3.82
-    std::map<int,TVector2> mpQvctrEpd1;
+    // To remove autocorrelation in EPD-3, calculate Qvector for each epd hit in EPD-3: -5.16 <= eta < -3.82
+    std::map<int,TVector2> mpQvctrEpdSub;
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
@@ -631,37 +631,37 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       //--------------------------------
-      // now calculate Q-vectors for each hit in EPD-1
+      // now calculate Q-vectors for each hit in EPD-3
       //--------------------------------
-      if(eta>=etaRange[0] && eta < etaRange[1]){
-        double QxEpd1, QyEpd1;
+      if(eta>=etaRange[2] && eta < etaRange[3]){ // EPD-3
+        double QxEpdSub, QyEpdSub;
         TVector2 Qvec;
         double Cosine = cos(phi*(double)EpOrder);
         double Sine   = sin(phi*(double)EpOrder);
-        QxEpd1 = QrawEastSide[1][0] + TileWeight * Cosine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here shoud "+ Qx_i" to remove autocorrelation
-        QyEpd1 = QrawEastSide[1][1] + TileWeight * Sine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here should "+ Qy_i" to remove autocorrelation
-        Qvec=TVector2(QxEpd1,QyEpd1);
+        QxEpdSub = QrawEastSide[3][0] + TileWeight * Cosine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here shoud "+ Qx_i" to remove autocorrelation
+        QyEpdSub = QrawEastSide[3][1] + TileWeight * Sine; // Since QrawEastSide[EventTypeId][xy] already times -1.0, here should "+ Qy_i" to remove autocorrelation
+        Qvec=TVector2(QxEpdSub,QyEpdSub);
 
-        mpQvctrEpd1.insert(pair<int, TVector2>(iEpdHit, Qvec));
+        mpQvctrEpdSub.insert(pair<int, TVector2>(iEpdHit, Qvec));
       }
     } // loop over EPD hits
-    //Print out the map and fill the PsiRawEpd1 map
+    //Print out the map and fill the PsiRawEpdSub map
     std::map<int, TVector2>::iterator itr;
-    // std::cout << "\nThe map mpPsiRawEpd1 is : \n";
+    // std::cout << "\nThe map mpPsiRawEpdSub is : \n";
     // cout << "\tKEY\tELEMENT\n";
-    std::map<int,double> mpPsiRawEpd1;
-    for (itr = mpQvctrEpd1.begin(); itr != mpQvctrEpd1.end(); itr++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
+    std::map<int,double> mpPsiRawEpdSub;
+    for (itr = mpQvctrEpdSub.begin(); itr != mpQvctrEpdSub.end(); itr++) { // insert a map of key: iEpdHit, value: PsiRawEpdSub
         // std::cout << '\t' << itr->first
         //      << '\t' << (double)(itr->second).X()
         //      << '\t' << (double)(itr->second).Y() << '\n';
-        if(N_Epd_east[1]<5) continue;
-        Double_t PsiRawEpd1;
-        if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
-          PsiRawEpd1 = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
-          mpPsiRawEpd1.insert(pair<int, double>(itr->first, PsiRawEpd1));
-          hist_Epd_1_psi_raw_ini->Fill(PsiRawEpd1);
+        if(N_Epd_east[3]<5) continue; // EPD-3
+        Double_t PsiRawEpdSub;
+        if(QrawEastSide[3][0] || QrawEastSide[3][1] ){ // EPD-3
+          PsiRawEpdSub = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
+          mpPsiRawEpdSub.insert(pair<int, double>(itr->first, PsiRawEpdSub));
+          hist_Epd_Sub_psi_raw_ini->Fill(PsiRawEpdSub);
           // std::cout << '\t' << itr->first
-          //      << '\t' << PsiRawEpd1 << '\n';
+          //      << '\t' << PsiRawEpdSub << '\n';
         }
     }
     // std::cout << std::endl;
@@ -686,32 +686,32 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
-    // Fill the PsiShiftedEpd1 map: Key: iEpdHit, value: PsiShiftedEpd1
+    // Fill the PsiShiftedEpdSub map: Key: iEpdHit, value: PsiShiftedEpdSub
     std::map<int, double>::iterator itr1;
-    // std::cout << "\nThe map mpPsiShiftedEpd1 is : \n";
+    // std::cout << "\nThe map mpPsiShiftedEpdSub is : \n";
     // cout << "\tKEY\tELEMENT\n";
-    std::map<int,double> mpPsiShiftedEpd1;
-    for (itr1 = mpPsiRawEpd1.begin(); itr1 != mpPsiRawEpd1.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpd1
-        Double_t PsiRawEpd1 = (double)itr1->second ;
-        Double_t PsiShiftedEpd1 = PsiRawEpd1 ;
-        if(PsiShiftedEpd1==-999.0) continue;
-        if (mEpdShiftInput_sin[1] != 0 && mEpdShiftInput_cos[1]!= 0){
-          if(QrawEastSide[1][0] || QrawEastSide[1][1] ){
+    std::map<int,double> mpPsiShiftedEpdSub;
+    for (itr1 = mpPsiRawEpdSub.begin(); itr1 != mpPsiRawEpdSub.end(); itr1++) { // insert a map of key: iEpdHit, value: PsiRawEpdSub
+        Double_t PsiRawEpdSub = (double)itr1->second ;
+        Double_t PsiShiftedEpdSub = PsiRawEpdSub ;
+        if(PsiShiftedEpdSub==-999.0) continue;
+        if (mEpdShiftInput_sin[3] != 0 && mEpdShiftInput_cos[3]!= 0){
+          if(QrawEastSide[3][0] || QrawEastSide[3][1] ){
             for (int i=1; i<=_EpTermsMaxIni; i++){
           	  double tmp = (double)(EpOrder*i);
-              double sinAve = mEpdShiftInput_sin[1]->GetBinContent(i,centrality);
-          	  double cosAve = mEpdShiftInput_cos[1]->GetBinContent(i,centrality);
-          	  PsiShiftedEpd1 +=
-          	    2.0*(cosAve*sin(tmp*PsiRawEpd1) - sinAve*cos(tmp*PsiRawEpd1))/tmp; // use raw EP rather than Phi weighing EP
+              double sinAve = mEpdShiftInput_sin[3]->GetBinContent(i,centrality);
+          	  double cosAve = mEpdShiftInput_cos[3]->GetBinContent(i,centrality);
+          	  PsiShiftedEpdSub +=
+          	    2.0*(cosAve*sin(tmp*PsiRawEpdSub) - sinAve*cos(tmp*PsiRawEpdSub))/tmp; // use raw EP rather than Phi weighing EP
           	}
             double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
-             if (PsiShiftedEpd1<0) PsiShiftedEpd1 += AngleWrapAround;
-              else if (PsiShiftedEpd1>AngleWrapAround) PsiShiftedEpd1 -= AngleWrapAround;
+             if (PsiShiftedEpdSub<0) PsiShiftedEpdSub += AngleWrapAround;
+              else if (PsiShiftedEpdSub>AngleWrapAround) PsiShiftedEpdSub -= AngleWrapAround;
 
-            mpPsiShiftedEpd1.insert(pair<int, double>(itr1->first, PsiShiftedEpd1));
-            hist_Epd_1_psi_Shifted_ini->Fill(PsiShiftedEpd1);
+            mpPsiShiftedEpdSub.insert(pair<int, double>(itr1->first, PsiShiftedEpdSub));
+            hist_Epd_Sub_psi_Shifted_ini->Fill(PsiShiftedEpdSub);
             // std::cout << '\t' << itr1->first
-            //      << '\t' << PsiShiftedEpd1 << '\n';
+            //      << '\t' << PsiShiftedEpdSub << '\n';
           }
         }
     }
@@ -769,18 +769,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         //--------------------------------
         // Fill the directed flow into the TProfile2D and TProfile
         //--------------------------------
-        if(PsiEastRaw[1]!=-999.0){//Use EPD-1 as primary event plane
+        if(PsiEastRaw[3]!=-999.0){//Use EPD-3 as primary event plane
           std::map<int, double>::iterator itr2;
-          itr2=mpPsiShiftedEpd1.find(iEpdHit);
-          if(itr2 != mpPsiShiftedEpd1.end()){
-            Double_t PsiShiftedEpd1 = (double)itr2->second ;
+          itr2=mpPsiShiftedEpdSub.find(iEpdHit);
+          if(itr2 != mpPsiShiftedEpdSub.end()){
+            Double_t PsiShiftedEpdSub = (double)itr2->second ;
 
-            // std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
-            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiShiftedEpd1));//Use EPD-1 as primary event plane
-            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiShiftedEpd1)); // [] is from 0 to 8, centrality is from 1 to 9.
+            std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
+            std::cout <<"eta:  "<<eta  << std::endl;
+
+            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiShiftedEpdSub));//Use EPD-3 as primary event plane
+            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiShiftedEpdSub)); // [] is from 0 to 8, centrality is from 1 to 9.
           }else{
-            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
-            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
+            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
           }
         }
       } // loop over EPD hits
@@ -942,12 +944,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
       QrawTpcAll[0] += rapWeight * Cosine;
       QrawTpcAll[1] += rapWeight * Sine;
-      if(PsiEastShifted[1]!=-999.0){
+      if(PsiEastShifted[3]!=-999.0){
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+        profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
         // ------------------- Fill the eta weighting histograms --------------------------
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-1 as primary event plane
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
+        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
       }
       hist_nTracksVsEta->Fill(eta);//histograms for the determination of TPC eta range
 
