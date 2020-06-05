@@ -73,6 +73,8 @@ const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Double_t _massPion     = 0.13957061;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
+const Double_t _y_mid = -2.02; // mid rapidity
+
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
