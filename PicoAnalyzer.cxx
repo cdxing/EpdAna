@@ -127,6 +127,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
+  // v1 eta weighting
+  double lin[9] = {1.511,  1.408,      1.249, 3.214, 1.337, 2.056, 2.109, 2.125, 1.217};
+  double cub[9] = {-0.2699, -0.2437, -0.2074, -0.5790, -0.2940, -0.4732, -0.5391, -0.4841, -0.2564};
+  TH2D *v1WtaWt = new TH2D("Order1etaWeight","Order1etaWeight",200,-7.,3.,_Ncentralities,0.5,0.5+_Ncentralities);
+  for (int ix=1; ix<201; ix++){
+    for (int iy=1; iy<10; iy++){
+      double eta = v1WtaWt->GetXaxis()->GetBinCenter(ix);
+      v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
+    }
+  }
+
   TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
   unsigned int found;
   // --------------------- Retrieve EpdHits TClonesArray ----------------------------
@@ -586,11 +597,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // }
         int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
+        double v1EtaWeight = (double)v1WtaWt->GetBinContent(etaBin,centrality);
+        std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight;
         if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
         double Cosine = cos(phi*(double)EpOrder);
         double Sine   = sin(phi*(double)EpOrder);
-        QrawEastSide[EventTypeId][0] += etaWeight * TileWeight * Cosine;
-        QrawEastSide[EventTypeId][1] += etaWeight * TileWeight * Sine;
+        QrawEastSide[EventTypeId][0] += etaWeight * v1EtaWeight * TileWeight * Cosine;
+        QrawEastSide[EventTypeId][1] += etaWeight * v1EtaWeight * TileWeight * Sine;
 
         // QphiWeightedEastSide[EventTypeId][0]      += etaWeight * PhiWeightedTileWeight * Cosine;
         // QphiWeightedEastSide[EventTypeId][1]      += etaWeight * PhiWeightedTileWeight * Sine;
