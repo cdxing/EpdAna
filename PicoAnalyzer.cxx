@@ -790,8 +790,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(itr2 != mpPsiShiftedEpdSub.end()){
             Double_t PsiShiftedEpdSub = (double)itr2->second ;
 
-            std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
-            std::cout <<"eta:  "<<eta  << std::endl;
+            // std::cout <<"Key:  "<<iEpdHit << " Value: " <<(itr2->second) << std::endl;
+            // std::cout <<"eta:  "<<eta  << std::endl;
 
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiShiftedEpdSub));//Use EPD-3 as primary event plane
             profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiShiftedEpdSub)); // [] is from 0 to 8, centrality is from 1 to 9.
