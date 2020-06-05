@@ -132,7 +132,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // v1 eta weighting
   double lin[9] = {1.511,  1.408,      1.249, 3.214, 1.337, 2.056, 2.109, 2.125, 1.217};
   double cub[9] = {-0.2699, -0.2437, -0.2074, -0.5790, -0.2940, -0.4732, -0.5391, -0.4841, -0.2564};
-  TH2D *v1WtaWt = new TH2D("Order1etaWeight","Order1etaWeight",200,-7.,3.,_Ncentralities,0.5,0.5+_Ncentralities);
+  TH2D *v1WtaWt = new TH2D("v1WtaWt","v1WtaWt",200,-7.,3.,_Ncentralities,0.5,0.5+_Ncentralities);
   for (int ix=1; ix<201; ix++){
     for (int iy=1; iy<10; iy++){
       double eta = v1WtaWt->GetXaxis()->GetBinCenter(ix);
