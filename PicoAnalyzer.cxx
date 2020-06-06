@@ -278,6 +278,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *profile_v1VsEtaTpcOnly = new TProfile("profile_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
   ,64,-3.0,3.0,"");
   profile_v1VsEtaTpcOnly->Sumw2();
+  TProfile *profile_v1VsEtaTpcOnly_1 = new TProfile("profile_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
+  ,64,-3.0,3.0,"");
+  profile_v1VsEtaTpcOnly_1->Sumw2();
   TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
@@ -966,7 +969,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(PsiEastShifted[3]!=-999.0){
         // ------------- Fill histograms for the determination of TPC eta range -----
         profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
-        // ------------------- Fill the eta weighting histograms --------------------------
+        profile_v1VsEtaTpcOnly_1->Fill(eta,TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
+      // ------------------- Fill the eta weighting histograms --------------------------
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
       }
@@ -1249,8 +1253,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
   hist_nTracksVsEta->GetXaxis()->SetTitle("#eta");
   hist_nTracksVsEta->GetYaxis()->SetTitle("# of tracks");
-  profile_v1VsEtaTpcOnly->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  profile_v1VsEtaTpcOnly->GetXaxis()->SetTitle("#eta");
   profile_v1VsEtaTpcOnly->GetYaxis()->SetTitle("< (y - y_{CM})*cos (#phi_{Track} - #psi_{1}^{EPD-1}) >");
+  profile_v1VsEtaTpcOnly_1->GetXaxis()->SetTitle("#eta");
+  profile_v1VsEtaTpcOnly_1->GetYaxis()->SetTitle("< cos (#phi_{Track} - #psi_{1}^{EPD-1}) >");
   pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
