@@ -275,12 +275,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
-  TProfile *profile_v1VsEtaTpcOnly = new TProfile("profile_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
-  ,64,-3.0,3.0,"");
-  profile_v1VsEtaTpcOnly->Sumw2();
-  TProfile *profile_v1VsEtaTpcOnly_1 = new TProfile("profile_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{1} ) > vs #eta"
-  ,64,-3.0,3.0,"");
-  profile_v1VsEtaTpcOnly_1->Sumw2();
+  TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{3} ) > vs #eta vs centrality"
+  ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
+  profile2D_v1VsEtaTpcOnly->Sumw2();
+  TProfile2D *profile2D_v1VsEtaTpcOnly_1 = new TProfile2D("profile2D_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{3} ) > vs #eta vs centrality"
+  ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
+  profile2D_v1VsEtaTpcOnly_1->Sumw2();
   TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
@@ -322,13 +322,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
-          20,-7.0,3.0, // total eta range
+          40,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0,"");//Use EPD-3 as primary event plane
   profile2D_v1VsCentVsEta->Sumw2();
   TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
   for(int cent=0; cent<_Ncentralities; cent++){
-    profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),20,-7.0,3.0,-1.0,1.0,"");
+    profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
     profile_v1VsEta[cent]->Sumw2();
   }
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -968,8 +968,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       QrawTpcAll[1] += rapWeight * Sine;
       if(PsiEastShifted[3]!=-999.0){
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile_v1VsEtaTpcOnly->Fill(eta,rapWeight * TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
-        profile_v1VsEtaTpcOnly_1->Fill(eta,TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,rapWeight * TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[3])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
@@ -1253,10 +1253,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
   hist_nTracksVsEta->GetXaxis()->SetTitle("#eta");
   hist_nTracksVsEta->GetYaxis()->SetTitle("# of tracks");
-  profile_v1VsEtaTpcOnly->GetXaxis()->SetTitle("#eta");
-  profile_v1VsEtaTpcOnly->GetYaxis()->SetTitle("< (y - y_{CM})*cos (#phi_{Track} - #psi_{1}^{EPD-1}) >");
-  profile_v1VsEtaTpcOnly_1->GetXaxis()->SetTitle("#eta");
-  profile_v1VsEtaTpcOnly_1->GetYaxis()->SetTitle("< cos (#phi_{Track} - #psi_{1}^{EPD-1}) >");
+  profile2D_v1VsEtaTpcOnly->GetXaxis()->SetTitle("#eta");
+  profile2D_v1VsEtaTpcOnly->GetYaxis()->SetTitle("centrality");
+  profile2D_v1VsEtaTpcOnly_1->GetXaxis()->SetTitle("#eta");
+  profile2D_v1VsEtaTpcOnly_1->GetYaxis()->SetTitle("centrality");
   pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
