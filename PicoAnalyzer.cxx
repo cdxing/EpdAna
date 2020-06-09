@@ -281,7 +281,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *profile2D_v1VsEtaTpcOnly_1 = new TProfile2D("profile2D_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{3} ) > vs #eta vs centrality"
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly_1->Sumw2();
-  TH1D *hist_nTracksVsEta= new TH1D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0);
+  TH2D *hist_nTracksVsEta= new TH2D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities);
   TH1D *hist_tpc_all_psi_raw = new TH1D("hist_tpc_all_psi_raw","TPC east EP (raw)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_tpc_all_psi_shifted = new TH1D("hist_tpc_all_psi_shifted","TPC east EP (shifted)",500,-0.5*TMath::Pi(),2.5*TMath::Pi());
 
@@ -975,7 +975,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
       }
-      hist_nTracksVsEta->Fill(eta);//histograms for the determination of TPC eta range
+      hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
 
     } // TPC Q-vector loop
     // Track multiplicity for each particle
@@ -1253,7 +1253,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_pt_pionMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_pionMinus->GetYaxis()->SetTitle("# of tracks");
   hist_nTracksVsEta->GetXaxis()->SetTitle("#eta");
-  hist_nTracksVsEta->GetYaxis()->SetTitle("# of tracks");
+  hist_nTracksVsEta->GetYaxis()->SetTitle("centrality");
   profile2D_v1VsEtaTpcOnly->GetXaxis()->SetTitle("#eta");
   profile2D_v1VsEtaTpcOnly->GetYaxis()->SetTitle("centrality");
   profile2D_v1VsEtaTpcOnly_1->GetXaxis()->SetTitle("#eta");
