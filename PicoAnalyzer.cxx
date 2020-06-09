@@ -73,7 +73,7 @@ const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Double_t _massPion     = 0.13957061;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
-const Double_t _y_mid = -2.02; // mid rapidity
+const Double_t _y_mid = -2.03; // mid rapidity
 
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
@@ -130,13 +130,27 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // v1 eta weighting
+  double pr0[9] =  {-0.00146843,-0.00120124,-0.0016722,-0.00170085,-0.00198228,-0.00281638,-0.00343895,-0.00415811,-0.00537868,};
+  double pr1[9] =  {-0.000426648,-0.000325884,-0.000581794,-0.000747585,-0.00103814,-0.00151215,-0.00188201,-0.00212849,-0.00257166,};
+  double pr2[9] =  {0.00484939,0.00620883,0.00834932,0.0117018,0.0154964,0.0198621,0.0245629,0.0297327,0.0355797,};
+  double pr3[9] =  {-0.00138009,-0.00193065,-0.00283936,-0.0042699,-0.00576823,-0.00747499,-0.00921599,-0.0111905,-0.0133779,};
+
   double lin[9] = {-3.49663,-4.37747,-0.987117,-2.04625,-0.847424,-4.71427,-5.12243,-1.55053,-1.76576};
   double cub[9] = {0.31864,0.390922,0.103803,0.355138,0.223553,0.977869,1.25976,0.573287,0.3495};
   TH2D *v1WtaWt = new TH2D("v1WtaWt","v1WtaWt",200,-6.5,-1.5,_Ncentralities,0.5,0.5+_Ncentralities);
   for (int ix=1; ix<201; ix++){
     for (int iy=1; iy<10; iy++){
       double eta = v1WtaWt->GetXaxis()->GetBinCenter(ix);
-      v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
+      // v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
+
+      if(eta>=-3.66){
+        v1WtaWt->SetBinContent(ix,iy,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
+        v1WtaWtCent[iy-1]->SetBinContent(ix,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
+      } else {
+        v1WtaWt->SetBinContent(ix,iy,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
+        v1WtaWtCent[iy-1]->SetBinContent(ix,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
+      }
+
     }
   }
 
@@ -438,7 +452,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     d_xvtx     = pVtx.x();
     d_yvtx     = pVtx.y();
     d_vtx_perp = pVtx.Perp();
-    bool b_bad_zvtx   =  ((d_zvtx < 199.0) || (d_zvtx > 202.0)); //FXT_26p5_2018
+    bool b_bad_zvtx   =  ((d_zvtx < 198.0) || (d_zvtx > 202.0)); //FXT_26p5_2018
     bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //FXT_26p5_2018
     bool b_bad_yvtx   =  ((d_yvtx < -3.0) || (d_yvtx > -0.5)); //FXT_26p5_2018
     bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.0;
