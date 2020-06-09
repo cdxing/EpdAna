@@ -142,13 +142,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for (int iy=1; iy<10; iy++){
       double eta = v1WtaWt->GetXaxis()->GetBinCenter(ix);
       // v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
-
       if(eta>=-3.66){
         v1WtaWt->SetBinContent(ix,iy,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
-        v1WtaWtCent[iy-1]->SetBinContent(ix,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
       } else {
         v1WtaWt->SetBinContent(ix,iy,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
-        v1WtaWtCent[iy-1]->SetBinContent(ix,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
       }
 
     }
