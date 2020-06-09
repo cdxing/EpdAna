@@ -615,7 +615,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
         double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
-        v1EtaWeight=1;// test for nmip =2
         if(v1EtaWeight == 0){
           std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight << std::endl;
         }
