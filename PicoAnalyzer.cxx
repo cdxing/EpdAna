@@ -117,7 +117,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[5] = {-5.16,-3.82,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP
+  Double_t etaRange[5] = {-5.1,-4.2,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
@@ -758,7 +758,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
     }
     // std::cout << std::endl;
-    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
+    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
         PsiEastShifted[EventTypeId] = PsiEastRaw[EventTypeId]; // use raw EP rather than Phi weighing EP
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
@@ -790,7 +790,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=_EpTermsMaxIni; i++){
-      for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.16,-3.82,-3.28,-2.87,-2.60}
+      for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
         if(PsiEastRaw[EventTypeId]==-999.0) continue;
         mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRaw[EventTypeId]));// use raw EP rather than Phi weighing EP
@@ -943,13 +943,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
       QrawTpcAll[0] += rapWeight * Cosine;
       QrawTpcAll[1] += rapWeight * Sine;
-      if(PsiEastShifted[0]!=-999.0){
+      if(PsiEastShifted[1]!=-999.0){
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,rapWeight * TMath::Cos((phi-PsiEastShifted[0])*(Double_t)EpOrder));
-        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0]));//Use EPD-3 as primary event plane
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0])); // [] is from 0 to 8, centrality is from 1 to 9.
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-3 as primary event plane
+        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
       }
       hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
