@@ -290,7 +290,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Double_t etaRange_tpc[2] = {-0.6,0.}; // EPD eta range to set 4 sub EPD EP
   TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
   for (int ix=1; ix<301; ix++){
-    for (int iy=1; iy<2; iy++){
+    for (int iy=1; iy<3; iy++){
       double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
       if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
       else {
