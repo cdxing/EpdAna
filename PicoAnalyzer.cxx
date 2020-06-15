@@ -962,7 +962,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
       // Use all the good tracks to determine TPC EP
       double etaTrkWeight = 0.;
-      if(eta>=_y_mid) {etaTrkWeight = 1.} else{
+      if(eta>=_y_mid) {etaTrkWeight = 1.;} else{
         etaTrkWeight = -1;
       }
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
