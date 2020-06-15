@@ -956,18 +956,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_mass_pionMinus->Fill(charge*ptot,mass2);
         }
       }
-      if(particleType==-999) continue; // No particle identified
-      if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==1||particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
-      if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
+      // if(particleType==-999) continue; // No particle identified
+      // if(particleType==0) rapWeight= rapProton + 2.02; // y_CM = -2.02, COM rapidity
+      // if(particleType==1||particleType==2) rapWeight= rapKaon + 2.02; // y_CM = -2.02, COM rapidity
+      // if(particleType==3||particleType==4) rapWeight= rapPion + 2.02;// y_CM = -2.02, COM rapidity
+      // Use all the good tracks to determine TPC EP
+      double etaTrkWeight = 0.;
+      if(eta>=_y_mid) {etaTrkWeight = 1.} else{
+        etaTrkWeight = -1;
+      }
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
         int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
         if(etaWeight>0.0 && rapWeight!=0) NTpcAll[EventTypeId_tpc]++;
         double Cosine = cos(phi*(double)EpOrder);
         double Sine   = sin(phi*(double)EpOrder);
-        QrawTpcAll[EventTypeId_tpc][0] += etaWeight * rapWeight * Cosine;
-        QrawTpcAll[EventTypeId_tpc][1] += etaWeight * rapWeight * Sine;
+        QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
+        QrawTpcAll[EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
       }
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1
