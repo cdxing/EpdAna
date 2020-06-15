@@ -1329,7 +1329,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   outputFile->cd();
   wt.Write();
-  wt_tpc.Write();
+  // wt_tpc.Write();
   v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
