@@ -287,7 +287,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.6,0.}; // EPD eta range to set 4 sub EPD EP
+  Double_t etaRange_tpc[2] = {-0.4,0.}; // EPD eta range to set 4 sub EPD EP
   TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
   for (int ix=1; ix<301; ix++){
     for (int iy=1; iy<3; iy++){
