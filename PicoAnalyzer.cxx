@@ -968,7 +968,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
         int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
-        if(etaWeight>0.0 && rapWeight!=0) NTpcAll[EventTypeId_tpc]++;
+        if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
         double Cosine = cos(phi*(double)EpOrder);
         double Sine   = sin(phi*(double)EpOrder);
         QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
@@ -977,7 +977,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,rapWeight * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
         profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-3 as primary event plane
