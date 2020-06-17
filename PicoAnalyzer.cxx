@@ -118,7 +118,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.1,-4.2,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP
+  Double_t etaRange[_nEventTypeBins] = {-5.1,-4.5,-4.4,-4.0,-2.60}; // EPD eta range to set 4 sub EPD EP
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
@@ -220,6 +220,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *profile2D_PpVsEta = new TProfile2D("profile2D_PpVsEta","mean tile weight vs. epd #eta in each supersector",700,-6.5,0.5,12,0.5,12.5,0.3,3.0,"");
   profile2D_PpVsEta->Sumw2();
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  TH2D *h2_nMip_eta_cent = new TH2D("h2_nMip_eta_cent","Sum of nMIP VS. #eta VS. centrality ",20,-6.5,-1.5,_Ncentralities,0.5,_Ncentralities+0.5);
   TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
@@ -619,6 +620,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_Epdeta->Fill(eta);
       hist_Epdphi->Fill(phi);
       profile2D_PpVsEta->Fill(eta,PP,TileWeight);
+      h2_nMip_eta_cent->Fill(eta,centrality,TileWeight);
+
       //---------------------------------
       // fill Phi Weight histograms to be used in next iteration (if desired)
       // Obviously, do this BEFORE phi weighting!
