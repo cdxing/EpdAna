@@ -354,7 +354,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
-          40,-7.0,3.0, // total eta range
+          80,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0,"");//Use EPD-3 as primary event plane
   profile2D_v1VsCentVsEta->Sumw2();
@@ -1051,19 +1051,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //--------------------------------
       // Fill the directed flow into the TProfile2D and TProfile
       //--------------------------------
-      // if(PsiTpcAllShifted[1]!=-999.0){//Use TPC EP for EPD v1
-      //     profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
-      //     profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
-      // }
-      // if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
-      //   if(PsiEastShifted[3]!=-999.0){
-      //     // ------------------- Fill the eta weighting histograms --------------------------
-      //       profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
-      //       profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
-      //   }
-      // } else
-      if(PsiEastShifted[1]!=-999.0){
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-3 as primary event plane
+      if(PsiTpcAllShifted[1]!=-999.0){//Use TPC EP for EPD v1
+          profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
+          // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+      }
+      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
+        if(PsiEastShifted[3]!=-999.0){
+          // ------------------- Fill the eta weighting histograms --------------------------
+            // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3]));//Use EPD-3 as primary event plane
+            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])); // [] is from 0 to 8, centrality is from 1 to 9.
+        }
+      } else if(PsiEastShifted[1]!=-999.0){
+        // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1]));//Use EPD-3 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
       }
     } // loop over EPD hits
