@@ -354,7 +354,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","Directed flow VS. #eta VS. centality",
-          80,-7.0,3.0, // total eta range
+          160,-7.0,3.0, // total eta range
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0,"");//Use EPD-3 as primary event plane
   profile2D_v1VsCentVsEta->Sumw2();
