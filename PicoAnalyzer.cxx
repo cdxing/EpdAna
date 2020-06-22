@@ -136,18 +136,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   double pr2[9] =  {0.00484939,0.00620883,0.00834932,0.0117018,0.0154964,0.0198621,0.0245629,0.0297327,0.0355797,};
   double pr3[9] =  {-0.00138009,-0.00193065,-0.00283936,-0.0042699,-0.00576823,-0.00747499,-0.00921599,-0.0111905,-0.0133779,};
 
-  double lin[9] = {-3.49663,-4.37747,-0.987117,-2.04625,-0.847424,-4.71427,-5.12243,-1.55053,-1.76576};
-  double cub[9] = {0.31864,0.390922,0.103803,0.355138,0.223553,0.977869,1.25976,0.573287,0.3495};
+  double lin[9] =  {-3.48854,-3.11181,-4.60866,-10.2968,-18.9026,-29.7224,-36.0511,-34.138,-27.9139};
+  double cub[9] =  {3.38567,4.13951,5.62233,8.1736,11.2449,14.872,18.217,19.7081,20.5301};
   TH2D *v1WtaWt = new TH2D("v1WtaWt","v1WtaWt",200,-6.5,-1.5,_Ncentralities,0.5,0.5+_Ncentralities);
   for (int ix=1; ix<201; ix++){
     for (int iy=1; iy<10; iy++){
       double eta = v1WtaWt->GetXaxis()->GetBinCenter(ix);
-      // v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
-      if(eta>=-3.66){
-        v1WtaWt->SetBinContent(ix,iy,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
-      } else {
-        v1WtaWt->SetBinContent(ix,iy,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
-      }
+      v1WtaWt->SetBinContent(ix,iy,lin[iy-1]*(eta-_y_mid)+cub[iy-1]*pow((eta-_y_mid),3));
+      // if(eta>=-3.66){
+      //   v1WtaWt->SetBinContent(ix,iy,pr3[iy-1]*pow(eta-_y_mid,3) + pr2[iy-1]*pow(eta-_y_mid,1));
+      // } else {
+      //   v1WtaWt->SetBinContent(ix,iy,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
+      // }
 
     }
   }
@@ -221,10 +221,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile2D_PpVsEta->Sumw2();
   TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
   TH2D *h2_nMip_eta_cent = new TH2D("h2_nMip_eta_cent","Sum of nMIP VS. #eta VS. centrality ",20,-6.5,-1.5,_Ncentralities,0.5,_Ncentralities+0.5);
-  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins];
+  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins], *h2_TtVsPpHit[_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
     h2_TtVsPpNmip[EventTypeId] = new TH2D(Form("h2_TtVsPpNmip_%d",EventTypeId),Form("nMIP in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
+    h2_TtVsPpHit[EventTypeId] = new TH2D(Form("h2_TtVsPpHit_%d",EventTypeId),Form("Hits in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
   }
   // --------------------- TPC event plane QA histograms ----------------------------------
   TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
@@ -649,7 +650,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
         double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
-        v1EtaWeight = 1; // disable v1 eta weight
+        // v1EtaWeight = 1; // disable v1 eta weight
         if(v1EtaWeight == 0){
           std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight << std::endl;
         }
@@ -664,6 +665,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(etaWeight==1){
           h2_TtVsPp[EventTypeId]->Fill(PP,TT);
           h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,TileWeight);
+          h2_TtVsPpHit[EventTypeId]->Fill(PP,TT);
+
         }
       }
     } // loop over EPD hits
