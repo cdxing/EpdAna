@@ -672,12 +672,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
-    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-      for (int xy=0; xy<2; xy++){
-        QrawEastSide[EventTypeId][xy]           *= -1.0;
-        // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
-      }
-    }
+    // Comment this out if v1 eta weighting used
+    // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){// Comment this out if v1 eta weighting used
+    //   for (int xy=0; xy<2; xy++){
+    //     QrawEastSide[EventTypeId][xy]           *= -1.0;
+    //     // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
+    //   }
+    // }
     // To remove autocorrelation in EPD-3, calculate Qvector for each epd hit in EPD-3: -5.16 <= eta < -3.82
     std::map<int,TVector2> mpQvctrEpdSub;
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
