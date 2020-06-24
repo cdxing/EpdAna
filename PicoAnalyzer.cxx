@@ -136,8 +136,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   double pr2[9] =  {0.00484939,0.00620883,0.00834932,0.0117018,0.0154964,0.0198621,0.0245629,0.0297327,0.0355797,};
   double pr3[9] =  {-0.00138009,-0.00193065,-0.00283936,-0.0042699,-0.00576823,-0.00747499,-0.00921599,-0.0111905,-0.0133779,};
 
-  double lin[9] =  {-5.46179,-5.47208,-7.52662,-13.8769,-22.1191,-32.3998,-37.475,-35.6081,-29.0994};
-  double cub[9] =  {4.65701,5.56554,7.28927,9.98739,12.8752,16.1809,18.9042,20.3696,21.168};
+  double lin[9] =        {-0.000479872,-0.000468419,-0.000698331,-0.00136243,-0.00227147,-0.00314487,-0.00381054,-0.00416527,-0.00382669,}
+  double cub[9] =        {0.000453689,0.000550043,0.00072002,0.00100187,0.00129868,0.00160751,0.0018985,0.00218509,0.00234319,}
   TH2D *v1WtaWt = new TH2D("v1WtaWt","v1WtaWt",200,-6.5,-1.5,_Ncentralities,0.5,0.5+_Ncentralities);
   for (int ix=1; ix<201; ix++){
     for (int iy=1; iy<10; iy++){
@@ -650,7 +650,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
         int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
         double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
-        v1EtaWeight = 1.0; // disable v1 eta weighting
+        // v1EtaWeight = 1.0; // disable v1 eta weighting
         if(v1EtaWeight == 0){
           std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight << std::endl;
         }
@@ -673,12 +673,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
     // Comment this out if v1 eta weighting used
-    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){// Comment this out if v1 eta weighting used
-      for (int xy=0; xy<2; xy++){
-        QrawEastSide[EventTypeId][xy]           *= -1.0;
-        // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
-      }
-    }
+    // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){// Comment this out if v1 eta weighting used
+    //   for (int xy=0; xy<2; xy++){
+    //     QrawEastSide[EventTypeId][xy]           *= -1.0;
+    //     // QphiWeightedEastSide[EventTypeId][xy]           *= -1.0;
+    //   }
+    // }
 
     // To remove autocorrelation in EPD-3, calculate Qvector for each epd hit in EPD-3: -5.16 <= eta < -3.82
     std::map<int,TVector2> mpQvctrEpdSub;
