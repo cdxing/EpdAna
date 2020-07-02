@@ -130,6 +130,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
+  // resolution
+  double d_resolution[_Ncentralities] = {0.304425,0.349247,0.404517,0.449711,0.478239,0.479774,0.353135,0.244189,0.234358};
   // v1 eta weighting
   double pr0[9] =  {-0.00146843,-0.00120124,-0.0016722,-0.00170085,-0.00198228,-0.00281638,-0.00343895,-0.00415811,-0.00537868,};
   double pr1[9] =  {-0.000426648,-0.000325884,-0.000581794,-0.000747585,-0.00103814,-0.00151215,-0.00188201,-0.00212849,-0.00257166,};
@@ -422,7 +424,350 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   new TH2D("correlation2D_epd_tpc_all",
   "#psi^{EPD east}[full] vs. #psi^{TPC}",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // ------------- phi-meson output file and plots -----------------------------
+  double ptSetA[3]  = {0.4, 1.2, 2.0};
+  double ptSetB[5]  = {0.4, 0.7, 1.0, 1.4, 2.0};
+  double ptSetC[11] = {0.2, 0.4, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 4.0};
 
+  double rapSetA[5]  = {-2.0, -1.5, -1.0, -0.5, 0};
+
+  double centSetA[5]  = {0, 10, 40, 60, 80}; // %
+  double centSetB[10]  = {0, 5, 10, 20, 30, 40, 50, 60, 70, 80}; // %
+  TString PhiOutputName = "PhiMesonAna_OUTPUT_";
+  PhiOutputName += outFile;
+  PhiOutputName += ".root";
+  TFile* PhiMesonAnaOutputFile = new TFile(PhiOutputName,"RECREATE");
+  TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
+  TH1D * hist_SE_mass_Phi     = new TH1D("hist_SE_mass_Phi","Same event invariant mass",200,0.9,1.1);
+  TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
+  TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
+  TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
+  TH2D *hist_SE_pt_y_PhiMeson = new TH2D("hist_SE_pt_y_PhiMeson","p_{T} [GeV/c] vs. y of #phi",500,-3.0,0.5,500,0.0,3.5);
+  // pt SetA, cent SetA
+  TH1D *mHist_SE_InvM_ptSetA_centSetA[2][6];
+  TH2D *mHist_v1_raw_ptSetA_centSetA[2][6];
+  TH2D *mHist_v1_reso_ptSetA_centSetA[2][6];
+  TH2D *mHist_v2_raw_ptSetA_centSetA[2][6];
+  TH2D *mHist_v2_reso_ptSetA_centSetA[2][6];
+  TProfile *mProfile_v1_raw_ptSetA_centSetA[2][6];
+  TProfile *mProfile_v1_reso_ptSetA_centSetA[2][6];
+  TProfile *mProfile_v2_raw_ptSetA_centSetA[2][6];
+  TProfile *mProfile_v2_reso_ptSetA_centSetA[2][6];
+  for(int pt=0; pt<2; pt++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mHist_SE_InvM_ptSetA_centSetA[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent),
+      200,0.9,1.1);
+      mHist_SE_InvM_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_v1_raw_ptSetA%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+      mHist_v1_reso_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_v1_reso_ptSetA%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+      mHist_v2_raw_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_v2_raw_ptSetA%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+      mHist_v2_reso_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_v2_reso_ptSetA%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+    }
+  }
+  // pt SetA, cent SetB
+  TH1D *mHist_SE_InvM_ptSetA_centSetB[2][9];
+  TH2D *mHist_v1_raw_ptSetA_centSetB[2][9];
+  TH2D *mHist_v1_reso_ptSetA_centSetB[2][9];
+  TH2D *mHist_v2_raw_ptSetA_centSetB[2][9];
+  TH2D *mHist_v2_reso_ptSetA_centSetB[2][9];
+  TProfile *mProfile_v1_raw_ptSetA_centSetB[2][9];
+  TProfile *mProfile_v1_reso_ptSetA_centSetB[2][9];
+  TProfile *mProfile_v2_raw_ptSetA_centSetB[2][9];
+  TProfile *mProfile_v2_reso_ptSetA_centSetB[2][9];
+  for(int pt=0; pt<2; pt++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mHist_SE_InvM_ptSetA_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetB%d",pt,cent),
+      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+      200,0.9,1.1);
+      mHist_SE_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetB%d",pt,cent),
+      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v1_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetB%d",pt,cent),
+      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+
+      mHist_v2_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetB%d",pt,cent),
+      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+      mHist_v2_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetB%d",pt,cent),
+      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+    }
+  }
+  // pt SetB, cent SetA
+  TH1D *mHist_SE_InvM_ptSetB_centSetA[4][6];
+  TH2D *mHist_v1_raw_ptSetB_centSetA[4][6];
+  TH2D *mHist_v1_reso_ptSetB_centSetA[4][6];
+  TH2D *mHist_v2_raw_ptSetB_centSetA[4][6];
+  TH2D *mHist_v2_reso_ptSetB_centSetA[4][6];
+  TProfile *mProfile_v1_raw_ptSetB_centSetA[4][6];
+  TProfile *mProfile_v1_reso_ptSetB_centSetA[4][6];
+  TProfile *mProfile_v2_raw_ptSetB_centSetA[4][6];
+  TProfile *mProfile_v2_reso_ptSetB_centSetA[4][6];
+  for(int pt=0; pt<4; pt++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mHist_SE_InvM_ptSetB_centSetA[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetA%d",pt,cent),
+      Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent),
+      200,0.9,1.1);
+      mHist_SE_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetA%d",pt,cent),
+      Form("Hist_v1_raw_ptSetB%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v1_reso_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetA%d",pt,cent),
+      Form("Hist_v1_reso_ptSetB%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+
+      mHist_v2_raw_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetA%d",pt,cent),
+      Form("Hist_v2_raw_ptSetB%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v2_reso_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetA%d",pt,cent),
+      Form("Hist_v2_reso_ptSetB%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+    }
+  }
+  // pt SetB, cent SetB
+  TH1D *mHist_SE_InvM_ptSetB_centSetB[4][9];
+  TH2D *mHist_v1_raw_ptSetB_centSetB[4][9];
+  TH2D *mHist_v1_reso_ptSetB_centSetB[4][9];
+  TH2D *mHist_v2_raw_ptSetB_centSetB[4][9];
+  TH2D *mHist_v2_reso_ptSetB_centSetB[4][9];
+  TProfile *mProfile_v1_raw_ptSetB_centSetB[4][9];
+  TProfile *mProfile_v1_reso_ptSetB_centSetB[4][9];
+  TProfile *mProfile_v2_raw_ptSetB_centSetB[4][9];
+  TProfile *mProfile_v2_reso_ptSetB_centSetB[4][9];
+  for(int pt=0; pt<4; pt++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mHist_SE_InvM_ptSetB_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetB%d",pt,cent),
+      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+      200,0.9,1.1);
+      mHist_SE_InvM_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetB%d",pt,cent),
+      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v1_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetB%d",pt,cent),
+      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+
+      mHist_v2_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetB%d",pt,cent),
+      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+      mHist_v2_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetB%d",pt,cent),
+      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+    }
+  }
+  // pt SetC, cent 0-60%, 0-80%
+  TH1D *mHist_SE_InvM_ptSetC_centAll[10][2];
+  TH2D *mHist_v1_raw_ptSetC_centAll[10][2];
+  TH2D *mHist_v1_reso_ptSetC_centAll[10][2];
+  TH2D *mHist_v2_raw_ptSetC_centAll[10][2];
+  TH2D *mHist_v2_reso_ptSetC_centAll[10][2];
+  TProfile *mProfile_v1_raw_ptSetC_centAll[10][2];
+  TProfile *mProfile_v1_reso_ptSetC_centAll[10][2];
+  TProfile *mProfile_v2_raw_ptSetC_centAll[10][2];
+  TProfile *mProfile_v2_reso_ptSetC_centAll[10][2];
+  for(int pt=0; pt<10; pt++)
+  {
+    for(int cent=0; cent<2;cent++){
+      mHist_SE_InvM_ptSetC_centAll[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetC%d_centAll%d",pt,cent),
+      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+      200,0.9,1.1);
+      mHist_SE_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetC%d_centAll%d",pt,cent),
+      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v1_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetC%d_centAll%d",pt,cent),
+      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+
+      mHist_v2_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetC%d_centAll%d",pt,cent),
+      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+      mHist_v2_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetC%d_centAll%d",pt,cent),
+      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+    }
+  }
+  // rap SetA, cent SetA
+  TH1D *mHist_SE_InvM_rapSetA_centSetA[4][6];
+  TH2D *mHist_v1_raw_rapSetA_centSetA[4][6];
+  TH2D *mHist_v1_reso_rapSetA_centSetA[4][6];
+  TH2D *mHist_v2_raw_rapSetA_centSetA[4][6];
+  TH2D *mHist_v2_reso_rapSetA_centSetA[4][6];
+  TProfile *mProfile_v1_raw_rapSetA_centSetA[4][6];
+  TProfile *mProfile_v1_reso_rapSetA_centSetA[4][6];
+  TProfile *mProfile_v2_raw_rapSetA_centSetA[4][6];
+  TProfile *mProfile_v2_reso_rapSetA_centSetA[4][6];
+  for(int rap=0; rap<4; rap++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mHist_SE_InvM_rapSetA_centSetA[rap][cent] = new TH1D(Form("Hist_SE_InvM_rapSetA%d_centSetA%d",rap,cent),
+      Form("Hist_SE_InvM_rapSetA%d_centSetA%d",rap,cent),
+      200,0.9,1.1);
+      mHist_SE_InvM_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_rapSetA_centSetA[rap][cent] = new TH2D(Form("Hist_v1_raw_rapSetA%d_centSetA%d",rap,cent),
+      Form("Hist_v1_raw_rapSetA%d_centSetA%d",rap,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v2_reso_ptSetC_centSetA[rap][cent] = new TH2D(Form("Hist_v2_reso_ptSetC%d_centSetA%d",rap,cent),
+      Form("Hist_v2_reso_ptSetC%d_centSetA%d",rap,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_ptSetC_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_ptSetC_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v2_raw_rapSetA_centSetA[rap][cent] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetA%d",rap,cent),
+      Form("Hist_v2_raw_rapSetA%d_centSetA%d",rap,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+      mHist_v2_reso_rapSetA_centSetA[rap][cent] = new TH2D(Form("Hist_v2_reso_rapSetA%d_centSetA%d",rap,cent),
+      Form("Hist_v2_reso_rapSetA%d_centSetA%d",rap,cent),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+    }
+  }
+  // rap SetA, cent SetB
+  TH1D *mHist_SE_InvM_rapSetA_centSetB[4][9];
+  TH2D *mHist_v1_raw_rapSetA_centSetB[4][9];
+  TH2D *mHist_v1_reso_rapSetA_centSetB[4][9];
+  TH2D *mHist_v2_raw_rapSetA_centSetB[4][9];
+  TH2D *mHist_v2_reso_rapSetA_centSetB[4][9];
+  TProfile *mProfile_v1_raw_rapSetA_centSetB[4][9];
+  TProfile *mProfile_v1_reso_rapSetA_centSetB[4][9];
+  TProfile *mProfile_v2_raw_rapSetA_centSetB[4][9];
+  TProfile *mProfile_v2_reso_rapSetA_centSetB[4][9];
+  for(int rap=0; rap<4; rap++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mHist_SE_InvM_rapSetA_centSetB[rap][cent] = new TH1D(Form("Hist_SE_InvM_rapSetA%d_centSetB%d",rap,cent),
+      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
+      200,0.9,1.1);
+      mHist_SE_InvM_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+
+      mHist_v1_raw_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v1_raw_rapSetA%d_centSetB%d",rap,cent),
+      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_raw_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_raw_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v1_reso_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v1_reso_rapSetA%d_centSetB%d",rap,cent),
+      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v1_reso_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+      mHist_v2_raw_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetB%d",rap,cent),
+      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_raw_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_raw_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+      mHist_v2_reso_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v2_reso_rapSetA%d_centSetB%d",rap,cent),
+      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
+      100,0.9,1.1,
+      1000,-1.0,1.0);
+      mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+    }
+  }
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -448,8 +793,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
 
-    const Float_t   B = event->bField(); // Magnetic field
-    double d_MagField = event->bField();
+    const Float_t   f_MagField = event->bField(); // Magnetic field
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
     hist_runId->Fill(Day);
 
@@ -510,10 +854,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double        tofBeta    = -999.;
       if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
       if(trait)        tofBeta = trait->btofBeta();
-      double d_px  = picoTrack->gMom().x();
-      double d_py  = picoTrack->gMom().y();
-      double d_pz  = picoTrack->gMom().z();
-      double d_pT  = picoTrack->gPt();
+      double d_px  = picoTrack->pMom().x();
+      double d_py  = picoTrack->pMom().y();
+      double d_pz  = picoTrack->pMom().z();
+      double d_pT  = picoTrack->pPt();
       double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
       double mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0);
       Double_t eta = picoTrack->pMom().Eta();
@@ -830,6 +1174,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // (8) ================ TPC event plane : use identedfied particles ====================================
+    // Fill kaon tracks for phi meson analysis
+    std::vector<StPicoTrack *> v_KaonPlus_tracks;
+    std::vector<StPicoTrack *> v_KaonMinus_tracks;
     // Define TPC EP parameters
     Int_t NTpcAll[2] = {0};
     Double_t QrawTpcAll[2][2]={0.0};       /// indices:[TPCetaRange] [x,y]
@@ -904,6 +1251,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(charge > 0){
           particleType=1;// K+
           nKaonPlus++;
+          v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
@@ -918,6 +1266,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
+          v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1094,7 +1443,298 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRaw[EventTypeId_tpc]));
       }
     }
+    // (9) ======================= Phi meson analysis  =========================
+    double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
+    for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
+      StPicoTrack * picoTrack0 = v_KaonPlus_tracks.at(i); // i-th K+ track
+      if(!picoTrack0) continue;
+      // K+ Variables
+      double d_charge0  = picoTrack0->charge();
+      double d_px0      = picoTrack0->pMom().x();
+      double d_py0      = picoTrack0->pMom().y();
+      double d_pz0      = picoTrack0->pMom().z();
+      double d_pT0      = picoTrack0->pPt();
+      double d_mom0     = sqrt(d_pT0*d_pT0 + d_pz0*d_pz0);
+      StPicoBTofPidTraits *trait0 = NULL;
+      double d_tofBeta0    = -999.;
+      if(picoTrack0->isTofTrack()) trait0 = dst->btofPidTraits( picoTrack0->bTofPidTraitsIndex() );
+      if(trait0)        d_tofBeta0 = trait0->btofBeta();
+      double d_M0   = _massKaon;
+      double d_E0   = sqrt((d_px0*d_px0+d_py0*d_py0+d_pz0*d_pz0)+_massKaon*_massKaon);
+      double d_mom0 = sqrt(d_px0*d_px0+d_py0*d_py0+d_pz0*d_pz0);
+      double d_y0   = ((d_E0-d_pz0) != 0.0) ? 0.5*TMath::Log( (d_E0 + d_pz0) / (d_E0 - d_pz0) ) : -999.0;
+      double eta0   = ((d_mom0 - d_pz0) != 0.0) ? 0.5*TMath::Log( (d_mom0 + d_pz0) / (d_mom0 - d_pz0) ) : -999.0;
+      double d_pT0  = sqrt(d_px0*d_px0+d_py0*d_py0);
+      double d_mT0  = sqrt(d_pT0*d_pT0 + d_M0*d_M0);
+      double mass2_0 = d_mom0*d_mom0*((1.0/(d_tofBeta0*d_tofBeta0))-1.0);
+      for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
+        StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
+        if(!picoTrack1) continue;
+        // K- Variables
+        double d_charge1  = picoTrack1->charge();
+        if(d_charge0 == d_charge1) continue; // same charge cut
+        double d_px1      = picoTrack1->pMom().x();
+        double d_py1      = picoTrack1->pMom().y();
+        double d_pz1      = picoTrack1->pMom().z();
+        double d_pT1      = picoTrack1->pPt();
+        double d_mom1     = sqrt(d_pT1*d_pT1 + d_pz1*d_pz1);
+        StPicoBTofPidTraits *trait1 = NULL;
+        double d_tofBeta1    = -999.;
+        if(picoTrack1->isTofTrack()) trait1 = dst->btofPidTraits( picoTrack1->bTofPidTraitsIndex() );
+        if(trait1)        d_tofBeta1 = trait1->btofBeta();
+        double d_M1   = _massKaon;
+        double d_E1   = sqrt((d_px1*d_px1+d_py1*d_py1+d_pz1*d_pz1)+_massKaon*_massKaon);
+        double d_mom1 = sqrt(d_px1*d_px1+d_py1*d_py1+d_pz1*d_pz1);
+        double d_y1   = ((d_E1-d_pz1) != 0.0) ? 0.5*TMath::Log( (d_E1 + d_pz1) / (d_E1 - d_pz1) ) : -999.0;
+        double eta1   = ((d_mom1 - d_pz1) != 0.0) ? 0.5*TMath::Log( (d_mom1 + d_pz1) / (d_mom1 - d_pz1) ) : -999.0;
+        double d_pT1  = sqrt(d_px1*d_px1+d_py1*d_py1);
+        double d_mT1  = sqrt(d_pT1*d_pT1 + d_M1*d_M1);
+        double mass2_1 = d_mom1*d_mom1*((1.0/(d_tofBeta1*d_tofBeta1))-1.0);
+        // phi Variables
+        double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
+        double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
+        double d_mT_phi = sqrt(d_Phi_pT*d_Phi_pT + _m_phi*_m_phi );
+        double d_phi_pz = d_pz0+d_pz1;
+        double d_phi_E  = d_E0+d_E1;
+        double d_phi_y  = ((d_phi_E - d_phi_pz) != 0.0) ?  0.5*TMath::Log( (d_phi_E + d_phi_pz) / (d_phi_E - d_phi_pz) ) : -9999;
+        double d_inv_m  = sqrt(  d_M0*d_M0
+                              + d_M1*d_M1
+                              + 2.0 *d_E0*d_E1
+                              - 2.0 *(d_px0*d_px1+d_py0*d_py1+d_pz0*d_pz1) );
 
+        hist_dip_angle         ->Fill(d_dip_angle);
+        hist_SE_mass_Phi    ->Fill(d_inv_m);
+        hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
+        hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
+        hist_SE_PhiMeson_rap ->Fill(d_phi_y);
+        hist_SE_pt_y_PhiMeson ->Fill(d_phi_y,d_Phi_pT);
+        // ---------------- phi-meson cuts: decay length, dip angle ------------
+        StPicoPhysicalHelix    trackhelix0 = picoTrack0->helix(f_MagField);
+        StPicoPhysicalHelix    trackhelix1 = picoTrack1->helix(f_MagField);
+        pair<double,double> pairLengths = trackhelix0.pathLengths(trackhelix1);
+        TVector3 v3D_x_daughter0 = trackhelix0.at(pairLengths.first);
+        TVector3 v3D_x_daughter1 = trackhelix1.at(pairLengths.second);
+        TVector3 v3D_x_mother    = (v3D_x_daughter0+v3D_x_daughter1)*0.5;
+        TVector3 v3D_xvec_decayl = v3D_x_mother - pVtx;
+        double d_mother_decay_length =  v3D_xvec_decayl.Mag();
+        if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
+        if(d_dip_angle<0.04) continue; // dip-angle cut
+        // --------------------- phi-meson flows -------------------------------
+        TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
+        TVector3 v3D_p_daughter1 = trackhelix1.momentumAt(pairLengths.second, f_MagField*kilogauss);
+        TVector3 v3D_p_mother    = v3D_p_daughter0+v3D_p_daughter1;
+        double d_pmom = v3D_xvec_decayl.Dot(v3D_p_mother);
+        double d_dca_mother = sqrt(v3D_xvec_decayl.Mag2() - (d_pmom*d_pmom/v3D_p_mother.Mag2()) );
+        double d_phi_azimuth = v3D_p_mother.Phi();
+        if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+        if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+        double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+        double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
+        if(PsiEastShifted[1]!=-999.0){// Using EPD-1
+          for(int km=0;km<2;km++){ // km - flow order
+            d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+            d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[centrality]);
+          }
+        }
+        // -------------------- (9.1) Fill SE InvM plots -------------------------
+        for(int pt=0; pt<2; pt++)
+        {// pt SetA, cent SetA
+          if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_SE_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m); // 0-10%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_SE_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m); // 10-40%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_SE_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m); // 40-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_SE_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m); // 40-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_SE_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m); // 0-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_SE_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m); // 0-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+            }
+          }
+        }
+        for(int pt=0; pt<2; pt++)
+        {// pt SetA, cent SetB
+          for(int cent=0; cent<9;cent++){
+            if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
+              if(centrality == cent+1 ){
+                mHist_SE_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m);
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+          }
+        }
+        for(int i=0; i<4; i++)
+        {// pt SetB, cent SetA
+          if(d_Phi_pT >= ptSetB[i] && d_Phi_pT <= ptSetB[i+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_SE_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m); // 0-10%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_SE_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m); // 10-40%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_SE_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m); // 40-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_SE_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m); // 40-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_SE_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m); // 0-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_SE_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m); // 0-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+            }
+          }
+
+          // rap SetA, cent SetA
+          if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_SE_InvM_rapSetA_centSetA[i][0]->Fill(d_inv_m); // 0-10%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_SE_InvM_rapSetA_centSetA[i][1]->Fill(d_inv_m); // 10-40%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_SE_InvM_rapSetA_centSetA[i][2]->Fill(d_inv_m); // 40-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_SE_InvM_rapSetA_centSetA[i][3]->Fill(d_inv_m); // 40-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_SE_InvM_rapSetA_centSetA[i][4]->Fill(d_inv_m); // 0-60%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_SE_InvM_rapSetA_centSetA[i][5]->Fill(d_inv_m); // 0-80%
+              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+            }
+          }
+          // rap SetA, cent SetB
+          for(int cent=0; cent<9;cent++){
+            if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
+              if(centrality == cent+1 ){
+                mHist_SE_InvM_rapSetA_centSetB[i][cent]->Fill(d_inv_m);
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetB[i][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetB[i][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetB[i][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetB[i][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+          }
+        }
+        for(int pt=0; pt<4; pt++)
+        {// pt SetB, cent SetB
+          for(int cent=0; cent<9;cent++){
+            if(d_Phi_pT >= ptSetB[pt] && d_Phi_pT <= ptSetB[pt+1]){
+              if(centrality == cent+1 ){
+                mHist_SE_InvM_ptSetB_centSetB[pt][cent]->Fill(d_inv_m);
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+          }
+        }
+        for(int pt=0; pt<10; pt++)
+        {// pt SetC, cent 0-60%, 0-80%
+          for(int cent=0; cent<2;cent++){
+            if(d_Phi_pT >= ptSetC[pt] && d_Phi_pT <= ptSetC[pt+1]){
+              if(centrality >= 1 && centrality <= cent*2 + 7 ){
+                mHist_SE_InvM_ptSetC_centAll[pt][cent]->Fill(d_inv_m);
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+          }
+        }
+
+
+      }
+    }
 
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
@@ -1363,6 +2003,186 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile2D_v1VsCentVsEta->GetYaxis()->SetBinLabel(8,"60-70");
   profile2D_v1VsCentVsEta->GetYaxis()->SetBinLabel(9,"70-80");
 
+  // -------------------------------- Set titles -------------------------------
+  for(int i=0; i<4; i++)
+  {// pt SetB, cent SetA
+    mHist_SE_InvM_ptSetB_centSetA[i][0]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+    mHist_SE_InvM_ptSetB_centSetA[i][1]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+    mHist_SE_InvM_ptSetB_centSetA[i][2]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+    mHist_SE_InvM_ptSetB_centSetA[i][3]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+    mHist_SE_InvM_ptSetB_centSetA[i][4]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+    mHist_SE_InvM_ptSetB_centSetA[i][5]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_raw_ptSetB_centSetA[i][0]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+    mHist_v1_raw_ptSetB_centSetA[i][1]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+    mHist_v1_raw_ptSetB_centSetA[i][2]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+    mHist_v1_raw_ptSetB_centSetA[i][3]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+    mHist_v1_raw_ptSetB_centSetA[i][4]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+    mHist_v1_raw_ptSetB_centSetA[i][5]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_reso_ptSetB_centSetA[i][0]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+    mHist_v1_reso_ptSetB_centSetA[i][1]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+    mHist_v1_reso_ptSetB_centSetA[i][2]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+    mHist_v1_reso_ptSetB_centSetA[i][3]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+    mHist_v1_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+    mHist_v1_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_raw_ptSetB_centSetA[i][0]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+    mHist_v2_raw_ptSetB_centSetA[i][1]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+    mHist_v2_raw_ptSetB_centSetA[i][2]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+    mHist_v2_raw_ptSetB_centSetA[i][3]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+    mHist_v2_raw_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+    mHist_v2_raw_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_reso_ptSetB_centSetA[i][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+    mHist_v2_reso_ptSetB_centSetA[i][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+    mHist_v2_reso_ptSetB_centSetA[i][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+    mHist_v2_reso_ptSetB_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+    mHist_v2_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+    mHist_v2_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+    // rap SetA, cent SetA
+    mHist_SE_InvM_rapSetA_centSetA[i][0]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
+    mHist_SE_InvM_rapSetA_centSetA[i][1]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
+    mHist_SE_InvM_rapSetA_centSetA[i][2]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
+    mHist_SE_InvM_rapSetA_centSetA[i][3]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
+    mHist_SE_InvM_rapSetA_centSetA[i][4]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
+    mHist_SE_InvM_rapSetA_centSetA[i][5]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_raw_rapSetA_centSetA[i][0]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
+    mHist_v1_raw_rapSetA_centSetA[i][1]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
+    mHist_v1_raw_rapSetA_centSetA[i][2]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
+    mHist_v1_raw_rapSetA_centSetA[i][3]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
+    mHist_v1_raw_rapSetA_centSetA[i][4]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
+    mHist_v1_raw_rapSetA_centSetA[i][5]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_reso_rapSetA_centSetA[i][0]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
+    mHist_v1_reso_rapSetA_centSetA[i][1]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
+    mHist_v1_reso_rapSetA_centSetA[i][2]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
+    mHist_v1_reso_rapSetA_centSetA[i][3]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
+    mHist_v1_reso_rapSetA_centSetA[i][4]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
+    mHist_v1_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_raw_rapSetA_centSetA[i][0]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
+    mHist_v2_raw_rapSetA_centSetA[i][1]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
+    mHist_v2_raw_rapSetA_centSetA[i][2]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
+    mHist_v2_raw_rapSetA_centSetA[i][3]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
+    mHist_v2_raw_rapSetA_centSetA[i][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
+    mHist_v2_raw_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_reso_rapSetA_centSetA[i][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
+    mHist_v2_reso_rapSetA_centSetA[i][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
+    mHist_v2_reso_rapSetA_centSetA[i][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
+    mHist_v2_reso_rapSetA_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
+    mHist_v2_reso_rapSetA_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
+    mHist_v2_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+  }
+  for(int pt=0; pt<2; pt++)
+  {// pt SetA, cent SetA
+    mHist_SE_InvM_ptSetA_centSetA[pt][0]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_SE_InvM_ptSetA_centSetA[pt][1]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_SE_InvM_ptSetA_centSetA[pt][2]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_SE_InvM_ptSetA_centSetA[pt][3]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_SE_InvM_ptSetA_centSetA[pt][4]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_SE_InvM_ptSetA_centSetA[pt][5]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_raw_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_v1_raw_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_v1_raw_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_v1_raw_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_v1_raw_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_v1_raw_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+
+    mHist_v1_reso_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_v1_reso_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_v1_reso_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_v1_reso_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_v1_reso_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_v1_reso_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_raw_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_v2_raw_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_v2_raw_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_v2_raw_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_v2_raw_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_v2_raw_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+
+    mHist_v2_reso_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_v2_reso_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_v2_reso_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_v2_reso_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_v2_reso_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_v2_reso_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+  }
+  // pt SetA, cent SetA
+  for(int pt=0; pt<2; pt++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mProfile_v1_raw_ptSetA_centSetA[pt][cent]  = mHist_v1_raw_ptSetA_centSetA[pt][cent]->ProfileX();
+      mProfile_v1_reso_ptSetA_centSetA[pt][cent] = mHist_v1_reso_ptSetA_centSetA[pt][cent]->ProfileX();;
+      mProfile_v2_raw_ptSetA_centSetA[pt][cent]  = mHist_v2_raw_ptSetA_centSetA[pt][cent]->ProfileX();;
+      mProfile_v2_reso_ptSetA_centSetA[pt][cent] = mHist_v2_reso_ptSetA_centSetA[pt][cent]->ProfileX();;
+    }
+  }
+  // pt SetA, cent SetB
+  for(int pt=0; pt<2; pt++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mProfile_v1_raw_ptSetA_centSetB[pt][cent]  = mHist_v1_raw_ptSetA_centSetB[pt][cent]->ProfileX();
+      mProfile_v1_reso_ptSetA_centSetB[pt][cent] = mHist_v1_reso_ptSetA_centSetB[pt][cent]->ProfileX();;
+      mProfile_v2_raw_ptSetA_centSetB[pt][cent]  = mHist_v2_raw_ptSetA_centSetB[pt][cent]->ProfileX();;
+      mProfile_v2_reso_ptSetA_centSetB[pt][cent] = mHist_v2_reso_ptSetA_centSetB[pt][cent]->ProfileX();;
+    }
+  }
+  // pt SetB, cent SetA
+  for(int pt=0; pt<4; pt++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mProfile_v1_raw_ptSetB_centSetA[pt][cent]  = mHist_v1_raw_ptSetB_centSetA[pt][cent]->ProfileX();
+      mProfile_v1_reso_ptSetB_centSetA[pt][cent] = mHist_v1_reso_ptSetB_centSetA[pt][cent]->ProfileX();;
+      mProfile_v2_raw_ptSetB_centSetA[pt][cent]  = mHist_v2_raw_ptSetB_centSetA[pt][cent]->ProfileX();;
+      mProfile_v2_reso_ptSetB_centSetA[pt][cent] = mHist_v2_reso_ptSetB_centSetA[pt][cent]->ProfileX();;
+    }
+  }
+  // pt SetB, cent SetB
+  for(int pt=0; pt<4; pt++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mProfile_v1_raw_ptSetB_centSetB[pt][cent]  = mHist_v1_raw_ptSetB_centSetB[pt][cent]->ProfileX();
+      mProfile_v1_reso_ptSetB_centSetB[pt][cent] = mHist_v1_reso_ptSetB_centSetB[pt][cent]->ProfileX();;
+      mProfile_v2_raw_ptSetB_centSetB[pt][cent]  = mHist_v2_raw_ptSetB_centSetB[pt][cent]->ProfileX();;
+      mProfile_v2_reso_ptSetB_centSetB[pt][cent] = mHist_v2_reso_ptSetB_centSetB[pt][cent]->ProfileX();;
+    }
+  }
+  // pt SetC, cent 0-60%, 0-80%
+  for(int pt=0; pt<10; pt++)
+  {
+    for(int cent=0; cent<2;cent++){
+      mProfile_v1_raw_ptSetC_centAll[pt][cent]  = mHist_v1_raw_ptSetC_centAll[pt][cent]->ProfileX();
+      mProfile_v1_reso_ptSetC_centAll[pt][cent] = mHist_v1_reso_ptSetC_centAll[pt][cent]->ProfileX();;
+      mProfile_v2_raw_ptSetC_centAll[pt][cent]  = mHist_v2_raw_ptSetC_centAll[pt][cent]->ProfileX();;
+      mProfile_v2_reso_ptSetC_centAll[pt][cent] = mHist_v2_reso_ptSetC_centAll[pt][cent]->ProfileX();;
+    }
+  }
+  // rap SetA, cent SetA
+  for(int rap=0; rap<4; rap++)
+  {
+    for(int cent=0; cent<6;cent++){
+      mProfile_v1_raw_rapSetA_centSetA[rap][cent]  = mHist_v1_raw_rapSetA_centSetA[rap][cent]->ProfileX();
+      mProfile_v1_reso_rapSetA_centSetA[rap][cent] = mHist_v1_reso_rapSetA_centSetA[rap][cent]->ProfileX();;
+      mProfile_v2_raw_rapSetA_centSetA[rap][cent]  = mHist_v2_raw_rapSetA_centSetA[rap][cent]->ProfileX();;
+      mProfile_v2_reso_rapSetA_centSetA[rap][cent] = mHist_v2_reso_rapSetA_centSetA[rap][cent]->ProfileX();;
+    }
+  }
+  // rap SetA, cent SetB
+  for(int rap=0; rap<4; rap++)
+  {
+    for(int cent=0; cent<9;cent++){
+      mProfile_v1_raw_rapSetA_centSetB[rap][cent]  = mHist_v1_raw_rapSetA_centSetB[rap][cent]->ProfileX();
+      mProfile_v1_reso_rapSetA_centSetB[rap][cent] = mHist_v1_reso_rapSetA_centSetB[rap][cent]->ProfileX();;
+      mProfile_v2_raw_rapSetA_centSetB[rap][cent]  = mHist_v2_raw_rapSetA_centSetB[rap][cent]->ProfileX();;
+      mProfile_v2_reso_rapSetA_centSetB[rap][cent] = mHist_v2_reso_rapSetA_centSetB[rap][cent]->ProfileX();;
+    }
+  }
   outputFile->cd();
   wt.Write();
   // wt_tpc.Write();
@@ -1373,6 +2193,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   delete mPhiAveraged[EventTypeId];
   // }
   mCorrectionOutputFile->Write();
+  PhiMesonAnaOutputFile->Write();
 }
 
 // =========================== Get Psi from Q vector =============================================
