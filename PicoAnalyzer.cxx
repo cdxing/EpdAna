@@ -74,6 +74,7 @@ const Int_t _nEventTypeBins_tpc = 2; // 2 etaRange for TPC
 const Double_t _massPion     = 0.13957061;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
+const Double_t _massPhi = 1.019461;
 const Double_t _y_mid = -2.03; // mid rapidity
 
 // const Int_t order         = 20;
@@ -699,12 +700,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v1_raw_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
       mHist_v1_raw_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
 
-      mHist_v2_reso_ptSetC_centSetA[rap][cent] = new TH2D(Form("Hist_v2_reso_ptSetC%d_centSetA%d",rap,cent),
-      Form("Hist_v2_reso_ptSetC%d_centSetA%d",rap,cent),
+      mHist_v1_reso_rapSetA_centSetA[rap][cent] = new TH2D(Form("Hist_v1_reso_rapSetA%d_centSetA%d",rap,cent),
+      Form("Hist_v1_reso_rapSetA%d_centSetA%d",rap,cent),
       100,0.9,1.1,
       1000,-1.0,1.0);
-      mHist_v2_reso_ptSetC_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
-      mHist_v2_reso_ptSetC_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+      mHist_v1_reso_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("mass [GeV/c^{2}]");
+      mHist_v1_reso_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
 
       mHist_v2_raw_rapSetA_centSetA[rap][cent] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetA%d",rap,cent),
       Form("Hist_v2_raw_rapSetA%d_centSetA%d",rap,cent),
@@ -1461,10 +1462,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(trait0)        d_tofBeta0 = trait0->btofBeta();
       double d_M0   = _massKaon;
       double d_E0   = sqrt((d_px0*d_px0+d_py0*d_py0+d_pz0*d_pz0)+_massKaon*_massKaon);
-      double d_mom0 = sqrt(d_px0*d_px0+d_py0*d_py0+d_pz0*d_pz0);
       double d_y0   = ((d_E0-d_pz0) != 0.0) ? 0.5*TMath::Log( (d_E0 + d_pz0) / (d_E0 - d_pz0) ) : -999.0;
       double eta0   = ((d_mom0 - d_pz0) != 0.0) ? 0.5*TMath::Log( (d_mom0 + d_pz0) / (d_mom0 - d_pz0) ) : -999.0;
-      double d_pT0  = sqrt(d_px0*d_px0+d_py0*d_py0);
       double d_mT0  = sqrt(d_pT0*d_pT0 + d_M0*d_M0);
       double mass2_0 = d_mom0*d_mom0*((1.0/(d_tofBeta0*d_tofBeta0))-1.0);
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
@@ -1484,16 +1483,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(trait1)        d_tofBeta1 = trait1->btofBeta();
         double d_M1   = _massKaon;
         double d_E1   = sqrt((d_px1*d_px1+d_py1*d_py1+d_pz1*d_pz1)+_massKaon*_massKaon);
-        double d_mom1 = sqrt(d_px1*d_px1+d_py1*d_py1+d_pz1*d_pz1);
         double d_y1   = ((d_E1-d_pz1) != 0.0) ? 0.5*TMath::Log( (d_E1 + d_pz1) / (d_E1 - d_pz1) ) : -999.0;
         double eta1   = ((d_mom1 - d_pz1) != 0.0) ? 0.5*TMath::Log( (d_mom1 + d_pz1) / (d_mom1 - d_pz1) ) : -999.0;
-        double d_pT1  = sqrt(d_px1*d_px1+d_py1*d_py1);
         double d_mT1  = sqrt(d_pT1*d_pT1 + d_M1*d_M1);
         double mass2_1 = d_mom1*d_mom1*((1.0/(d_tofBeta1*d_tofBeta1))-1.0);
         // phi Variables
         double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
         double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
-        double d_mT_phi = sqrt(d_Phi_pT*d_Phi_pT + _m_phi*_m_phi );
+        double d_mT_phi = sqrt(d_Phi_pT*d_Phi_pT + _massPhi*_massPhi );
         double d_phi_pz = d_pz0+d_pz1;
         double d_phi_E  = d_E0+d_E1;
         double d_phi_y  = ((d_phi_E - d_phi_pz) != 0.0) ?  0.5*TMath::Log( (d_phi_E + d_phi_pz) / (d_phi_E - d_phi_pz) ) : -9999;
