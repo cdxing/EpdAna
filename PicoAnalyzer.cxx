@@ -132,7 +132,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // resolution
-  double d_resolution[_Ncentralities] = {0.304425,0.349247,0.404517,0.449711,0.478239,0.479774,0.353135,0.244189,0.234358};
+  double d_resolution[_Ncentralities] = {0.316656,0.347466,0.408904,0.451386,0.483696,0.486032,0.41226,0.262309,0.255282};
   // v1 eta weighting
   double pr0[9] =  {-0.00146843,-0.00120124,-0.0016722,-0.00170085,-0.00198228,-0.00281638,-0.00343895,-0.00415811,-0.00537868,};
   double pr1[9] =  {-0.000426648,-0.000325884,-0.000581794,-0.000747585,-0.00103814,-0.00151215,-0.00188201,-0.00212849,-0.00257166,};
@@ -439,6 +439,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   PhiOutputName += ".root";
   TFile* PhiMesonAnaOutputFile = new TFile(PhiOutputName,"RECREATE");
   TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
+  TH1D * hist_mother_decay_length = new TH1D("hist_mother_decay_length","hist_mother_decay_length",1000,-1.0,4.0);
   TH1D * hist_SE_mass_Phi     = new TH1D("hist_SE_mass_Phi","Same event invariant mass",200,0.9,1.1);
   TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
@@ -1514,6 +1515,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TVector3 v3D_x_mother    = (v3D_x_daughter0+v3D_x_daughter1)*0.5;
         TVector3 v3D_xvec_decayl = v3D_x_mother - pVtx;
         double d_mother_decay_length =  v3D_xvec_decayl.Mag();
+        hist_mother_decay_length->Fill(d_mother_decay_length);
         if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
         if(d_dip_angle<0.04) continue; // dip-angle cut
         // --------------------- phi-meson flows -------------------------------
@@ -1732,7 +1734,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
       }
     }
-
+    v_KaonPlus_tracks.clear();
+    v_KaonMinus_tracks.clear();
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
