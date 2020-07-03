@@ -1516,7 +1516,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TVector3 v3D_xvec_decayl = v3D_x_mother - pVtx;
         double d_mother_decay_length =  v3D_xvec_decayl.Mag();
         hist_mother_decay_length->Fill(d_mother_decay_length);
-        if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
+        // if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
         if(d_dip_angle<0.04) continue; // dip-angle cut
         // --------------------- phi-meson flows -------------------------------
         TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
