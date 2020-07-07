@@ -445,7 +445,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
   TH2D *hist_SE_pt_y_PhiMeson = new TH2D("hist_SE_pt_y_PhiMeson","p_{T} [GeV/c] vs. y of #phi",500,-3.0,0.5,500,0.0,3.5);
-  // pt SetA, cent SetA
+  TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
+// pt SetA, cent SetA
   TH1D *mHist_SE_InvM_ptSetA_centSetA[2][6];
   TH2D *mHist_v1_raw_ptSetA_centSetA[2][6];
   TH2D *mHist_v1_reso_ptSetA_centSetA[2][6];
@@ -1467,6 +1468,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double eta0   = ((d_mom0 - d_pz0) != 0.0) ? 0.5*TMath::Log( (d_mom0 + d_pz0) / (d_mom0 - d_pz0) ) : -999.0;
       double d_mT0  = sqrt(d_pT0*d_pT0 + d_M0*d_M0);
       double mass2_0 = d_mom0*d_mom0*((1.0/(d_tofBeta0*d_tofBeta0))-1.0);
+      double d_pq0   = fabs(d_mom0) * d_charge0;
+      if(d_tofBeta0 != -999. && d_tofBeta0 != 0.){
+        d_inv_tofBeta0 = 1.0 / d_tofBeta0;
+        h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
+      }
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
         StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
         if(!picoTrack1) continue;
@@ -1488,6 +1494,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double eta1   = ((d_mom1 - d_pz1) != 0.0) ? 0.5*TMath::Log( (d_mom1 + d_pz1) / (d_mom1 - d_pz1) ) : -999.0;
         double d_mT1  = sqrt(d_pT1*d_pT1 + d_M1*d_M1);
         double mass2_1 = d_mom1*d_mom1*((1.0/(d_tofBeta1*d_tofBeta1))-1.0);
+        double d_pq1   = fabs(d_mom0) * d_charge0;
+        if(d_tofBeta1 != -999. && d_tofBeta1 != 0.){
+          d_inv_tofBeta1 = 1.0 / d_tofBeta1;
+          h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
+        }
         // phi Variables
         double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
         double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
