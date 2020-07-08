@@ -398,7 +398,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int j=i+1;j<4;j++){
       for(int n=0; n<2; n++){
         profile_correlation_epd_east[n][pairs]  =
-        new TProfile(Form("profile_correlation_n%d_epd_east%d",n,pairs),
+        new TProfile(Form("profile_correlation_n%d_epd_east%d",n+1,pairs),
         Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d]))>",n+1,i+1,j+1),
         _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
       }
