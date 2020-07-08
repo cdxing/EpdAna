@@ -396,7 +396,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   int pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
-      for(int n=0; n<2; k++){
+      for(int n=0; n<2; n++){
         profile_correlation_epd_east[n][pairs]  =
         new TProfile(Form("profile_correlation_n%d_epd_east%d",n,pairs),
         Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d]))>",n+1,i+1,j+1),
@@ -410,7 +410,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   for(int i=0;i<4;i++){// Correlaitons between TPC and 4 EPD event planes 1,2,3,4
-    for(int n=0; n<2; k++){
+    for(int n=0; n<2; n++){
       profile_correlation_epd_tpc[n][i]  =
       new TProfile(Form("profile_correlation_n%d_epd%d_tpc",n+1,i+1),
       Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{TPC}))>",n ,i+1),
@@ -421,7 +421,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Form("#psi^{EPD east}[%d] vs. #psi^{TPC}",i+1),
     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
-  for(int n=0; n<2; k++){
+  for(int n=0; n<2; n++){
     profile_correlation_epd_tpc_all[n]  =
     new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
     Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
@@ -1166,7 +1166,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int j=i+1;j<4;j++){
           pairs++;
           if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
-            for(int n=0; n<2; k++){
+            for(int n=0; n<2; n++){
               profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiEastShifted[j+1] )));
             }
             correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
@@ -1436,13 +1436,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // std::cout << std::endl;
 
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
-    for(int n=0; n<2; k++){
+    for(int n=0; n<2; n++){
       profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted[1]!=-999.0){
-        for(int n=0; n<2; k++){
+        for(int n=0; n<2; n++){
           profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
         }
         correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[1],PsiEastShifted[i+1]);
