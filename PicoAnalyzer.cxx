@@ -296,7 +296,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.4,0.}; // EPD eta range to set 4 sub EPD EP
+  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
   TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
   for (int ix=1; ix<301; ix++){
     for (int iy=1; iy<3; iy++){
@@ -1341,11 +1341,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
         int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
-        if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
-        double Cosine = cos(phi*(double)EpOrder);
-        double Sine   = sin(phi*(double)EpOrder);
-        QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
-        QrawTpcAll[EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
+        if(EpOrder == 1){ // \psi_1^{TPC}
+          if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
+          double Cosine = cos(phi*(double)EpOrder);
+          double Sine   = sin(phi*(double)EpOrder);
+          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
+          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
+        } else { // \psi_2^{TPC}
+          if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
+          double Cosine = cos(phi*(double)EpOrder);
+          double Sine   = sin(phi*(double)EpOrder);
+          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * pt * Cosine;
+          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * pt * Sine;
+        }
       }
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1
