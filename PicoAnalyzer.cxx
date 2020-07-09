@@ -119,7 +119,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.0,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
+  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.05,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
@@ -132,7 +132,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // resolution
-  double d_resolution[_Ncentralities] = {0.316656,0.347466,0.408904,0.451386,0.483696,0.486032,0.41226,0.262309,0.255282};
+  double d_resolution[2][_Ncentralities] = {
+    {0.316656,0.347466,0.408904,0.451386,0.483696,0.486032,0.41226,0.262309,0.255282},
+    {0.158,   0.1737,  0.2045,  0.2256,  0.2218,  0.2430,  0.20613,0.1312,0.1276},
+  };
   // v1 eta weighting
   double pr0[9] =  {-0.00146843,-0.00120124,-0.0016722,-0.00170085,-0.00198228,-0.00281638,-0.00343895,-0.00415811,-0.00537868,};
   double pr1[9] =  {-0.000426648,-0.000325884,-0.000581794,-0.000747585,-0.00103814,-0.00151215,-0.00188201,-0.00212849,-0.00257166,};
@@ -1557,7 +1560,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiEastShifted[1]!=-999.0){// Using EPD-1
           for(int km=0;km<2;km++){ // km - flow order
             d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
-            d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[centrality]);
+            d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
         // -------------------- (9.1) Fill SE InvM plots -------------------------
