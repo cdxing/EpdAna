@@ -119,7 +119,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP
+  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.0,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
@@ -413,7 +413,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int n=0; n<2; n++){
       profile_correlation_epd_tpc[n][i]  =
       new TProfile(Form("profile_correlation_n%d_epd%d_tpc",n+1,i+1),
-      Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{TPC}))>",n ,i+1),
+      Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{TPC}))>",n+1 ,i+1),
       _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
     }
     correlation2D_epd_tpc[i]   =
@@ -432,7 +432,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   "#psi^{EPD east}[full] vs. #psi^{TPC}",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
-  double ptSetA[3]  = {0.4, 1.2, 2.0};
+  double ptSetA[3]  = {0.6, 1.2, 2.4};
   double ptSetB[5]  = {0.4, 0.7, 1.0, 1.4, 2.0};
   double ptSetC[11] = {0.2, 0.4, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 4.0};
 
