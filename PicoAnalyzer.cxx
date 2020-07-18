@@ -734,7 +734,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(particleType==3||particleType==4) rapWeight= rapPion + 1.045;// y_CM = -1.045, COM rapidity
       // if(rapWeight!=0) NTpcAll++;
       NTpcAll++;
-      Double_t etaWeight = eta + 1.045
+      Double_t etaWeight = eta + 1.045;
       Double_t Cosine = cos(phi*(Double_t)EpOrder);
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
       if(EpOrder == 1){
