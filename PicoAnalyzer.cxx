@@ -728,15 +728,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_mass_pionMinus->Fill(charge*ptot,mass2);
         }
       }
-      if(particleType==-999) continue; // No particle identified
+      // if(particleType==-999) continue; // No particle identified
       if(particleType==0) rapWeight= rapProton + 1.045; // y_CM = -1.045, COM rapidity
       if(particleType==1||particleType==2) rapWeight= rapKaon + 1.045; // y_CM = -1.045, COM rapidity
       if(particleType==3||particleType==4) rapWeight= rapPion + 1.045;// y_CM = -1.045, COM rapidity
-      if(rapWeight!=0) NTpcAll++;
+      // if(rapWeight!=0) NTpcAll++;
+      NTpcAll++;
+      Double_t etaWeight = eta + 1.045
       Double_t Cosine = cos(phi*(Double_t)EpOrder);
       Double_t Sine   = sin(phi*(Double_t)EpOrder);
-      QrawTpcAll[0] += rapWeight * Cosine;
-      QrawTpcAll[1] += rapWeight * Sine;
+      if(EpOrder == 1){
+        QrawTpcAll[0] += /*rapWeight*/etaWeight * Cosine;
+        QrawTpcAll[1] += /*rapWeight*/etaWeight * Sine;
+      } else {
+        QrawTpcAll[0] += pt * Cosine;
+        QrawTpcAll[1] += pt * Sine;
+      }
     } // TPC Q-vector loop
     // Track multiplicity for each particle
     hist_trackmult_proton->Fill(nProtons);
