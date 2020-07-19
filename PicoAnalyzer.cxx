@@ -533,9 +533,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
-    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-      for (int xy=0; xy<2; xy++){
-        QrawEastSide[EventTypeId][xy]           *= -1.0;
+    if(EpOrder == 1){
+      for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+        for (int xy=0; xy<2; xy++){
+          QrawEastSide[EventTypeId][xy]           *= -1.0;
+        }
       }
     }
     //---------------------------------
