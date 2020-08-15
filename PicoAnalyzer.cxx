@@ -84,11 +84,39 @@ Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
                       TString outFile = "test_EpdEP",
-                      Int_t   inputp1 = 1
+                      Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
+                      Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
+                      Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
+                      Int_t   inputp4 = 1 // Iteration of the analysis is. In this analysis, 2 iterations is enough
                     )
 {
 
   Int_t EpOrder = inputp1; // Event plane Fourier expansion order = 1, 2, 3
+  Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
+  Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
+  Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
+  TString sys_object[16]  = {"primary", "etaGap", "etaRange", "binning",
+                                "vtxDiff", "mthdDiff", "vz", "vr",
+                                "dedx", "dca", "nHitsFit", "ratio",
+                                "nSigK", "mass2", "pT", "dipAngle"};
+  if(sys_cutN == 0) std::cout<< "sys_cutN == 0: " << sys_object[sys_cutN] << std::endl; //variationID: {0}
+  if(sys_cutN == 1) std::cout<< "sys_cutN == 1: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 2) std::cout<< "sys_cutN == 2: " << sys_object[sys_cutN] << std::endl; //variationID: {0, 1, 2, 3, 4}
+  if(sys_cutN == 3) std::cout<< "sys_cutN == 3: " << sys_object[sys_cutN] << std::endl; //variationID: {0, 1, 2, 3, 4}
+  if(sys_cutN == 4) std::cout<< "sys_cutN == 4: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 5) std::cout<< "sys_cutN == 5: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 6) std::cout<< "sys_cutN == 6: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 7) std::cout<< "sys_cutN == 7: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 8) std::cout<< "sys_cutN == 8: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 9) std::cout<< "sys_cutN == 9: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 10) std::cout<< "sys_cutN == 10: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 11) std::cout<< "sys_cutN == 11: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 12) std::cout<< "sys_cutN == 12: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 13) std::cout<< "sys_cutN == 13: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 14) std::cout<< "sys_cutN == 14: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  if(sys_cutN == 15) std::cout<< "sys_cutN == 15: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  outFile.Prepend(Form("sys_%s_var%d_iter%d"), sys_object[sys_cutN], sys_varN, sys_iterN);
+
   int mEvtcut[5] = {0};
   int mTrkcut[6] = {0};
   // (0) ================== Read input files and set status =====================
@@ -120,6 +148,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
   Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
+  // sys_cutN == 1;
+  if(sys_cutN == 1 && sys_varN == 1)  etaRange[2] = -4.0; // EPD-2 as reference
+  if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference
+    etaRange[2] = -4.3;
+    etaRange[3] = -3.9;
+  }
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
