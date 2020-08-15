@@ -116,7 +116,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if(sys_cutN == 14) std::cout<< "sys_cutN == 14: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
   if(sys_cutN == 15) std::cout<< "sys_cutN == 15: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
 
-  outFile.Prepend(Form("var%d_iter%d", sys_varN, sys_iterN));
+  outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outFile.Prepend(sys_object[sys_cutN]);
   outFile.Prepend("sys_");
 
