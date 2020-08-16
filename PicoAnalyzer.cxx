@@ -87,7 +87,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                       Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 1, // sysErr cut Indexes 0-15
                       Int_t   inputp3 = 2, // sysErr cut variations, each systematic check has 2 or 3 vertions
-                      Int_t   inputp4 = 2 // Iteration of the analysis is. In this analysis, 2 iterations is enough
+                      Int_t   inputp4 = 1 // Iteration of the analysis is. In this analysis, 2 iterations is enough
                     )
 {
 
