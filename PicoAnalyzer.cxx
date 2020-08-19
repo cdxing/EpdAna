@@ -150,7 +150,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
+  Double_t etaRange[_nEventTypeBins] = {5.1,-3.82,-3.28,-2.87,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   // sys_cutN == 1;
   if(sys_cutN == 1 && sys_varN == 1)  etaRange[2] = -4.0; // EPD-2 as reference
   if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference
