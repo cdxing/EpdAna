@@ -75,7 +75,7 @@ const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
 const Double_t _massPhi = 1.019461;
-const Double_t _y_mid = -2.03; // mid rapidity
+const Double_t _y_mid = -1.045; // mid rapidity
 
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
@@ -871,7 +871,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        if(triggerIDs[i] == 620052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
       }
 
     // --------------------------- Vertex cut -----------------------------------
@@ -937,8 +937,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(!picoTrack->isPrimary()) continue;
       mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
-      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
+      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) <= 0.52);
+      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 15;
       bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
       if(b_bad_track) continue;
