@@ -406,6 +406,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
           -1.0,1.0,"");//Use EPD-3 as primary event plane
   profile2D_v1VsCentVsEta->Sumw2();
+  TProfile2D *profile2D_v2VsCentVsEta = new TProfile2D("profile2D_v2VsCentVsEta","Cos(2 * (#phi - #psi)) vs. #eta vs. centrality",
+          40,-7.0,3.0, // total eta range
+          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+          -1.0,1.0,"");//Use EPD-3 as primary event plane
+  profile2D_v2VsCentVsEta->Sumw2();
   TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
   for(int cent=0; cent<_Ncentralities; cent++){
     profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
@@ -1401,7 +1406,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
         profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-3 as primary event plane
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+        profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0])));//Use EPD-full as event plane first
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
       hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
@@ -1473,14 +1479,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //     profile2D_v1VsCentVsEta->Fill(eta,centrality,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
       //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
       // }
-      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
+      if(PsiTpcAllShifted[1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
+          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0])));//Use TPC-full
+      }      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
         if(PsiEastShifted[3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
             profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
         }
       } else if(PsiEastShifted[1]!=-999.0){
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-3 as primary event plane
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
     } // loop over EPD hits
@@ -2078,6 +2086,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile2D_v1VsCentVsEta->GetYaxis()->SetBinLabel(7,"50-60");
   profile2D_v1VsCentVsEta->GetYaxis()->SetBinLabel(8,"60-70");
   profile2D_v1VsCentVsEta->GetYaxis()->SetBinLabel(9,"70-80");
+
+  profile2D_v2VsCentVsEta->GetXaxis()->SetTitle("#eta");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetTitle("centrality (%)");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(1,"0-5");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(2,"5-10");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(3,"10-20");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(4,"20-30");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(5,"30-40");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(6,"40-50");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(7,"50-60");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(8,"60-70");
+  profile2D_v2VsCentVsEta->GetYaxis()->SetBinLabel(9,"70-80");
 
   // -------------------------------- Set titles -------------------------------
   for(int i=0; i<4; i++)
