@@ -1824,6 +1824,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
   hist_runId->GetYaxis()->SetTitle("# of events");
+  std::cout<< mEvtcut[1] << "evts after vtx cut" << std::endl;
   hist_eventCuts->SetBinContent(1,mEvtcut[0]);
   hist_eventCuts->SetBinContent(2,mEvtcut[1]);
   hist_eventCuts->SetBinContent(3,mEvtcut[2]);
