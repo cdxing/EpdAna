@@ -1829,7 +1829,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_eventCuts->SetBinContent(3,mEvtcut[2]);
   hist_eventCuts->GetXaxis()->SetBinLabel(1,"no cuts");
   hist_eventCuts->GetXaxis()->SetBinLabel(2,"Vertex cuts");
-  hist_eventCuts->GetXaxis()->SetBinLabel(2,"Pile up/lowMult cut");
+  hist_eventCuts->GetXaxis()->SetBinLabel(3,"Pile up/lowMult cut");
   hist_trackCuts->GetXaxis()->SetBinLabel(1,"no cuts");
   hist_trackCuts->GetXaxis()->SetBinLabel(2,"picoTrack");
   hist_trackCuts->GetXaxis()->SetBinLabel(3,"primary track");
