@@ -966,18 +966,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
-    Int_t cenSection[9]={3,7,14,24,38,57,83,118,141,196}; // from UC Davis
-    bool b_pileup   = (nGoodTracks > 196);
+    Int_t cenSection[10]={3,7,14,24,38,57,83,118,141,196}; // from UC Davis
+    bool b_pileup   = (nGoodTracks > 195);
     bool b_low_mult = (nGoodTracks < 3);
-    a_b_cent[0]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 0 - 5%
-    a_b_cent[1]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 5 - 10%
-    a_b_cent[2]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 10 - 20%
-    a_b_cent[3]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 20 - 30%
-    a_b_cent[4]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 30 - 40%
-    a_b_cent[5]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 40 - 50%
-    a_b_cent[6]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 50 - 60%
-    a_b_cent[7]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 60 - 70%
-    a_b_cent[8]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // 70 - 80%
+    a_b_cent[0]     = (nGoodTracks >= cenSection[8]  && nGoodTracks < cenSection[9]); // 0 - 5%
+    a_b_cent[1]     = (nGoodTracks >= cenSection[7]  && nGoodTracks < cenSection[8]); // 5 - 10%
+    a_b_cent[2]     = (nGoodTracks >= cenSection[6]  && nGoodTracks < cenSection[7]); // 10 - 20%
+    a_b_cent[3]     = (nGoodTracks >= cenSection[5]  && nGoodTracks < cenSection[6]); // 20 - 30%
+    a_b_cent[4]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 30 - 40%
+    a_b_cent[5]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 40 - 50%
+    a_b_cent[6]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 50 - 60%
+    a_b_cent[7]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 60 - 70%
+    a_b_cent[8]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 70 - 80%
     for(int i=0;i<_Ncentralities;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
