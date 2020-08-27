@@ -86,8 +86,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                       TString outFile = "test_EpdEP",
                       Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 1, // sysErr cut Indexes 0-15
-                      Int_t   inputp3 = 2, // sysErr cut variations, each systematic check has 2 or 3 vertions
-                      Int_t   inputp4 = 3 // Iteration of the analysis is. In this analysis, 2 iterations is enough
+                      Int_t   inputp3 = 1, // sysErr cut variations, each systematic check has 2 or 3 vertions
+                      Int_t   inputp4 = 1 // Iteration of the analysis is. In this analysis, 2 iterations is enough
                     )
 {
 
@@ -152,8 +152,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Double_t mMax = 2.0; // EPD EP by hand
   Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   // sys_cutN == 1;
-  if(sys_cutN == 1 && sys_varN == 1)  etaRange[2] = -4.0; // EPD-2 as reference
-  if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference
+  if(sys_cutN == 1 && sys_varN == 1){ // EPD-3 as reference; eta gap 0.15 between EPD-1 and EPD-2
+    etaRange[2] = -4.25;
+    etaRange[3] = -3.85;
+  }
+  if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference; eta gap 0.1 between EPD-1 and EPD-2
     etaRange[2] = -4.3;
     etaRange[3] = -3.9;
   }
@@ -1247,7 +1250,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(unsigned int i=0; i<vGoodTracks.size();i++){
       StPicoTrack* picoTrack = vGoodTracks[i];
       StPicoBTofPidTraits *trait        = NULL;
-      Int_t charge;
+      Short_t charge;
       Double_t pt,pz,eta,ptot,phi;
       Double_t mass2 =-999.0,tofBeta =-999.0;
       Double_t rapWeight = 0.0; // Weight based on rapidity
@@ -1835,7 +1838,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_trackCuts->GetXaxis()->SetBinLabel(2,"picoTrack");
   hist_trackCuts->GetXaxis()->SetBinLabel(3,"primary track");
   hist_trackCuts->GetXaxis()->SetBinLabel(4,"Good track");
-  hist_trackCuts->GetXaxis()->SetBinLabel(4,"With TOF");
+  hist_trackCuts->GetXaxis()->SetBinLabel(5,"With TOF");
   hist_Vz_pri->GetXaxis()->SetTitle("V_{Z} [cm]");
   hist_Vz_pri->GetYaxis()->SetTitle("# of events");
   hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
