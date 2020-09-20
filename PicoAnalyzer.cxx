@@ -97,7 +97,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
   Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
-  string sys_object[16]  = {"primary", "etaGap", "etaRange",
+  string sys_object[18]  = {"primary", "etaGap", "etaRange",
                             "vz", "vr", "dedx", "dca",
                             "nHitsFit", "ratio", "nSigK", "mass2",
                             "pT", "dipAngle", "vtxDiff", "mthdDiff",
