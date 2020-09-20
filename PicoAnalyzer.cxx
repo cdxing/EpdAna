@@ -17,6 +17,8 @@
  * Tweak to analyze BES-II FXT 3GeV, 7.2GeV and more
  * \author Ding Chen
  * \date Feb 19, 2020
+ *
+ * Updated for systematic analysis for 7.2 (26.5) GeV Run 18 data
  */
 
 // This is needed for calling standalone classes (not needed on RACF)
@@ -95,26 +97,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
   Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
-  string sys_object[16]  = {"primary", "etaGap", "etaRange", "binning",
-                                "vtxDiff", "mthdDiff", "vz", "vr",
-                                "dedx", "dca", "nHitsFit", "ratio",
-                                "nSigK", "mass2", "pT", "dipAngle"};
-  if(sys_cutN == 0) std::cout<< "sys_cutN == 0: " << sys_object[sys_cutN] << std::endl; //variationID: {0}
-  if(sys_cutN == 1) std::cout<< "sys_cutN == 1: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 2) std::cout<< "sys_cutN == 2: " << sys_object[sys_cutN] << std::endl; //variationID: {0, 1, 2, 3, 4}
-  if(sys_cutN == 3) std::cout<< "sys_cutN == 3: " << sys_object[sys_cutN] << std::endl; //variationID: {0, 1, 2, 3, 4}
-  if(sys_cutN == 4) std::cout<< "sys_cutN == 4: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 5) std::cout<< "sys_cutN == 5: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 6) std::cout<< "sys_cutN == 6: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 7) std::cout<< "sys_cutN == 7: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 8) std::cout<< "sys_cutN == 8: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 9) std::cout<< "sys_cutN == 9: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 10) std::cout<< "sys_cutN == 10: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 11) std::cout<< "sys_cutN == 11: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 12) std::cout<< "sys_cutN == 12: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 13) std::cout<< "sys_cutN == 13: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 14) std::cout<< "sys_cutN == 14: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
-  if(sys_cutN == 15) std::cout<< "sys_cutN == 15: " << sys_object[sys_cutN] << std::endl; //variationID: {0-10}
+  string sys_object[16]  = {"primary", "etaGap", "etaRange",
+                            "vz", "vr", "dedx", "dca",
+                            "nHitsFit", "ratio", "nSigK", "mass2",
+                            "pT", "dipAngle", "vtxDiff", "mthdDiff",
+                            "binning",
+                            "looseTOF", "dianaPID"};
+  std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
 
   outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outFile.Prepend(sys_object[sys_cutN]);
@@ -151,7 +140,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
   Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
-  // sys_cutN == 1;
+  // # Systematic Analysis
+  // sys_cutN == 1; // etaGap
   if(sys_cutN == 1 && sys_varN == 1){ // EPD-3 as reference; eta gap 0.15 between EPD-1 and EPD-2
     etaRange[2] = -4.25;
     etaRange[3] = -3.85;
@@ -159,6 +149,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference; eta gap 0.1 between EPD-1 and EPD-2
     etaRange[2] = -4.3;
     etaRange[3] = -3.9;
+  }
+  // # Systematic Analysis
+  // sys_cutN == 2; // etaRange
+  if(sys_cutN == 2){
+    if(sys_varN == 1){
+      etaRange[0] = -5.1;
+      etaRange[1] = -4.5;
+    } else if(sys_varN == 2){
+      etaRange[0] = -4.95;
+      etaRange[1] = -4.35;
+    }
   }
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
@@ -888,9 +889,27 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     d_yvtx     = pVtx.y();
     d_vtx_perp = pVtx.Perp();
     bool b_bad_zvtx   =  ((d_zvtx < 198.0) || (d_zvtx > 202.0)); //FXT_26p5_2018
+    // # Systematic Analysis
+    // sys_cutN == 3; // vz
+    if(sys_cutN == 3){
+      if(sys_varN == 1){
+        b_bad_zvtx   =  ((d_zvtx < 198.4) || (d_zvtx > 201.6));
+      } else if(sys_varN == 2){
+        b_bad_zvtx   =  ((d_zvtx < 197.6) || (d_zvtx > 202.4));
+      }
+    }
     bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //FXT_26p5_2018
     bool b_bad_yvtx   =  ((d_yvtx < -3.0) || (d_yvtx > -0.5)); //FXT_26p5_2018
     bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.0;
+    // # Systematic Analysis
+    // sys_cutN == 4; // vr
+    if(sys_cutN == 4){
+      if(sys_varN == 1){
+        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 1.6;
+      } else if(sys_varN == 2){
+        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.4;
+      }
+    }
     bool b_bad_evt  = b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
     if(b_bad_evt) continue;
     hist_Vz_cut->Fill(primaryVertex_Z);
@@ -940,9 +959,45 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(!picoTrack->isPrimary()) continue;
       mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
-      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
+      // # Systematic Analysis
+      // sys_cutN == 5; // dedx
+      if(sys_cutN == 5){
+        if(sys_varN == 1){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 10);
+        } else if(sys_varN == 2){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 20);
+        }
+      }
       bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
+      // # Systematic Analysis
+      // sys_cutN == 6; // dca
+      if(sys_cutN == 6){
+        if(sys_varN == 1){
+          b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 1.0);
+        } else if(sys_varN == 2){
+          b_bad_dEdx     = false; // no DCA cut
+        }
+      }
+      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
+      // # Systematic Analysis
+      // sys_cutN == 7; // nHitsFit
+      if(sys_cutN == 7){
+        if(sys_varN == 1){
+          b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 10;
+        } else if(sys_varN == 2){
+          b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 20;
+        }
+      }
+      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
+      // # Systematic Analysis
+      // sys_cutN == 8; // nHitsFit
+      if(sys_cutN == 8){
+        if(sys_varN == 1){
+          b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.45);
+        } else if(sys_varN == 2){
+          b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.55);
+        }
+      }
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
       if(b_bad_track) continue;
       mTrkcut[3]++; // 3. Bad track cuts
@@ -1246,6 +1301,41 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t PsiTpcAllShifted[2]={-999.0,-999.0};
     std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
+    Double_t d_nSigmaKaonCut, d_KaonM2low, d_KaonM2high, d_KaonpTlow;
+    // default cuts
+    d_nSigmaKaonCut = 2.0;
+    d_KaonM2low     = 0.16;
+    d_KaonM2high    = 0.32;
+    d_KaonpTlow     = 0.2;
+    // # Systematic Analysis
+    // sys_cutN == 9; // nSigmaKaon
+    if(sys_cutN == 9){
+      if(sys_varN == 1){
+        d_nSigmaKaonCut = 1.8;
+      } else if(sys_varN == 2){
+        d_nSigmaKaonCut = 2.2;
+      }
+    }
+    // # Systematic Analysis
+    // sys_cutN == 10; // Mass2
+    if(sys_cutN == 10){
+      if(sys_varN == 1){
+        d_KaonM2low     = 0.17;
+        d_KaonM2high    = 0.31;
+      } else if(sys_varN == 2){
+        d_KaonM2low     = 0.15;
+        d_KaonM2high    = 0.33;
+      }
+    }
+    // # Systematic Analysis
+    // sys_cutN == 11; // pTlow
+    if(sys_cutN == 11){
+      if(sys_varN == 1){
+        d_KaonpTlow     = 0.0;
+      } else if(sys_varN == 2){
+        d_KaonpTlow     = 0.4;
+      }
+    }
     // TPC Q-vector loop
     for(unsigned int i=0; i<vGoodTracks.size();i++){
       StPicoTrack* picoTrack = vGoodTracks[i];
@@ -1306,9 +1396,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
         hist_mass_proton->Fill(charge*ptot,mass2);
       } else if( // Kaons PID: require both TPC and TOF
-        TMath::Abs(picoTrack->nSigmaKaon()) < 2.0 &&
-        tofBeta != -999.0 && mass2 > 0.16 && mass2 < 0.32
-        && pt > 0.2
+        TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
+        tofBeta != -999.0 && mass2 > d_KaonM2low && mass2 < d_KaonM2high
+        && pt > d_KaonpTlow
       ){
         if(charge > 0){
           particleType=1;// K+
@@ -1604,7 +1694,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_mother_decay_length =  v3D_xvec_decayl.Mag();
         hist_mother_decay_length->Fill(d_mother_decay_length);
         // if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
-        if(d_dip_angle<0.04) continue; // dip-angle cut
+        Double_t dip_angle_cutLevel = 0.04;
+        // # Systematic Analysis
+        // sys_cutN == 12; // dip angle
+        if(sys_cutN == 12){
+          dip_angle_cutLevel = 0.0; // no dip angle cut
+        }
+        if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
         // --------------------- phi-meson flows -------------------------------
         TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
         TVector3 v3D_p_daughter1 = trackhelix1.momentumAt(pairLengths.second, f_MagField*kilogauss);
