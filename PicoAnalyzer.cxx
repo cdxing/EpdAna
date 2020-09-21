@@ -249,9 +249,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ Centrality QA histograms ----------------------------------
   TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
-  TH2D *hist_realTrackMult_refmult = new TH2D("hist_realTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_realTrackMult_grefmult = new TH2D("hist_realTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_realTrackMult_tofmult = new TH2D("hist_realTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
+  TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
   TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
@@ -922,6 +923,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
+    int nFXTMult = 0;
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
       StPicoTrack *picoTrack = dst->track(iTrk);
@@ -957,6 +959,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
 
       if(!picoTrack->isPrimary()) continue;
+      nFXTMult++;
       mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
       // # Systematic Analysis
@@ -1024,26 +1027,28 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
-    Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
-    bool b_pileup   = (nGoodTracks > 245);
-    bool b_low_mult = (nGoodTracks < 5);
-    a_b_cent[0]     = (nGoodTracks >= cenSection[7] && nGoodTracks < cenSection[8]); // 0 - 5%
-    a_b_cent[1]     = (nGoodTracks >= cenSection[6] && nGoodTracks < cenSection[7]); // 5 - 10%
-    a_b_cent[2]     = (nGoodTracks >= cenSection[5] && nGoodTracks < cenSection[6]); // 10 - 20%
-    a_b_cent[3]     = (nGoodTracks >= cenSection[4]  && nGoodTracks < cenSection[5]); // 20 - 30%
-    a_b_cent[4]     = (nGoodTracks >= cenSection[3]  && nGoodTracks < cenSection[4]); // 30 - 40%
-    a_b_cent[5]     = (nGoodTracks >= cenSection[2]  && nGoodTracks < cenSection[3]); // 40 - 50%
-    a_b_cent[6]     = (nGoodTracks >= cenSection[1]  && nGoodTracks < cenSection[2]); // 50 - 60%
-    a_b_cent[7]     = (nGoodTracks >= cenSection[0]  && nGoodTracks < cenSection[1]); // 60 - 70%
-    a_b_cent[8]     = (nGoodTracks >= 5  && nGoodTracks < cenSection[0]); // 70 - 80%
+    // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
+    Int_t cenSection[9]={2,6,12,22,39,64,100,154,241}; // From UC Davis, cut on nFXTMult
+    bool b_pileup   = (nFXTMult >= 241);
+    bool b_low_mult = (nFXTMult < 2);
+    a_b_cent[0]     = (nFXTMult >= cenSection[7] && nFXTMult < cenSection[8]); // 0 - 5%
+    a_b_cent[1]     = (nFXTMult >= cenSection[6] && nFXTMult < cenSection[7]); // 5 - 10%
+    a_b_cent[2]     = (nFXTMult >= cenSection[5] && nFXTMult < cenSection[6]); // 10 - 20%
+    a_b_cent[3]     = (nFXTMult >= cenSection[4]  && nFXTMult < cenSection[5]); // 20 - 30%
+    a_b_cent[4]     = (nFXTMult >= cenSection[3]  && nFXTMult < cenSection[4]); // 30 - 40%
+    a_b_cent[5]     = (nFXTMult >= cenSection[2]  && nFXTMult < cenSection[3]); // 40 - 50%
+    a_b_cent[6]     = (nFXTMult >= cenSection[1]  && nFXTMult < cenSection[2]); // 50 - 60%
+    a_b_cent[7]     = (nFXTMult >= cenSection[0]  && nFXTMult < cenSection[1]); // 60 - 70%
+    a_b_cent[8]     = (nFXTMult >= 5  && nFXTMult < cenSection[0]); // 70 - 80%
     for(int i=0;i<_Ncentralities;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
     hist_cent->Fill(centrality);
     hist_realTrackMult->Fill(nGoodTracks);
-    hist_realTrackMult_refmult->Fill(nGoodTracks,refMult);
-    hist_realTrackMult_grefmult->Fill(nGoodTracks,grefMult);
-    hist_realTrackMult_tofmult->Fill(nGoodTracks,tofMult);
+    hist_FXTTrackMult->Fill(nFXTMult);
+    hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
+    hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
+    hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
 
@@ -1997,12 +2002,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_cent->GetYaxis()->SetTitle("# of events");
   hist_realTrackMult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_realTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
-  hist_realTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
-  hist_realTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
-  hist_realTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
+  hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
+  hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
+  hist_FXTTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
+  hist_FXTTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
+  hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
+  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
+  hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
+  hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{EPD east}_{1} ");
     hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{EPD east}_{1} ");
