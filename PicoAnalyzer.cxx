@@ -400,7 +400,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpOutputNameIni = "EpCorrection_OUTPUT_";
   EpOutputNameIni += outFile;
-  EpOutputNameIni += ".root";
   TFile* mCorrectionOutputFile = new TFile(EpOutputNameIni,"RECREATE");
   TProfile2D *mEpdShiftOutput_sin[_nEventTypeBins], *mEpdShiftOutput_cos[_nEventTypeBins]; // EPD EP output
   TProfile2D *mTpcShiftOutput_sin[_nEventTypeBins_tpc], *mTpcShiftOutput_cos[_nEventTypeBins_tpc]; // TPC EP output
@@ -495,7 +494,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   double centSetB[10]  = {0, 5, 10, 20, 30, 40, 50, 60, 70, 80}; // %
   TString PhiOutputName = "PhiMesonAna_OUTPUT_";
   PhiOutputName += outFile;
-  PhiOutputName += ".root";
   TFile* PhiMesonAnaOutputFile = new TFile(PhiOutputName,"RECREATE");
   TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
   TH1D * hist_mother_decay_length = new TH1D("hist_mother_decay_length","hist_mother_decay_length",1000,-1.0,4.0);
