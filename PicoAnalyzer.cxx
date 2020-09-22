@@ -133,9 +133,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   std::cout << "Number of events to read: " << events2read << std::endl;
 
   // (1) ================= Set up EPD EP info to get EPD event plane ============
-  TString EpdEpOutputName = "EpdEpCorrectionHistograms_OUTPUT_";
-  EpdEpOutputName += outFile;
-  EpdEpOutputName += ".root";
+  // TString EpdEpOutputName = "EpdEpCorrectionHistograms_OUTPUT_";
+  // EpdEpOutputName += outFile;
+  // EpdEpOutputName += ".root";
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
@@ -370,7 +370,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
   TProfile2D *mTpcShiftInput_sin[_nEventTypeBins_tpc], *mTpcShiftInput_cos[_nEventTypeBins_tpc]; // TPC EP input
   // TH1D* mPhiWeightInput[_nEventTypeBins];
-  TFile* mCorrectionInputFile = new TFile("EpCorrection_INPUT.root","READ");
+  TString EpInputNameIni = "EpCorrection_INPUT_";
+  EpInputNameIni.Append("sys_");
+  EpInputNameIni.Append(sys_object[sys_cutN]);
+  EpInputNameIni.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
+  EpInputNameIni.Append(".picoDst.result.root");
+  TFile* mCorrectionInputFile = new TFile(EpInputNameIni,"READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
