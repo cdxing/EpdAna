@@ -375,7 +375,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   EpInputNameIni.Append("sys_");
   EpInputNameIni.Append(sys_object[sys_cutN]);
   EpInputNameIni.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
-  EpInputNameIni.Append(".picoDst.result.root");
+  EpInputNameIni.Append(".root");
   TFile* mCorrectionInputFile = new TFile(EpInputNameIni,"READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
