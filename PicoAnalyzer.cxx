@@ -25,6 +25,7 @@
 //#define _VANILLA_ROOT_
 
 // C++ headers
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <iterator>
@@ -177,7 +178,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   ResoName.Append(sys_object[sys_cutN]);
   ResoName.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
   ResoName.Append(".txt");
-  std::ifstream inputReso(Form("%s",ResoName));
+  std::ifstream inputReso(ResoName);
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
   double d_resolution[2][_Ncentralities] = { 0// EPD-1
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
