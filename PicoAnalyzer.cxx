@@ -172,13 +172,35 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
+  TString ResoName = "Resolution_INPUT_sys_";
+  ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
+  ResoName.Append(sys_object[sys_cutN]);
+  ResoName.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
+  ResoName.Append(".txt");
+  std::ifstream inputReso(ResoName);
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
-  double d_resolution[2][_Ncentralities] = { // EPD-1
+  double d_resolution[2][_Ncentralities] = { 0// EPD-1
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
-    {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
-    {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
+    // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
+    // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
     //{0.158,   0.1737,  0.2045,  0.2256,  0.2218,  0.2430,  0.20613,0.1312,0.1276}
   };
+  if (inputReso->IsZombie()) {
+    std::cout << "Error opening Resolution Input Files" << std::endl;
+    std::cout << "I will use no resolution at all for my own EPD Ep." << std::endl;
+    for(int i=0;i<_Ncentralities;i++){
+      d_resolution[0][i] = 1.0;
+      d_resolution[1][i] = 1.0;
+    }
+  }
+  else{
+    for(int i=0;i<_Ncentralities;i++){
+      inputReso >> d_resolution[0][_Ncentralities];
+      cout << "Resolution_11 "<<i <<": "<<d_resolution[0][_Ncentralities]<<endl;
+      d_resolution[1][i] = 1;
+    }
+  }
+  inputReso.close();
   double d_resolution_EPD_3[_Ncentralities] = {0.189401,0.196268,0.195405,0.189716,0.177785,0.163757,0.170117,0.272917,0.296757};
   // v1 eta weighting
   // double pr0[9] =  {-0.00146843,-0.00120124,-0.0016722,-0.00170085,-0.00198228,-0.00281638,-0.00343895,-0.00415811,-0.00537868};
