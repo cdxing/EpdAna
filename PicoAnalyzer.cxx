@@ -186,8 +186,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
     //{0.158,   0.1737,  0.2045,  0.2256,  0.2218,  0.2430,  0.20613,0.1312,0.1276}
   };
-  if (inputReso.rdstate() == false) {
-    std::cout << "Error opening Resolution Input Files" << std::endl;
+  if ( (inputReso.rdstate() & std::ifstream::failbit ) != 0 ) {
+    std::cout << "Error opening Resolution Input .txt Files" << std::endl;
     std::cout << "I will use no resolution at all for my own EPD Ep." << std::endl;
     for(int i=0;i<_Ncentralities;i++){
       d_resolution[0][i] = 1.0;
