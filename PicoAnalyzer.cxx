@@ -98,12 +98,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
   Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
-  string sys_object[18]  = {"primary", "etaGap", "etaRange",
+  string sys_object[17]  = {"primary", "etaGap", "etaRange",
                             "vz", "vr", "dedx", "dca",
                             "nHitsFit", "ratio", "nSigK", "mass2",
                             "pT", "dipAngle", "vtxDiff", "mthdDiff",
                             "binning",
-                            "looseTOF", "dianaPID"};
+                            "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
 
   outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
@@ -189,8 +189,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if ( (inputReso.rdstate() & std::ifstream::failbit ) != 0 ) {
     std::cout << "Error opening Resolution Input .txt Files" << std::endl;
     std::cout << "I will use no resolution at all for my own EPD Ep." << std::endl;
+    d_resolution[0][0] = 0.352458
+    d_resolution[0][1] = 0.438244
+    d_resolution[0][2] = 0.473146
+    d_resolution[0][3] = 0.491656
+    d_resolution[0][4] = 0.414591
+    d_resolution[0][5] = 0.32854
+    d_resolution[0][6] = 0.336487
+    d_resolution[0][7] = 0.336445
+    d_resolution[0][8] = 6.95314e-310
+    // From the primary
     for(int i=0;i<_Ncentralities;i++){
-      d_resolution[0][i] = 1.0;
+      cout << "Default (primary) Resolution_11 "<<i <<": "<<d_resolution[0][_Ncentralities]<<endl;
+      // d_resolution[0][i] = 1.0;
       d_resolution[1][i] = 1.0;
     }
   }
@@ -398,7 +409,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   EpInputNameIni.Append("sys_");
   EpInputNameIni.Append(sys_object[sys_cutN]);
   EpInputNameIni.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
-  EpInputNameIni.Append(".root");
+  EpInputNameIni.Append(".root") ;
+  // # Systematic Analysis
+  if(sys_cutN == 16) EpInputNameIni = "/star/u/dchen/GitHub/EpdAna/EpCorrection_INPUT_sys_primary_var0_iter2_.root"
+  // sys cut that don't affect the evnet plane calculation use the primary EP resolution
   TFile* mCorrectionInputFile = new TFile(EpInputNameIni,"READ");
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
@@ -1349,6 +1363,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // # Systematic Analysis
+    // sys_cutN == 16; // TPCpid
+    if(sys_cutN == 16){
+      if(sys_varN == 0){
+        d_nSigmaKaonCut = 2.0;
+      } else if(sys_varN == 1){
+        d_nSigmaKaonCut = 3.0;
+      } else if(sys_varN == 2){
+        d_nSigmaKaonCut = 4.0;
+      }
+    }
+    // # Systematic Analysis
     // sys_cutN == 10; // Mass2
     if(sys_cutN == 10){
       if(sys_varN == 1){
@@ -1497,6 +1522,50 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_dEdx_pionMinus->Fill(charge*ptot,picoTrack->dEdx());
           hist_beta_pionMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_pionMinus->Fill(charge*ptot,mass2);
+        }
+      }
+      // Additional Kaon canditated that there's no TOF -> tofBeta == -999.0
+      // # Systematic Analysis
+      // sys_cutN == 16; // TPCpid
+      if( // Kaons PID: tracks that only have TPC, no TOF
+        sys_cutN == 16 &&
+        TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
+        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
+        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
+        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
+        tofBeta == -999.0
+        && pt > d_KaonpTlow
+      ){
+        if(charge > 0){
+          particleType=1;// K+
+          nKaonPlus++;
+          v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
+          // Fill histograms
+          hist_pt_kaonPlus->Fill(pt);
+          hist_eta_kaonPlus->Fill(eta);
+          hist_y_kaonPlus->Fill(rapKaon);
+          hist_phi_kaonPlus->Fill(phi);
+          hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
+          hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonPlus->Fill(eta,pt,1);
+          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonPlus->Fill(charge*ptot,mass2);
+        } else { // charge < 0
+          particleType=2;// K-
+          nKaonMinus++;
+          v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
+          // Fill histograms
+          hist_pt_kaonMinus->Fill(pt);
+          hist_eta_kaonMinus->Fill(eta);
+          hist_y_kaonMinus->Fill(rapKaon);
+          hist_phi_kaonMinus->Fill(phi);
+          hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
+          hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonMinus->Fill(eta,pt,1);
+          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
       }
       // if(particleType==-999) continue; // No particle identified
