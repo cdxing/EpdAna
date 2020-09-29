@@ -1069,18 +1069,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
-    Int_t cenSection[9]={2,6,12,22,39,64,100,154,241}; // From UC Davis, cut on nFXTMult
+    Int_t cenSection[9]={6,12,22,39,64,100,154,191,241}; // From UC Davis, cut on nFXTMult
     bool b_pileup   = (nFXTMult >= 241);
     bool b_low_mult = (nFXTMult < 2);
-    a_b_cent[0]     = (nFXTMult >= cenSection[7] && nFXTMult < cenSection[8]); // 0 - 5%
-    a_b_cent[1]     = (nFXTMult >= cenSection[6] && nFXTMult < cenSection[7]); // 5 - 10%
-    a_b_cent[2]     = (nFXTMult >= cenSection[5] && nFXTMult < cenSection[6]); // 10 - 20%
-    a_b_cent[3]     = (nFXTMult >= cenSection[4]  && nFXTMult < cenSection[5]); // 20 - 30%
-    a_b_cent[4]     = (nFXTMult >= cenSection[3]  && nFXTMult < cenSection[4]); // 30 - 40%
-    a_b_cent[5]     = (nFXTMult >= cenSection[2]  && nFXTMult < cenSection[3]); // 40 - 50%
-    a_b_cent[6]     = (nFXTMult >= cenSection[1]  && nFXTMult < cenSection[2]); // 50 - 60%
-    a_b_cent[7]     = (nFXTMult >= cenSection[0]  && nFXTMult < cenSection[1]); // 60 - 70%
-    a_b_cent[8]     = (nFXTMult >= 5  && nFXTMult < cenSection[0]); // 70 - 80%
+    a_b_cent[0]     = (nFXTMult >= cenSection[7] && nFXTMult < cenSection[8]); // 0 - 5%, 240 - 191
+    a_b_cent[1]     = (nFXTMult >= cenSection[6] && nFXTMult < cenSection[7]); // 5 - 10%, 190 - 154
+    a_b_cent[2]     = (nFXTMult >= cenSection[5] && nFXTMult < cenSection[6]); // 10 - 20%, 153 - 100
+    a_b_cent[3]     = (nFXTMult >= cenSection[4]  && nFXTMult < cenSection[5]); // 20 - 30%, 99 - 64
+    a_b_cent[4]     = (nFXTMult >= cenSection[3]  && nFXTMult < cenSection[4]); // 30 - 40%, 63 - 39
+    a_b_cent[5]     = (nFXTMult >= cenSection[2]  && nFXTMult < cenSection[3]); // 40 - 50%, 38 - 22
+    a_b_cent[6]     = (nFXTMult >= cenSection[1]  && nFXTMult < cenSection[2]); // 50 - 60%, 21 - 12
+    a_b_cent[7]     = (nFXTMult >= cenSection[0]  && nFXTMult < cenSection[1]); // 60 - 70%, 11 - 6
+    a_b_cent[8]     = (nFXTMult >= 2  && nFXTMult < cenSection[0]); // 70 - 80% 5 - 2
     for(int i=0;i<_Ncentralities;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
