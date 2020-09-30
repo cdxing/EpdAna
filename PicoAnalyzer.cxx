@@ -1034,7 +1034,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
       // # Systematic Analysis
-      // sys_cutN == 8; // nHitsFit
+      // sys_cutN == 8; // ratio
       if(sys_cutN == 8){
         if(sys_varN == 1){
           b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.45);
