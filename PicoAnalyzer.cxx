@@ -871,13 +871,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
     }
   }
+  gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
     // ---------------------- Event reading quality assurance ----------------------
     if((iEvent+1)%100 == 0) {
-      gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
+      // gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
       Double_t randomNumber = gRandom->Uniform(1);
       std::cout << "randomNumber " << randomNumber  << std::endl;
       std::cout << "Working on event #[" << (iEvent+1)<< "/" << events2read << "]" << std::endl;
