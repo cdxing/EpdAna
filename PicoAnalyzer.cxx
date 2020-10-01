@@ -542,6 +542,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
   TH1D * hist_mother_decay_length = new TH1D("hist_mother_decay_length","hist_mother_decay_length",1000,-1.0,4.0);
   TH1D * hist_SE_mass_Phi     = new TH1D("hist_SE_mass_Phi","Same event invariant mass",200,0.9,1.1);
+  TH1D * hist_rotation_mass_Phi  = new TH1D("hist_rotation_mass_Phi","K+K- rotated invariant mass",200,0.9,1.1);
   TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
@@ -882,8 +883,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if((iEvent+1)%100 == 0) {
       // gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
       // gRandom = new TRandom3(0);
-      Double_t randomNumber = gRandom->Uniform(1);
-      std::cout << "randomNumber " << randomNumber  << std::endl;
       std::cout << "Working on event #[" << (iEvent+1)<< "/" << events2read << "]" << std::endl;
     }
     Bool_t readEvent = picoReader->readPicoEvent(iEvent);
@@ -1785,9 +1784,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
                               - 2.0 *(d_px0*d_px1+d_py0*d_py1+d_pz0*d_pz1) );
-
+        Double_t randomNumber = gRandom->Uniform(1);
+        std::cout << "randomNumber " << randomNumber  << std::endl;
+        double d_randAngle = TMath::Pi()*randomNumber;
+        double d_px1_rotation    = d_px1 * TMath::Cos(d_randAngle) - d_py1 * TMath::Sin(d_randAngle);
+        double d_py1_rotation    = d_px1 * TMath::Sin(d_randAngle) + d_py1 * TMath::Cos(d_randAngle);
+        double d_inv_m_rotation  = sqrt(  d_M0*d_M0
+                              + d_M1*d_M1
+                              + 2.0 *d_E0*d_E1
+                              - 2.0 *(d_px0*d_px1_rotation+d_py0*d_py1_rotation+d_pz0*d_pz1) );
         hist_dip_angle         ->Fill(d_dip_angle);
         hist_SE_mass_Phi    ->Fill(d_inv_m);
+        hist_rotation_mass_Phi    ->Fill(d_inv_m_rotation);
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
         hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
         hist_SE_PhiMeson_rap ->Fill(d_phi_y);
