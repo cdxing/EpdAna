@@ -873,7 +873,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // gRandom->SetSeed((unsigned) time(0));
-  gRandom = new TRandom3(0);
+  // gRandom = new TRandom3(0);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
