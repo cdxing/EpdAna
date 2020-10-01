@@ -871,7 +871,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
     }
   }
-  gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
+  gRandom->SetSeed((unsigned) time(0));
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
