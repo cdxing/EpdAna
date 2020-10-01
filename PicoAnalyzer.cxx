@@ -47,6 +47,7 @@
 #include "TH2D.h"
 #include "TH3D.h"
 #include "TRandom.h"
+#include "TRandom3.h"
 #include "TProfile.h"
 #include "TProfile2D.h"
 #include "TProfile3D.h"
@@ -871,7 +872,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
     }
   }
-  gRandom->SetSeed((unsigned) time(0));
+  // gRandom->SetSeed((unsigned) time(0));
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
@@ -879,7 +880,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ---------------------- Event reading quality assurance ----------------------
     if((iEvent+1)%100 == 0) {
       // gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
-      Double_t randomNumber = gRandom->Uniform(1);
+      Double_t randomNumber = new TRandom3(0);
       std::cout << "randomNumber " << randomNumber  << std::endl;
       std::cout << "Working on event #[" << (iEvent+1)<< "/" << events2read << "]" << std::endl;
     }
