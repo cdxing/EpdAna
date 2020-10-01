@@ -880,7 +880,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ---------------------- Event reading quality assurance ----------------------
     if((iEvent+1)%100 == 0) {
       // gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
-      Double_t randomNumber = new TRandom3(0);
+      Trandom3* randomNumber = new TRandom3(0);
       std::cout << "randomNumber " << randomNumber  << std::endl;
       std::cout << "Working on event #[" << (iEvent+1)<< "/" << events2read << "]" << std::endl;
     }
