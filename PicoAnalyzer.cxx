@@ -876,8 +876,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
     // ---------------------- Event reading quality assurance ----------------------
-    if((iEvent+1)%100 == 0) std::cout << "Working on event #[" << (iEvent+1)
-    << "/" << events2read << "]" << std::endl;
+    if((iEvent+1)%100 == 0) {
+      Double_t randomNumber = gRandom->Uniform(1);
+      std::cout << "randomNumber " << randomNumber  << std::endl;
+      std::cout << "Working on event #[" << (iEvent+1)<< "/" << events2read << "]" << std::endl;
+    }
     Bool_t readEvent = picoReader->readPicoEvent(iEvent);
     if( !readEvent ) {
         std::cout << "Something went wrong, my Lord! Nothing to analyze..."
