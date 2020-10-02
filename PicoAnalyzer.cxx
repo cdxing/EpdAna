@@ -412,7 +412,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   EpInputNameIni.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
   EpInputNameIni.Append(".root") ;
   // # Systematic Analysis
-  if(sys_cutN >= 9) EpInputNameIni = "/star/u/dchen/GitHub/EpdAna/EpCorrection_INPUT_sys_primary_var0_iter2_.root";
+  if(sys_cutN >= 9) {
+    EpInputNameIni = "/star/u/dchen/GitHub/EpdAna/EpCorrection_INPUT_sys_primary_var0_iter2_.root";
+    std::cout << "primary EpCorrection Input Files used" << std::endl;
+  }
   // sys cut that don't affect the evnet plane calculation use the primary EP resolution
   TFile* mCorrectionInputFile = new TFile(EpInputNameIni,"READ");
   if (mCorrectionInputFile->IsZombie()) {
