@@ -1823,7 +1823,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         Double_t randomNumber = gRandom->Uniform(1);
         // std::cout << "randomNumber " << randomNumber  << std::endl;
         double d_randAngle = TMath::Pi()*randomNumber;
-        std::cout << "randomAngle " << d_randAngle  << std::endl;
+        // std::cout << "randomAngle " << d_randAngle  << std::endl;
         double d_px1_rotation    = d_px1 * TMath::Cos(d_randAngle) - d_py1 * TMath::Sin(d_randAngle);
         double d_py1_rotation    = d_px1 * TMath::Sin(d_randAngle) + d_py1 * TMath::Cos(d_randAngle);
         double d_inv_m_rotation  = sqrt(  d_M0*d_M0
