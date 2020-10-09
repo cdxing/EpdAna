@@ -406,7 +406,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_tpc_all_psi_shifted[EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   // Flow plots of P, pi, K
-  TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Nentralities,0.5,_Nentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
   profile3D_proton_v1->BuildOptions(-1,1,"");
   profile3D_proton_v1->GetXaxis()->SetTitle("Centrality bin");
   profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
@@ -1775,7 +1775,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (9) ======================= Flow calculation of P, Pi K  =========================
     for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
       StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th K+ track
-      if(!picoTrack0) continue;
+      if(!picoTrack) continue;
       // Proton Variables
       double d_charge  = picoTrack->charge();
       double d_px      = picoTrack->pMom().x();
