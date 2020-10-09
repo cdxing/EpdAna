@@ -1497,6 +1497,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
         tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1 &&
         pt > 0.2 &&
+        pt < 2 &&
         charge > 0
       ){
         particleType=0;// Proton
@@ -1802,7 +1803,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
         }
       }
-      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_resolution[0],1.0);
+      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
 
     }
 
