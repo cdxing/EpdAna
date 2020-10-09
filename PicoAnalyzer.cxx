@@ -113,6 +113,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   int mEvtcut[5] = {0};
   int mTrkcut[6] = {0};
+  // Set rapidity/pseudorapidity range
+  Int_t rapidityBins = 15; Double_t rapidityLow = -2.9/*-3.0*/; Double_t rapidityHigh = 0.1/*0.0*/;
+  // Set transverse momentum range
+  Int_t ptBins = 15; Double_t ptLow = 0.0; Double_t ptHigh = 3.0;
   // (0) ================== Read input files and set status =====================
   StPicoDstReader* picoReader = new StPicoDstReader(inFile);
   picoReader->Init();
@@ -401,6 +405,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_tpc_all_psi_raw[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_%d",EventTypeId_tpc),Form("TPC-sub%d event plane",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
     hist_tpc_all_psi_shifted[EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
+  // Flow plots of P, pi, K
+  TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Nentralities,0.5,_Nentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_proton_v1->BuildOptions(-1,1,"");
+  profile3D_proton_v1->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_proton_v1->GetZaxis()->SetTitle("y");
+  profile3D_proton_v1->Sumw2();
+
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
   TProfile2D *mTpcShiftInput_sin[_nEventTypeBins_tpc], *mTpcShiftInput_cos[_nEventTypeBins_tpc]; // TPC EP input
@@ -1383,6 +1395,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // (8) ================ TPC event plane : use identedfied particles ====================================
+    // Fill Proton tracks for proton v1 analysis
+    std::vector<StPicoTrack *> v_Proton_tracks;
     // Fill kaon tracks for phi meson analysis
     std::vector<StPicoTrack *> v_KaonPlus_tracks;
     std::vector<StPicoTrack *> v_KaonMinus_tracks;
@@ -1487,6 +1501,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       ){
         particleType=0;// Proton
         nProtons++;
+        v_Proton_tracks.push_back(picoTrack); // push back K+ tracks
         // Fill histograms
         hist_pt_proton->Fill(pt);
         hist_eta_proton->Fill(eta);
@@ -1757,7 +1772,41 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRaw[EventTypeId_tpc]));
       }
     }
-    // (9) ======================= Phi meson analysis  =========================
+    // (9) ======================= Flow calculation of P, Pi K  =========================
+    for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th K+ track
+      if(!picoTrack0) continue;
+      // Proton Variables
+      double d_charge  = picoTrack->charge();
+      double d_px      = picoTrack->pMom().x();
+      double d_py      = picoTrack->pMom().y();
+      double d_pz      = picoTrack->pMom().z();
+      double d_pT      = picoTrack->pPt();
+      double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
+      StPicoBTofPidTraits *trait = NULL;
+      double d_tofBeta    = -999.;
+      double d_inv_tofBeta    = -999.;
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait)        d_tofBeta = trait->btofBeta();
+      double d_M   = _massProton;
+      double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massProton*_massProton);
+      double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
+      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+      if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+      double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
+      if(PsiEastShifted[1]!=-999.0){// Using EPD-1
+        for(int km=0;km<2;km++){ // km - flow order
+          d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+          d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+        }
+      }
+      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_resolution[0],1.0);
+
+    }
+
+    // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
       StPicoTrack * picoTrack0 = v_KaonPlus_tracks.at(i); // i-th K+ track
@@ -1875,7 +1924,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
-        // -------------------- (9.1) Fill SE InvM plots -------------------------
+        // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
         {// pt SetA, cent SetA
           if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
@@ -2096,6 +2145,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
       }
     }
+    v_Proton_tracks.clear();
     v_KaonPlus_tracks.clear();
     v_KaonMinus_tracks.clear();
   }  // Event Loop
