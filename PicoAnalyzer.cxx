@@ -1495,9 +1495,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // ------------------------ Particle identifications ------------------------------
       if( // Proton PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
-        tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1 &&
+        ((ptot <= 1.0) || (tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1)) &&
         pt > 0.2 &&
-        pt < 2 &&
+        pt <= 2.0 &&
         charge > 0
       ){
         particleType=0;// Proton
