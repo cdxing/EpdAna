@@ -1891,7 +1891,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
                               - 2.0 *(d_px0*d_px1_rotation+d_py0*d_py1_rotation+d_pz0*d_pz1) );
-        hist_dip_angle         ->Fill(d_dip_angle);
         hist_SE_mass_Phi    ->Fill(d_inv_m);
         hist_rotation_mass_Phi    ->Fill(d_inv_m_rotation);
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
@@ -1922,6 +1921,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
+        hist_dip_angle         ->Fill(d_dip_angle);
         // --------------------- phi-meson flows -------------------------------
         TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
         TVector3 v3D_p_daughter1 = trackhelix1.momentumAt(pairLengths.second, f_MagField*kilogauss);
