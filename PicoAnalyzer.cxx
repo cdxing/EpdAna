@@ -168,7 +168,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } else if (sys_varN == 3){
       etaRange[0] = -4.99;
       etaRange[1] = -4.4;
-    } else if ((sys_varN == 4){
+    } else if (sys_varN == 4){
       etaRange[0] = -5.00;
       etaRange[1] = -4.39;
 
