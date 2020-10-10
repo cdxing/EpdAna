@@ -165,6 +165,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } else if(sys_varN == 2){
       etaRange[0] = -4.95;
       etaRange[1] = -4.35;
+    } else if (sys_varN == 3){
+      etaRange[0] = -4.99;
+      etaRange[1] = -4.4;
+    } else if ((sys_varN == 4){
+      etaRange[0] = -5.00;
+      etaRange[1] = -4.39;
+
     }
   }
   TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
@@ -1906,7 +1913,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // # Systematic Analysis
         // sys_cutN == 12; // dip angle
         if(sys_cutN == 12){
-          dip_angle_cutLevel = 0.0; // no dip angle cut
+          if(sys_varN == 1){
+            dip_angle_cutLevel = 0.0; // no dip angle cut
+          } else if(sys_varN == 2){
+            dip_angle_cutLevel = 0.3; // 0.3 dip angle cut
+          } else if(sys_varN == 3){
+            dip_angle_cutLevel = 0.2; // 0.3 dip angle cut
+          }
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
         // --------------------- phi-meson flows -------------------------------
