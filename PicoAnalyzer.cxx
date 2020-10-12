@@ -1919,9 +1919,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(sys_varN == 1){
             dip_angle_cutLevel = 0.0; // no dip angle cut
           } else if(sys_varN == 2){
-            dip_angle_cutLevel = 0.03; // 0.3 dip angle cut
+            dip_angle_cutLevel = 0.03; // 0.03 dip angle cut
           } else if(sys_varN == 3){
-            dip_angle_cutLevel = 0.02; // 0.3 dip angle cut
+            dip_angle_cutLevel = 0.02; // 0.02 dip angle cut
           }
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
