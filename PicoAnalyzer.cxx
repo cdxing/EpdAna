@@ -19,6 +19,10 @@
  * \date Feb 19, 2020
  *
  * Updated for systematic analysis for 7.2 (26.5) GeV Run 18 data
+ *
+ * Update to cross check with Kosuke's event plane
+ * \author Ding Chen, Kosuke Okuba
+ * \date Oct 10, 2020
  */
 
 // This is needed for calling standalone classes (not needed on RACF)
@@ -1915,9 +1919,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(sys_varN == 1){
             dip_angle_cutLevel = 0.0; // no dip angle cut
           } else if(sys_varN == 2){
-            dip_angle_cutLevel = 0.3; // 0.3 dip angle cut
+            dip_angle_cutLevel = 0.03; // 0.3 dip angle cut
           } else if(sys_varN == 3){
-            dip_angle_cutLevel = 0.2; // 0.3 dip angle cut
+            dip_angle_cutLevel = 0.02; // 0.3 dip angle cut
           }
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
