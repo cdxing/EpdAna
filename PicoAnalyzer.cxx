@@ -1674,11 +1674,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[4])));//Use EPD-D as event plane first
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
-        profile_v2VsEta[centrality-1]->Fill(eta,TMath::Cos(2 * (phi-PsiEastShifted[4]))); // [] is from 0 to 8, centrality is from 1 to 9.
       }
-      if(PsiEastShifted[4]!=-999.0){// Using EPD-1
+      if(PsiEastShifted[4]!=-999.0){// Using EPD-4
       // ------------------- Fill the eta weighting histograms --------------------------
         profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[4])));//Use EPD-D as event plane first
         profile_v2VsEta[centrality-1]->Fill(eta,TMath::Cos(2 * (phi-PsiEastShifted[4]))); // [] is from 0 to 8, centrality is from 1 to 9.
