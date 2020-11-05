@@ -336,6 +336,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *  hist_trackmult_kaonMinus = new TH1D("hist_trackmult_kaonMinus","hist_trackmult_kaonMinus",100,-0.5,99.5);
   TH1D *  hist_trackmult_pionPlus = new TH1D("hist_trackmult_pionPlus","hist_trackmult_pionPlus",100,-0.5,99.5);
   TH1D *  hist_trackmult_pionMinus = new TH1D("hist_trackmult_pionMinus","hist_trackmult_pionMinus",100,-0.5,99.5);
+  TH1D *hist_mtDiff_proton = new TH1D("hist_mtDiff_proton","m_{T} - m_{0} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_pt_proton = new TH1D("hist_pt_proton","p_{T} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_eta_proton = new TH1D("hist_eta_proton","#eta",200,-3.0,0.5);
   TH1D *hist_y_proton = new TH1D("hist_y_proton","Rapidity y",200,-3.0,0.5);
@@ -419,6 +420,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
   profile3D_proton_v1->GetZaxis()->SetTitle("y");
   profile3D_proton_v1->Sumw2();
+
+  TProfile3D *profile3D_proton_v2 = new TProfile3D("profile3D_proton_v2","Proton v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_proton_v2->BuildOptions(-1,1,"");
+  profile3D_proton_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_proton_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_proton_v2->GetZaxis()->SetTitle("y");
+  profile3D_proton_v2->Sumw2();
 
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
@@ -1507,14 +1515,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
         (tofBeta != -999.0 && mass2 > 0.8 && mass2 < 1.0) &&
         // ((ptot <= 1.0) || (tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1)) &&
-        pt > 0.4 &&
+        pt >= 0.4 &&
         pt <= 2.0 &&
         charge > 0
       ){
         particleType=0;// Proton
         nProtons++;
-        v_Proton_tracks.push_back(picoTrack); // push back K+ tracks
+        v_Proton_tracks.push_back(picoTrack); // push back proton tracks
         // Fill histograms
+        hist_mtDiff_proton->Fill(mtProton-_massProton);
         hist_pt_proton->Fill(pt);
         hist_eta_proton->Fill(eta);
         hist_y_proton->Fill(rapProton);
@@ -1564,7 +1573,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       } else if( // Pions PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
         tofBeta != -999.0 && mass2 > -0.01 && mass2 < 0.05 &&
-        pt > 0.2  &&
+        pt >= 0.2  &&
+        ptot <= 1.6 &&
         !(TMath::Abs(mass2)<0.005 && ptot<0.25) // Remove electron influence
       ){
         if(charge > 0){
@@ -1813,14 +1823,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-      if(PsiEastShifted[1]!=-999.0){// Using EPD-1
-        for(int km=0;km<2;km++){ // km - flow order
-          d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
-          d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
-        }
+      if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_Proton_raw[0]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+          // d_flow_Proton_resolution[0] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[0][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
       }
-      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
-
+      if(PsiEastShifted[4]!=-999.0){// Using EPD-D, v2
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_Proton_raw[1]        = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]));
+          // d_flow_Proton_resolution[1] = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
+      }
+      profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0); // v1_obs_raw
+      profile3D_proton_v2->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[1],1.0); // v2_obs_raw
     }
 
     // (10) ======================= Phi meson analysis  =========================
@@ -1873,7 +1889,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double eta1   = ((d_mom1 - d_pz1) != 0.0) ? 0.5*TMath::Log( (d_mom1 + d_pz1) / (d_mom1 - d_pz1) ) : -999.0;
         double d_mT1  = sqrt(d_pT1*d_pT1 + d_M1*d_M1);
         double mass2_1 = d_mom1*d_mom1*((1.0/(d_tofBeta1*d_tofBeta1))-1.0);
-        double d_pq1   = fabs(d_mom0) * d_charge0;
+        double d_pq1   = fabs(d_mom1) * d_charge1;
         if(d_tofBeta1 != -999. && d_tofBeta1 != 0.){
           d_inv_tofBeta1 = 1.0 / d_tofBeta1;
           h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
@@ -2299,6 +2315,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_trackmult_kaonPlus->GetYaxis()->SetTitle("# of Events");
   hist_trackmult_kaonMinus->GetXaxis()->SetTitle("# of K^{#minus}");
   hist_trackmult_kaonMinus->GetYaxis()->SetTitle("# of Events");
+  hist_mtDiff_proton->GetXaxis()->SetTitle("m_{T} - m_{0} [GeV/c]");
+  hist_mtDiff_proton->GetYaxis()->SetTitle("# of tracks");
   hist_pt_proton->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_proton->GetYaxis()->SetTitle("# of tracks");
   hist_eta_proton->GetXaxis()->SetTitle("#eta");
