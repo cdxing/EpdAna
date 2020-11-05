@@ -1825,7 +1825,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
         // for(int km=0;km<2;km++){ // km - flow order
-          d_flow_Proton_raw[0]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+          d_flow_Proton_raw[0]        = TMath::Cos((double)(0+1.) * (d_phi_azimuth - PsiEastShifted[1]));
           // d_flow_Proton_resolution[0] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[0][centrality-1]); // km {0,1}, centrality [1,9]
         // }
       }
