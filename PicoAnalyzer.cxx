@@ -1706,6 +1706,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           nKaonPlus++;
           v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
+          hist_mtDiff_kaonPlus->Fill(mtKaon-_massKaon);
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
           hist_y_kaonPlus->Fill(rapKaon);
@@ -1721,6 +1722,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           nKaonMinus++;
           v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
+          hist_mtDiff_kaonMinus->Fill(mtKaon-_massKaon);
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
           hist_y_kaonMinus->Fill(rapKaon);
