@@ -1906,7 +1906,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       // pt and rapidity cuts
-      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
+      // if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
@@ -1948,7 +1948,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       // pt and rapidity cuts
-      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
+      // if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
       double d_flow_KaonPlus_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_KaonPlus_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
@@ -1989,7 +1989,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       // pt and rapidity cuts
-      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
+      // if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
       double d_flow_KaonMinus_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_KaonMinus_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
