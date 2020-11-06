@@ -347,6 +347,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_dEdx_proton = new TH2D("hist_dEdx_proton","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_proton = new TH2D("hist_beta_proton","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_proton = new TH2D("hist_mass_proton","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_mtDiff_kaonPlus = new TH1D("hist_mtDiff_kaonPlus","m_{T} - m_{0} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_pt_kaonPlus = new TH1D("hist_pt_kaonPlus","p_{T} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_eta_kaonPlus = new TH1D("hist_eta_kaonPlus","#eta",200,-3.0,0.5);
   TH1D *hist_y_kaonPlus = new TH1D("hist_y_kaonPlus","y",200,-3.0,0.5);
@@ -357,6 +358,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_dEdx_kaonPlus = new TH2D("hist_dEdx_kaonPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_kaonPlus = new TH2D("hist_beta_kaonPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_kaonPlus = new TH2D("hist_mass_kaonPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_mtDiff_kaonPlus_tight = new TH1D("hist_mtDiff_kaonPlus_tight","m_{T} - m_{0} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_pt_kaonPlus_tight = new TH1D("hist_pt_kaonPlus_tight","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_kaonPlus_tight = new TH1D("hist_eta_kaonPlus_tight","#eta",200,-3.0,0.5);
+  TH1D *hist_y_kaonPlus_tight = new TH1D("hist_y_kaonPlus_tight","y",200,-3.0,0.5);
+  TH1D *hist_phi_kaonPlus_tight = new TH1D("hist_phi_kaonPlus_tight","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_kaonPlus_tight = new TH2D("hist_rap_eta_kaonPlus_tight","kaonPlus_tight y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_kaonPlus_tight = new TH2D("hist_pt_y_kaonPlus_tight","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonPlus_tight = new TH2D("hist_pt_eta_kaonPlus_tight","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_kaonPlus_tight = new TH2D("hist_dEdx_kaonPlus_tight","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_kaonPlus_tight = new TH2D("hist_beta_kaonPlus_tight","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_kaonPlus_tight = new TH2D("hist_mass_kaonPlus_tight","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_mtDiff_kaonMinus = new TH1D("hist_mtDiff_kaonMinus","m_{T} - m_{0} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_pt_kaonMinus = new TH1D("hist_pt_kaonMinus","p_{T} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_eta_kaonMinus = new TH1D("hist_eta_kaonMinus","#eta",200,-3.0,0.5);
   TH1D *hist_y_kaonMinus = new TH1D("hist_y_kaonMinus","y",200,-3.0,0.5);
@@ -367,6 +380,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_dEdx_kaonMinus = new TH2D("hist_dEdx_kaonMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_kaonMinus = new TH2D("hist_beta_kaonMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_kaonMinus = new TH2D("hist_mass_kaonMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  TH1D *hist_mtDiff_kaonMinus_tight = new TH1D("hist_mtDiff_kaonMinus_tight","m_{T} - m_{0} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_pt_kaonMinus_tight = new TH1D("hist_pt_kaonMinus_tight","p_{T} [GeV/c]",1000,0.0,5.0);
+  TH1D *hist_eta_kaonMinus_tight = new TH1D("hist_eta_kaonMinus_tight","#eta",200,-3.0,0.5);
+  TH1D *hist_y_kaonMinus_tight = new TH1D("hist_y_kaonMinus_tight","y",200,-3.0,0.5);
+  TH1D *hist_phi_kaonMinus_tight = new TH1D("hist_phi_kaonMinus_tight","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  TH2D *hist_rap_eta_kaonMinus_tight = new TH2D("hist_rap_eta_kaonMinus_tight","kaonMinus_tight y versus #eta",250,-2.5,0,250,-2.5,0);
+  TH2D *hist_pt_y_kaonMinus_tight = new TH2D("hist_pt_y_kaonMinus_tight","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonMinus_tight = new TH2D("hist_pt_eta_kaonMinus_tight","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_dEdx_kaonMinus_tight = new TH2D("hist_dEdx_kaonMinus_tight","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *hist_beta_kaonMinus_tight = new TH2D("hist_beta_kaonMinus_tight","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  TH2D *hist_mass_kaonMinus_tight = new TH2D("hist_mass_kaonMinus_tight","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   TH1D *hist_pt_pionPlus = new TH1D("hist_pt_pionPlus","p_{T} [GeV/c]",1000,0.0,5.0);
   TH1D *hist_eta_pionPlus = new TH1D("hist_eta_pionPlus","#eta",200,-3.0,0.5);
   TH1D *hist_y_pionPlus = new TH1D("hist_y_pionPlus","y",200,-3.0,0.5);
@@ -414,19 +438,47 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_tpc_all_psi_shifted[EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   // Flow plots of P, pi, K
-  TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
-  profile3D_proton_v1->BuildOptions(-1,1,"");
-  profile3D_proton_v1->GetXaxis()->SetTitle("Centrality bin");
-  profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
-  profile3D_proton_v1->GetZaxis()->SetTitle("y");
-  profile3D_proton_v1->Sumw2();
+  TProfile3D *profile3D_Proton_v1 = new TProfile3D("profile3D_Proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_Proton_v1->BuildOptions(-1,1,"");
+  profile3D_Proton_v1->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_Proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_Proton_v1->GetZaxis()->SetTitle("y");
+  profile3D_Proton_v1->Sumw2();
 
-  TProfile3D *profile3D_proton_v2 = new TProfile3D("profile3D_proton_v2","Proton v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
-  profile3D_proton_v2->BuildOptions(-1,1,"");
-  profile3D_proton_v2->GetXaxis()->SetTitle("Centrality bin");
-  profile3D_proton_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
-  profile3D_proton_v2->GetZaxis()->SetTitle("y");
-  profile3D_proton_v2->Sumw2();
+  TProfile3D *profile3D_Proton_v2 = new TProfile3D("profile3D_Proton_v2","Proton v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_Proton_v2->BuildOptions(-1,1,"");
+  profile3D_Proton_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_Proton_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_Proton_v2->GetZaxis()->SetTitle("y");
+  profile3D_Proton_v2->Sumw2();
+
+  TProfile3D *profile3D_KaonPlus_v1 = new TProfile3D("profile3D_KaonPlus_v1","K^{+} v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KaonPlus_v1->BuildOptions(-1,1,"");
+  profile3D_KaonPlus_v1->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KaonPlus_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KaonPlus_v1->GetZaxis()->SetTitle("y");
+  profile3D_KaonPlus_v1->Sumw2();
+
+  TProfile3D *profile3D_KaonPlus_v2 = new TProfile3D("profile3D_KaonPlus_v2","K^{+} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KaonPlus_v2->BuildOptions(-1,1,"");
+  profile3D_KaonPlus_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KaonPlus_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KaonPlus_v2->GetZaxis()->SetTitle("y");
+  profile3D_KaonPlus_v2->Sumw2();
+
+  TProfile3D *profile3D_KaonMinus_v1 = new TProfile3D("profile3D_KaonMinus_v1","K^{-} v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KaonMinus_v1->BuildOptions(-1,1,"");
+  profile3D_KaonMinus_v1->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KaonMinus_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KaonMinus_v1->GetZaxis()->SetTitle("y");
+  profile3D_KaonMinus_v1->Sumw2();
+
+  TProfile3D *profile3D_KaonMinus_v2 = new TProfile3D("profile3D_KaonMinus_v2","K^{-} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KaonMinus_v2->BuildOptions(-1,1,"");
+  profile3D_KaonMinus_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KaonMinus_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KaonMinus_v2->GetZaxis()->SetTitle("y");
+  profile3D_KaonMinus_v2->Sumw2();
 
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
@@ -1108,7 +1160,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 20;
         }
       }
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
+      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.52);
       // # Systematic Analysis
       // sys_cutN == 8; // ratio
       if(sys_cutN == 8){
@@ -1416,8 +1468,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // Fill Proton tracks for proton v1 analysis
     std::vector<StPicoTrack *> v_Proton_tracks;
     // Fill kaon tracks for phi meson analysis
-    std::vector<StPicoTrack *> v_KaonPlus_tracks;
-    std::vector<StPicoTrack *> v_KaonMinus_tracks;
+    std::vector<StPicoTrack *> v_KaonPlus_tracks; // for phi-meson flows
+    std::vector<StPicoTrack *> v_KaonMinus_tracks; // for phi-meson flows
+    std::vector<StPicoTrack *> v_KaonPlus_tight_tracks; // require both TOF and TPC
+    std::vector<StPicoTrack *> v_KaonMinus_tight_tracks; // require both TOF and TPC
     // Define TPC EP parameters
     Int_t NTpcAll[2] = {0};
     Double_t QrawTpcAll[2][2]={0.0};       /// indices:[TPCetaRange] [x,y]
@@ -1430,7 +1484,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     d_nSigmaKaonCut = 2.0;
     d_KaonM2low     = 0.16;
     d_KaonM2high    = 0.32;
-    d_KaonpTlow     = 0.2;
+    d_KaonpTlow     = 0.15;
     // # Systematic Analysis
     // sys_cutN == 9; // nSigmaKaon
     if(sys_cutN == 9){
@@ -1515,8 +1569,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
         (tofBeta != -999.0 && mass2 > 0.8 && mass2 < 1.0) &&
         // ((ptot <= 1.0) || (tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1)) &&
-        pt >= 0.4 &&
-        pt <= 2.0 &&
+        pt >= 0.2 &&
+        // pt <= 2.0 &&
         charge > 0
       ){
         particleType=0;// Proton
@@ -1543,7 +1597,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           particleType=1;// K+
           nKaonPlus++;
           v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tight_tracks.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
+          hist_mtDiff_kaonPlus->Fill(mtKaon-_massKaon);
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
           hist_y_kaonPlus->Fill(rapKaon);
@@ -1554,11 +1610,25 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
+
+          hist_mtDiff_kaonPlus_tight->Fill(mtKaon-_massKaon);
+          hist_pt_kaonPlus_tight->Fill(pt);
+          hist_eta_kaonPlus_tight->Fill(eta);
+          hist_y_kaonPlus_tight->Fill(rapKaon);
+          hist_phi_kaonPlus_tight->Fill(phi);
+          hist_rap_eta_kaonPlus_tight->Fill(eta,rapKaon);
+          hist_pt_y_kaonPlus_tight->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonPlus_tight->Fill(eta,pt,1);
+          hist_dEdx_kaonPlus_tight->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonPlus_tight->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonPlus_tight->Fill(charge*ptot,mass2);
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
-          v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonMinus_tracks.push_back(picoTrack); // push back K- tracks
+          v_KaonMinus_tight_tracks.push_back(picoTrack); // push back K- tracks
           // Fill histograms
+          hist_mtDiff_kaonMinus->Fill(mtKaon-_massKaon);
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
           hist_y_kaonMinus->Fill(rapKaon);
@@ -1569,6 +1639,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
           hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonMinus->Fill(charge*ptot,mass2);
+
+          hist_mtDiff_kaonMinus_tight->Fill(mtKaon-_massKaon);
+          hist_pt_kaonMinus_tight->Fill(pt);
+          hist_eta_kaonMinus_tight->Fill(eta);
+          hist_y_kaonMinus_tight->Fill(rapKaon);
+          hist_phi_kaonMinus_tight->Fill(phi);
+          hist_rap_eta_kaonMinus_tight->Fill(eta,rapKaon);
+          hist_pt_y_kaonMinus_tight->Fill(rapKaon,pt,1);
+          hist_pt_eta_kaonMinus_tight->Fill(eta,pt,1);
+          hist_dEdx_kaonMinus_tight->Fill(charge*ptot,picoTrack->dEdx());
+          hist_beta_kaonMinus_tight->Fill(charge*ptot,1.0/tofBeta);
+          hist_mass_kaonMinus_tight->Fill(charge*ptot,mass2);
         }
       } else if( // Pions PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
@@ -1611,11 +1693,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // # Systematic Analysis
       // sys_cutN == 16; // TPCpid
       if( // Kaons PID: tracks that only have TPC, no TOF
-        sys_cutN == 16 &&
+        // sys_cutN == 16 &&
         TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
         tofBeta == -999.0
         && pt > d_KaonpTlow
       ){
@@ -1821,6 +1903,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       Double_t d_phi_azimuth = picoTrack->pMom().Phi();
       if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      // pt and rapidity cuts
+      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
@@ -1835,10 +1919,92 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // d_flow_Proton_resolution[1] = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
         // }
       }
-      profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0); // v1_obs_raw
-      profile3D_proton_v2->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[1],1.0); // v2_obs_raw
+      profile3D_Proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0); // v1_obs_raw
+      profile3D_Proton_v2->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[1],1.0); // v2_obs_raw
     }
 
+    // --------------------------- Kaon + flows --------------------------------
+    for(unsigned int i = 0; i < v_KaonPlus_tight_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_KaonPlus_tight_tracks.at(i); // i-th K+ track
+      if(!picoTrack) continue;
+      // KaonPlus Variables
+      double d_charge  = picoTrack->charge();
+      double d_px      = picoTrack->pMom().x();
+      double d_py      = picoTrack->pMom().y();
+      double d_pz      = picoTrack->pMom().z();
+      double d_pT      = picoTrack->pPt();
+      double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
+      StPicoBTofPidTraits *trait = NULL;
+      double d_tofBeta    = -999.;
+      double d_inv_tofBeta    = -999.;
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait)        d_tofBeta = trait->btofBeta();
+      double d_M   = _massKaon;
+      double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massKaon*_massKaon);
+      double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
+      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+      if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      // pt and rapidity cuts
+      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
+      double d_flow_KaonPlus_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+      double d_flow_KaonPlus_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
+      if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_KaonPlus_raw[0]        = TMath::Cos((double)(0+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+          // d_flow_KaonPlus_resolution[0] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[0][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
+      }
+      if(PsiEastShifted[4]!=-999.0){// Using EPD-D, v2
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_KaonPlus_raw[1]        = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]));
+          // d_flow_KaonPlus_resolution[1] = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
+      }
+      profile3D_KaonPlus_v1->Fill(centrality,d_pT,d_y,d_flow_KaonPlus_raw[0],1.0); // v1_obs_raw
+      profile3D_KaonPlus_v2->Fill(centrality,d_pT,d_y,d_flow_KaonPlus_raw[1],1.0); // v2_obs_raw
+    }
+    // --------------------------- Kaon - flows --------------------------------
+    for(unsigned int i = 0; i < v_KaonMinus_tight_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_KaonMinus_tight_tracks.at(i); // i-th K+ track
+      if(!picoTrack) continue;
+      // KaonMinus Variables
+      double d_charge  = picoTrack->charge();
+      double d_px      = picoTrack->pMom().x();
+      double d_py      = picoTrack->pMom().y();
+      double d_pz      = picoTrack->pMom().z();
+      double d_pT      = picoTrack->pPt();
+      double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
+      StPicoBTofPidTraits *trait = NULL;
+      double d_tofBeta    = -999.;
+      double d_inv_tofBeta    = -999.;
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait)        d_tofBeta = trait->btofBeta();
+      double d_M   = _massKaon;
+      double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massKaon*_massKaon);
+      double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
+      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+      if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      // pt and rapidity cuts
+      if(d_pT >= 0.4 && d_pT <= 2.0 ) continue;
+      double d_flow_KaonMinus_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+      double d_flow_KaonMinus_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
+      if(PsiEastShifted[1]!=-999.0){// Using EPD-1, v1
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_KaonMinus_raw[0]        = TMath::Cos((double)(0+1.) * (d_phi_azimuth - PsiEastShifted[1]));
+          // d_flow_KaonMinus_resolution[0] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[0][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
+      }
+      if(PsiEastShifted[4]!=-999.0){// Using EPD-D, v2
+        // for(int km=0;km<2;km++){ // km - flow order
+          d_flow_KaonMinus_raw[1]        = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]));
+          // d_flow_KaonMinus_resolution[1] = TMath::Cos((double)(1+1.) * (d_phi_azimuth - PsiEastShifted[4]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+        // }
+      }
+      profile3D_KaonMinus_v1->Fill(centrality,d_pT,d_y,d_flow_KaonMinus_raw[0],1.0); // v1_obs_raw
+      profile3D_KaonMinus_v2->Fill(centrality,d_pT,d_y,d_flow_KaonMinus_raw[1],1.0); // v2_obs_raw
+    }
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
@@ -2187,6 +2353,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_Proton_tracks.clear();
     v_KaonPlus_tracks.clear();
     v_KaonMinus_tracks.clear();
+    v_KaonPlus_tight_tracks.clear();
+    v_KaonMinus_tight_tracks.clear();
   }  // Event Loop
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
@@ -2337,6 +2505,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_beta_proton->GetYaxis()->SetTitle("1/#beta");
   hist_mass_proton->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   hist_mass_proton->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_mtDiff_kaonPlus->GetXaxis()->SetTitle("m_{T} - m_{0} [GeV/c]");
+  hist_mtDiff_kaonPlus->GetYaxis()->SetTitle("# of tracks");
   hist_mass_kaonPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   hist_mass_kaonPlus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
   hist_beta_kaonPlus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
@@ -2355,8 +2525,30 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_y_kaonPlus->GetYaxis()->SetTitle("# of tracks");
   hist_eta_kaonPlus->GetXaxis()->SetTitle("#eta");
   hist_eta_kaonPlus->GetYaxis()->SetTitle("# of tracks");
-  hist_pt_kaonPlus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
-  hist_pt_kaonPlus->GetYaxis()->SetTitle("# of tracks");
+  hist_mtDiff_kaonPlus_tight->GetXaxis()->SetTitle("m_{T} - m_{0} [GeV/c]");
+  hist_mtDiff_kaonPlus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_mass_kaonPlus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_kaonPlus_tight->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_beta_kaonPlus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_kaonPlus_tight->GetYaxis()->SetTitle("1/#beta");
+  hist_dEdx_kaonPlus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_kaonPlus_tight->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_pt_eta_kaonPlus_tight->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_kaonPlus_tight->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_y_kaonPlus_tight->GetXaxis()->SetTitle("y");
+  hist_pt_y_kaonPlus_tight->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_rap_eta_kaonPlus_tight->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_kaonPlus_tight->GetYaxis()->SetTitle("Rapidity y");
+  hist_phi_kaonPlus_tight->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_kaonPlus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_y_kaonPlus_tight->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_kaonPlus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_kaonPlus_tight->GetXaxis()->SetTitle("#eta");
+  hist_eta_kaonPlus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_mtDiff_kaonMinus->GetXaxis()->SetTitle("m_{T} - m_{0} [GeV/c]");
+  hist_mtDiff_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_kaonMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_kaonMinus->GetYaxis()->SetTitle("# of tracks");
   hist_mass_kaonMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   hist_mass_kaonMinus->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
   hist_beta_kaonMinus->GetXaxis()->SetTitle("q*|p| (GeV/c)");
@@ -2377,6 +2569,30 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_eta_kaonMinus->GetYaxis()->SetTitle("# of tracks");
   hist_pt_kaonMinus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_kaonMinus->GetYaxis()->SetTitle("# of tracks");
+  hist_mtDiff_kaonMinus_tight->GetXaxis()->SetTitle("m_{T} - m_{0} [GeV/c]");
+  hist_mtDiff_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_kaonMinus_tight->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_mass_kaonMinus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_mass_kaonMinus_tight->GetYaxis()->SetTitle("m^{2} (GeV/c^{2})^{2}");
+  hist_beta_kaonMinus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_beta_kaonMinus_tight->GetYaxis()->SetTitle("1/#beta");
+  hist_dEdx_kaonMinus_tight->GetXaxis()->SetTitle("q*|p| (GeV/c)");
+  hist_dEdx_kaonMinus_tight->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  hist_pt_eta_kaonMinus_tight->GetXaxis()->SetTitle("#eta");
+  hist_pt_eta_kaonMinus_tight->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_y_kaonMinus_tight->GetXaxis()->SetTitle("y");
+  hist_pt_y_kaonMinus_tight->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_rap_eta_kaonMinus_tight->GetXaxis()->SetTitle("Pseudorapidity #eta");
+  hist_rap_eta_kaonMinus_tight->GetYaxis()->SetTitle("Rapidity y");
+  hist_phi_kaonMinus_tight->GetXaxis()->SetTitle("#phi [Radian]");
+  hist_phi_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_y_kaonMinus_tight->GetXaxis()->SetTitle("Rapidity y");
+  hist_y_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_eta_kaonMinus_tight->GetXaxis()->SetTitle("#eta");
+  hist_eta_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
+  hist_pt_kaonMinus_tight->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  hist_pt_kaonMinus_tight->GetYaxis()->SetTitle("# of tracks");
   hist_pt_pionPlus->GetXaxis()->SetTitle("p_{T} [GeV/c]");
   hist_pt_pionPlus->GetYaxis()->SetTitle("# of tracks");
   hist_eta_pionPlus->GetXaxis()->SetTitle("#eta");
