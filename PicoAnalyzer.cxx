@@ -74,7 +74,7 @@
 const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
-const Int_t _nEventTypeBins_tpc = 2; // 2 etaRange for TPC
+const Int_t _nEventTypeBins_tpc = 4; // 4 etaRange for TPC
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
