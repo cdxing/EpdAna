@@ -145,7 +145,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.3,-2.5}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
+  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.2,-3.4,-3.3,-2.5}; // EPD eta range for 2nd order correlations
   // # Systematic Analysis
   // sys_cutN == 1; // etaGap
   if(sys_cutN == 1 && sys_varN == 1){ // EPD-3 as reference; eta gap 0.15 between EPD-1 and EPD-2
