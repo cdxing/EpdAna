@@ -412,10 +412,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-  TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+  Double_t etaRange_tpc[4] = {-2.0, -1.2, -0.6, 0.}; // TPC eta range {-0.4, 0.0}
+  TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,4,0,4);
   for (int ix=1; ix<301; ix++){
-    for (int iy=1; iy<3; iy++){
+    for (int iy=1; iy<5; iy++){
       double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
       if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
       else {
@@ -546,7 +546,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for(int cent=0; cent<_Ncentralities; cent++){
     profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
     profile_v1VsEta[cent]->Sumw2();
-    profile_v2VsEta[cent]   = new TProfile(Form("profile_v2VsEta_cent%d",cent),Form("Elliptic flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
+    profile_v2VsEta[cent]   = new TProfile(Form("profile_v2VsEta_cent%d",cent),Form("Cos(2 * (#phi - #psi)) VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
     profile_v2VsEta[cent]->Sumw2();
   }
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -1844,10 +1844,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //     profile2D_v1VsCentVsEta->Fill(eta,centrality,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
       //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
       // }
-      if(PsiTpcAllShifted[0]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
-          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0])));//Use TPC-full
-          profile_v2VsEta[centrality-1]->Fill(eta,TMath::Cos(2 * (phi-PsiTpcAllShifted[0]))); // [] is from 0 to 8, centrality is from 1 to 9.
-      }      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
+      if(PsiTpcAllShifted[1]!=-999.0){//Use TPC-A
+          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[1])));//Use TPC-full
+          profile_v2VsEta[centrality-1]->Fill(eta,TMath::Cos(2 * (phi-PsiTpcAllShifted[1]))); // [] is from 0 to 8, centrality is from 1 to 9.
+      }
+      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
         if(PsiEastShifted[3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
@@ -2035,8 +2036,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         d_inv_tofBeta0 = 1.0 / d_tofBeta0;
         h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
       }
-      for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
-        StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
+      for(unsigned int j = 0; j < v_KaonMinus_tight_tracks.size(); j++){
+        StPicoTrack * picoTrack1 = v_KaonMinus_tight_tracks.at(j); // j-th K- track
         if(!picoTrack1) continue;
         // K- Variables
         double d_charge1  = picoTrack1->charge();
