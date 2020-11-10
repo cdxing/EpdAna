@@ -1968,8 +1968,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       profile3D_KaonPlus_v2->Fill(centrality,d_pT,d_y,d_flow_KaonPlus_raw[1],1.0); // v2_obs_raw
     }
     // --------------------------- Kaon - flows --------------------------------
-    for(unsigned int i = 0; i < v_KaonMinus_tracks.size(); i++){
-      StPicoTrack * picoTrack = v_KaonMinus_tracks.at(i); // i-th K+ track
+    for(unsigned int i = 0; i < v_KaonMinus_tight_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_KaonMinus_tight_tracks.at(i); // i-th K+ track
       if(!picoTrack) continue;
       // KaonMinus Variables
       double d_charge  = picoTrack->charge();
@@ -2036,8 +2036,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         d_inv_tofBeta0 = 1.0 / d_tofBeta0;
         h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
       }
-      for(unsigned int j = 0; j < v_KaonMinus_tight_tracks.size(); j++){
-        StPicoTrack * picoTrack1 = v_KaonMinus_tight_tracks.at(j); // j-th K- track
+      for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
+        StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
         if(!picoTrack1) continue;
         // K- Variables
         double d_charge1  = picoTrack1->charge();
