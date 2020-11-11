@@ -1791,6 +1791,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         // double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1); // eta range method
         double etaWeight = d_TPCepEventType[EventTypeId_tpc]; // eta gap method
+        cout << etaWeight << " : EtaWeight" << EventTypeId_tpc << " eta: " << eta << endl;
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -1859,8 +1860,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       hist_tpc_all_psi_shifted[EventTypeId_tpc]->Fill(PsiTpcAllShifted[EventTypeId_tpc]);
     }
-    // test
-    cout << PsiTpcAllShifted[1] << " TPC-A" << endl;
     //---------------------------- Fill the directed flow from EPD (forward) region -----
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
