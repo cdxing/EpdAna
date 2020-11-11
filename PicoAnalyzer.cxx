@@ -1801,12 +1801,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
+          cout << Cosine << " : Cosine" <<   endl;
+          cout << Sine << " : Sine" <<   endl;
           QrawTpcAll[EventTypeId_tpc][0] += etaWeight * pt * Cosine;
           QrawTpcAll[EventTypeId_tpc][1] += etaWeight * pt * Sine;
         }
       }
-      cout << QrawTpcAll[1][0] << " : Qx TPC-A" <<   endl;
-      cout << QrawTpcAll[1][1] << " : Qy TPC-A" <<   endl;
+      // cout << QrawTpcAll[1][0] << " : Qx TPC-A" <<   endl;
+      // cout << QrawTpcAll[1][1] << " : Qy TPC-A" <<   endl;
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
