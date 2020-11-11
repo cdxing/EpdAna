@@ -88,7 +88,7 @@ Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
                       TString outFile = "test_EpdEP",
-                      Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
+                      Int_t   inputp1 = 2, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                       Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
                       Int_t   inputp4 = 0 // Iteration of the analysis is. In this analysis, 2 iterations is enough
@@ -413,6 +413,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
   Double_t etaRange_tpc[4] = {-2.0, -1.2, -0.6, 0.}; // TPC eta range {-0.4, 0.0}
+  Double_t etaGap_tpc[2][2] ={{-1.4, -1.3},
+                              {-0.7,-0.6}};
+  //  eta <= etaGap_tpc[0][0]: TPC-A;
+  //  etaGap_tpc[0][1] <= eta <= etaGap_tpc[1][0]: TPC-B
+  // etaGap_tpc[1][1] <= eta: TPC-C
   TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,4,0,4);
   for (int ix=1; ix<301; ix++){
     for (int iy=1; iy<5; iy++){
@@ -574,6 +579,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2];
   TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all;
+  TProfile *profile_correlation_tpc_sub[2][3];
+  TH2D *correlation2D_tpc_sub[3];
   int pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
@@ -607,10 +614,34 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
     Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    profile_correlation_tpc_sub[n][0] =
+    new TProfile(Form("profile_correlation_n%d_tpc_subAB",n+1),
+    Form("<cos(%d * (#psi^{TPC-A}[full] #minus #psi^{TPC-B}))>", n+1),
+    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    profile_correlation_tpc_sub[n][1] =
+    new TProfile(Form("profile_correlation_n%d_tpc_subBC",n+1),
+    Form("<cos(%d * (#psi^{TPC-B}[full] #minus #psi^{TPC-C}))>", n+1),
+    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    profile_correlation_tpc_sub[n][2] =
+    new TProfile(Form("profile_correlation_n%d_tpc_subAC",n+1),
+    Form("<cos(%d * (#psi^{TPC-A}[full] #minus #psi^{TPC-C}))>", n+1),
+    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
   }
   correlation2D_epd_tpc_all   =
   new TH2D("correlation2D_epd_tpc_all",
   "#psi^{EPD east}[full] vs. #psi^{TPC}",
+  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  correlation2D_tpc_sub[0]   =
+  new TH2D("correlation2D_tpc_subAB",
+  "#psi^{TPC-A} vs. #psi^{TPC-B}",
+  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  correlation2D_tpc_sub[1]   =
+  new TH2D("correlation2D_tpc_subBC",
+  "#psi^{TPC-B} vs. #psi^{TPC-C}",
+  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  correlation2D_tpc_sub[2]   =
+  new TH2D("correlation2D_tpc_subAC",
+  "#psi^{TPC-A} vs. #psi^{TPC-C}",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
   double ptSetA[3]  = {0.6, 1.2, 2.4};
@@ -1476,7 +1507,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t NTpcAll[_nEventTypeBins_tpc] = {0};
     Double_t QrawTpcAll[_nEventTypeBins_tpc][2]={0.0};       /// indices:[TPCetaRange] [x,y]
     Double_t PsiTpcAllRaw[_nEventTypeBins_tpc]={-999.0,-999.0,-999.0,-999.0};
-    Double_t PsiTpcAllShifted[_nEventTypeBins_tpc]={-999.0,-999.0-999.0,-999.0};
+    Double_t PsiTpcAllShifted[_nEventTypeBins_tpc]={-999.0,-999.0,-999.0,-999.0};
     std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     Double_t d_nSigmaKaonCut, d_KaonM2low, d_KaonM2high, d_KaonpTlow;
@@ -1744,9 +1775,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(eta>=_y_mid) {etaTrkWeight = 1.;} else{
         etaTrkWeight = -1;
       }
+      Double_t d_TPCepEventType[_nEventTypeBins_tpc]={0};
+      d_TPCepEventType[0] = 1; // TPC-full event plane
+      if(eta <= etaGap_tpc[0][0]){
+        d_TPCepEventType[1] = 1, d_TPCepEventType[2] = 0, d_TPCepEventType[3] = 0;
+      }// TPC-A;
+      if(etaGap_tpc[0][1] <= eta && eta <= etaGap_tpc[1][0]){
+        d_TPCepEventType[1] = 0, d_TPCepEventType[2] = 1, d_TPCepEventType[3] = 0;
+      };// TPC-B
+      if(etaGap_tpc[1][1] <= eta){
+        d_TPCepEventType[1] = 0, d_TPCepEventType[2] = 0, d_TPCepEventType[3] = 1;
+      };// TPC-C
+
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-        int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
+        // int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
+        // double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1); // eta range method
+        double etaWeight = d_TPCepEventType[EventTypeId_tpc]; // eta gap method
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -1864,8 +1908,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
       profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_tpc_sub[n][0]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[2] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_tpc_sub[n][1]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[2] - PsiTpcAllShifted[3] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_tpc_sub[n][2]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[3] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
+    correlation2D_tpc_sub[0]->Fill(PsiTpcAllShifted[1],PsiTpcAllShifted[2]);
+    correlation2D_tpc_sub[1]->Fill(PsiTpcAllShifted[2],PsiTpcAllShifted[3]);
+    correlation2D_tpc_sub[2]->Fill(PsiTpcAllShifted[1],PsiTpcAllShifted[3]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted[1]!=-999.0){
         for(int n=0; n<2; n++){
