@@ -1791,7 +1791,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         // double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1); // eta range method
         double etaWeight = d_TPCepEventType[EventTypeId_tpc]; // eta gap method
-        cout << etaWeight << " : EtaWeight" << EventTypeId_tpc << " eta: " << eta << endl;
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -1806,6 +1805,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrawTpcAll[EventTypeId_tpc][1] += etaWeight * pt * Sine;
         }
       }
+      cout << rawTpcAll[1][0] << " : Qx TPC-A" <<   endl;
+      cout << rawTpcAll[1][1] << " : Qy TPC-A" <<   endl;
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastShifted[1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
