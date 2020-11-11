@@ -1801,6 +1801,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
+          cout << phi << " : phi" <<   endl;
+          cout << EpOrder << " : EpOrder" <<   endl;
           cout << Cosine << " : Cosine" <<   endl;
           cout << Sine << " : Sine" <<   endl;
           QrawTpcAll[EventTypeId_tpc][0] += etaWeight * pt * Cosine;
