@@ -573,10 +573,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
   TH2D *hist_SE_pt_y_PhiMeson[4];
+  TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
+  TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
+  TH2D *hist_SE_pt_y_Phi_tight_Sig[4];
   hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-3.0,0.5,500,0.0,3.5);
+  hist_SE_pt_y_Phi_tight_SigBkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_SigBkg_0","p_{T} [GeV/c] vs. y of #phi^{Sig+Bkg}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
+  hist_SE_pt_y_Phi_tight_Bkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_Bkg_0","p_{T} [GeV/c] vs. y of #phi^{Bkg}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
+  hist_SE_pt_y_Phi_tight_Sig[0] = new TH2D("hist_SE_pt_y_Phi_tight_Sig_0","p_{T} [GeV/c] vs. y of #phi^{Sig}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
   int centBES[4] = {0,10,40,60};
   for(int cent = 1; cent<4;cent++){
     hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-3.0,0.5,500,0.0,3.5);
+    hist_SE_pt_y_Phi_tight_SigBkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_SigBkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Sig+Bkg}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
+    hist_SE_pt_y_Phi_tight_Bkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_Bkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Bkg}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
+    hist_SE_pt_y_Phi_tight_Sig[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Sig}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
   }
   TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
 // pt SetA, cent SetA
@@ -1896,6 +1905,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // std::cout << "randomAngle " << d_randAngle  << std::endl;
         double d_px1_rotation    = d_px1 * TMath::Cos(d_randAngle) - d_py1 * TMath::Sin(d_randAngle);
         double d_py1_rotation    = d_px1 * TMath::Sin(d_randAngle) + d_py1 * TMath::Cos(d_randAngle);
+        double d_Phi_pT_rotation = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1_rotation*d_px1_rotation +d_py1_rotation+d_py1_rotation
+                              + 2.*d_px0*d_px1_rotation + 2.*d_py0*d_py1_rotation);
+        double d_phi_y_roration =   d_phi_y; // Rotation don't  influence y
         double d_inv_m_rotation  = sqrt(  d_M0*d_M0
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
@@ -1908,14 +1920,38 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(centrality >= 1 && centrality <= 2){ // 0-10%
           hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
           hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
+          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            hist_SE_pt_y_Phi_tight_SigBkg[1] -> Fill(d_phi_y,d_Phi_pT);
+          }
+          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            hist_SE_pt_y_Phi_tight_Bkg[1] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+          }
         }
         if(centrality >= 3 && centrality <= 5){ // 10-40%
           hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
           hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
+          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            hist_SE_pt_y_Phi_tight_SigBkg[2] -> Fill(d_phi_y,d_Phi_pT);
+          }
+          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            hist_SE_pt_y_Phi_tight_Bkg[2] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+          }
         }
         if(centrality >= 6 && centrality <= 7){ // 40-60%
           hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
           hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
+          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            hist_SE_pt_y_Phi_tight_SigBkg[3] -> Fill(d_phi_y,d_Phi_pT);
+          }
+          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+          }
         }
         // ---------------- phi-meson cuts: decay length, dip angle ------------
         StPicoPhysicalHelix    trackhelix0 = picoTrack0->helix(f_MagField);
@@ -2184,6 +2220,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_KaonPlus_tracks.clear();
     v_KaonMinus_tracks.clear();
   }  // Event Loop
+  // subtraction
+  for(int cent=0;cent<4;cent++){
+    hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
+    hist_SE_pt_y_Phi_tight_Sig[cent]->Add(hist_SE_pt_y_Phi_tight_Bkg[cent],-1.); 
+  }
   // --------------------- Set histograms axises titles --------------------------------
   hist_runId->GetXaxis()->SetTitle("RunId");
   hist_runId->GetYaxis()->SetTitle("# of events");
