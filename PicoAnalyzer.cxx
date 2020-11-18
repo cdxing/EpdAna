@@ -572,7 +572,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
-  TH2D *hist_SE_pt_y_PhiMeson = new TH2D("hist_SE_pt_y_PhiMeson","p_{T} [GeV/c] vs. y of #phi",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_SE_pt_y_PhiMeson[4];
+  TH2D *hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-3.0,0.5,500,0.0,3.5);
+  int centBES[4] = {0,10,40,60}
+  for(int cent = 1; cent<4;cent++){
+    TH2D *hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-3.0,0.5,500,0.0,3.5);
+  }
   TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
 // pt SetA, cent SetA
   TH1D *mHist_SE_InvM_ptSetA_centSetA[2][6];
@@ -1900,7 +1905,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
         hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
         hist_SE_PhiMeson_rap ->Fill(d_phi_y);
-        hist_SE_pt_y_PhiMeson ->Fill(d_phi_y,d_Phi_pT);
+        if(centrality >= 1 && centrality <= 2){ // 0-10%
+          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
+        }
+        if(centrality >= 3 && centrality <= 5){ // 10-40%
+          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
+        }
+        if(centrality >= 6 && centrality <= 7){ // 40-60%
+          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
+        }
         // ---------------- phi-meson cuts: decay length, dip angle ------------
         StPicoPhysicalHelix    trackhelix0 = picoTrack0->helix(f_MagField);
         StPicoPhysicalHelix    trackhelix1 = picoTrack1->helix(f_MagField);
