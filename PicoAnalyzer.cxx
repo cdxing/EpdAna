@@ -1424,7 +1424,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::vector<StPicoTrack *> v_Proton_tracks;
     // Fill kaon tracks for phi meson analysis
     std::vector<StPicoTrack *> v_KaonPlus_tracks;
+    std::vector<StPicoTrack *> v_KaonPlus_tracks_flexTOF;
     std::vector<StPicoTrack *> v_KaonMinus_tracks;
+    std::vector<StPicoTrack *> v_KaonMinus_tracks_flexTOF;
     // Define TPC EP parameters
     Int_t NTpcAll[2] = {0};
     Double_t QrawTpcAll[2][2]={0.0};       /// indices:[TPCetaRange] [x,y]
@@ -1549,6 +1551,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           particleType=1;// K+
           nKaonPlus++;
           v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
@@ -1564,6 +1567,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1616,18 +1620,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // # Systematic Analysis
       // sys_cutN == 16; // TPCpid
       if( // Kaons PID: tracks that only have TPC, no TOF
-        sys_cutN == 16 &&
+        // sys_cutN == 16 &&
         TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
+        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
         tofBeta == -999.0
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
           particleType=1;// K+
           nKaonPlus++;
-          v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
@@ -1642,7 +1646,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
-          v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1835,8 +1839,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
-    for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
-      StPicoTrack * picoTrack0 = v_KaonPlus_tracks.at(i); // i-th K+ track
+    for(unsigned int i = 0; i < v_KaonPlus_tracks_flexTOF.size(); i++){
+      StPicoTrack * picoTrack0 = v_KaonPlus_tracks_flexTOF.at(i); // i-th K+ track
       if(!picoTrack0) continue;
       // K+ Variables
       double d_charge0  = picoTrack0->charge();
