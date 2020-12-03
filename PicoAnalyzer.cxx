@@ -559,6 +559,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   double ptSetC[11] = {0.2, 0.4, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 4.0};
 
   double rapSetA[5]  = {-2.0, -1.5, -1.0, -0.5, 0};
+  double pTRangePhiV1vsy[3] = {0.1, 1.0, 2.0};
 
   double centSetA[5]  = {0, 10, 40, 60, 80}; // %
   double centSetB[10]  = {0, 5, 10, 20, 30, 40, 50, 60, 70, 80}; // %
@@ -856,6 +857,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *mProfile_v1_reso_rapSetA_centSetA[4][6];
   TProfile *mProfile_v2_raw_rapSetA_centSetA[4][6];
   TProfile *mProfile_v2_reso_rapSetA_centSetA[4][6];
+  // pT range cut [0.1,1.0], [1.0, 2.0], [0.1, 2.0]
+  TH1D *mHist_SE_InvM_rapSetA_centSetA_pTRange[4][6][3];
+  TH1D *mHist_rotation_InvM_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<6;cent++){
@@ -895,6 +907,45 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       1000,-1.0,1.0);
       mHist_v2_reso_rapSetA_centSetA[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
       mHist_v2_reso_rapSetA_centSetA[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+      // phi-meson v1 vs. y with pT range pTRangePhiV1vsy [0.1, 1.0], [1.0, 2.0], [0.1, 2.0]
+      for(int pt=0; pt<3;pt++){
+        mHist_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH1D(Form("Hist_SE_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_SE_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        200,0.9,1.1);
+        mHist_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_rotation_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH1D(Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        200,0.9,1.1);
+        mHist_rotation_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+
+        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v1_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_v1_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v1_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_v1_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+
+        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_v2_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+
+        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v2_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        Form("Hist_v2_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+      }
     }
   }
   // rap SetA, cent SetB
@@ -1646,7 +1697,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
-          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
+          v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1839,8 +1890,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
-    for(unsigned int i = 0; i < v_KaonPlus_tracks_flexTOF.size(); i++){
-      StPicoTrack * picoTrack0 = v_KaonPlus_tracks_flexTOF.at(i); // i-th K+ track
+    for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
+      StPicoTrack * picoTrack0 = v_KaonPlus_tracks.at(i); // i-th K+ track
       if(!picoTrack0) continue;
       // K+ Variables
       double d_charge0  = picoTrack0->charge();
@@ -2130,6 +2181,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m_rotation); // 0-10%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m_rotation); // 0-10%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m_rotation); // 0-10%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m_rotation); // 0-10%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m); // 0-10%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][0][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m); // 0-10%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m); // 0-10%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][0][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m); // 0-10%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][0][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+              }
             }
             if(centrality >= 3 && centrality <= 5){
               mHist_SE_InvM_rapSetA_centSetA[i][1]->Fill(d_inv_m); // 10-40%
@@ -2138,6 +2222,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m_rotation); // 10-40%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m_rotation); // 10-40%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m_rotation); // 10-40%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m_rotation); // 10-40%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m); // 10-40%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][1][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m); // 10-40%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m); // 10-40%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][1][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m); // 10-40%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][1][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+              }
             }
             if(centrality >= 6 && centrality <= 7){
               mHist_SE_InvM_rapSetA_centSetA[i][2]->Fill(d_inv_m); // 40-60%
@@ -2146,6 +2263,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m_rotation); // 40-60%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m_rotation); // 40-60%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m_rotation); // 40-60%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m_rotation); // 40-60%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m); // 40-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][2][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m); // 40-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m); // 40-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][2][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m); // 40-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][2][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+              }
             }
             if(centrality >= 6 && centrality <= 9){
               mHist_SE_InvM_rapSetA_centSetA[i][3]->Fill(d_inv_m); // 40-80%
@@ -2154,6 +2304,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m_rotation); // 40-80%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m_rotation); // 40-80%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m_rotation); // 40-80%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m_rotation); // 40-80%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m); // 40-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][3][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m); // 40-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m); // 40-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][3][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m); // 40-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][3][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+              }
             }
             if(centrality >= 1 && centrality <= 7){
               mHist_SE_InvM_rapSetA_centSetA[i][4]->Fill(d_inv_m); // 0-60%
@@ -2162,6 +2345,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m_rotation); // 0-60%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m_rotation); // 0-60%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m_rotation); // 0-60%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m_rotation); // 0-60%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m); // 0-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][4][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m); // 0-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m); // 0-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][4][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m); // 0-60%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][4][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+              }
             }
             if(centrality >= 1 && centrality <= 9){
               mHist_SE_InvM_rapSetA_centSetA[i][5]->Fill(d_inv_m); // 0-80%
@@ -2170,6 +2386,39 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+              // pTRangePhiV1vsy
+              if(d_Phi_pT_rotation>=pTRangePhiV1vsy[0] && d_Phi_pT_rotation<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m_rotation); // 0-80%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m_rotation); // 0-80%
+              } else if(d_Phi_pT_rotation>=pTRangePhiV1vsy[1] && d_Phi_pT_rotation<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m_rotation); // 0-80%
+                mHist_rotation_InvM_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m_rotation); // 0-80%
+              }
+              if(d_Phi_pT>=pTRangePhiV1vsy[0] && d_Phi_pT<=pTRangePhiV1vsy[1]){ // pT : [0.1, 1.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m); // 0-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][5][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m); // 0-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+
+              } else if(d_Phi_pT>=pTRangePhiV1vsy[1] && d_Phi_pT<=pTRangePhiV1vsy[2]){ // pT : [1.0, 2.0]
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m); // 0-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][5][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+
+                mHist_SE_InvM_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m); // 0-80%
+                if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+                if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+                if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+                if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_rapSetA_centSetA_pTRange[i][5][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+              }
             }
           }
           // rap SetA, cent SetB
@@ -2223,6 +2472,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_Proton_tracks.clear();
     v_KaonPlus_tracks.clear();
     v_KaonMinus_tracks.clear();
+    v_KaonPlus_tracks_flexTOF.clear();
+    v_KaonMinus_tracks_flexTOF.clear();
   }  // Event Loop
   // subtraction
   for(int cent=0;cent<4;cent++){
