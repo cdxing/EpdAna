@@ -1819,6 +1819,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         PsiTpcAllRecenter[EventTypeId_tpc] = GetPsi(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1],EpOrder);
         if(PsiTpcAllRecenter[EventTypeId_tpc]!=-999.0){
           hist_tpc_all_psi_recenter[EventTypeId_tpc]->Fill(PsiTpcAllRecenter[EventTypeId_tpc]);
+          cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[EventTypeId_tpc]<<endl;
+          cout << "raw psi TPC: "<<  PsiTpcAllRaw[EventTypeId_tpc]<<endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         }
         // -------------------- "recenter correction histograms Output" ----------------
