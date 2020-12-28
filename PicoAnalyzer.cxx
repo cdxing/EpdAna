@@ -1436,8 +1436,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // -------------------- "recenter correction histograms Output" ----------------
         // -------------------- "calculate recenter histograms for a future run" ----------------
         // Fill the recenter plots for next run
-        cout << "QrawEastSide Qx"<<EventTypeId <<" = " << PsiEastRaw[EventTypeId] << endl;
-        cout << "QrawEastSide Qy"<< EventTypeId <<" = " << PsiEastRecenter[EventTypeId] << endl;
+        cout << "QrawEastSide Qx"<<EventTypeId <<" = " << QrawEastSide[EventTypeId][0] << endl;
+        cout << "QrawEastSide Qy"<< EventTypeId <<" = " << QrawEastSide[EventTypeId][1] << endl;
         mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
         mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
       }
