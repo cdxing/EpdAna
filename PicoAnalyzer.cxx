@@ -506,7 +506,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mEpdRecenterOutput[EventTypeId] = new TProfile2D(Form("EpdRecenterEW0Psi%d",EventTypeId),Form("EpdRecenterEW0Psi%d",EventTypeId),
             2,0.5,1.0*2+.5, // (x,y)
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-            -1.0,1.0);
+            "");
+    mEpdRecenterOutput[EventTypeId]->BuildOptions(0.0,0.0,"");
     mEpdShiftOutput_sin[EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_sin",EventTypeId),Form("EpdShiftEW0Psi%d_sin",EventTypeId),
             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
@@ -518,9 +519,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
     mTpcRecenterOutput[EventTypeId_tpc] = new TProfile2D(Form("mTpcRecenterOutput_%d",EventTypeId_tpc),Form("mTpcRecenterOutput_%d",EventTypeId_tpc),
-            2,0.5,1.0*2+.5, // Shift order
+            2,0.5,1.0*2+.5, // (x,y)
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-            -1.0,1.0);
+            "");
+    mTpcRecenterOutput[EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
     mTpcShiftOutput_sin[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc),Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc),
             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
