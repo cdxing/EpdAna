@@ -1421,12 +1421,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterEastSide[EventTypeId][0] = QrawEastSide[EventTypeId][0];
           QrecenterEastSide[EventTypeId][1] = QrawEastSide[EventTypeId][1];
         } else {
-          QrecenterEastSide[EventTypeId][0] = QrawEastSide[EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);;
-          QrecenterEastSide[EventTypeId][1] = QrawEastSide[EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);;
+          QrecenterEastSide[EventTypeId][0] = QrawEastSide[EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
+          QrecenterEastSide[EventTypeId][1] = QrawEastSide[EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
         }
         PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1],EpOrder);
         if(PsiEastRecenter[EventTypeId]!=-999.0){
           hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[EventTypeId]);
+          cout << "Psi_rec = " << PsiEastRecenter[EventTypeId] << endl;
+          cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         }
         // -------------------- "recenter correction histograms Output" ----------------
@@ -1813,8 +1815,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0];
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
         } else {
-          QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);;
-          QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);;
+          QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
+          QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
         }
         PsiTpcAllRecenter[EventTypeId_tpc] = GetPsi(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1],EpOrder);
         if(PsiTpcAllRecenter[EventTypeId_tpc]!=-999.0){
