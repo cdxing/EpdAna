@@ -1413,14 +1413,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
+    // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+    //   if(N_Epd_east[EventTypeId]<5) continue;
+    //   if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
+    //     PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
+    //     // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
+    //   }
+    // }
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
         PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
         // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
       }
-    }
-    for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
         hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
