@@ -1428,7 +1428,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         } else {
-          cout << "PsiEastRaw  " << EventTypeId << " = " << QrawEastSide[EventTypeId][0]<<endl;
+          cout << "PsiEastRaw  " << EventTypeId << " = " << PsiEastRaw[EventTypeId]<<endl;
           cout << "Qx raw  " << EventTypeId << " = " << QrawEastSide[EventTypeId][0]<<endl;
           cout << "Qy raw  " << EventTypeId << " = " << QrawEastSide[EventTypeId][1]<<endl;
         }
