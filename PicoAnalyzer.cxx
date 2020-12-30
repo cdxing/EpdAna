@@ -1422,14 +1422,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // }
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(N_Epd_east[EventTypeId]<5) continue;
-      if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] ){
-        PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
-        // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
-      }
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
       {
-        hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
+        PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
         if(PsiEastRaw[EventTypeId]!=-999.0){
+          mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
+          mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
+          hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
           hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         } else {
@@ -1446,8 +1445,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterEastSide[EventTypeId][1] = QrawEastSide[EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
         }
         PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1],EpOrder);
-        hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1]);
         if(PsiEastRecenter[EventTypeId]!=-999.0){
+          hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1]);
           hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[EventTypeId]);
           // cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
           // cout << "Psi_rec = " << PsiEastRecenter[EventTypeId] << endl;
@@ -1458,8 +1457,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // Fill the recenter plots for next run
         // cout << "QrawEastSide Qx"<<EventTypeId <<" = " << QrawEastSide[EventTypeId][0] << endl;
         // cout << "QrawEastSide Qy"<< EventTypeId <<" = " << QrawEastSide[EventTypeId][1] << endl;
-        mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
-        mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
+        // mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
+        // mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
       }
     }
     // --------------------------- " Do the SHIFT thing " ------------------------
