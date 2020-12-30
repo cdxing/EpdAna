@@ -196,7 +196,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   ResoName.Append(".txt");
   std::ifstream inputReso(ResoName);
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
-  double d_resolution[2][_Ncentralities] = { 0// EPD-1
+  double d_resolution[2][_Ncentralities] = { //0// EPD-1
+    {0.317239,0.380755,0.439133,0.477116,0.504774,0.398817,0.267795,0.165502,0.353166},//recenter
+    {0.0490265,0.148407,0.1722,0.181354,0.166868,0.0153445,6.95331e-310,6.89974e-310,0.115892}, //recenter
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
     // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
@@ -205,20 +207,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if ( (inputReso.rdstate() & std::ifstream::failbit ) != 0 ) {
     std::cout << "Error opening Resolution Input .txt Files" << std::endl;
     std::cout << "I will use primary resolution:" << std::endl;
-    d_resolution[0][0] = 0.315018;
-    d_resolution[0][1] = 0.38025;
-    d_resolution[0][2] = 0.438339;
-    d_resolution[0][3] = 0.473337;
-    d_resolution[0][4] = 0.492256;
-    d_resolution[0][5] = 0.414803;
-    d_resolution[0][6] = 0.329581;
-    d_resolution[0][7] = 0.343329;
-    d_resolution[0][8] = 0.392923;
+    // // default value for preliminary
+    // d_resolution[0][0] = 0.315018;
+    // d_resolution[0][1] = 0.38025;
+    // d_resolution[0][2] = 0.438339;
+    // d_resolution[0][3] = 0.473337;
+    // d_resolution[0][4] = 0.492256;
+    // d_resolution[0][5] = 0.414803;
+    // d_resolution[0][6] = 0.329581;
+    // d_resolution[0][7] = 0.343329;
+    // d_resolution[0][8] = 0.392923;
     // From the primary
     for(int i=0;i<_Ncentralities;i++){
-      cout << "Default (primary) Resolution_11 "<<i <<": "<<d_resolution[0][i]<<endl;
+      cout << "Default (primary) Resolution_11 "<<i <<": "<<d_resolution[0][i];
+      cout << "; Resolution_12 "<<i <<": "<<d_resolution[1][i]<<endl;
       // d_resolution[0][i] = 1.0;
-      d_resolution[1][i] = 1.0;
+      // d_resolution[1][i] = 1.0;
     }
   }
   else{
@@ -413,9 +417,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_nTracksVsEta= new TH2D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities);
   TH1D *hist_tpc_all_psi_raw[_nEventTypeBins_tpc], *hist_tpc_all_psi_recenter[_nEventTypeBins_tpc], *hist_tpc_all_psi_shifted[_nEventTypeBins_tpc];
   for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-    hist_tpc_all_psi_raw[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_%d",EventTypeId_tpc),Form("TPC-sub%d event plane",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_tpc_all_psi_recenter[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_%d",EventTypeId_tpc),Form("TPC-sub%d event plane (recentered)",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
-    hist_tpc_all_psi_shifted[EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),500,-0.5*TMath::Pi(),2.5*TMath::Pi());
+    hist_tpc_all_psi_raw[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_%d",EventTypeId_tpc),Form("TPC-sub%d event plane",EventTypeId_tpc),1024,-1.0,7.0);
+    hist_tpc_all_psi_recenter[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_%d",EventTypeId_tpc),Form("TPC-sub%d event plane (recentered)",EventTypeId_tpc),1024,-1.0,7.0);
+    hist_tpc_all_psi_shifted[EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),1024,-1.0,7.0);
   }
   // Flow plots of P, pi, K
   TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
