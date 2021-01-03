@@ -99,8 +99,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                     )
 {
 
-  Int_t _EpOrderMax = inputp1; // Event plane Fourier expansion order = 1, 2, 3
-  Int_t EpOrder = _EpOrderMax; // Event plane Fourier expansion order = 1, 2, 3
+  Int_t mEpOrderMax = inputp1; // Event plane Fourier expansion order = 1, 2, 3
+  cout << "\n**********\n*  Welcome to Ding's analysis.\n"
+       << "*  This code is currently configured to go up to order=" << mEpOrderMax << "\n"
+       << "\n**********\n";
+  Int_t EpOrder = mEpOrderMax; // Event plane Fourier expansion order = 1, 2, 3
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
   Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
