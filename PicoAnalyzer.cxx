@@ -99,7 +99,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                     )
 {
 
-  Int_t EpOrder = inputp1; // Event plane Fourier expansion order = 1, 2, 3
+  Int_t _EpOrderMax = inputp1; // Event plane Fourier expansion order = 1, 2, 3
+  Int_t EpOrder = _EpOrderMax; // Event plane Fourier expansion order = 1, 2, 3
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
   Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
@@ -178,17 +179,28 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     }
   }
-  TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
+  TH2D *wt = new TH2D("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
   for (int ix=1; ix<501; ix++){
     for (int iy=1; iy<6; iy++){
-      double eta = wt.GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt.SetBinContent(ix,iy,1);
+      double eta = wt->GetXaxis()->GetBinCenter(ix);
+      if(iy==1) wt->SetBinContent(ix,iy,1);
       else {
-        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1.0);
-        else wt.SetBinContent(ix,iy,0.0);
+        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt->SetBinContent(ix,iy,1.0);
+        else wt->SetBinContent(ix,iy,0.0);
       }
     }
   }
+  // TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
+  // for (int ix=1; ix<501; ix++){
+  //   for (int iy=1; iy<6; iy++){
+  //     double eta = wt.GetXaxis()->GetBinCenter(ix);
+  //     if(iy==1) wt.SetBinContent(ix,iy,1);
+  //     else {
+  //       if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1.0);
+  //       else wt.SetBinContent(ix,iy,0.0);
+  //     }
+  //   }
+  // }
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
   ResoName.Append(sys_object[sys_cutN]);
@@ -1319,8 +1331,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // std::cout<<"Tile weight: "<< TileWeight ;
           // std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
         // }
-        int etaBin = (int)wt.GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt.GetBinContent(etaBin,EventTypeId+1);
+        int etaBin = (int)wt->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt->GetBinContent(etaBin,EventTypeId+1);
         int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
         double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
         v1EtaWeight = 1.0; // disable v1 eta weighting
@@ -3053,7 +3065,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   outputFile->cd();
-  wt.Write();
+  wt->Write();
   // wt_tpc.Write();
   v1WtaWt->Write();
   outputFile->Write();
