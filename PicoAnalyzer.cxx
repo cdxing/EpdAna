@@ -1445,7 +1445,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterEastSide[EventTypeId][1] = QrawEastSide[EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
         }
         PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1],EpOrder);
-        if(PsiEastRecenter[EventTypeId]!=-999.0){
+        if(PsiEastRaw[EventTypeId]!=-999.0){
           hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1]);
           hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[EventTypeId]);
           // cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
@@ -1514,7 +1514,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
         for(int j=i+1;j<4;j++){
           pairs++;
-          if(PsiEastShifted[i+1]!=-999.0&&PsiEastShifted[j+1]!=-999.0){
+          if(PsiEastRaw[i+1]!=-999.0&&PsiEastRaw[j+1]!=-999.0){
             for(int n=0; n<2; n++){
               profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiEastShifted[j+1] )));
             }
@@ -1803,7 +1803,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
       // calculate the v1 in TPC region using EPD EP
-      if(PsiEastShifted[1]!=-999.0){// Using EPD-1
+      if(PsiEastRaw[1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
         profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
         profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
@@ -1844,7 +1844,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         PsiTpcAllRecenter[EventTypeId_tpc] = GetPsi(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1],EpOrder);
         hist2_Tpc_Qy_Qx_rec_ini[EventTypeId_tpc]->Fill(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1]);
-        if(PsiTpcAllRecenter[EventTypeId_tpc]!=-999.0){
+        if(PsiTpcAllRaw[EventTypeId_tpc]!=-999.0){
           hist_tpc_all_psi_recenter[EventTypeId_tpc]->Fill(PsiTpcAllRecenter[EventTypeId_tpc]);
           // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[EventTypeId_tpc]<<endl;
           // cout << "raw psi TPC: "<<  PsiTpcAllRaw[EventTypeId_tpc]<<endl;
@@ -1904,15 +1904,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //     profile2D_v1VsCentVsEta->Fill(eta,centrality,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
       //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
       // }
-      if(PsiTpcAllShifted[1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
+      if(PsiTpcAllRaw[1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
           profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0])));//Use TPC-full
       }      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
-        if(PsiEastShifted[3]!=-999.0){
+        if(PsiTpcAllRaw[3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
             profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
         }
-      } else if(PsiEastShifted[1]!=-999.0){
+      } else if(PsiEastRaw[1]!=-999.0){
         profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
         profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
@@ -1925,7 +1925,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
-      if(PsiEastShifted[i+1]!=-999.0&&PsiTpcAllShifted[1]!=-999.0){
+      if(PsiEastRaw[i+1]!=-999.0&&PsiTpcAllRaw[1]!=-999.0){
         for(int n=0; n<2; n++){
           profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
         }
@@ -1966,7 +1966,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-      if(PsiEastShifted[1]!=-999.0){// Using EPD-1
+      if(PsiEastRaw[1]!=-999.0){// Using EPD-1
         for(int km=0;km<2;km++){ // km - flow order
           d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
           d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
@@ -2132,7 +2132,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
         double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
         double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-        if(PsiEastShifted[1]!=-999.0){// Using EPD-1
+        if(PsiEastRaw[1]!=-999.0){// Using EPD-1
           for(int km=0;km<2;km++){ // km - flow order
             d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
