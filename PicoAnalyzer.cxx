@@ -1426,8 +1426,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1],EpOrder);
         if(PsiEastRaw[EventTypeId]!=-999.0){
-          mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
-          mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
           hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[EventTypeId][0],QrawEastSide[EventTypeId][1]);
           hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
@@ -1451,10 +1449,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
           // cout << "Psi_rec = " << PsiEastRecenter[EventTypeId] << endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
+          // -------------------- "recenter correction histograms Output" ----------------
+          // -------------------- "calculate recenter histograms for a future run" ----------------
+          // Fill the recenter plots for next run
+          mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
+          mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
         }
-        // -------------------- "recenter correction histograms Output" ----------------
-        // -------------------- "calculate recenter histograms for a future run" ----------------
-        // Fill the recenter plots for next run
         // cout << "QrawEastSide Qx"<<EventTypeId <<" = " << QrawEastSide[EventTypeId][0] << endl;
         // cout << "QrawEastSide Qy"<< EventTypeId <<" = " << QrawEastSide[EventTypeId][1] << endl;
         // mEpdRecenterOutput[EventTypeId]->Fill(1,centrality,QrawEastSide[EventTypeId][0]);
@@ -1849,12 +1849,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[EventTypeId_tpc]<<endl;
           // cout << "raw psi TPC: "<<  PsiTpcAllRaw[EventTypeId_tpc]<<endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
+          // -------------------- "recenter correction histograms Output" ----------------
+          // -------------------- "calculate recenter histograms for a future run" ----------------
+          // Fill the recenter plots for next run
+          mTpcRecenterOutput[EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[EventTypeId_tpc][0]); // Qx raw
+          mTpcRecenterOutput[EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[EventTypeId_tpc][1]); // Qy raw
         }
-        // -------------------- "recenter correction histograms Output" ----------------
-        // -------------------- "calculate recenter histograms for a future run" ----------------
-        // Fill the recenter plots for next run
-        mTpcRecenterOutput[EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[EventTypeId_tpc][0]); // Qx raw
-        mTpcRecenterOutput[EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[EventTypeId_tpc][1]); // Qy raw
       }
     }
     // --------------------------- " Do the SHIFT thing (TPC) " ------------------------
