@@ -215,7 +215,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double eta = wt_tpc[Order-1]->GetXaxis()->GetBinCenter(ix);
         if(iy==1) wt_tpc[Order-1]->SetBinContent(ix,iy,1);
         else {
-          if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc[Order-1]->SetBinContent(ix,iy,1.0);
+          if(eta<=abs(etaRange_tpc[Order][iy-2]) && eta>abs(etaRange_tpc[Order][iy-1])) wt_tpc[Order-1]->SetBinContent(ix,iy,1.0);
           else wt_tpc[Order-1]->SetBinContent(ix,iy,0.0);
         }
       }
