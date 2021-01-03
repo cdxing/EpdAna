@@ -102,7 +102,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Int_t mEpOrderMax = inputp1; // Event plane Fourier expansion order = 1, 2, 3
   cout << "\n**********\n*  Welcome to Ding's analysis.\n"
        << "*  This code is currently configured to go up to order=" << mEpOrderMax << "\n"
-       << "\n**********\n";
+       << "*\n**********\n";
   Int_t EpOrder = mEpOrderMax; // Event plane Fourier expansion order = 1, 2, 3
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -414,17 +414,29 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
   Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-  TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+
+  TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
   for (int ix=1; ix<301; ix++){
     for (int iy=1; iy<3; iy++){
-      double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
+      double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
+      if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
       else {
-        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc.SetBinContent(ix,iy,1.0);
-        else wt_tpc.SetBinContent(ix,iy,0.0);
+        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
+        else wt_tpc->SetBinContent(ix,iy,0.0);
       }
     }
   }
+  // TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+  // for (int ix=1; ix<301; ix++){
+  //   for (int iy=1; iy<3; iy++){
+  //     double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
+  //     if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
+  //     else {
+  //       if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc.SetBinContent(ix,iy,1.0);
+  //       else wt_tpc.SetBinContent(ix,iy,0.0);
+  //     }
+  //   }
+  // }
   TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly->Sumw2();
@@ -1801,8 +1813,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         etaTrkWeight = -1;
       }
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-        int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
+        int etaBin = (int)wt_tpc->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt_tpc->GetBinContent(etaBin,EventTypeId_tpc+1);
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -3069,7 +3081,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   outputFile->cd();
   wt->Write();
-  // wt_tpc.Write();
+  wt_tpc->Write();
   v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
