@@ -193,17 +193,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  // TH2D wt("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
-  // for (int ix=1; ix<501; ix++){
-  //   for (int iy=1; iy<6; iy++){
-  //     double eta = wt.GetXaxis()->GetBinCenter(ix);
-  //     if(iy==1) wt.SetBinContent(ix,iy,1);
-  //     else {
-  //       if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt.SetBinContent(ix,iy,1.0);
-  //       else wt.SetBinContent(ix,iy,0.0);
-  //     }
-  //   }
-  // }
+  // -------------------------- TPC event planes ----------------------------------
+  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
+
+  TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+  for (int ix=1; ix<301; ix++){
+    for (int iy=1; iy<3; iy++){
+      double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
+      if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
+      else {
+        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
+        else wt_tpc->SetBinContent(ix,iy,0.0);
+      }
+    }
+  }
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
   ResoName.Append(sys_object[sys_cutN]);
@@ -412,28 +415,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_dEdx_pionMinus = new TH2D("hist_dEdx_pionMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-
-  TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
-  for (int ix=1; ix<301; ix++){
-    for (int iy=1; iy<3; iy++){
-      double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
-      else {
-        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
-        else wt_tpc->SetBinContent(ix,iy,0.0);
-      }
-    }
-  }
-  // TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+  // // -------------------------- TPC event planes ----------------------------------
+  // Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
+  //
+  // TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
   // for (int ix=1; ix<301; ix++){
   //   for (int iy=1; iy<3; iy++){
-  //     double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
-  //     if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
+  //     double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
+  //     if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
   //     else {
-  //       if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc.SetBinContent(ix,iy,1.0);
-  //       else wt_tpc.SetBinContent(ix,iy,0.0);
+  //       if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
+  //       else wt_tpc->SetBinContent(ix,iy,0.0);
   //     }
   //   }
   // }
@@ -3081,7 +3073,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   outputFile->cd();
   wt->Write();
-  // wt_tpc->Write();
+  wt_tpc->Write();
   v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
