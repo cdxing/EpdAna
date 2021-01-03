@@ -153,8 +153,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[mEpOrderMax][_nEventTypeBins] = {{-5.0,-4.4,-4.35,-3.95,-2.60},
-                                                     {-5.0,-4.4,-4.35,-3.95,-2.60}};
+  Double_t etaRange[mEpOrderMax][_nEventTypeBins] = {[-5.0,-4.4,-4.35,-3.95,-2.60],
+                                                     [-5.0,-4.4,-4.35,-3.95,-2.60]};
   // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   // # Systematic Analysis
   // sys_cutN == 1; // etaGap
@@ -202,8 +202,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[mEpOrderMax][_nEventTypeBins_tpc] = {{-2.0,-1.4,-1.0,-0.6,0.},
-                                                             {-2.0,-1.4,-1.0,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
+  Double_t etaRange_tpc[mEpOrderMax][_nEventTypeBins_tpc] = {[-2.0,-1.4,-1.0,-0.6,0.],
+                                                             [-2.0,-1.4,-1.0,-0.6,0.]}; // TPC eta range {-0.4, 0.0}
   TH2D *wt_tpc[mEpOrderMax];
   for(int Order = 1; Order <= mEpOrderMax; Order ++){
     wt_tpc[Order-1] = new TH2D(Form("Order1etaWeight_tpc_EpOrder%d",Order),
