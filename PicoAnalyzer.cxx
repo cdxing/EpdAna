@@ -78,7 +78,7 @@
 const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
-const Int_t _nEventTypeBins_tpc = 2; // 2 etaRange for TPC
+const Int_t _nEventTypeBins_tpc = 5; // 5 etaRange for TPC
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
@@ -153,60 +153,75 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[_nEventTypeBins] = {-5.0,-4.4,-4.35,-3.95,-2.60}; // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
+  Double_t etaRange[mEpOrderMax][_nEventTypeBins] = {{-5.0,-4.4,-4.35,-3.95,-2.60},
+                                                     {-5.0,-4.4,-4.35,-3.95,-2.60}};
+  // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   // # Systematic Analysis
   // sys_cutN == 1; // etaGap
   if(sys_cutN == 1 && sys_varN == 1){ // EPD-3 as reference; eta gap 0.15 between EPD-1 and EPD-2
-    etaRange[2] = -4.25;
-    etaRange[3] = -3.85;
+    etaRange[0][2] = -4.25;
+    etaRange[0][3] = -3.85;
   }
   if(sys_cutN == 1 && sys_varN == 2){ // EPD-3 as reference; eta gap 0.1 between EPD-1 and EPD-2
-    etaRange[2] = -4.3;
-    etaRange[3] = -3.9;
+    etaRange[0][2] = -4.3;
+    etaRange[0][3] = -3.9;
   }
   // # Systematic Analysis
   // sys_cutN == 2; // etaRange
   if(sys_cutN == 2){
     if(sys_varN == 1){
-      etaRange[0] = -5.1;
-      etaRange[1] = -4.5;
+      etaRange[0][0] = -5.1;
+      etaRange[0][1] = -4.5;
     } else if(sys_varN == 2){
-      etaRange[0] = -4.95;
-      etaRange[1] = -4.35;
+      etaRange[0][0] = -4.95;
+      etaRange[0][1] = -4.35;
     } else if (sys_varN == 3){
-      etaRange[0] = -4.99;
-      etaRange[1] = -4.4;
+      etaRange[0][0] = -4.99;
+      etaRange[0][1] = -4.4;
     } else if (sys_varN == 4){
-      etaRange[0] = -5.00;
-      etaRange[1] = -4.39;
+      etaRange[0][0] = -5.00;
+      etaRange[0][1] = -4.39;
 
     }
   }
-  TH2D *wt = new TH2D("Order1etaWeight","Order1etaWeight",500,1.5,6.5,5,0,5);
-  for (int ix=1; ix<501; ix++){
-    for (int iy=1; iy<6; iy++){
-      double eta = wt->GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt->SetBinContent(ix,iy,1);
-      else {
-        if(eta<=abs(etaRange[iy-2]) && eta>abs(etaRange[iy-1])) wt->SetBinContent(ix,iy,1.0);
-        else wt->SetBinContent(ix,iy,0.0);
+  TH2D *wt[mEpOrderMax];
+  for(int Order = 1; Order <= mEpOrderMax; Order ++){
+    wt[Order-1] = new TH2D(Form("Order1etaWeight_EpOrder%d",Order),
+    Form("Order1etaWeight_EpOrder%d",Order),
+    500,1.5,6.5,
+    _nEventTypeBins,0,_nEventTypeBins);
+    for (int ix=1; ix<501; ix++){
+      for (int iy=1; iy<6; iy++){
+        double eta = wt[Order-1]->GetXaxis()->GetBinCenter(ix);
+        if(iy==1) wt[Order-1]->SetBinContent(ix,iy,1);
+        else {
+          if(eta<=abs(etaRange[Order][iy-2]) && eta>abs(etaRange[Order][iy-1])) wt[Order-1]->SetBinContent(ix,iy,1.0);
+          else wt[Order-1]->SetBinContent(ix,iy,0.0);
+        }
       }
     }
   }
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-
-  TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
-  for (int ix=1; ix<301; ix++){
-    for (int iy=1; iy<3; iy++){
-      double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
-      else {
-        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
-        else wt_tpc->SetBinContent(ix,iy,0.0);
+  Double_t etaRange_tpc[mEpOrderMax][_nEventTypeBins_tpc] = {{-2.0,-1.4,-1.0,-0.6,0.},
+                                                             {-2.0,-1.4,-1.0,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
+  TH2D *wt_tpc[mEpOrderMax];
+  for(int Order = 1; Order <= mEpOrderMax; Order ++){
+    wt_tpc[Order-1] = new TH2D(Form("Order1etaWeight_tpc_EpOrder%d",Order),
+    Form("Order1etaWeight_tpc_EpOrder%d",Order),
+    300,0,3.0,
+    _nEventTypeBins_tpc,0,_nEventTypeBins_tpc);
+    for (int ix=1; ix<301; ix++){
+      for (int iy=1; iy<3; iy++){
+        double eta = wt_tpc[Order-1]->GetXaxis()->GetBinCenter(ix);
+        if(iy==1) wt_tpc[Order-1]->SetBinContent(ix,iy,1);
+        else {
+          if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc[Order-1]->SetBinContent(ix,iy,1.0);
+          else wt_tpc[Order-1]->SetBinContent(ix,iy,0.0);
+        }
       }
     }
   }
+
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
   ResoName.Append(sys_object[sys_cutN]);
@@ -416,19 +431,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // // -------------------------- TPC event planes ----------------------------------
-  // Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-  //
-  // TH2D *wt_tpc = new TH2D("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
-  // for (int ix=1; ix<301; ix++){
-  //   for (int iy=1; iy<3; iy++){
-  //     double eta = wt_tpc->GetXaxis()->GetBinCenter(ix);
-  //     if(iy==1) wt_tpc->SetBinContent(ix,iy,1);
-  //     else {
-  //       if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc->SetBinContent(ix,iy,1.0);
-  //       else wt_tpc->SetBinContent(ix,iy,0.0);
-  //     }
-  //   }
-  // }
   TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly->Sumw2();
@@ -1338,8 +1340,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // std::cout<<"Tile weight: "<< TileWeight ;
           // std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
         // }
-        int etaBin = (int)wt->GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt->GetBinContent(etaBin,EventTypeId+1);
+        int etaBin = (int)wt[0]->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt[0]->GetBinContent(etaBin,EventTypeId+1);
         int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
         double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
         v1EtaWeight = 1.0; // disable v1 eta weighting
@@ -1397,7 +1399,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //--------------------------------
       // now calculate Q-vectors for each hit in EPD-3
       //--------------------------------
-      if(eta>=etaRange[2] && eta < etaRange[3]){ // EPD-3
+      if(eta>=etaRange[0][2] && eta < etaRange[0][3]){ // EPD-3
         double QxEpdSub, QyEpdSub;
         TVector2 Qvec;
         double Cosine = cos(phi*(double)EpOrder);
@@ -1805,8 +1807,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         etaTrkWeight = -1;
       }
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-        int etaBin = (int)wt_tpc->GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt_tpc->GetBinContent(etaBin,EventTypeId_tpc+1);
+        int etaBin = (int)wt_tpc[0]->GetXaxis()->FindBin(fabs(eta));
+        double etaWeight = (double)wt_tpc[0]->GetBinContent(etaBin,EventTypeId_tpc+1);
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -1925,7 +1927,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // }
       if(PsiTpcAllRaw[1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
           profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0])));//Use TPC-full
-      }      if( eta > etaRange[0] && eta < etaRange[1]){// Using EPD-1
+      }      if( eta > etaRange[0][0] && eta < etaRange[0][1]){// Using EPD-1
         if(PsiTpcAllRaw[3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
@@ -3072,8 +3074,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   outputFile->cd();
-  wt->Write();
-  wt_tpc->Write();
+  for(int Order = 1; Order <= mEpOrderMax; Order ++){
+    wt[Order]->Write();
+    wt_tpc[Order]->Write();
+  }
   v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
