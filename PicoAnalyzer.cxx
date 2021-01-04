@@ -1815,7 +1815,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
 
-
+    cout << "nProtons " << nProtons<< endl;
+    cout << "nKaonMinus " << nKaonMinus<< endl;
+    cout << "nKaonPlus " << nKaonPlus<< endl;
+    cout << "nPionPlus " << nPionPlus<< endl;
+    cout << "nPionMinus " << nPionMinus<< endl;
     // Track multiplicity for each particle
     hist_trackmult_proton->Fill(nProtons);
     hist_trackmult_pionPlus->Fill(nPionPlus);
