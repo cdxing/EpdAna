@@ -3101,8 +3101,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   outputFile->cd();
   for(int Order = 1; Order <= mEpOrderMax; Order ++){
-    wt[Order]->Write();
-    wt_tpc[Order]->Write();
+    wt[Order-1]->Write();
+    wt_tpc[Order-1]->Write();
   }
   v1WtaWt->Write();
   outputFile->Write();
