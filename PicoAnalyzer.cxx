@@ -184,7 +184,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     }
   }
-  TH2D *wt[mEpOrderMax];
+  TH2D *wt[2];
   for(int Order = 1; Order <= mEpOrderMax; Order ++){
     wt[Order-1] = new TH2D(Form("Order1etaWeight_EpOrder%d",Order),
     Form("Order1etaWeight_EpOrder%d",Order),
@@ -203,7 +203,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   // -------------------------- TPC event planes ----------------------------------
   Double_t etaRange_tpc[2][5] = {{-2.0,-1.4,-1.0,-0.6,0.},{-2.0,-1.4,-1.0,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
-  TH2D *wt_tpc[mEpOrderMax];
+  TH2D *wt_tpc[2];
   for(int Order = 1; Order <= mEpOrderMax; Order ++){
     wt_tpc[Order-1] = new TH2D(Form("Order1etaWeight_tpc_EpOrder%d",Order),
     Form("Order1etaWeight_tpc_EpOrder%d",Order),
