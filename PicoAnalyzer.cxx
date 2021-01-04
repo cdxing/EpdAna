@@ -2063,6 +2063,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_inv_tofBeta1 = 1.0 / d_tofBeta1;
           h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
         }
+        cout << "dbg 13.1" << endl;
         // phi Variables
         double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
         double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
@@ -2128,6 +2129,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
           }
         }
+        cout << "dbg 13.2" << endl;
         // ---------------- phi-meson cuts: decay length, dip angle ------------
         StPicoPhysicalHelix    trackhelix0 = picoTrack0->helix(f_MagField);
         StPicoPhysicalHelix    trackhelix1 = picoTrack1->helix(f_MagField);
@@ -2153,6 +2155,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
         hist_dip_angle         ->Fill(d_dip_angle);
+        cout << "dbg 13.3" << endl;
         // --------------------- phi-meson flows -------------------------------
         TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
         TVector3 v3D_p_daughter1 = trackhelix1.momentumAt(pairLengths.second, f_MagField*kilogauss);
