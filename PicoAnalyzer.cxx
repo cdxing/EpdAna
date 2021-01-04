@@ -2039,6 +2039,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       cout << "dbg 13.02" << endl;
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
+        cout << "dbg 13.021" << endl;
         StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
         if(!picoTrack1) continue;
         // K- Variables
