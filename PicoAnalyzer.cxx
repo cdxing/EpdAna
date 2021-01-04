@@ -1057,6 +1057,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
+    cout << "dbg evt loop 1" << endl;
     // ---------------------- Event reading quality assurance ----------------------
     if((iEvent+1)%100 == 0) {
       // gRandom->SetSeed((unsigned)1 /*time(0)+iEvent*/);
@@ -1077,6 +1078,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         break;
     }
     mEvtcut[0]++;// No event cut yet
+    cout << "dbg evt loop 2" << endl;
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
@@ -1092,6 +1094,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_Vz_pri  ->Fill(primaryVertex_Z);
     hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
     hist_Vr_pri  ->Fill(primaryVertex_perp);
+    cout << "dbg evt loop 3" << endl;
 
     // ---------------------- trigger selection ---------------------------------
     std::vector <unsigned int> triggerIDs;
@@ -1104,6 +1107,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_triggerID->Fill(d_trigger);
         if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
       }
+      cout << "dbg evt loop 4" << endl;
 
     // --------------------------- Vertex cut -----------------------------------
     double      d_zvtx  = -9999.0;
@@ -1147,6 +1151,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t  refMult = event->refMult(); // refMult
     Int_t grefMult = event->grefMult();
     Int_t  tofMult =(Int_t)event->nBTOFMatch();
+    cout << "dbg evt loop 5" << endl;
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     int nFXTMult = 0;
@@ -1250,6 +1255,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<5;i++){ // fill the tracks after cut
       hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
     }
+    cout << "dbg evt loop 6" << endl;
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
@@ -1278,6 +1284,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
     cout << "dbg 2" << endl;
+    cout << "dbg evt loop 7" << endl;
 
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
@@ -1330,6 +1337,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // for(int bin=1;bin<13;bin++) mPhiAveraged[EventTypeId]->Fill((double)bin*TMath::Pi()/6.0-0.1,TileWeight/12.0);
         // }
       // }
+      cout << "dbg evt loop 8" << endl;
       //--------------------------------
       // now calculate Q-vectors
       //--------------------------------
