@@ -1443,6 +1443,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //     // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
     //   }
     // }
+    cout << "dbg 4" << endl;
     for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[EventTypeId][0] || QrawEastSide[EventTypeId][1] )
@@ -1484,6 +1485,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // mEpdRecenterOutput[EventTypeId]->Fill(2,centrality,QrawEastSide[EventTypeId][1]);
       }
     }
+    cout << "dbg 5" << endl;
     // --------------------------- " Do the SHIFT thing " ------------------------
     // Fill the PsiShiftedEpdSub map: Key: iEpdHit, value: PsiShiftedEpdSub
     std::map<int, double>::iterator itr1;
@@ -1556,6 +1558,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
+    cout << "dbg 6" << endl;
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Fill Proton tracks for proton v1 analysis
     std::vector<StPicoTrack *> v_Proton_tracks;
@@ -1619,6 +1622,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         d_KaonpTlow     = 0.4;
       }
     }
+    cout << "dbg 7" << endl;
     // TPC Q-vector loop
     for(unsigned int i=0; i<vGoodTracks.size();i++){
       StPicoTrack* picoTrack = vGoodTracks[i];
@@ -1837,6 +1841,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
+    cout << "dbg 8" << endl;
 
 
     // Track multiplicity for each particle
@@ -1898,6 +1903,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       hist_tpc_all_psi_shifted[EventTypeId_tpc]->Fill(PsiTpcAllShifted[EventTypeId_tpc]);
     }
+    cout << "dbg 9" << endl;
     //---------------------------- Fill the directed flow from EPD (forward) region -----
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
