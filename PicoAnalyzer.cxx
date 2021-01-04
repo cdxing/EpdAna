@@ -1979,8 +1979,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
 
     }
-    cout << "The size of kaonPlus Vector "<< v_KaonPlus_tracks.size()<< endl;
-    cout << "The size of kaonMinus Vector "<< v_KaonMinus_tracks.size()<< endl;
+    // cout << "The size of kaonPlus Vector "<< v_KaonPlus_tracks.size()<< endl;
+    // cout << "The size of kaonMinus Vector "<< v_KaonMinus_tracks.size()<< endl;
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
