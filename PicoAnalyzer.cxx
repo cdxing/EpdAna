@@ -2603,6 +2603,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
       }
     }
+    cout << "dbg test1" << endl;
     v_Proton_tracks.clear();
     v_KaonPlus_tracks.clear();
     v_KaonMinus_tracks.clear();
