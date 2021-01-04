@@ -477,6 +477,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   if (mCorrectionInputFile->IsZombie()) {
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
+    cout << "dbg 1" << endl;
     for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
       mEpdRecenterInput[EventTypeId] = 0;
       mEpdShiftInput_sin[EventTypeId] = 0;
@@ -1275,6 +1276,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
+    cout << "dbg 2" << endl;
 
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
@@ -1362,6 +1364,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
     } // loop over EPD hits
+    cout << "dbg 3" << endl;
+
     // Before going any farther, flip the sign of the 1st-order Q-vector on the East side.
     //  I want the rapidity-odd first-order event plane.
     // Comment this out if v1 eta weighting used
