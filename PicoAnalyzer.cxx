@@ -2609,6 +2609,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_KaonMinus_tracks.clear();
     v_KaonPlus_tracks_flexTOF.clear();
     v_KaonMinus_tracks_flexTOF.clear();
+    cout << "dbg test2" << endl;
   }  // Event Loop
   cout << "dbg 16" << endl;
   // subtraction
