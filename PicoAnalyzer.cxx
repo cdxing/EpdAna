@@ -2011,6 +2011,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
+      cout << "dbg 13.01" << endl;
       StPicoTrack * picoTrack0 = v_KaonPlus_tracks.at(i); // i-th K+ track
       if(!picoTrack0) continue;
       // K+ Variables
@@ -2036,10 +2037,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         d_inv_tofBeta0 = 1.0 / d_tofBeta0;
         h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
       }
+      cout << "dbg 13.02" << endl;
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
         StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
         if(!picoTrack1) continue;
         // K- Variables
+        cout << "dbg 13.03" << endl;
         double d_charge1  = picoTrack1->charge();
         if(d_charge0 == d_charge1) continue; // same charge cut
         double d_px1      = picoTrack1->pMom().x();
