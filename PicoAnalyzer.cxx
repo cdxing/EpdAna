@@ -1866,7 +1866,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiTpcAllRaw[EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[EventTypeId_tpc]->Fill(PsiTpcAllRaw[EventTypeId_tpc]);
         // recenter corrections
         if(mTpcRecenterInput[EventTypeId_tpc]==0){
-          cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
+          // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
           QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0];
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
         } else {
