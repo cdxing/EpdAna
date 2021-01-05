@@ -78,7 +78,7 @@
 const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
-const Int_t _nEventTypeBins_tpc = 5; // 5 etaRange for TPC
+const Int_t _nEventTypeBins_tpc = 6; // 5 etaRange for TPC
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
@@ -185,7 +185,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
+  Double_t etaRange_tpc[2][_nEventTypeBins_tpc] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
 
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
@@ -288,7 +288,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     300,0,3.0,
     _nEventTypeBins_tpc,0,_nEventTypeBins_tpc);
     for (int ix=1; ix<301; ix++){
-      for (int iy=1; iy<6; iy++){
+      for (int iy=1; iy<7; iy++){
         double eta = wt_tpc[iOrder-1]->GetXaxis()->GetBinCenter(ix);
         if(iy==1) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1);
         else {
