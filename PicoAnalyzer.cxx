@@ -184,42 +184,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     }
   }
-  TH2D *wt[2];
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    wt[iOrder-1] = new TH2D(Form("Order1etaWeight_EpOrder%d",iOrder),
-    Form("Order1etaWeight_EpOrder%d",iOrder),
-    500,1.5,6.5,
-    _nEventTypeBins,0,_nEventTypeBins);
-    for (int ix=1; ix<501; ix++){
-      for (int iy=1; iy<6; iy++){
-        double eta = wt[iOrder-1]->GetXaxis()->GetBinCenter(ix);
-        if(iy==1) wt[iOrder-1]->SetBinContent(ix,iy,1);
-        else {
-          if(eta<=abs(etaRange[iOrder-1][iy-2]) && eta>abs(etaRange[iOrder-1][iy-1])) wt[iOrder-1]->SetBinContent(ix,iy,1.0);
-          else wt[iOrder-1]->SetBinContent(ix,iy,0.0);
-        }
-      }
-    }
-  }
   // -------------------------- TPC event planes ----------------------------------
   Double_t etaRange_tpc[2][5] = {{-2.0,-1.4,-1.0,-0.6,0.},{-2.0,-1.4,-1.0,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
-  TH2D *wt_tpc[2];
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    wt_tpc[iOrder-1] = new TH2D(Form("Order1etaWeight_tpc_EpOrder%d",iOrder),
-    Form("Order1etaWeight_tpc_EpOrder%d",iOrder),
-    300,0,3.0,
-    _nEventTypeBins_tpc,0,_nEventTypeBins_tpc);
-    for (int ix=1; ix<301; ix++){
-      for (int iy=1; iy<3; iy++){
-        double eta = wt_tpc[iOrder-1]->GetXaxis()->GetBinCenter(ix);
-        if(iy==1) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1);
-        else {
-          if(eta<=abs(etaRange_tpc[iOrder-1][iy-2]) && eta>abs(etaRange_tpc[iOrder-1][iy-1])) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1.0);
-          else wt_tpc[iOrder-1]->SetBinContent(ix,iy,0.0);
-        }
-      }
-    }
-  }
 
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
@@ -274,6 +240,34 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   double lin[9] =        {-0.000479872,-0.000468419,-0.000698331,-0.00136243,-0.00227147,-0.00314487,-0.00381054,-0.00416527,-0.00382669};
   double cub[9] =        {0.000453689,0.000550043,0.00072002,0.00100187,0.00129868,0.00160751,0.0018985,0.00218509,0.00234319};
+  TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
+  unsigned int found;
+  // --------------------- Retrieve EpdHits TClonesArray ----------------------------
+  TChain *mPicoDst = picoReader->chain();
+  mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
+  std::cout << "EpdHit Branch returned found= " << found << std::endl; // ? What is the EpdHit branch ? Check it on StRoot.
+  mPicoDst->SetBranchAddress("EpdHit",&mEpdHits);
+  // (2) ================ Output files and histograms ==========================
+  outFile.Append(".picoDst.result.root");
+  TFile *outputFile = new TFile(outFile,"recreate");
+  // ------------------- EP ranges setup ---------------------------------------
+  TH2D *wt[2];
+  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+    wt[iOrder-1] = new TH2D(Form("Order1etaWeight_EpOrder%d",iOrder),
+    Form("Order1etaWeight_EpOrder%d",iOrder),
+    500,1.5,6.5,
+    _nEventTypeBins,0,_nEventTypeBins);
+    for (int ix=1; ix<501; ix++){
+      for (int iy=1; iy<6; iy++){
+        double eta = wt[iOrder-1]->GetXaxis()->GetBinCenter(ix);
+        if(iy==1) wt[iOrder-1]->SetBinContent(ix,iy,1);
+        else {
+          if(eta<=abs(etaRange[iOrder-1][iy-2]) && eta>abs(etaRange[iOrder-1][iy-1])) wt[iOrder-1]->SetBinContent(ix,iy,1.0);
+          else wt[iOrder-1]->SetBinContent(ix,iy,0.0);
+        }
+      }
+    }
+  }
   TH2D *v1WtaWt = new TH2D("v1WtaWt","v1WtaWt",200,-6.5,-1.5,_Ncentralities,0.5,0.5+_Ncentralities);
   for (int ix=1; ix<201; ix++){
     for (int iy=1; iy<10; iy++){
@@ -287,17 +281,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     }
   }
-
-  TClonesArray * mEpdHits = new TClonesArray("StPicoEpdHit");
-  unsigned int found;
-  // --------------------- Retrieve EpdHits TClonesArray ----------------------------
-  TChain *mPicoDst = picoReader->chain();
-  mPicoDst->SetBranchStatus("EpdHit*",1,&found);   // note you need the asterisk
-  std::cout << "EpdHit Branch returned found= " << found << std::endl; // ? What is the EpdHit branch ? Check it on StRoot.
-  mPicoDst->SetBranchAddress("EpdHit",&mEpdHits);
-  // (2) ================ Output files and histograms ==========================
-  outFile.Append(".picoDst.result.root");
-  TFile *outputFile = new TFile(outFile,"recreate");
+  TH2D *wt_tpc[2];
+  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+    wt_tpc[iOrder-1] = new TH2D(Form("Order1etaWeight_tpc_EpOrder%d",iOrder),
+    Form("Order1etaWeight_tpc_EpOrder%d",iOrder),
+    300,0,3.0,
+    _nEventTypeBins_tpc,0,_nEventTypeBins_tpc);
+    for (int ix=1; ix<301; ix++){
+      for (int iy=1; iy<3; iy++){
+        double eta = wt_tpc[iOrder-1]->GetXaxis()->GetBinCenter(ix);
+        if(iy==1) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1);
+        else {
+          if(eta<=abs(etaRange_tpc[iOrder-1][iy-2]) && eta>abs(etaRange_tpc[iOrder-1][iy-1])) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1.0);
+          else wt_tpc[iOrder-1]->SetBinContent(ix,iy,0.0);
+        }
+      }
+    }
+  }
   // ------------------- Event cuts QA histograms ------------------------------
   TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
@@ -3113,11 +3113,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   outputFile->cd();
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    wt[iOrder-1]->Write();
-    wt_tpc[iOrder-1]->Write();
-  }
-  v1WtaWt->Write();
+  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+  //   wt[iOrder-1]->Write();
+  //   wt_tpc[iOrder-1]->Write();
+  // }
+  // v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
