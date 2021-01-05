@@ -1853,7 +1853,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // Calculate unshifted EP angles
     //---------------------------------
     for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-      if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; # of TPC trks: "<< NTpcAll[EventTypeId_tpc]<<endl;
+      // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; # of TPC trks: "<< NTpcAll[EventTypeId_tpc]<<endl;
       if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
       if(QrawTpcAll[EventTypeId_tpc][0] || QrawTpcAll[EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
         PsiTpcAllRaw[EventTypeId_tpc] = GetPsi(QrawTpcAll[EventTypeId_tpc][0],QrawTpcAll[EventTypeId_tpc][1],EpOrder);
@@ -1864,6 +1864,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(PsiTpcAllRaw[EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[EventTypeId_tpc]->Fill(PsiTpcAllRaw[EventTypeId_tpc]);
         // recenter corrections
         if(mTpcRecenterInput[EventTypeId_tpc]==0){
+          cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
           QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0];
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
         } else {
