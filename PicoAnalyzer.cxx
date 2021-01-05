@@ -1055,7 +1055,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   gRandom = new TRandom3(0);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
-  for(Long64_t iEvent=0; iEvent<0; iEvent++) //events2read
+  for(Long64_t iEvent=0; iEvent<1; iEvent++) //events2read
   {
     cout << "dbg evt loop 1" << endl;
     // ---------------------- Event reading quality assurance ----------------------
