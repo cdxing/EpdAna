@@ -14,7 +14,7 @@ void DrawTileEtaRange(){
   double vzStep=1.0;
   // this goes "from left to right on the inner radius of the ring"...
   for (double vz=-vzmax; vz<vzmax; vz+=vzStep){
-    TVector3 Primary(0.0,0.0,vz);
+    TVector3 Primary(-2.0,0.0,vz); // FXT set up vz (0,-2.,200)
     for (int ring=1; ring<17; ring++){
       TVector3 End(edge[ring-1],0.0,zEPD);
       TVector3 line = End-Primary;
@@ -24,7 +24,7 @@ void DrawTileEtaRange(){
   }
   // ...and now "from right to left on the outer radius of the ring"
   for (double vz=vzmax; vz>-vzmax; vz-=vzStep){
-    TVector3 Primary(0.0,0.0,vz);
+    TVector3 Primary(-2.0,0.0,vz);
     for (int ring=1; ring<17; ring++){
       TVector3 End(edge[ring],0.0,zEPD);
       TVector3 line = End-Primary;
