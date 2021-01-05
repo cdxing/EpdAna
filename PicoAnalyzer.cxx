@@ -1864,7 +1864,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
         } else {
           if(EventTypeId_tpc>=2){
-            cout << EventTypeId_tpc << " <Qx> = " mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality)
+            cout << EventTypeId_tpc << " <Qx> = " << mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality)
                  << " <Qy> = " << mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality)
                  << endl;
           }
