@@ -278,7 +278,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // } else {
       //   v1WtaWt->SetBinContent(ix,iy,pr1[iy-1]*pow(eta-_y_mid,1) + pr0[iy-1]);
       // }
-
     }
   }
   TH2D *wt_tpc[2];
@@ -1864,6 +1863,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0];
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
         } else {
+          if(EventTypeId_tpc>=2){
+            cout << EventTypeId_tpc << " <Qx> = " mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality)
+                 << " <Qy> = " << mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality)
+                 << endl;
+          }
           QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
           QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
         }
@@ -3078,11 +3082,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   outputFile->cd();
-  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-  //   wt[iOrder-1]->Write();
-  //   wt_tpc[iOrder-1]->Write();
-  // }
-  // v1WtaWt->Write();
   outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
