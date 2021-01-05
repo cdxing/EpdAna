@@ -1810,7 +1810,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt_tpc[0]->GetBinContent(etaBin,EventTypeId_tpc+1);
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0){
-            if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
+            // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
             NTpcAll[EventTypeId_tpc]++;
           }
           double Cosine = cos(phi*(double)EpOrder);
@@ -1853,6 +1853,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // Calculate unshifted EP angles
     //---------------------------------
     for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
+      if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; # of TPC trks: "<< NTpcAll[EventTypeId_tpc]<<endl;
       if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
       if(QrawTpcAll[EventTypeId_tpc][0] || QrawTpcAll[EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
         PsiTpcAllRaw[EventTypeId_tpc] = GetPsi(QrawTpcAll[EventTypeId_tpc][0],QrawTpcAll[EventTypeId_tpc][1],EpOrder);
