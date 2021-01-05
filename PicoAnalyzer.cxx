@@ -185,7 +185,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2][5] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
+  Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
 
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
