@@ -1810,7 +1810,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt_tpc[0]->GetBinContent(etaBin,EventTypeId_tpc+1);
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0){
-            if(EventTypeId_tpc>=2) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
+            if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
             NTpcAll[EventTypeId_tpc]++;
           }
           double Cosine = cos(phi*(double)EpOrder);
