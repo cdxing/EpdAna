@@ -188,7 +188,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range {-0.4, 0.0}
 
   TString ResoName = "Resolution_INPUT_sys_";
-  ResoName.Prepend("/star/u/dchen/GitHub/EpdAna/");
+  ResoName.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
   ResoName.Append(sys_object[sys_cutN]);
   ResoName.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
   ResoName.Append(".txt");
@@ -462,14 +462,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mTpcShiftInput_sin[_nEventTypeBins_tpc], *mTpcShiftInput_cos[_nEventTypeBins_tpc]; // TPC EP input
   // TH1D* mPhiWeightInput[_nEventTypeBins];
   TString EpInputNameIni = "EpCorrection_INPUT_";
-  EpInputNameIni.Prepend("/star/u/dchen/GitHub/EpdAna/");
+  EpInputNameIni.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
   EpInputNameIni.Append("sys_");
   EpInputNameIni.Append(sys_object[sys_cutN]);
   EpInputNameIni.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
   EpInputNameIni.Append(".root") ;
   // # Systematic Analysis
   if(sys_cutN >= 9) {
-    EpInputNameIni = "/star/u/dchen/GitHub/EpdAna/EpCorrection_INPUT_sys_primary_var0_iter2_.root";
+    EpInputNameIni = "/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/EpCorrection_INPUT_sys_primary_var0_iter2_.root";
     std::cout << "primary EpCorrection Input Files used" << std::endl;
   }
   // sys cut that don't affect the evnet plane calculation use the primary EP resolution
