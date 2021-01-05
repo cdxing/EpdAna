@@ -288,7 +288,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     300,0,3.0,
     _nEventTypeBins_tpc,0,_nEventTypeBins_tpc);
     for (int ix=1; ix<301; ix++){
-      for (int iy=1; iy<6; iy++){
+      for (int iy=1; iy<7; iy++){
         double eta = wt_tpc[iOrder-1]->GetXaxis()->GetBinCenter(ix);
         if(iy==1) wt_tpc[iOrder-1]->SetBinContent(ix,iy,1);
         else {
