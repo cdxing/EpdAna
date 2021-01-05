@@ -499,6 +499,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
       mTpcRecenterInput[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
+      if(EventTypeId_tpc ==3) cout << "empty input evttype 3? " <<mTpcRecenterInput[EventTypeId_tpc] == 0<<endl;
       mTpcShiftInput_sin[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc));
       mTpcShiftInput_cos[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc));
     }
