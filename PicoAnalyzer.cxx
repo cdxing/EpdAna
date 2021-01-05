@@ -1055,7 +1055,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   gRandom = new TRandom3(0);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
   // (3) =========================== Event loop ====================================
-  for(Long64_t iEvent=0; iEvent<1/*events2read*/; iEvent++) //events2read
+  for(Long64_t iEvent=0; iEvent<0; iEvent++) //events2read
   {
     cout << "dbg evt loop 1" << endl;
     // ---------------------- Event reading quality assurance ----------------------
@@ -2620,7 +2620,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     cout << "dbg test2" << endl;
     break;//test
   }  // Event Loop
+
   cout << "dbg 16" << endl;
+
   // subtraction
   for(int cent=0;cent<4;cent++){
     hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
