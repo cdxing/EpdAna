@@ -442,12 +442,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist2_Tpc_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins_tpc];
   TH2D *hist2_Tpc_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins_tpc];
   TH1D *hist_tpc_all_psi_raw[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_recenter[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_shifted[mEpOrderMax][_nEventTypeBins_tpc];
-  for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-    hist2_Tpc_Qy_Qx_raw_ini[0][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_%d",EventTypeId_tpc),Form("TPC raw Qy vs Qx EventTypeId%d",EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
-    hist2_Tpc_Qy_Qx_rec_ini[0][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_rec_ini_%d",EventTypeId_tpc),Form("TPC rec Qy vs Qx EventTypeId%d",EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
-    hist_tpc_all_psi_raw[0][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_%d",EventTypeId_tpc),Form("TPC-sub%d event plane",EventTypeId_tpc),1024,-1.0,7.0);
-    hist_tpc_all_psi_recenter[0][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_%d",EventTypeId_tpc),Form("TPC-sub%d event plane (recentered)",EventTypeId_tpc),1024,-1.0,7.0);
-    hist_tpc_all_psi_shifted[0][EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_%d",EventTypeId_tpc),Form("TPC-sub%d EP (shifted)",EventTypeId_tpc),1024,-1.0,7.0);
+  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+    for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+      hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC raw Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
+      hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC rec Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
+      hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+      hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane (recentered)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+      hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} EP (shifted)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+    }
   }
   // Flow plots of P, pi, K
   TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
