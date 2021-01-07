@@ -339,18 +339,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
-  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
-  TH2D *hist2_Epd_east_Qy_Qx_rec_ini[_nEventTypeBins];
+  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins];
+  TH2D *hist2_Epd_east_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins];
   TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
-  TH1D *hist_Epd_east_psi_raw_ini[_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[_nEventTypeBins],/**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[_nEventTypeBins];
+  TH1D *hist_Epd_east_psi_raw_ini[mEpOrderMax][_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[mEpOrderMax][_nEventTypeBins],
+  /**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east raw Qy vs Qx EventTypeId%d",EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-    hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_%d",EventTypeId),Form("EPD east rec Qy vs Qx EventTypeId%d",EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-    hist_Epd_east_psi_raw_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
-    hist_Epd_east_psi_recenter_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini%d",EventTypeId),Form("EPD east EP (Recentered) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
+    hist2_Epd_east_Qy_Qx_raw_ini[0][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_%d",EventTypeId),Form("EPD east raw Qy vs Qx EventTypeId%d",EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+    hist2_Epd_east_Qy_Qx_rec_ini[0][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_%d",EventTypeId),Form("EPD east rec Qy vs Qx EventTypeId%d",EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+    hist_Epd_east_psi_raw_ini[0][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_%d",EventTypeId),Form("EPD east EP EventTypeId%d",EventTypeId),1024,-1.0,7.0);
+    hist_Epd_east_psi_recenter_ini[0][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_%d",EventTypeId),Form("EPD east EP (Recentered) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
     // hist_Epd_east_psi_Weighted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_ini_%d",EventTypeId),Form("EPD east EP (Weighted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
-    hist_Epd_east_psi_Shifted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",EventTypeId),Form("EPD east EP (Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
+    hist_Epd_east_psi_Shifted_ini[0][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_%d",EventTypeId),Form("EPD east EP (Shifted) EventTypeId%d",EventTypeId),1024,-1.0,7.0);
   }
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
   TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
@@ -1450,8 +1451,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // Double_t QrawYtemp = (Double_t)QrawEastSide[0][EventTypeId][1];
         PsiEastRaw[0][EventTypeId] = (Double_t)GetPsi(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1],EpOrder);
         if(PsiEastRaw[0][EventTypeId]!=-999.0){
-          hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1]);
-          hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[0][EventTypeId]);
+          hist2_Epd_east_Qy_Qx_raw_ini[0][EventTypeId]->Fill(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1]);
+          hist_Epd_east_psi_raw_ini[0][EventTypeId]->Fill(PsiEastRaw[0][EventTypeId]);
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         } else {
           cout << "PsiEastRaw[0]  " << EventTypeId << " = " << PsiEastRaw[0][EventTypeId]<<endl;
@@ -1468,8 +1469,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         PsiEastRecenter[0][EventTypeId] = GetPsi(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1],EpOrder);
         if(PsiEastRaw[0][EventTypeId]!=-999.0){
-          hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1]);
-          hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[0][EventTypeId]);
+          hist2_Epd_east_Qy_Qx_rec_ini[0][EventTypeId]->Fill(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1]);
+          hist_Epd_east_psi_recenter_ini[0][EventTypeId]->Fill(PsiEastRecenter[0][EventTypeId]);
           // cout << "Psi_raw = " << PsiEastRaw[0][EventTypeId] << endl;
           // cout << "Psi_rec = " << PsiEastRecenter[0][EventTypeId] << endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
@@ -1531,7 +1532,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   	        if (PsiEastShifted[0][EventTypeId]<0) PsiEastShifted[0][EventTypeId] += AngleWrapAround;
   	         else if (PsiEastShifted[0][EventTypeId]>AngleWrapAround) PsiEastShifted[0][EventTypeId] -= AngleWrapAround;
         }
-        hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[0][EventTypeId]);
+        hist_Epd_east_psi_Shifted_ini[0][EventTypeId]->Fill(PsiEastShifted[0][EventTypeId]);
       }
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
       pairs = -1;
@@ -2687,16 +2688,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
   hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{raw EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{raw EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->GetXaxis()->SetTitle("Q_x^{rec EPD east}_{1} ");
-    hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->GetYaxis()->SetTitle("Q_y^{rec EPD east}_{1} ");
-    hist_Epd_east_psi_raw_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
-    hist_Epd_east_psi_raw_ini[EventTypeId]->GetYaxis()->SetTitle("# of events");
+    hist2_Epd_east_Qy_Qx_raw_ini[0][EventTypeId]->GetXaxis()->SetTitle("Q_x^{raw EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_raw_ini[0][EventTypeId]->GetYaxis()->SetTitle("Q_y^{raw EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_rec_ini[0][EventTypeId]->GetXaxis()->SetTitle("Q_x^{rec EPD east}_{1} ");
+    hist2_Epd_east_Qy_Qx_rec_ini[0][EventTypeId]->GetYaxis()->SetTitle("Q_y^{rec EPD east}_{1} ");
+    hist_Epd_east_psi_raw_ini[0][EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
+    hist_Epd_east_psi_raw_ini[0][EventTypeId]->GetYaxis()->SetTitle("# of events");
     // hist_Epd_east_psi_Weighted_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
     // hist_Epd_east_psi_Weighted_ini[EventTypeId]->GetYaxis()->SetTitle("# of events");
-    hist_Epd_east_psi_Shifted_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
-    hist_Epd_east_psi_Shifted_ini[EventTypeId]->GetYaxis()->SetTitle("# of events");
+    hist_Epd_east_psi_Shifted_ini[0][EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
+    hist_Epd_east_psi_Shifted_ini[0][EventTypeId]->GetYaxis()->SetTitle("# of events");
   }
   hist_Epdeta->GetXaxis()->SetTitle("#eta");
   hist_Epdeta->GetYaxis()->SetTitle("# of hits");
