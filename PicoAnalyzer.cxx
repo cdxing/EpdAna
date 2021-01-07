@@ -436,11 +436,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly_1->Sumw2();
   TH2D *hist_nTracksVsEta= new TH2D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities);
-  TH2D *hist2_Tpc_Qy_Qx_raw_ini[_nEventTypeBins_tpc];
+  TH2D *hist2_Tpc_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins_tpc];
   TH2D *hist2_Tpc_Qy_Qx_rec_ini[_nEventTypeBins_tpc];
   TH1D *hist_tpc_all_psi_raw[_nEventTypeBins_tpc], *hist_tpc_all_psi_recenter[_nEventTypeBins_tpc], *hist_tpc_all_psi_shifted[_nEventTypeBins_tpc];
   for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-    hist2_Tpc_Qy_Qx_raw_ini[EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_%d",EventTypeId_tpc),Form("TPC raw Qy vs Qx EventTypeId%d",EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
+    hist2_Tpc_Qy_Qx_raw_ini[0][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_%d",EventTypeId_tpc),Form("TPC raw Qy vs Qx EventTypeId%d",EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
     hist2_Tpc_Qy_Qx_rec_ini[EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_rec_ini_%d",EventTypeId_tpc),Form("TPC rec Qy vs Qx EventTypeId%d",EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
     hist_tpc_all_psi_raw[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_%d",EventTypeId_tpc),Form("TPC-sub%d event plane",EventTypeId_tpc),1024,-1.0,7.0);
     hist_tpc_all_psi_recenter[EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_%d",EventTypeId_tpc),Form("TPC-sub%d event plane (recentered)",EventTypeId_tpc),1024,-1.0,7.0);
@@ -1861,7 +1861,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
       if(QrawTpcAll[0][EventTypeId_tpc][0] || QrawTpcAll[0][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
         PsiTpcAllRaw[0][EventTypeId_tpc] = GetPsi(QrawTpcAll[0][EventTypeId_tpc][0],QrawTpcAll[0][EventTypeId_tpc][1],EpOrder);
-        hist2_Tpc_Qy_Qx_raw_ini[EventTypeId_tpc]->Fill(QrawTpcAll[0][EventTypeId_tpc][0],QrawTpcAll[0][EventTypeId_tpc][1]);
+        hist2_Tpc_Qy_Qx_raw_ini[0][EventTypeId_tpc]->Fill(QrawTpcAll[0][EventTypeId_tpc][0],QrawTpcAll[0][EventTypeId_tpc][1]);
         // PsiTpcAllRaw[0][EventTypeId_tpc] = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[0][EventTypeId_tpc][1],QrawTpcAll[0][EventTypeId_tpc][0]);
         // if(PsiTpcAllRaw[0][EventTypeId_tpc] < 0.0                             )         PsiTpcAllRaw[0][EventTypeId_tpc] += (1. / (double)EpOrder) * 2.0*TMath::Pi();
         // if(PsiTpcAllRaw[0][EventTypeId_tpc] > (1. / (double)EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw[0][EventTypeId_tpc] -= (1. / (double)EpOrder) * 2.0*TMath::Pi();
