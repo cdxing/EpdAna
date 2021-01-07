@@ -1446,7 +1446,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(N_Epd_east[EventTypeId]<5) continue;
       if(QrawEastSide[0][EventTypeId][0] || QrawEastSide[0][EventTypeId][1] )
       {
-        PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1],EpOrder);
+        PsiEastRaw[EventTypeId] = GetPsi((double)QrawEastSide[0][EventTypeId][0],(double)QrawEastSide[0][EventTypeId][1],EpOrder);
         if(PsiEastRaw[EventTypeId]!=-999.0){
           hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1]);
           hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
