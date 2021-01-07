@@ -1460,7 +1460,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         {
           // Double_t QrawXtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][0];
           // Double_t QrawYtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][1];
-          PsiEastRaw[iOrder-1][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],EpOrder);
+          PsiEastRaw[iOrder-1][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
             hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
             hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->Fill(PsiEastRaw[iOrder-1][EventTypeId]);
@@ -1478,7 +1478,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
             QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
           }
-          PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],EpOrder);
+          PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
             hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
             hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
