@@ -540,11 +540,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
       // mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
       // mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
-      mEpdRecenterOutput[iOrder][EventTypeId] = new TProfile2D(Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),
+      mEpdRecenterOutput[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),
               2,0.5,1.0*2+.5, // (x,y)
               _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
               "");
-      mEpdRecenterOutput[iOrder][EventTypeId]->BuildOptions(0.0,0.0,"");
+      mEpdRecenterOutput[iOrder-1][EventTypeId]->BuildOptions(0.0,0.0,"");
     }
   }
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -1460,13 +1460,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         {
           // Double_t QrawXtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][0];
           // Double_t QrawYtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][1];
-          PsiEastRaw[iOrder][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],EpOrder);
-          if(PsiEastRaw[iOrder][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_raw_ini[iOrder][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
-            hist_Epd_east_psi_raw_ini[iOrder][EventTypeId]->Fill(PsiEastRaw[iOrder][EventTypeId]);
+          PsiEastRaw[iOrder-1][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],EpOrder);
+          if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
+            hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
+            hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->Fill(PsiEastRaw[iOrder-1][EventTypeId]);
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
           } else {
-            cout << "PsiEastRaw[0]  " << EventTypeId << " = " << PsiEastRaw[iOrder][EventTypeId]<<endl;
+            cout << "PsiEastRaw[0]  " << EventTypeId << " = " << PsiEastRaw[iOrder-1][EventTypeId]<<endl;
             cout << "Qx raw  " << EventTypeId << " = " << QrawEastSide[iOrder-1][EventTypeId][0]<<endl;
             cout << "Qy raw  " << EventTypeId << " = " << QrawEastSide[iOrder-1][EventTypeId][1]<<endl;
           }
@@ -1478,23 +1478,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
             QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
           }
-          PsiEastRecenter[iOrder][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],EpOrder);
-          if(PsiEastRaw[iOrder][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_rec_ini[iOrder][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
-            hist_Epd_east_psi_recenter_ini[iOrder][EventTypeId]->Fill(PsiEastRecenter[iOrder][EventTypeId]);
-            // cout << "Psi_raw = " << PsiEastRaw[iOrder][EventTypeId] << endl;
-            // cout << "Psi_rec = " << PsiEastRecenter[iOrder][EventTypeId] << endl;
+          PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],EpOrder);
+          if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
+            hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
+            hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
+            // cout << "Psi_raw = " << PsiEastRaw[iOrder-1][EventTypeId] << endl;
+            // cout << "Psi_rec = " << PsiEastRecenter[iOrder-1][EventTypeId] << endl;
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
             // -------------------- "recenter correction histograms Output" ----------------
             // -------------------- "calculate recenter histograms for a future run" ----------------
             // Fill the recenter plots for next run
-            mEpdRecenterOutput[iOrder][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
-            mEpdRecenterOutput[iOrder][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
+            mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
+            mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
           }
           // cout << "QrawEastSide[0] Qx"<<EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][0] << endl;
           // cout << "QrawEastSide[0] Qy"<< EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][1] << endl;
-          // mEpdRecenterOutput[iOrder][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
-          // mEpdRecenterOutput[iOrder][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
+          // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
+          // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
         }
       }
     }
