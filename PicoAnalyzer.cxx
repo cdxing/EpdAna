@@ -1886,7 +1886,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // -------------------- "calculate recenter histograms for a future run" ----------------
           // Fill the recenter plots for next run
           mTpcRecenterOutput[EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[0][EventTypeId_tpc][0]); // Qx raw
-          mTpcRecenterOutput[EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[EventTypeId_tpc][1]); // Qy raw
+          mTpcRecenterOutput[EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[0][EventTypeId_tpc][1]); // Qy raw
         }
       }
     }
