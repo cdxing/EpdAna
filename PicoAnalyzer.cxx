@@ -1438,7 +1438,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
     //   if(N_Epd_east[EventTypeId]<5) continue;
     //   if(QrawEastSide[0][EventTypeId][0] || QrawEastSide[0][EventTypeId][1] ){
-    //     PsiEastRaw[EventTypeId] = GetPsi(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1],EpOrder);
+    //     PsiEastRaw[0][EventTypeId] = GetPsi(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1],EpOrder);
     //     // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
     //   }
     // }
@@ -1448,13 +1448,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t QrawXtemp = (Double_t)QrawEastSide[0][EventTypeId][0];
         Double_t QrawYtemp = (Double_t)QrawEastSide[0][EventTypeId][1];
-        PsiEastRaw[EventTypeId] = (Double_t)GetPsi(QrawXtemp,QrawYtemp,EpOrder);
-        if(PsiEastRaw[EventTypeId]!=-999.0){
+        PsiEastRaw[0][EventTypeId] = (Double_t)GetPsi(QrawXtemp,QrawYtemp,EpOrder);
+        if(PsiEastRaw[0][EventTypeId]!=-999.0){
           hist2_Epd_east_Qy_Qx_raw_ini[EventTypeId]->Fill(QrawEastSide[0][EventTypeId][0],QrawEastSide[0][EventTypeId][1]);
-          hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[EventTypeId]);
+          hist_Epd_east_psi_raw_ini[EventTypeId]->Fill(PsiEastRaw[0][EventTypeId]);
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
         } else {
-          cout << "PsiEastRaw  " << EventTypeId << " = " << PsiEastRaw[EventTypeId]<<endl;
+          cout << "PsiEastRaw[0]  " << EventTypeId << " = " << PsiEastRaw[0][EventTypeId]<<endl;
           cout << "Qx raw  " << EventTypeId << " = " << QrawEastSide[0][EventTypeId][0]<<endl;
           cout << "Qy raw  " << EventTypeId << " = " << QrawEastSide[0][EventTypeId][1]<<endl;
         }
@@ -1466,12 +1466,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           QrecenterEastSide[0][EventTypeId][0] = QrawEastSide[0][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
           QrecenterEastSide[0][EventTypeId][1] = QrawEastSide[0][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
         }
-        PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1],EpOrder);
-        if(PsiEastRaw[EventTypeId]!=-999.0){
+        PsiEastRecenter[0][EventTypeId] = GetPsi(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1],EpOrder);
+        if(PsiEastRaw[0][EventTypeId]!=-999.0){
           hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1]);
-          hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[EventTypeId]);
-          // cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
-          // cout << "Psi_rec = " << PsiEastRecenter[EventTypeId] << endl;
+          hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[0][EventTypeId]);
+          // cout << "Psi_raw = " << PsiEastRaw[0][EventTypeId] << endl;
+          // cout << "Psi_rec = " << PsiEastRecenter[0][EventTypeId] << endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
           // -------------------- "recenter correction histograms Output" ----------------
           // -------------------- "calculate recenter histograms for a future run" ----------------
@@ -1517,32 +1517,32 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // std::cout << std::endl;
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
-        PsiEastShifted[EventTypeId] = PsiEastRecenter[EventTypeId]; // use raw EP rather than Phi weighing EP
-        if(PsiEastShifted[EventTypeId]==-999.0) continue;
+        PsiEastShifted[0][EventTypeId] = PsiEastRecenter[0][EventTypeId]; // use raw EP rather than Phi weighing EP
+        if(PsiEastShifted[0][EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
           for (int i=1; i<=_EpTermsMaxIni; i++){
         	  double tmp = (double)(EpOrder*i);
             double sinAve = mEpdShiftInput_sin[EventTypeId]->GetBinContent(i,centrality);
         	  double cosAve = mEpdShiftInput_cos[EventTypeId]->GetBinContent(i,centrality);
-        	  PsiEastShifted[EventTypeId] +=
-        	    2.0*(cosAve*sin(tmp*PsiEastRecenter[EventTypeId]) - sinAve*cos(tmp*PsiEastRecenter[EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
+        	  PsiEastShifted[0][EventTypeId] +=
+        	    2.0*(cosAve*sin(tmp*PsiEastRecenter[0][EventTypeId]) - sinAve*cos(tmp*PsiEastRecenter[0][EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
         	}
 	         double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
-  	        if (PsiEastShifted[EventTypeId]<0) PsiEastShifted[EventTypeId] += AngleWrapAround;
-  	         else if (PsiEastShifted[EventTypeId]>AngleWrapAround) PsiEastShifted[EventTypeId] -= AngleWrapAround;
+  	        if (PsiEastShifted[0][EventTypeId]<0) PsiEastShifted[0][EventTypeId] += AngleWrapAround;
+  	         else if (PsiEastShifted[0][EventTypeId]>AngleWrapAround) PsiEastShifted[0][EventTypeId] -= AngleWrapAround;
         }
-        hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[EventTypeId]);
+        hist_Epd_east_psi_Shifted_ini[EventTypeId]->Fill(PsiEastShifted[0][EventTypeId]);
       }
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
       pairs = -1;
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
         for(int j=i+1;j<4;j++){
           pairs++;
-          if(PsiEastRaw[i+1]!=-999.0&&PsiEastRaw[j+1]!=-999.0){
+          if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
             for(int n=0; n<2; n++){
-              profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiEastShifted[j+1] )));
+              profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
             }
-            correlation2D_epd_east[pairs]->Fill(PsiEastShifted[i+1],PsiEastShifted[j+1]);
+            correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
           }
         }
       }
@@ -1552,9 +1552,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for (int i=1; i<=_EpTermsMaxIni; i++){
       for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
         double tmp = (double)(EpOrder*i);
-        if(PsiEastRecenter[EventTypeId]==-999.0) continue;
-        mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
-        mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
+        if(PsiEastRecenter[0][EventTypeId]==-999.0) continue;
+        mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[0][EventTypeId]));// use raw EP rather than Phi weighing EP
+        mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[0][EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
     // (8) ================ TPC event plane : use identedfied particles ====================================
@@ -1830,14 +1830,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
       // calculate the v1 in TPC region using EPD EP
-      if(PsiEastRaw[1]!=-999.0){// Using EPD-1
+      if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
-        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[1])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
+        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0])));//Use EPD-full as event plane first
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+        profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0][0])));//Use EPD-full as event plane first
+        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
       hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
@@ -1942,26 +1942,26 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }      if( eta > etaRange[0][0] && eta < etaRange[0][1]){// Using EPD-1
         if(PsiTpcAllRaw[3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
-            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
-            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
+            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
         }
-      } else if(PsiEastRaw[1]!=-999.0){
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+      } else if(PsiEastRaw[0][1]!=-999.0){
+        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
     } // loop over EPD hits
     // std::cout << std::endl;
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
-      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
-    correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
+    correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0][0]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
-      if(PsiEastRaw[i+1]!=-999.0&&PsiTpcAllRaw[1]!=-999.0){
+      if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[1]!=-999.0){
         for(int n=0; n<2; n++){
-          profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[i+1] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+          profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
         }
-        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[1],PsiEastShifted[i+1]);
+        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[1],PsiEastShifted[0][i+1]);
       }
     }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
@@ -1998,10 +1998,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-      if(PsiEastRaw[1]!=-999.0){// Using EPD-1
+      if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
         for(int km=0;km<2;km++){ // km - flow order
-          d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
-          d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+          d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
+          d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
         }
       }
       if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
@@ -2165,10 +2165,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
         double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
         double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-        if(PsiEastRaw[1]!=-999.0){// Using EPD-1
+        if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
           for(int km=0;km<2;km++){ // km - flow order
-            d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
-            d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+            d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
+            d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
