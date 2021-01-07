@@ -347,12 +347,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   /**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      hist2_Epd_east_Qy_Qx_raw_ini[iOrder][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist2_Epd_east_Qy_Qx_rec_ini[iOrder][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east rec Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist_Epd_east_psi_raw_ini[iOrder][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-      hist_Epd_east_psi_recenter_ini[iOrder][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Recentered) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+      hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+      hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east rec Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+      hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+      hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Recentered) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
       // hist_Epd_east_psi_Weighted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Weighted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-      hist_Epd_east_psi_Shifted_ini[iOrder][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Shifted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+      hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Shifted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
     }
   }
   // ------------------ EPD event plane ab intio QA histograms ----------------------------------
