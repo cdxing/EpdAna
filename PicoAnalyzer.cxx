@@ -1567,11 +1567,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::vector<StPicoTrack *> v_KaonMinus_tracks_flexTOF;
     // Define TPC EP parameters
     Int_t NTpcAll[6] = {0};
-    Double_t QrawTpcAll[6][2]={0.0};       /// indices:[TPCetaRange] [x,y]
-    Double_t QrecenterTpcAll[6][2]={0.0};       /// indices:[TPCetaRange] [x,y]
-    Double_t PsiTpcAllRaw[6]={-999.0,-999.0,-999.0,-999.0,-999.0,-999.0};
-    Double_t PsiTpcAllRecenter[6]={-999.0,-999.0,-999.0,-999.0,-999.0,-999.0};
-    Double_t PsiTpcAllShifted[6]={-999.0,-999.0,-999.0,-999.0,-999.0,-999.0};
+    Double_t QrawTpcAll[2][6][2]={0.0};       /// indices:[TPCetaRange] [x,y]
+    Double_t QrecenterTpcAll[2][6][2]={0.0};       /// indices:[TPCetaRange] [x,y]
+    Double_t PsiTpcAllRaw[2][6]={{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0}};
+    Double_t PsiTpcAllRecenter[2][6]={{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0}};
+    Double_t PsiTpcAllShifted[2][6]={{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0,-999.0}};
     std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     Double_t d_nSigmaKaonCut, d_KaonM2low, d_KaonM2high, d_KaonpTlow;
@@ -1819,14 +1819,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
-          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
-          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
+          QrawTpcAll[0][EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
+          QrawTpcAll[0][EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
         } else { // \psi_2^{TPC}
           if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
-          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * pt * Cosine;
-          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * pt * Sine;
+          QrawTpcAll[0][EventTypeId_tpc][0] += etaWeight * pt * Cosine;
+          QrawTpcAll[0][EventTypeId_tpc][1] += etaWeight * pt * Sine;
         }
       }
       // calculate the v1 in TPC region using EPD EP
@@ -1859,54 +1859,54 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
       // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; # of TPC trks: "<< NTpcAll[EventTypeId_tpc]<<endl;
       if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
-      if(QrawTpcAll[EventTypeId_tpc][0] || QrawTpcAll[EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
-        PsiTpcAllRaw[EventTypeId_tpc] = GetPsi(QrawTpcAll[EventTypeId_tpc][0],QrawTpcAll[EventTypeId_tpc][1],EpOrder);
-        hist2_Tpc_Qy_Qx_raw_ini[EventTypeId_tpc]->Fill(QrawTpcAll[EventTypeId_tpc][0],QrawTpcAll[EventTypeId_tpc][1]);
-        // PsiTpcAllRaw[EventTypeId_tpc] = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[EventTypeId_tpc][1],QrawTpcAll[EventTypeId_tpc][0]);
-        // if(PsiTpcAllRaw[EventTypeId_tpc] < 0.0                             )         PsiTpcAllRaw[EventTypeId_tpc] += (1. / (double)EpOrder) * 2.0*TMath::Pi();
-        // if(PsiTpcAllRaw[EventTypeId_tpc] > (1. / (double)EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw[EventTypeId_tpc] -= (1. / (double)EpOrder) * 2.0*TMath::Pi();
-        if(PsiTpcAllRaw[EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[EventTypeId_tpc]->Fill(PsiTpcAllRaw[EventTypeId_tpc]);
+      if(QrawTpcAll[0][EventTypeId_tpc][0] || QrawTpcAll[0][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
+        PsiTpcAllRaw[0][EventTypeId_tpc] = GetPsi(QrawTpcAll[0][EventTypeId_tpc][0],QrawTpcAll[0][EventTypeId_tpc][1],EpOrder);
+        hist2_Tpc_Qy_Qx_raw_ini[EventTypeId_tpc]->Fill(QrawTpcAll[0][EventTypeId_tpc][0],QrawTpcAll[0][EventTypeId_tpc][1]);
+        // PsiTpcAllRaw[0][EventTypeId_tpc] = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[0][EventTypeId_tpc][1],QrawTpcAll[0][EventTypeId_tpc][0]);
+        // if(PsiTpcAllRaw[0][EventTypeId_tpc] < 0.0                             )         PsiTpcAllRaw[0][EventTypeId_tpc] += (1. / (double)EpOrder) * 2.0*TMath::Pi();
+        // if(PsiTpcAllRaw[0][EventTypeId_tpc] > (1. / (double)EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw[0][EventTypeId_tpc] -= (1. / (double)EpOrder) * 2.0*TMath::Pi();
+        if(PsiTpcAllRaw[0][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[EventTypeId_tpc]->Fill(PsiTpcAllRaw[0][EventTypeId_tpc]);
         // recenter corrections
         if(mTpcRecenterInput[EventTypeId_tpc]==0){
           // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
-          QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0];
-          QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1];
+          QrecenterTpcAll[0][EventTypeId_tpc][0] = QrawTpcAll[0][EventTypeId_tpc][0];
+          QrecenterTpcAll[0][EventTypeId_tpc][1] = QrawTpcAll[0][EventTypeId_tpc][1];
         } else {
-          QrecenterTpcAll[EventTypeId_tpc][0] = QrawTpcAll[EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
-          QrecenterTpcAll[EventTypeId_tpc][1] = QrawTpcAll[EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
+          QrecenterTpcAll[0][EventTypeId_tpc][0] = QrawTpcAll[0][EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
+          QrecenterTpcAll[0][EventTypeId_tpc][1] = QrawTpcAll[0][EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
         }
-        PsiTpcAllRecenter[EventTypeId_tpc] = GetPsi(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1],EpOrder);
-        hist2_Tpc_Qy_Qx_rec_ini[EventTypeId_tpc]->Fill(QrecenterTpcAll[EventTypeId_tpc][0],QrecenterTpcAll[EventTypeId_tpc][1]);
-        if(PsiTpcAllRaw[EventTypeId_tpc]!=-999.0){
-          hist_tpc_all_psi_recenter[EventTypeId_tpc]->Fill(PsiTpcAllRecenter[EventTypeId_tpc]);
-          // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[EventTypeId_tpc]<<endl;
-          // cout << "raw psi TPC: "<<  PsiTpcAllRaw[EventTypeId_tpc]<<endl;
+        PsiTpcAllRecenter[0][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1],EpOrder);
+        hist2_Tpc_Qy_Qx_rec_ini[EventTypeId_tpc]->Fill(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1]);
+        if(PsiTpcAllRaw[0][EventTypeId_tpc]!=-999.0){
+          hist_tpc_all_psi_recenter[EventTypeId_tpc]->Fill(PsiTpcAllRecenter[0][EventTypeId_tpc]);
+          // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[0][EventTypeId_tpc]<<endl;
+          // cout << "raw psi TPC: "<<  PsiTpcAllRaw[0][EventTypeId_tpc]<<endl;
           // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
           // -------------------- "recenter correction histograms Output" ----------------
           // -------------------- "calculate recenter histograms for a future run" ----------------
           // Fill the recenter plots for next run
-          mTpcRecenterOutput[EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[EventTypeId_tpc][0]); // Qx raw
+          mTpcRecenterOutput[EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[0][EventTypeId_tpc][0]); // Qx raw
           mTpcRecenterOutput[EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[EventTypeId_tpc][1]); // Qy raw
         }
       }
     }
     // --------------------------- " Do the SHIFT thing (TPC) " ------------------------
     for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-      PsiTpcAllShifted[EventTypeId_tpc] = PsiTpcAllRecenter[EventTypeId_tpc];
-      if(PsiTpcAllShifted[EventTypeId_tpc]==-999.0) continue; // Bad PsiTpcAllRecenter
+      PsiTpcAllShifted[0][EventTypeId_tpc] = PsiTpcAllRecenter[0][EventTypeId_tpc];
+      if(PsiTpcAllShifted[0][EventTypeId_tpc]==-999.0) continue; // Bad PsiTpcAllRecenter[0]
       if (mTpcShiftInput_sin[EventTypeId_tpc] != 0 && mTpcShiftInput_cos[EventTypeId_tpc]!= 0){
         for (int i=1; i<=_EpTermsMaxIni; i++){
             double tmp = (double)(EpOrder*i);
             double sinAve = mTpcShiftInput_sin[EventTypeId_tpc]->GetBinContent(i,centrality);
             double cosAve = mTpcShiftInput_cos[EventTypeId_tpc]->GetBinContent(i,centrality);
-            PsiTpcAllShifted[EventTypeId_tpc] +=
-              2.0*(cosAve*sin(tmp*PsiTpcAllRecenter[EventTypeId_tpc]) - sinAve*cos(tmp*PsiTpcAllRecenter[EventTypeId_tpc]))/tmp;
+            PsiTpcAllShifted[0][EventTypeId_tpc] +=
+              2.0*(cosAve*sin(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]) - sinAve*cos(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]))/tmp;
         }
            double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
-            if (PsiTpcAllShifted[EventTypeId_tpc]<0) PsiTpcAllShifted[EventTypeId_tpc] += AngleWrapAround;
-             else if (PsiTpcAllShifted[EventTypeId_tpc]>AngleWrapAround) PsiTpcAllShifted[EventTypeId_tpc] -= AngleWrapAround;
+            if (PsiTpcAllShifted[0][EventTypeId_tpc]<0) PsiTpcAllShifted[0][EventTypeId_tpc] += AngleWrapAround;
+             else if (PsiTpcAllShifted[0][EventTypeId_tpc]>AngleWrapAround) PsiTpcAllShifted[0][EventTypeId_tpc] -= AngleWrapAround;
       }
-      hist_tpc_all_psi_shifted[EventTypeId_tpc]->Fill(PsiTpcAllShifted[EventTypeId_tpc]);
+      hist_tpc_all_psi_shifted[EventTypeId_tpc]->Fill(PsiTpcAllShifted[0][EventTypeId_tpc]);
     }
     //---------------------------- Fill the directed flow from EPD (forward) region -----
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
@@ -1933,14 +1933,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //--------------------------------
       // Fill the directed flow into the TProfile2D and TProfile
       //--------------------------------
-      // if(PsiTpcAllShifted[1]!=-999.0){//Use TPC EP for EPD v1 <(y-y_CM)*Cos(\phi - \psi_1)>
-      //     profile2D_v1VsCentVsEta->Fill(eta,centrality,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1]));//Use TPC
-      //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[1])); // [] is from 0 to 8, centrality is from 1 to 9.
+      // if(PsiTpcAllShifted[0][1]!=-999.0){//Use TPC EP for EPD v1 <(y-y_CM)*Cos(\phi - \psi_1)>
+      //     profile2D_v1VsCentVsEta->Fill(eta,centrality,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[0][1]));//Use TPC
+      //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[0][1])); // [] is from 0 to 8, centrality is from 1 to 9.
       // }
-      if(PsiTpcAllRaw[1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
-          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0])));//Use TPC-full
+      if(PsiTpcAllRaw[0][1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
+          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0][0])));//Use TPC-full
       }      if( eta > etaRange[0][0] && eta < etaRange[0][1]){// Using EPD-1
-        if(PsiTpcAllRaw[3]!=-999.0){
+        if(PsiTpcAllRaw[0][3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
             profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
             profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
@@ -1953,15 +1953,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // std::cout << std::endl;
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
-      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
-    correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0][0]);
+    correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][0]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
-      if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[1]!=-999.0){
+      if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[0][1]!=-999.0){
         for(int n=0; n<2; n++){
-          profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+          profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
         }
-        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[1],PsiEastShifted[0][i+1]);
+        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
       }
     }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
@@ -1969,9 +1969,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
       for (int i=1; i<=_EpTermsMaxIni; i++){ // TPC shifted Output
         double tmp = (double)(EpOrder*i);
-        if(PsiTpcAllRecenter[EventTypeId_tpc]==-999.0) break;
-        mTpcShiftOutput_sin[EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[EventTypeId_tpc]));
-        mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[EventTypeId_tpc]));
+        if(PsiTpcAllRecenter[0][EventTypeId_tpc]==-999.0) break;
+        mTpcShiftOutput_sin[EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]));
+        mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]));
       }
     }
     // (9) ======================= Flow calculation of P, Pi K  =========================
