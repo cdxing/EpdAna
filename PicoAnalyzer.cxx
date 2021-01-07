@@ -1286,10 +1286,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t QrawEastSide[2][5][2]={0};       /// indices: [EpOrder][etaBin][x,y]
     Double_t QrecenterEastSide[2][5][2]={0};       /// indices: [EpOrder][etaBin][x,y]
     // Double_t QphiWeightedEastSide[5][2]={0};       /// indices: [etaBin][x,y]
-    Double_t PsiEastRaw[2][5]={-999.0,-999.0,-999.0,-999.0,-999.0};           /// indices: [EpOrder][etaBin]
-    Double_t PsiEastRecenter[2][5]={-999.0,-999.0,-999.0,-999.0,-999.0};           /// indices: [EpOrder][etaBin]
+    Double_t PsiEastRaw[2][5]={{-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0}};           /// indices: [EpOrder][etaBin]
+    Double_t PsiEastRecenter[2][5]={{-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0}};           /// indices: [EpOrder][etaBin]
     // Double_t PsiEastPhiWeighted[5]={-999.0,-999.0,-999.0,-999.0,-999.0};       /// indices: [etaBin]
-    Double_t PsiEastShifted[2][5]={-999.0,-999.0,-999.0,-999.0,-999.0};       /// indices: [EpOrder][etaBin]
+    Double_t PsiEastShifted[2][5]={{-999.0,-999.0,-999.0,-999.0,-999.0},{-999.0,-999.0,-999.0,-999.0,-999.0}};       /// indices: [EpOrder][etaBin]
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
       StPicoEpdHit* epdHit = (StPicoEpdHit*)((*mEpdHits)[iEpdHit]);
       int tileId,ring,TT,PP,EW,ADC;
