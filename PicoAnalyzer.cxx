@@ -1342,34 +1342,36 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // now calculate Q-vectors
       //--------------------------------
       // double PhiWeightedTileWeight = TileWeight;
-      for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        // if (mPhiWeightInput[EventTypeId]){
-          // int phiBin = (int)mPhiWeightInput[EventTypeId]->GetXaxis()->FindBin(phi);
-          // PhiWeightedTileWeight /= mPhiWeightInput[EventTypeId]->GetBinContent(phiBin); // Phi weighting :https://drupal.star.bnl.gov/STAR/blog/lisa/phi-weighting-and-optimizing-ring-weights-auau-27-gev
-          // std::cout<<"Tile weight: "<< TileWeight ;
-          // std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
-        // }
-        int etaBin = (int)wt[0]->GetXaxis()->FindBin(fabs(eta));
-        double etaWeight = (double)wt[0]->GetBinContent(etaBin,EventTypeId+1);
-        int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
-        double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
-        v1EtaWeight = 1.0; // disable v1 eta weighting
-        if(v1EtaWeight == 0){
-          std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight << std::endl;
-        }
-        if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
-        double Cosine = cos(phi*(double)EpOrder);
-        double Sine   = sin(phi*(double)EpOrder);
-        QrawEastSide[0][EventTypeId][0] += etaWeight * v1EtaWeight * TileWeight * Cosine;
-        QrawEastSide[0][EventTypeId][1] += etaWeight * v1EtaWeight * TileWeight * Sine;
+      for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+        for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
+          // if (mPhiWeightInput[EventTypeId]){
+            // int phiBin = (int)mPhiWeightInput[EventTypeId]->GetXaxis()->FindBin(phi);
+            // PhiWeightedTileWeight /= mPhiWeightInput[EventTypeId]->GetBinContent(phiBin); // Phi weighting :https://drupal.star.bnl.gov/STAR/blog/lisa/phi-weighting-and-optimizing-ring-weights-auau-27-gev
+            // std::cout<<"Tile weight: "<< TileWeight ;
+            // std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
+          // }
+          int etaBin = (int)wt[0]->GetXaxis()->FindBin(fabs(eta));
+          double etaWeight = (double)wt[0]->GetBinContent(etaBin,EventTypeId+1);
+          int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
+          double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
+          v1EtaWeight = 1.0; // disable v1 eta weighting
+          if(v1EtaWeight == 0){
+            std::cout<<"Centality is "<<centrality<<"\t"<< "eta : " << eta<<"\t"<<"eta weighting: " << v1EtaWeight << std::endl;
+          }
+          if(etaWeight>0.0) N_Epd_east[EventTypeId]++;
+          double Cosine = cos(phi*(double)iOrder);
+          double Sine   = sin(phi*(double)iOrder);
+          QrawEastSide[iOrder][EventTypeId][0] += etaWeight * v1EtaWeight * TileWeight * Cosine;
+          QrawEastSide[iOrder][EventTypeId][1] += etaWeight * v1EtaWeight * TileWeight * Sine;
 
-        // QphiWeightedEastSide[EventTypeId][0]      += etaWeight * PhiWeightedTileWeight * Cosine;
-        // QphiWeightedEastSide[EventTypeId][1]      += etaWeight * PhiWeightedTileWeight * Sine;
-        if(etaWeight==1){
-          h2_TtVsPp[EventTypeId]->Fill(PP,TT);
-          h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,TileWeight);
-          h2_TtVsPpHit[EventTypeId]->Fill(PP,TT);
+          // QphiWeightedEastSide[EventTypeId][0]      += etaWeight * PhiWeightedTileWeight * Cosine;
+          // QphiWeightedEastSide[EventTypeId][1]      += etaWeight * PhiWeightedTileWeight * Sine;
+          if(etaWeight==1){
+            h2_TtVsPp[EventTypeId]->Fill(PP,TT);
+            h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,TileWeight);
+            h2_TtVsPpHit[EventTypeId]->Fill(PP,TT);
 
+          }
         }
       }
     } // loop over EPD hits
