@@ -1472,15 +1472,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
           // recenter corrections
           if(mEpdRecenterInput[EventTypeId]==0){
-            QrecenterEastSide[iOrder][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0];
-            QrecenterEastSide[iOrder][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1];
+            QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0];
+            QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1];
           } else {
-            QrecenterEastSide[iOrder][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
-            QrecenterEastSide[iOrder][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
+            QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
+            QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
           }
-          PsiEastRecenter[iOrder][EventTypeId] = GetPsi(QrecenterEastSide[iOrder][EventTypeId][0],QrecenterEastSide[iOrder][EventTypeId][1],EpOrder);
+          PsiEastRecenter[iOrder][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],EpOrder);
           if(PsiEastRaw[iOrder][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_rec_ini[iOrder][EventTypeId]->Fill(QrecenterEastSide[iOrder][EventTypeId][0],QrecenterEastSide[iOrder][EventTypeId][1]);
+            hist2_Epd_east_Qy_Qx_rec_ini[iOrder][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
             hist_Epd_east_psi_recenter_ini[iOrder][EventTypeId]->Fill(PsiEastRecenter[iOrder][EventTypeId]);
             // cout << "Psi_raw = " << PsiEastRaw[iOrder][EventTypeId] << endl;
             // cout << "Psi_rec = " << PsiEastRecenter[iOrder][EventTypeId] << endl;
