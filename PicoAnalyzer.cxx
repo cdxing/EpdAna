@@ -1458,15 +1458,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         // recenter corrections
         if(mEpdRecenterInput[EventTypeId]==0){
-          QrecenterEastSide[EventTypeId][0] = QrawEastSide[0][EventTypeId][0];
-          QrecenterEastSide[EventTypeId][1] = QrawEastSide[0][EventTypeId][1];
+          QrecenterEastSide[0][EventTypeId][0] = QrawEastSide[0][EventTypeId][0];
+          QrecenterEastSide[0][EventTypeId][1] = QrawEastSide[0][EventTypeId][1];
         } else {
-          QrecenterEastSide[EventTypeId][0] = QrawEastSide[0][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
-          QrecenterEastSide[EventTypeId][1] = QrawEastSide[0][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
+          QrecenterEastSide[0][EventTypeId][0] = QrawEastSide[0][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
+          QrecenterEastSide[0][EventTypeId][1] = QrawEastSide[0][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
         }
-        PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1],EpOrder);
+        PsiEastRecenter[EventTypeId] = GetPsi(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1],EpOrder);
         if(PsiEastRaw[EventTypeId]!=-999.0){
-          hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[EventTypeId][0],QrecenterEastSide[EventTypeId][1]);
+          hist2_Epd_east_Qy_Qx_rec_ini[EventTypeId]->Fill(QrecenterEastSide[0][EventTypeId][0],QrecenterEastSide[0][EventTypeId][1]);
           hist_Epd_east_psi_recenter_ini[EventTypeId]->Fill(PsiEastRecenter[EventTypeId]);
           // cout << "Psi_raw = " << PsiEastRaw[EventTypeId] << endl;
           // cout << "Psi_rec = " << PsiEastRecenter[EventTypeId] << endl;
