@@ -460,7 +460,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_proton_v1->Sumw2();
 
   // "Recenter correction" histograms that we INPUT and apply here
-  TProfile2D *mEpdRecenterInput[_nEventTypeBins];
+  TProfile2D *mEpdRecenterInput[mEpOrderMax][_nEventTypeBins];
   TProfile2D *mTpcRecenterInput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
@@ -483,12 +483,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
     for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      mEpdRecenterInput[EventTypeId] = 0;
+      // mEpdRecenterInput[EventTypeId] = 0;
       mEpdShiftInput_sin[EventTypeId] = 0;
     	mEpdShiftInput_cos[EventTypeId] = 0;
       // mPhiWeightInput[EventTypeId] = 0;
     }
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+      for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+        mEpdRecenterInput[iOrder-1][EventTypeId] = 0;
+      }
       for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
         mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
       }
@@ -501,13 +504,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   else{
     for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      mEpdRecenterInput[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdRecenterEW0Psi%d",EventTypeId));
+      // mEpdRecenterInput[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdRecenterEW0Psi%d",EventTypeId));
       mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
       mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
       // mPhiWeightInput[EventTypeId] = (TH1D*)mCorrectionInputFile->Get(Form("PhiWeight%d",EventTypeId));
       // mPhiWeightInput[EventTypeId]->Scale((double)12.0/((double)(mPhiWeightInput[EventTypeId]->GetEntries())));
     }
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+      for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+        mEpdRecenterInput[iOrder-1][EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId));
+      }
       for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
         mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc));
       }
