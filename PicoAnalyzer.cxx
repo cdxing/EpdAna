@@ -1878,12 +1878,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; # of TPC trks: "<< NTpcAll[EventTypeId_tpc]<<endl;
         if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
         if(QrawTpcAll[iOrder-1][EventTypeId_tpc][0] || QrawTpcAll[iOrder-1][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
-          PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = GetPsi(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1],EpOrder);
-          hist2_Tpc_Qy_Qx_raw_ini[0][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
-          // PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = (1./(Double_t)EpOrder)*TMath::ATan2(QrawTpcAll[iOrder-1][EventTypeId_tpc][1],QrawTpcAll[iOrder-1][EventTypeId_tpc][0]);
-          // if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] < 0.0                             )         PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] += (1. / (double)EpOrder) * 2.0*TMath::Pi();
-          // if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] > (1. / (double)EpOrder) * 2.0*TMath::Pi()) PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] -= (1. / (double)EpOrder) * 2.0*TMath::Pi();
-          if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[0][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
+          PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = GetPsi(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
+          hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
+          if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
           // recenter corrections
           if(mTpcRecenterInput[EventTypeId_tpc]==0){
             // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
@@ -1893,7 +1890,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             QrecenterTpcAll[0][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
             QrecenterTpcAll[0][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
           }
-          PsiTpcAllRecenter[0][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1],EpOrder);
+          PsiTpcAllRecenter[0][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1],iOrder);
           hist2_Tpc_Qy_Qx_rec_ini[0][EventTypeId_tpc]->Fill(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0){
             hist_tpc_all_psi_recenter[0][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[0][EventTypeId_tpc]);
