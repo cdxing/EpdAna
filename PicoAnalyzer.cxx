@@ -547,11 +547,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mEpdRecenterOutput[iOrder-1][EventTypeId]->BuildOptions(0.0,0.0,"");
     }
     for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      mTpcRecenterOutput[EventTypeId_tpc] = new TProfile2D(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),
+      mTpcRecenterOutput[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),
               2,0.5,1.0*2+.5, // (x,y)
               _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
               "");
-      mTpcRecenterOutput[EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
+      mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
     }
   }
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
