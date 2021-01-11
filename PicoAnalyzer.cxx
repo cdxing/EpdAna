@@ -461,7 +461,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   // "Recenter correction" histograms that we INPUT and apply here
   TProfile2D *mEpdRecenterInput[_nEventTypeBins];
-  TProfile2D *mTpcRecenterInput[_nEventTypeBins_tpc]; // TPC EP input
+  TProfile2D *mTpcRecenterInput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[_nEventTypeBins], *mEpdShiftInput_cos[_nEventTypeBins];
   TProfile2D *mTpcShiftInput_sin[_nEventTypeBins_tpc], *mTpcShiftInput_cos[_nEventTypeBins_tpc]; // TPC EP input
@@ -488,8 +488,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     	mEpdShiftInput_cos[EventTypeId] = 0;
       // mPhiWeightInput[EventTypeId] = 0;
     }
+    for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+      for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+        mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
+      }
+    }
     for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      mTpcRecenterInput[EventTypeId_tpc] = 0;
+      // mTpcRecenterInput[EventTypeId_tpc] = 0;
       mTpcShiftInput_sin[EventTypeId_tpc] = 0;
     	mTpcShiftInput_cos[EventTypeId_tpc] = 0;
     }
@@ -502,10 +507,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // mPhiWeightInput[EventTypeId] = (TH1D*)mCorrectionInputFile->Get(Form("PhiWeight%d",EventTypeId));
       // mPhiWeightInput[EventTypeId]->Scale((double)12.0/((double)(mPhiWeightInput[EventTypeId]->GetEntries())));
     }
+    for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+      for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+        mTpcRecenterInput[iOrder][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc));
+      }
+    }
     for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      mTpcRecenterInput[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
-      bool IsEmptyEvt3 = mTpcRecenterInput[EventTypeId_tpc] == 0;
-      if(EventTypeId_tpc ==3) cout << "empty input evttype 3? " << IsEmptyEvt3 <<endl;
+      // mTpcRecenterInput[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
       mTpcShiftInput_sin[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc));
       mTpcShiftInput_cos[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc));
     }
@@ -1884,17 +1892,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // recenter corrections
           if(mTpcRecenterInput[EventTypeId_tpc]==0){
             // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
-            QrecenterTpcAll[0][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0];
-            QrecenterTpcAll[0][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1];
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0];
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1];
           } else {
-            QrecenterTpcAll[0][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
-            QrecenterTpcAll[0][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
           }
-          PsiTpcAllRecenter[0][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1],iOrder);
-          hist2_Tpc_Qy_Qx_rec_ini[0][EventTypeId_tpc]->Fill(QrecenterTpcAll[0][EventTypeId_tpc][0],QrecenterTpcAll[0][EventTypeId_tpc][1]);
+          PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
+          hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]->Fill(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0){
-            hist_tpc_all_psi_recenter[0][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[0][EventTypeId_tpc]);
-            // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[0][EventTypeId_tpc]<<endl;
+            hist_tpc_all_psi_recenter[0][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]);
+            // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]<<endl;
             // cout << "raw psi TPC: "<<  PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]<<endl;
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
             // -------------------- "recenter correction histograms Output" ----------------
