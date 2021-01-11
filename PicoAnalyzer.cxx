@@ -1901,7 +1901,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
           hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]->Fill(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0){
-            hist_tpc_all_psi_recenter[0][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]);
+            hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]);
             // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]<<endl;
             // cout << "raw psi TPC: "<<  PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]<<endl;
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
