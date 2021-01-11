@@ -1563,13 +1563,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(PsiEastShifted[iOrder-1][EventTypeId]==-999.0) continue;
           if (mEpdShiftInput_sin[iOrder-1][EventTypeId] != 0 && mEpdShiftInput_cos[iOrder-1][EventTypeId]!= 0){
             for (int i=1; i<=_EpTermsMaxIni; i++){
-          	  double tmp = (double)(EpOrder*i);
+          	  double tmp = (double)(iOrder*i);
               double sinAve = mEpdShiftInput_sin[iOrder-1][EventTypeId]->GetBinContent(i,centrality);
           	  double cosAve = mEpdShiftInput_cos[iOrder-1][EventTypeId]->GetBinContent(i,centrality);
           	  PsiEastShifted[iOrder-1][EventTypeId] +=
           	    2.0*(cosAve*sin(tmp*PsiEastRecenter[0][EventTypeId]) - sinAve*cos(tmp*PsiEastRecenter[0][EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
           	}
-  	         double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
+  	         double AngleWrapAround = 2.0*TMath::Pi()/(double)iOrder;
     	        if (PsiEastShifted[iOrder-1][EventTypeId]<0) PsiEastShifted[iOrder-1][EventTypeId] += AngleWrapAround;
     	         else if (PsiEastShifted[iOrder-1][EventTypeId]>AngleWrapAround) PsiEastShifted[iOrder-1][EventTypeId] -= AngleWrapAround;
           }
