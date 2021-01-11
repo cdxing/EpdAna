@@ -494,7 +494,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      // mTpcRecenterInput[EventTypeId_tpc] = 0;
+      // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
       mTpcShiftInput_sin[EventTypeId_tpc] = 0;
     	mTpcShiftInput_cos[EventTypeId_tpc] = 0;
     }
@@ -509,11 +509,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
       for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-        mTpcRecenterInput[iOrder][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc));
+        mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc));
       }
     }
     for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      // mTpcRecenterInput[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
+      // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
       mTpcShiftInput_sin[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc));
       mTpcShiftInput_cos[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc));
     }
@@ -1890,13 +1890,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
           // recenter corrections
-          if(mTpcRecenterInput[EventTypeId_tpc]==0){
+          if(mTpcRecenterInput[iOrder-1][EventTypeId_tpc]==0){
             // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
             QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0];
             QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1];
           } else {
-            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(1,centrality);
-            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[EventTypeId_tpc]->GetBinContent(2,centrality);
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0] = QrawTpcAll[iOrder-1][EventTypeId_tpc][0] - mTpcRecenterInput[iOrder-1][EventTypeId_tpc]->GetBinContent(1,centrality);
+            QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[iOrder-1][EventTypeId_tpc]->GetBinContent(2,centrality);
           }
           PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
           hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]->Fill(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1]);
