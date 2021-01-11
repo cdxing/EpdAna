@@ -1559,7 +1559,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // std::cout << std::endl;
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
       for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
-          PsiEastShifted[iOrder-1][EventTypeId] = PsiEastRecenter[0][EventTypeId]; // use raw EP rather than Phi weighing EP
+          PsiEastShifted[iOrder-1][EventTypeId] = PsiEastRecenter[iOrder-1][EventTypeId]; // use raw EP rather than Phi weighing EP
           if(PsiEastShifted[iOrder-1][EventTypeId]==-999.0) continue;
           if (mEpdShiftInput_sin[iOrder-1][EventTypeId] != 0 && mEpdShiftInput_cos[iOrder-1][EventTypeId]!= 0){
             for (int i=1; i<=_EpTermsMaxIni; i++){
@@ -1567,7 +1567,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               double sinAve = mEpdShiftInput_sin[iOrder-1][EventTypeId]->GetBinContent(i,centrality);
           	  double cosAve = mEpdShiftInput_cos[iOrder-1][EventTypeId]->GetBinContent(i,centrality);
           	  PsiEastShifted[iOrder-1][EventTypeId] +=
-          	    2.0*(cosAve*sin(tmp*PsiEastRecenter[0][EventTypeId]) - sinAve*cos(tmp*PsiEastRecenter[0][EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
+          	    2.0*(cosAve*sin(tmp*PsiEastRecenter[iOrder-1][EventTypeId]) - sinAve*cos(tmp*PsiEastRecenter[iOrder-1][EventTypeId]))/tmp; // use raw EP rather than Phi weighing EP
           	}
   	         double AngleWrapAround = 2.0*TMath::Pi()/(double)iOrder;
     	        if (PsiEastShifted[iOrder-1][EventTypeId]<0) PsiEastShifted[iOrder-1][EventTypeId] += AngleWrapAround;
@@ -1596,9 +1596,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for (int i=1; i<=_EpTermsMaxIni; i++){
         for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
           double tmp = (double)(EpOrder*i);
-          if(PsiEastRecenter[0][EventTypeId]==-999.0) continue;
-          mEpdShiftOutput_sin[iOrder-1][EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[0][EventTypeId]));// use raw EP rather than Phi weighing EP
-          mEpdShiftOutput_cos[iOrder-1][EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[0][EventTypeId]));// use raw EP rather than Phi weighing EP
+          if(PsiEastRecenter[iOrder-1][EventTypeId]==-999.0) continue;
+          mEpdShiftOutput_sin[iOrder-1][EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
+          mEpdShiftOutput_cos[iOrder-1][EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
         }
       }
     }
