@@ -483,7 +483,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::cout << "Error opening file with Ab initio Correction Histograms" << std::endl;
     std::cout << "I will use no correction at all for my own EPD Ep." << std::endl;
     for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      // mEpdRecenterInput[EventTypeId] = 0;
+      // mEpdRecenterInput[iOrder-1][EventTypeId] = 0;
       mEpdShiftInput_sin[EventTypeId] = 0;
     	mEpdShiftInput_cos[EventTypeId] = 0;
       // mPhiWeightInput[EventTypeId] = 0;
@@ -504,7 +504,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   else{
     for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      // mEpdRecenterInput[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdRecenterEW0Psi%d",EventTypeId));
+      // mEpdRecenterInput[iOrder-1][EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdRecenterEW0Psi%d",EventTypeId));
       mEpdShiftInput_sin[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_sin",EventTypeId));
       mEpdShiftInput_cos[EventTypeId] = (TProfile2D*)mCorrectionInputFile->Get(Form("EpdShiftEW0Psi%d_cos",EventTypeId));
       // mPhiWeightInput[EventTypeId] = (TH1D*)mCorrectionInputFile->Get(Form("PhiWeight%d",EventTypeId));
@@ -1487,12 +1487,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             cout << "Qy raw  " << EventTypeId << " = " << QrawEastSide[iOrder-1][EventTypeId][1]<<endl;
           }
           // recenter corrections
-          if(mEpdRecenterInput[EventTypeId]==0){
+          if(mEpdRecenterInput[iOrder-1][EventTypeId]==0){
             QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0];
             QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1];
           } else {
-            QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[EventTypeId]->GetBinContent(1,centrality);
-            QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[EventTypeId]->GetBinContent(2,centrality);
+            QrecenterEastSide[iOrder-1][EventTypeId][0] = QrawEastSide[iOrder-1][EventTypeId][0] - mEpdRecenterInput[iOrder-1][EventTypeId]->GetBinContent(1,centrality);
+            QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[iOrder-1][EventTypeId]->GetBinContent(2,centrality);
           }
           PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
