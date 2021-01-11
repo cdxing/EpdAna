@@ -464,7 +464,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mTpcRecenterInput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
   // "Shift correction" histograms that we INPUT and apply here
   TProfile2D *mEpdShiftInput_sin[mEpOrderMax][_nEventTypeBins], *mEpdShiftInput_cos[mEpOrderMax][_nEventTypeBins];
-  TProfile2D *mTpcShiftInput_sin[_nEventTypeBins_tpc], *mTpcShiftInput_cos[_nEventTypeBins_tpc]; // TPC EP input
+  TProfile2D *mTpcShiftInput_sin[mEpOrderMax][_nEventTypeBins_tpc], *mTpcShiftInput_cos[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
   // TH1D* mPhiWeightInput[_nEventTypeBins];
   TString EpInputNameIni = "EpCorrection_INPUT_";
   EpInputNameIni.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
@@ -496,13 +496,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
         mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
+        mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc] = 0;
+      	mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc] = 0;
       }
     }
-    for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
-      mTpcShiftInput_sin[EventTypeId_tpc] = 0;
-    	mTpcShiftInput_cos[EventTypeId_tpc] = 0;
-    }
+    // for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+    //   // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = 0;
+    //   mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc] = 0;
+    // 	mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc] = 0;
+    // }
   }
   else{
     // for (int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -520,13 +522,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
         mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc));
+        mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc));
+        mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc));
       }
     }
-    for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
-      mTpcShiftInput_sin[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc));
-      mTpcShiftInput_cos[EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc));
-    }
+    // for (int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+    //   // mTpcRecenterInput[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcRecenterOutput_%d",EventTypeId_tpc));
+    //   mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc));
+    //   mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc] = (TProfile2D*)mCorrectionInputFile->Get(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc));
+    // }
   }
 
   // "Shift correction" histograms that we produce and OUTPUT
@@ -536,7 +540,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile2D *mEpdRecenterOutput[mEpOrderMax][_nEventTypeBins]; // EPD EP output, x/y, centrality
   TProfile2D *mTpcRecenterOutput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output, x/y, centrality
   TProfile2D *mEpdShiftOutput_sin[mEpOrderMax][_nEventTypeBins], *mEpdShiftOutput_cos[mEpOrderMax][_nEventTypeBins]; // EPD EP output
-  TProfile2D *mTpcShiftOutput_sin[_nEventTypeBins_tpc], *mTpcShiftOutput_cos[_nEventTypeBins_tpc]; // TPC EP output
+  TProfile2D *mTpcShiftOutput_sin[mEpOrderMax][_nEventTypeBins_tpc], *mTpcShiftOutput_cos[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output
   // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
   TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","v_{1} vs. #eta vs. centrality",
@@ -578,6 +582,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
               "");
       mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
+      mTpcShiftOutput_sin[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),
+              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+              -1.0,1.0);
+      mTpcShiftOutput_cos[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),
+              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+              -1.0,1.0);
     }
   }
   // for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -590,16 +602,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
   //           -1.0,1.0);
   // }
-  for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-    mTpcShiftOutput_sin[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc),Form("mTpcShiftOutput_%d_sin",EventTypeId_tpc),
-            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-            _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-            -1.0,1.0);
-    mTpcShiftOutput_cos[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc),Form("mTpcShiftOutput_%d_cos",EventTypeId_tpc),
-            _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-            _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-            -1.0,1.0);
-  }
+  // for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+  //   mTpcShiftOutput_sin[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),
+  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //           -1.0,1.0);
+  //   mTpcShiftOutput_cos[EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),
+  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //           -1.0,1.0);
+  // }
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2];
   TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all;
@@ -1937,22 +1949,24 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     // --------------------------- " Do the SHIFT thing (TPC) " ------------------------
-    for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-      PsiTpcAllShifted[0][EventTypeId_tpc] = PsiTpcAllRecenter[0][EventTypeId_tpc];
-      if(PsiTpcAllShifted[0][EventTypeId_tpc]==-999.0) continue; // Bad PsiTpcAllRecenter[0]
-      if (mTpcShiftInput_sin[EventTypeId_tpc] != 0 && mTpcShiftInput_cos[EventTypeId_tpc]!= 0){
-        for (int i=1; i<=_EpTermsMaxIni; i++){
-            double tmp = (double)(EpOrder*i);
-            double sinAve = mTpcShiftInput_sin[EventTypeId_tpc]->GetBinContent(i,centrality);
-            double cosAve = mTpcShiftInput_cos[EventTypeId_tpc]->GetBinContent(i,centrality);
-            PsiTpcAllShifted[0][EventTypeId_tpc] +=
-              2.0*(cosAve*sin(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]) - sinAve*cos(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]))/tmp;
+    for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+      for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
+        PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] = PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc];
+        if(PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]==-999.0) continue; // Bad PsiTpcAllRecenter[0]
+        if (mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc] != 0 && mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc]!= 0){
+          for (int i=1; i<=_EpTermsMaxIni; i++){
+              double tmp = (double)(iOrder*i);
+              double sinAve = mTpcShiftInput_sin[iOrder-1][EventTypeId_tpc]->GetBinContent(i,centrality);
+              double cosAve = mTpcShiftInput_cos[iOrder-1][EventTypeId_tpc]->GetBinContent(i,centrality);
+              PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] +=
+                2.0*(cosAve*sin(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]) - sinAve*cos(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]))/tmp;
+          }
+             double AngleWrapAround = 2.0*TMath::Pi()/(double)iOrder;
+              if (PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]<0) PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] += AngleWrapAround;
+               else if (PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]>AngleWrapAround) PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] -= AngleWrapAround;
         }
-           double AngleWrapAround = 2.0*TMath::Pi()/(double)EpOrder;
-            if (PsiTpcAllShifted[0][EventTypeId_tpc]<0) PsiTpcAllShifted[0][EventTypeId_tpc] += AngleWrapAround;
-             else if (PsiTpcAllShifted[0][EventTypeId_tpc]>AngleWrapAround) PsiTpcAllShifted[0][EventTypeId_tpc] -= AngleWrapAround;
+        hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]);
       }
-      hist_tpc_all_psi_shifted[0][EventTypeId_tpc]->Fill(PsiTpcAllShifted[0][EventTypeId_tpc]);
     }
     //---------------------------- Fill the directed flow from EPD (forward) region -----
     for (int iEpdHit = 0; iEpdHit < mEpdHits->GetEntries(); iEpdHit++){
@@ -2015,9 +2029,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
       for (int i=1; i<=_EpTermsMaxIni; i++){ // TPC shifted Output
         double tmp = (double)(EpOrder*i);
-        if(PsiTpcAllRecenter[0][EventTypeId_tpc]==-999.0) break;
-        mTpcShiftOutput_sin[EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]));
-        mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[0][EventTypeId_tpc]));
+        if(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]==-999.0) break;
+        mTpcShiftOutput_sin[EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
+        mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
       }
     }
     // (9) ======================= Flow calculation of P, Pi K  =========================
