@@ -251,7 +251,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   outFile.Append(".picoDst.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
   // ------------------- EP ranges setup ---------------------------------------
-  TH2D *wt[2]=NULL;
+  TH2D *wt[2];
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
     wt[iOrder-1] = new TH2D(Form("Order1etaWeight_EpOrder%d",iOrder),
     Form("Order1etaWeight_EpOrder%d",iOrder),
