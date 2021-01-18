@@ -154,7 +154,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   StEpdGeom *mEpdGeom = new StEpdGeom();
   Double_t mThresh = 0.3; // EPD EP by hand
   Double_t mMax = 2.0; // EPD EP by hand
-  Double_t etaRange[2][5] = {{-5.0,-4.4,-4.35,-3.95,-2.60},{5.0,-4.4,-4.35,-3.95,-2.60}};
+  Double_t etaRange[2][5] = {{-5.0,-4.4,-4.35,-3.95,-2.60},{5.0,-4.05,-3.3,-2.9,-2.60}};
   // EPD eta range to set 4 sub EPD EP -5.0,-4.4,-4.35,-3.95,-2.60
   // # Systematic Analysis
   // sys_cutN == 1; // etaGap
@@ -185,7 +185,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.0,-1.4,-1.3,-0.7,-0.6,0.}}; // TPC eta range
+  Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.1,-2.0,-1.25,-1.2,-1.15,0.}}; // TPC eta range
 
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
