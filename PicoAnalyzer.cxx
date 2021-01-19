@@ -660,8 +660,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Form("<cos(2 * (#psi_{2}^{EPD east}[%d] #minus #psi_{2}^{TPC}))>", n+1),
     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
     correlation2D_psi2_epd_tpc[n]   =
-    new TH2D(Form("correlation2D_psi2_epd%d_tpc",i+1),
-    Form("#psi_{2}^{EPD east}[%d] vs. #psi_{2}^{TPC}",i+1),
+    new TH2D(Form("correlation2D_psi2_epd%d_tpc",n+1),
+    Form("#psi_{2}^{EPD east}[%d] vs. #psi_{2}^{TPC}",n+1),
     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   correlation2D_epd_tpc_all   =
