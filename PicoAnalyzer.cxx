@@ -3205,6 +3205,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_rapSetA_centSetB[rap][cent] = mHist_v2_reso_rapSetA_centSetB[rap][cent]->ProfileX();;
     }
   }
+  mCorrectionOutputFile->cd();
+  wt[1]->Write();
+  wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
   outputFile->cd();
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
