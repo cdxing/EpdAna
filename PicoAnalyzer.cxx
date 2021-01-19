@@ -618,8 +618,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //           -1.0,1.0);
   // }
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
-  TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2];//, *profile_correlation_psi2_epd_tpc;
-  TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all;//, *correlation2D_psi2_epd_tpc;
+  TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2]
+  , *profile_correlation_psi2_epd_tpc[2], *profile_correlation_psi2_tpcAB;
+  TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all,
+  *correlation2D_psi2_epd_tpc[2], *correlation2D_psi2_tpcAB;
   int pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
@@ -653,10 +655,26 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
     Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    profile_correlation_psi2_epd_tpc[n]  =
+    new TProfile(Form("profile_correlation_psi2_epd_tpc_%d",n+1),
+    Form("<cos(2 * (#psi_{2}^{EPD east}[%d] #minus #psi_{2}^{TPC}))>", n+1),
+    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    correlation2D_psi2_epd_tpc[n]   =
+    new TH2D(Form("correlation2D_psi2_epd%d_tpc",i+1),
+    Form("#psi_{2}^{EPD east}[%d] vs. #psi_{2}^{TPC}",i+1),
+    50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   }
   correlation2D_epd_tpc_all   =
   new TH2D("correlation2D_epd_tpc_all",
   "#psi^{EPD east}[full] vs. #psi^{TPC}",
+  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  profile_correlation_psi2_tpcAB  =
+  new TProfile("profile_correlation_psi2_tpcAB",
+  "<cos(2 * (#psi_{2}^{TPC}[A] #minus #psi_{2}^{TPC}[B]))>",
+  _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  correlation2D_psi2_tpcAB   =
+  new TH2D("correlation2D_psi2_epd%d_tpc",
+  "#psi_{2}^{TPC}[A] vs. #psi_{2}^{TPC}[B]",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
   double ptSetA[3]  = {0.6, 1.2, 2.4};
@@ -1606,7 +1624,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
       }
-
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
@@ -2036,6 +2053,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
       }
+    }
+    if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][2]!=-999.0){ //EPD psi2 C, TPC Psi2 A
+      profile_correlation_psi2_epd_tpc[0]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][2] /*- TMath::Pi()/(double)EpOrder*/ )));
+      correlation2D_psi2_epd_tpc[0]->Fill(PsiTpcAllShifted[1][2],PsiEastShifted[1][4]);
+    }
+    if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD psi2 C, TPC Psi2 B
+      profile_correlation_psi2_epd_tpc[1]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+      correlation2D_psi2_epd_tpc[1]->Fill(PsiTpcAllShifted[1][5],PsiEastShifted[1][4]);
+    }
+    if(PsiTpcAllRaw[1][2]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD TPC Psi2 A, TPC Psi2 B
+      profile_correlation_psi2_tpcAB->Fill(centrality,TMath::Cos((double)2 * (PsiTpcAllShifted[1][2] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+      correlation2D_psi2_tpcAB->Fill(PsiTpcAllShifted[1][5],PsiTpcAllShifted[1][2]);
     }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
