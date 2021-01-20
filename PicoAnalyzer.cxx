@@ -1413,8 +1413,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             // std::cout<<"Tile weight: "<< TileWeight ;
             // std::cout<<" Phi weighted tile weight: "<< PhiWeightedTileWeight<<std::endl;
           // }
-          int etaBin = (int)wt[iOrder]->GetXaxis()->FindBin(fabs(eta));
-          double etaWeight = (double)wt[iOrder]->GetBinContent(etaBin,EventTypeId+1);
+          int etaBin = (int)wt[iOrder-1]->GetXaxis()->FindBin(fabs(eta));
+          double etaWeight = (double)wt[iOrder-1]->GetBinContent(etaBin,EventTypeId+1);
           int v1etaBin = (int)v1WtaWt->GetXaxis()->FindBin(eta);
           double v1EtaWeight = (double)v1WtaWt->GetBinContent(v1etaBin,centrality);
           v1EtaWeight = 1.0; // disable v1 eta weighting
@@ -1890,8 +1890,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
       for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
         for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-          int etaBin = (int)wt_tpc[iOrder]->GetXaxis()->FindBin(fabs(eta));
-          double etaWeight = (double)wt_tpc[iOrder]->GetBinContent(etaBin,EventTypeId_tpc+1);
+          int etaBin = (int)wt_tpc[iOrder-1]->GetXaxis()->FindBin(fabs(eta));
+          double etaWeight = (double)wt_tpc[iOrder-1]->GetBinContent(etaBin,EventTypeId_tpc+1);
           if(iOrder == 1){ // \psi_1^{TPC}
             if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0){
               // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
