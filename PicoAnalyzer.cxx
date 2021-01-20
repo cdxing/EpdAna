@@ -673,7 +673,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   "<cos(2 * (#psi_{2}^{TPC}[A] #minus #psi_{2}^{TPC}[B]))>",
   _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
   correlation2D_psi2_tpcAB   =
-  new TH2D("correlation2D_psi2_epd%d_tpc",
+  new TH2D("correlation2D_psi2_tpcAB",
   "#psi_{2}^{TPC}[A] vs. #psi_{2}^{TPC}[B]",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
