@@ -196,7 +196,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
   double d_resolution[2][_Ncentralities] = { //0// EPD-1
     {0.317239,0.380755,0.439133,0.477116,0.504774,0.398817,0.267795,0.165502,0.353166},//recenter
-    {0.0490265,0.148407,0.1722,0.181354,0.166868,0.0153445,6.95331e-310,6.89974e-310,0.115892} //recenter
+    {0.14186,0.22248,0.246044,0.210659,0.129424,0.018221,1,1,1} //recenter
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
     // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
@@ -2270,10 +2270,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
         double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
         if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
-          for(int km=0;km<2;km++){ // km - flow order
+          for(int km=0;km<1;km++){ // km - flow order
             d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
+        }
+        if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
+            d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
@@ -3231,7 +3235,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  // PhiMesonAnaOutputFile->Write();
+  PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
