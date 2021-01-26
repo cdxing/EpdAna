@@ -3232,6 +3232,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   delete mPhiAveraged[EventTypeId];
   // }
   // PhiMesonAnaOutputFile->Write();
+  mCorrectionInputFile->Close();
+  mCorrectionInputFile->Delete();
 }
 
 // =========================== Get Psi from Q vector =============================================
