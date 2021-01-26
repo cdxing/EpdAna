@@ -3233,7 +3233,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // }
   // PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
-  mCorrectionInputFile->Delete();
+  delete outputFile;
+  delete mCorrectionInputFile;
+  delete mCorrectionOutputFile;
+  delete PhiMesonAnaOutputFile;
+  delete picoReader;
 }
 
 // =========================== Get Psi from Q vector =============================================
