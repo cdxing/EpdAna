@@ -3235,7 +3235,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  PhiMesonAnaOutputFile->Write();
+  // PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
