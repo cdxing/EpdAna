@@ -196,7 +196,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
   double d_resolution[2][_Ncentralities] = { //0// EPD-1
     {0.317239,0.380755,0.439133,0.477116,0.504774,0.398817,0.267795,0.165502,0.353166},//recenter
-    {0.14186,0.22248,0.246044,0.210659,0.129424,0.018221,1,1,1} //recenter
+    {0.137326,0.220693,0.24983,0.208653,0.132604,1,1,1,1} //recenter
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
     // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
@@ -3235,7 +3235,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  // PhiMesonAnaOutputFile->Write();
+  PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
