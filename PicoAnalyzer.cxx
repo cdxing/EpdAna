@@ -202,6 +202,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
     //{0.158,   0.1737,  0.2045,  0.2256,  0.2218,  0.2430,  0.20613,0.1312,0.1276}
   };
+  double d_resolution_b[_Ncentralities] = {0.148371,0.238345,0.242375,0.171972,0.0845528,1,1,1,1};
   if ( (inputReso.rdstate() & std::ifstream::failbit ) != 0 ) {
     std::cout << "Error opening Resolution Input .txt Files" << std::endl;
     std::cout << "I will use primary resolution:" << std::endl;
@@ -696,6 +697,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
+  TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","#eta distribution of #phi",200,-10.,10);
   TH2D *hist_SE_pt_y_PhiMeson[4];
   TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
   TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
@@ -2173,8 +2175,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
         double d_mT_phi = sqrt(d_Phi_pT*d_Phi_pT + _massPhi*_massPhi );
         double d_phi_pz = d_pz0+d_pz1;
+        double d_phi_mom     = sqrt(d_Phi_pT*d_Phi_pT + d_phi_pz*d_phi_pz);
         double d_phi_E  = d_E0+d_E1;
         double d_phi_y  = ((d_phi_E - d_phi_pz) != 0.0) ?  0.5*TMath::Log( (d_phi_E + d_phi_pz) / (d_phi_E - d_phi_pz) ) : -9999;
+        double d_phi_eta   = ((d_phi_mom - d_phi_pz) != 0.0) ? 0.5*TMath::Log( (d_phi_mom + d_phi_pz) / (d_phi_mom - d_phi_pz) ) : -999.0;
         double d_inv_m  = sqrt(  d_M0*d_M0
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
@@ -2197,6 +2201,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
         hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
         hist_SE_PhiMeson_rap ->Fill(d_phi_y);
+        hist_SE_PhiMeson_eta ->Fill(d_phi_eta);
         if(centrality >= 1 && centrality <= 2){ // 0-10%
           hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
           hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
@@ -2275,9 +2280,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
-        if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
-            d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
-            d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+        if(d_phi_eta>=-1.2){
+          if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
+              d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
+              d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+          }
+        } else {
+          if(PsiTpcAllShifted[1][5]!=-999.0){// Using TPC-A psi 2 for v2
+              d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
+              d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]))/(d_resolution_b[centrality-1]); // km {0,1}, centrality [1,9]
+          }
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
