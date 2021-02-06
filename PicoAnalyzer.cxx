@@ -2185,19 +2185,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                               - 2.0 *(d_px0*d_px1+d_py0*d_py1+d_pz0*d_pz1) );
         Double_t randomNumber0 = gRandom->Uniform(1);
         Double_t randomNumber1 = gRandom->Uniform(1);
-        std::cout << "randomNumber0 " << randomNumber0  << std::endl;
-        std::cout << "randomNumber1 " << randomNumber1  << std::endl;
-        double d_randAngle = TMath::Pi()*randomNumber0;
-        // std::cout << "randomAngle " << d_randAngle  << std::endl;
-        double d_px1_rotation    = d_px1 * TMath::Cos(d_randAngle) - d_py1 * TMath::Sin(d_randAngle);
-        double d_py1_rotation    = d_px1 * TMath::Sin(d_randAngle) + d_py1 * TMath::Cos(d_randAngle);
-        double d_Phi_pT_rotation = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1_rotation*d_px1_rotation +d_py1_rotation+d_py1_rotation
-                              + 2.*d_px0*d_px1_rotation + 2.*d_py0*d_py1_rotation);
+        // std::cout << "randomNumber0 " << randomNumber0  << std::endl;
+        // std::cout << "randomNumber1 " << randomNumber1  << std::endl;
+        double d_randAngle0 = TMath::Pi()*randomNumber0;
+        double d_randAngle1 = TMath::Pi()*randomNumber1;
+        std::cout << "randomAngle0 " << d_randAngle0  << std::endl;
+        std::cout << "randomAngle1 " << d_randAngle1  << std::endl;
+        double d_px0_rotation    = d_px0 * TMath::Cos(d_randAngle0) - d_py0 * TMath::Sin(d_randAngle0);
+        double d_py0_rotation    = d_px0 * TMath::Sin(d_randAngle0) + d_py0 * TMath::Cos(d_randAngle0);
+        double d_px1_rotation    = d_px1 * TMath::Cos(d_randAngle1) - d_py1 * TMath::Sin(d_randAngle1);
+        double d_py1_rotation    = d_px1 * TMath::Sin(d_randAngle1) + d_py1 * TMath::Cos(d_randAngle1);
+        double d_Phi_pT_rotation = sqrt(d_px0_rotation*d_px0_rotation + d_py0_rotation*d_py0_rotation +d_px1_rotation*d_px1_rotation +d_py1_rotation+d_py1_rotation
+                              + 2.*d_px0_rotation*d_px1_rotation + 2.*d_py0_rotation*d_py1_rotation);
         double d_phi_y_roration =   d_phi_y; // Rotation don't  influence y
         double d_inv_m_rotation  = sqrt(  d_M0*d_M0
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
-                              - 2.0 *(d_px0*d_px1_rotation+d_py0*d_py1_rotation+d_pz0*d_pz1) );
+                              - 2.0 *(d_px0_rotation*d_px1_rotation+d_py0_rotation*d_py1_rotation+d_pz0*d_pz1) );
         hist_SE_mass_Phi    ->Fill(d_inv_m);
         hist_rotation_mass_Phi    ->Fill(d_inv_m_rotation);
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
