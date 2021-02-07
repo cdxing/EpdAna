@@ -2303,7 +2303,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
             if(centrality >= 1 && centrality <= 2){
               mHist_SE_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m); // 0-10%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
@@ -2311,7 +2311,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 3 && centrality <= 5){
               mHist_SE_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m); // 10-40%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
@@ -2319,7 +2319,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 6 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m); // 40-60%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
@@ -2327,7 +2327,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 6 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m); // 40-80%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
@@ -2335,7 +2335,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 1 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m); // 0-60%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
@@ -2343,11 +2343,31 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 1 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m); // 0-80%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+            }
+          }
+          if(d_Phi_pT_rotation >= ptSetA[pt] && d_Phi_pT_rotation <= ptSetA[pt+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
             }
           }
         }
@@ -2357,11 +2377,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
               if(centrality == cent+1 ){
                 mHist_SE_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m);
-                mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
+                // mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
                 if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
                 if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
                 if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
                 if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+            if(d_Phi_pT_rotation >= ptSetA[pt] && d_Phi_pT_rotation <= ptSetA[pt+1]){
+              if(centrality == cent+1 ){
+                mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
               }
             }
           }
