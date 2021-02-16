@@ -3243,6 +3243,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent] = mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->ProfileX();;
       }
     }
+    // pt SetB, cent SetA
+    for(int pt=0; pt<4; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        mProfile_v1_raw_ptSetB_centSetA[jkk][pt][cent]  = mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->ProfileX();
+        mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent] = mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->ProfileX();;
+        mProfile_v2_raw_ptSetB_centSetA[jkk][pt][cent]  = mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->ProfileX();;
+        mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent] = mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->ProfileX();;
+      }
+    }
   }
   // pt SetA, cent SetB
   for(int pt=0; pt<2; pt++)
@@ -3252,16 +3262,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v1_reso_ptSetA_centSetB[pt][cent] = mHist_v1_reso_ptSetA_centSetB[pt][cent]->ProfileX();;
       mProfile_v2_raw_ptSetA_centSetB[pt][cent]  = mHist_v2_raw_ptSetA_centSetB[pt][cent]->ProfileX();;
       mProfile_v2_reso_ptSetA_centSetB[pt][cent] = mHist_v2_reso_ptSetA_centSetB[pt][cent]->ProfileX();;
-    }
-  }
-  // pt SetB, cent SetA
-  for(int pt=0; pt<4; pt++)
-  {
-    for(int cent=0; cent<6;cent++){
-      mProfile_v1_raw_ptSetB_centSetA[pt][cent]  = mHist_v1_raw_ptSetB_centSetA[pt][cent]->ProfileX();
-      mProfile_v1_reso_ptSetB_centSetA[pt][cent] = mHist_v1_reso_ptSetB_centSetA[pt][cent]->ProfileX();;
-      mProfile_v2_raw_ptSetB_centSetA[pt][cent]  = mHist_v2_raw_ptSetB_centSetA[pt][cent]->ProfileX();;
-      mProfile_v2_reso_ptSetB_centSetA[pt][cent] = mHist_v2_reso_ptSetB_centSetA[pt][cent]->ProfileX();;
     }
   }
   // pt SetB, cent SetB
