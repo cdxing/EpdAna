@@ -679,7 +679,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
   double ptSetA[3]  = {0.6, 1.2, 2.4};
-  double ptSetB[5]  = {0.4, 0.7, 1.0, 1.4, 2.0};
+  double ptSetB[5]  = {0.4, 0.6, 1.1, 2.0, 3.0};
   double ptSetC[11] = {0.2, 0.4, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 4.0};
 
   double rapSetA[5]  = {-2.0, -1.5, -1.0, -0.5, 0};
@@ -3327,7 +3327,37 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  PhiMesonAnaOutputFile->Write();
+  PhiMesonAnaOutputFile->cd();
+  hist_dip_angle            ->Write();
+  hist_mother_decay_length  ->Write();
+  hist_SE_mass_Phi          ->Write();
+  hist_rotation_mass_Phi    ->Write();
+  hist_SE_PhiMeson_pT       ->Write();
+  hist_SE_PhiMeson_mT       ->Write();
+  hist_SE_PhiMeson_rap      ->Write();
+  hist_SE_PhiMeson_eta      ->Write();
+  h2_TOF_beta_pq            ->Write();
+  for(int cent = 0; cent<4;cent++){
+    hist_SE_pt_y_PhiMeson[cent]         ->Write();
+    hist_SE_pt_y_Phi_tight_SigBkg[cent] ->Write();
+    hist_SE_pt_y_Phi_tight_Bkg[cent]    ->Write();
+    hist_SE_pt_y_Phi_tight_Sig[cent]    ->Write();
+  }
+  for(int jkk=0; jkk<11; jkk++){
+    for(int pt=0; pt<2; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
+        mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
+        mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+        mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+        mProfile_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+        mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+      }
+    }
+  }
+
+  PhiMesonAnaOutputFile->Close();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
