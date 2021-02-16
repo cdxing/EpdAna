@@ -817,55 +817,57 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // pt SetB, cent SetA
-  TH1D *mHist_SE_InvM_ptSetB_centSetA[4][6];
-  TH1D *mHist_rotation_InvM_ptSetB_centSetA[4][6];
-  TH2D *mHist_v1_raw_ptSetB_centSetA[4][6];
-  TH2D *mHist_v1_reso_ptSetB_centSetA[4][6];
-  TH2D *mHist_v2_raw_ptSetB_centSetA[4][6];
-  TH2D *mHist_v2_reso_ptSetB_centSetA[4][6];
-  TProfile *mProfile_v1_raw_ptSetB_centSetA[4][6];
-  TProfile *mProfile_v1_reso_ptSetB_centSetA[4][6];
-  TProfile *mProfile_v2_raw_ptSetB_centSetA[4][6];
-  TProfile *mProfile_v2_reso_ptSetB_centSetA[4][6];
-  for(int pt=0; pt<4; pt++)
-  {
-    for(int cent=0; cent<6;cent++){
-      mHist_SE_InvM_ptSetB_centSetA[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent),
-      200,0.9,1.1);
-      mHist_SE_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_rotation_InvM_ptSetB_centSetA[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_rotation_InvM_ptSetB%d_centSetA%d",pt,cent),
-      200,0.9,1.1);
-      mHist_rotation_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  TH1D *mHist_SE_InvM_ptSetB_centSetA[11][4][6];
+  TH1D *mHist_rotation_InvM_ptSetB_centSetA[11][4][6];
+  TH2D *mHist_v1_raw_ptSetB_centSetA[11][4][6];
+  TH2D *mHist_v1_reso_ptSetB_centSetA[11][4][6];
+  TH2D *mHist_v2_raw_ptSetB_centSetA[11][4][6];
+  TH2D *mHist_v2_reso_ptSetB_centSetA[11][4][6];
+  TProfile *mProfile_v1_raw_ptSetB_centSetA[11][4][6];
+  TProfile *mProfile_v1_reso_ptSetB_centSetA[11][4][6];
+  TProfile *mProfile_v2_raw_ptSetB_centSetA[11][4][6];
+  TProfile *mProfile_v2_reso_ptSetB_centSetA[11][4][6];
+  for(int jkk=0; jkk<11; jkk++){
+    for(int pt=0; pt<4; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+        200,0.9,1.1);
+        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        200,0.9,1.1);
+        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
 
-      mHist_v1_raw_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_v1_raw_ptSetB%d_centSetA%d",pt,cent),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_raw_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
 
-      mHist_v1_reso_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_v1_reso_ptSetB%d_centSetA%d",pt,cent),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_reso_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
 
-      mHist_v2_raw_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_v2_raw_ptSetB%d_centSetA%d",pt,cent),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_raw_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
 
-      mHist_v2_reso_ptSetB_centSetA[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetA%d",pt,cent),
-      Form("Hist_v2_reso_ptSetB%d_centSetA%d",pt,cent),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_reso_ptSetB_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+        100,0.9,1.1,
+        1000,-1.0,1.0);
+        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+      }
     }
   }
   // pt SetB, cent SetB
@@ -2301,8 +2303,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         Double_t randomJKK = gRandom->Uniform(1);
-        randomJKK *= 10;
-        cout << "randomJKK = " << randomJKK << endl;
+        randomJKK *= 10.;
+        // cout << "randomJKK = " << randomJKK << endl;
         for(int jkk=0; jkk<11; jkk++){
           if(jkk == 0 || (randomJKK >= jkk - 1 && randomJKK <= jkk)){
             for(int pt=0; pt<2; pt++)
@@ -2372,6 +2374,73 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                 }
               }
             }
+            for(int i=0; i<4; i++)
+            {// pt SetB, cent SetA
+              if(d_Phi_pT >= ptSetB[i] && d_Phi_pT <= ptSetB[i+1]){
+                if(centrality >= 1 && centrality <= 2){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m); // 0-10%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+                }
+                if(centrality >= 3 && centrality <= 5){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m); // 10-40%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+                }
+                if(centrality >= 6 && centrality <= 7){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m); // 40-60%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+                }
+                if(centrality >= 6 && centrality <= 9){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m); // 40-80%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+                }
+                if(centrality >= 1 && centrality <= 7){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m); // 0-60%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+                }
+                if(centrality >= 1 && centrality <= 9){
+                  mHist_SE_InvM_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m); // 0-80%
+                  if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
+                  if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
+                  if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
+                  if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+                }
+              }
+              if(d_Phi_pT_rotation >= ptSetB[i] && d_Phi_pT_rotation <= ptSetB[i+1]){
+                if(centrality >= 1 && centrality <= 2){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][0]->Fill(d_inv_m_rotation); // 0-10%
+                }
+                if(centrality >= 3 && centrality <= 5){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][1]->Fill(d_inv_m_rotation); // 10-40%
+                }
+                if(centrality >= 6 && centrality <= 7){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][2]->Fill(d_inv_m_rotation); // 40-60%
+                }
+                if(centrality >= 6 && centrality <= 9){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][3]->Fill(d_inv_m_rotation); // 40-80%
+                }
+                if(centrality >= 1 && centrality <= 7){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][4]->Fill(d_inv_m_rotation); // 0-60%
+                }
+                if(centrality >= 1 && centrality <= 9){
+                  mHist_rotation_InvM_ptSetB_centSetA[jkk][i][5]->Fill(d_inv_m_rotation); // 0-80%
+                }
+              }
+            }
           }
         }
         for(int pt=0; pt<2; pt++)
@@ -2396,76 +2465,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
         for(int i=0; i<4; i++)
         {// pt SetB, cent SetA
-          if(d_Phi_pT >= ptSetB[i] && d_Phi_pT <= ptSetB[i+1]){
-            if(centrality >= 1 && centrality <= 2){
-              mHist_SE_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m); // 0-10%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m_rotation); // 0-10%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
-            }
-            if(centrality >= 3 && centrality <= 5){
-              mHist_SE_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m); // 10-40%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m_rotation); // 10-40%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
-            }
-            if(centrality >= 6 && centrality <= 7){
-              mHist_SE_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m); // 40-60%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m_rotation); // 40-60%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
-            }
-            if(centrality >= 6 && centrality <= 9){
-              mHist_SE_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m); // 40-80%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m_rotation); // 40-80%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
-            }
-            if(centrality >= 1 && centrality <= 7){
-              mHist_SE_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m); // 0-60%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m_rotation); // 0-60%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
-            }
-            if(centrality >= 1 && centrality <= 9){
-              mHist_SE_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m); // 0-80%
-              // mHist_rotation_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m_rotation); // 0-80%
-              if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
-              if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
-              if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
-              if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
-            }
-          }
-          if(d_Phi_pT_rotation >= ptSetB[i] && d_Phi_pT_rotation <= ptSetB[i+1]){
-            if(centrality >= 1 && centrality <= 2){
-              mHist_rotation_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m_rotation); // 0-10%
-            }
-            if(centrality >= 3 && centrality <= 5){
-              mHist_rotation_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m_rotation); // 10-40%
-            }
-            if(centrality >= 6 && centrality <= 7){
-              mHist_rotation_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m_rotation); // 40-60%
-            }
-            if(centrality >= 6 && centrality <= 9){
-              mHist_rotation_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m_rotation); // 40-80%
-            }
-            if(centrality >= 1 && centrality <= 7){
-              mHist_rotation_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m_rotation); // 0-60%
-            }
-            if(centrality >= 1 && centrality <= 9){
-              mHist_rotation_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m_rotation); // 0-80%
-            }
-          }
           // rap SetA, cent SetA
           if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
             if(centrality >= 1 && centrality <= 2){
@@ -3085,48 +3084,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
   // -------------------------------- Set titles -------------------------------
   for(int i=0; i<4; i++)
-  {// pt SetB, cent SetA
-    mHist_SE_InvM_ptSetB_centSetA[i][0]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_SE_InvM_ptSetB_centSetA[i][1]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_SE_InvM_ptSetB_centSetA[i][2]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_SE_InvM_ptSetB_centSetA[i][3]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_SE_InvM_ptSetB_centSetA[i][4]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_SE_InvM_ptSetB_centSetA[i][5]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-
-    mHist_rotation_InvM_ptSetB_centSetA[i][0]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_rotation_InvM_ptSetB_centSetA[i][1]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_rotation_InvM_ptSetB_centSetA[i][2]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_rotation_InvM_ptSetB_centSetA[i][3]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_rotation_InvM_ptSetB_centSetA[i][4]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_rotation_InvM_ptSetB_centSetA[i][5]->SetTitle(Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v1_raw_ptSetB_centSetA[i][0]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_v1_raw_ptSetB_centSetA[i][1]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_v1_raw_ptSetB_centSetA[i][2]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_v1_raw_ptSetB_centSetA[i][3]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_v1_raw_ptSetB_centSetA[i][4]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_v1_raw_ptSetB_centSetA[i][5]->SetTitle(Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v1_reso_ptSetB_centSetA[i][0]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_v1_reso_ptSetB_centSetA[i][1]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_v1_reso_ptSetB_centSetA[i][2]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_v1_reso_ptSetB_centSetA[i][3]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_v1_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_v1_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v2_raw_ptSetB_centSetA[i][0]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_v2_raw_ptSetB_centSetA[i][1]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_v2_raw_ptSetB_centSetA[i][2]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_v2_raw_ptSetB_centSetA[i][3]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_v2_raw_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_v2_raw_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v2_reso_ptSetB_centSetA[i][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
-    mHist_v2_reso_ptSetB_centSetA[i][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
-    mHist_v2_reso_ptSetB_centSetA[i][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
-    mHist_v2_reso_ptSetB_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
-    mHist_v2_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
-    mHist_v2_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+  {
     // rap SetA, cent SetA
     mHist_SE_InvM_rapSetA_centSetA[i][0]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
     mHist_SE_InvM_rapSetA_centSetA[i][1]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
@@ -3214,6 +3172,51 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_ptSetA_centSetA[jkk][pt][3]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk,ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
       mHist_v2_reso_ptSetA_centSetA[jkk][pt][4]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk,ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
       mHist_v2_reso_ptSetA_centSetA[jkk][pt][5]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk,ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+    }
+    for(int i = 0 ; i<4;i++){
+      // pt SetB, cent SetA
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_SE_InvM_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_rotation_InvM_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_v1_raw_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_v1_reso_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_v2_raw_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][0]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][1]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[1],centSetA[2]));
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][2]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[3]));
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][3]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][4]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
+      mHist_v2_reso_ptSetB_centSetA[jkk][i][5]->SetTitle(Form("jackknife%d v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk, ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
+
     }
   }
   // pt SetA, cent SetA
@@ -3353,6 +3356,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
         mProfile_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
         mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+      }
+    }
+    for(int pt=0; pt<4; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
       }
     }
   }
