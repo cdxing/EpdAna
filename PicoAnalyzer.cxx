@@ -3359,16 +3359,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   for(int jkk=0; jkk<11; jkk++){
     for(int pt=0; pt<2; pt++)
-    {
-      for(int cent=0; cent<6;cent++){
-        mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
-        mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
-        mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
-        mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
-        mProfile_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
-        mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
-      }
-    }
+    // {
+    //   for(int cent=0; cent<6;cent++){
+    //     mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //     mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //     mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //     mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //     mProfile_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //     mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
+    //   }
+    // }
     for(int pt=0; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
