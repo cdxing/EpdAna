@@ -3381,7 +3381,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  PhiMesonAnaOutputFile->Write()
+  PhiMesonAnaOutputFile->Write();
   PhiMesonAnaOutputFile->Close();
   mCorrectionInputFile->Close();
   delete outputFile;
