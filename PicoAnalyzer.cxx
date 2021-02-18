@@ -3373,11 +3373,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     {
       for(int cent=0; cent<6;cent++){
         mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
-        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
-        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        // mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
+        // mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        // mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        // mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        // mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
       }
     }
   }
