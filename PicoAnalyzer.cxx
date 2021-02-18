@@ -3342,23 +3342,23 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   delete mPhiAveraged[EventTypeId];
   // }
   PhiMesonAnaOutputFile->cd();
-  hist_dip_angle            ->Write();
-  hist_mother_decay_length  ->Write();
-  hist_SE_mass_Phi          ->Write();
-  hist_rotation_mass_Phi    ->Write();
-  hist_SE_PhiMeson_pT       ->Write();
-  hist_SE_PhiMeson_mT       ->Write();
-  hist_SE_PhiMeson_rap      ->Write();
-  hist_SE_PhiMeson_eta      ->Write();
-  h2_TOF_beta_pq            ->Write();
-  for(int cent = 0; cent<4;cent++){
-    hist_SE_pt_y_PhiMeson[cent]         ->Write();
-    hist_SE_pt_y_Phi_tight_SigBkg[cent] ->Write();
-    hist_SE_pt_y_Phi_tight_Bkg[cent]    ->Write();
-    hist_SE_pt_y_Phi_tight_Sig[cent]    ->Write();
-  }
+  // hist_dip_angle            ->Write();
+  // hist_mother_decay_length  ->Write();
+  // hist_SE_mass_Phi          ->Write();
+  // hist_rotation_mass_Phi    ->Write();
+  // hist_SE_PhiMeson_pT       ->Write();
+  // hist_SE_PhiMeson_mT       ->Write();
+  // hist_SE_PhiMeson_rap      ->Write();
+  // hist_SE_PhiMeson_eta      ->Write();
+  // h2_TOF_beta_pq            ->Write();
+  // for(int cent = 0; cent<4;cent++){
+  //   hist_SE_pt_y_PhiMeson[cent]         ->Write();
+  //   hist_SE_pt_y_Phi_tight_SigBkg[cent] ->Write();
+  //   hist_SE_pt_y_Phi_tight_Bkg[cent]    ->Write();
+  //   hist_SE_pt_y_Phi_tight_Sig[cent]    ->Write();
+  // }
   for(int jkk=0; jkk<11; jkk++){
-    for(int pt=0; pt<2; pt++)
+    // for(int pt=0; pt<2; pt++)
     // {
     //   for(int cent=0; cent<6;cent++){
     //     mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Write();
@@ -3381,7 +3381,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  PhiMesonAnaOutputFile->Write();
+  // PhiMesonAnaOutputFile->Write();
+  outputFile->Close();
   PhiMesonAnaOutputFile->Close();
   mCorrectionInputFile->Close();
   delete outputFile;
