@@ -3369,7 +3369,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //     mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Write();
     //   }
     // }
-    for(int pt=0; pt<4; pt++)
+    for(int pt=1; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
         mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
