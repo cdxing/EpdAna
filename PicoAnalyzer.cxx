@@ -3315,10 +3315,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_rapSetA_centSetB[rap][cent] = mHist_v2_reso_rapSetA_centSetB[rap][cent]->ProfileX();;
     }
   }
-  mCorrectionOutputFile->cd();
-  wt[1]->Write();
-  wt_tpc[1]->Write();
-  mCorrectionOutputFile->Write();
+  // mCorrectionOutputFile->cd();
+  // wt[1]->Write();
+  // wt_tpc[1]->Write();
+  // mCorrectionOutputFile->Write();
   // outputFile->cd();
   // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
   //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
@@ -3373,11 +3373,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     {
       for(int cent=0; cent<6;cent++){
         mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
-        // mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
-        // mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        // mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        // mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
-        // mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mProfile_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
+        mProfile_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Write();
       }
     }
   }
