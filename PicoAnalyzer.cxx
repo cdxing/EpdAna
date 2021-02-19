@@ -1161,15 +1161,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 
     const Float_t   f_MagField = event->bField(); // Magnetic field
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
-    hist_runId->Fill(Day);
+    // hist_runId->Fill(Day);
 
     Double_t primaryVertex_X    = (Double_t)event->primaryVertex().X();
     Double_t primaryVertex_Y    = (Double_t)event->primaryVertex().Y();
     Double_t primaryVertex_Z    = (Double_t)event->primaryVertex().Z();
     Double_t primaryVertex_perp = (Double_t)event->primaryVertex().Perp();
-    hist_Vz_pri  ->Fill(primaryVertex_Z);
-    hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
-    hist_Vr_pri  ->Fill(primaryVertex_perp);
+    // hist_Vz_pri  ->Fill(primaryVertex_Z);
+    // hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
+    // hist_Vr_pri  ->Fill(primaryVertex_perp);
 
     // ---------------------- trigger selection ---------------------------------
     std::vector <unsigned int> triggerIDs;
@@ -1179,7 +1179,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(unsigned int i=0; i < triggerIDs.size(); i++)
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
-        hist_triggerID->Fill(d_trigger);
+        // hist_triggerID->Fill(d_trigger);
         if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
       }
 
@@ -1217,9 +1217,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     bool b_bad_evt  = b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
     if(b_bad_evt) continue;
-    hist_Vz_cut->Fill(primaryVertex_Z);
-    hist_Vr_cut->Fill(primaryVertex_perp);
-    hist_VyVx_cut->Fill(primaryVertex_X,primaryVertex_Y);
+    // hist_Vz_cut->Fill(primaryVertex_Z);
+    // hist_Vr_cut->Fill(primaryVertex_perp);
+    // hist_VyVx_cut->Fill(primaryVertex_X,primaryVertex_Y);
     mEvtcut[1]++; // 1. vertex event cut
 
     Int_t  refMult = event->refMult(); // refMult
@@ -1250,17 +1250,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
-      hist_px_py->Fill(d_px,d_py);
-      hist_pz   ->Fill(d_pz);
-      hist_pt   ->Fill(d_pT);
-      hist_mom  ->Fill(d_mom);
-      hist_mass2->Fill(mass2);
-      hist_eta  ->Fill(eta);
-      hist_phi  ->Fill(phi);
-      hist_ratio->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
-      hist_nHits->Fill((double)picoTrack->nHitsFit());
-      hist_ndEdx->Fill(picoTrack->nHitsDedx());
-      hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
+      // hist_px_py->Fill(d_px,d_py);
+      // hist_pz   ->Fill(d_pz);
+      // hist_pt   ->Fill(d_pT);
+      // hist_mom  ->Fill(d_mom);
+      // hist_mass2->Fill(mass2);
+      // hist_eta  ->Fill(eta);
+      // hist_phi  ->Fill(phi);
+      // hist_ratio->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
+      // hist_nHits->Fill((double)picoTrack->nHitsFit());
+      // hist_ndEdx->Fill(picoTrack->nHitsDedx());
+      // hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
 
       if(!picoTrack->isPrimary()) continue;
       nFXTMult++;
@@ -1311,17 +1311,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
       vGoodTracks.push_back(picoTrack);
       // --------------- QA plots after major track cuts ----------------------
-      hist_px_py_cut->Fill(d_px,d_py);
-      hist_pz_cut   ->Fill(d_pz);
-      hist_pt_cut   ->Fill(d_pT);
-      hist_mom_cut  ->Fill(d_mom);
-      hist_mass2_cut->Fill(mass2);
-      hist_eta_cut  ->Fill(eta);
-      hist_phi_cut  ->Fill(phi);
-      hist_ratio_cut->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
-      hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
-      hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
-      hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
+      // hist_px_py_cut->Fill(d_px,d_py);
+      // hist_pz_cut   ->Fill(d_pz);
+      // hist_pt_cut   ->Fill(d_pT);
+      // hist_mom_cut  ->Fill(d_mom);
+      // hist_mass2_cut->Fill(mass2);
+      // hist_eta_cut  ->Fill(eta);
+      // hist_phi_cut  ->Fill(phi);
+      // hist_ratio_cut->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
+      // hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
+      // hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
+      // hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
@@ -1347,12 +1347,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0;i<_Ncentralities;i++){
       if(a_b_cent[i]) centrality = i+1;
     }
-    hist_cent->Fill(centrality);
-    hist_realTrackMult->Fill(nGoodTracks);
-    hist_FXTTrackMult->Fill(nFXTMult);
-    hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
-    hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
-    hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
+    // hist_cent->Fill(centrality);
+    // hist_realTrackMult->Fill(nGoodTracks);
+    // hist_FXTTrackMult->Fill(nFXTMult);
+    // hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
+    // hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
+    // hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
 
@@ -1381,7 +1381,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     	ADC = epdHit->adc();
     	nMip = epdHit->nMIP();   // malisa 20feb2019 - I have finally made the transition from ADC (next line) to truly nMip, now that calibrations are done.
       //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
-      if(PP==1 && TT==1) hist_nMip->Fill(nMip);
+      // if(PP==1 && TT==1) hist_nMip->Fill(nMip);
       if (nMip<mThresh) continue;
       double TileWeight = (nMip<mMax)?nMip:mMax;
       TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
@@ -1389,11 +1389,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double eta = StraightLine.Eta();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
-      hist_Epdeta->Fill(eta);
-      hist_Epdphi->Fill(phi);
-      profile2D_PpVsEta->Fill(eta,PP,TileWeight);
-      h2_hits_PpVsEta->Fill(eta,PP);
-      h2_nMip_eta_cent->Fill(eta,centrality,TileWeight);
+      // hist_Epdeta->Fill(eta);
+      // hist_Epdphi->Fill(phi);
+      // profile2D_PpVsEta->Fill(eta,PP,TileWeight);
+      // h2_hits_PpVsEta->Fill(eta,PP);
+      // h2_nMip_eta_cent->Fill(eta,centrality,TileWeight);
 
       //---------------------------------
       // fill Phi Weight histograms to be used in next iteration (if desired)
@@ -1436,9 +1436,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // QphiWeightedEastSide[EventTypeId][0]      += etaWeight * PhiWeightedTileWeight * Cosine;
           // QphiWeightedEastSide[EventTypeId][1]      += etaWeight * PhiWeightedTileWeight * Sine;
           if(etaWeight==1 && iOrder == 1){
-            h2_TtVsPp[EventTypeId]->Fill(PP,TT);
-            h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,TileWeight);
-            h2_TtVsPpHit[EventTypeId]->Fill(PP,TT);
+            // h2_TtVsPp[EventTypeId]->Fill(PP,TT);
+            // h2_TtVsPpNmip[EventTypeId]->Fill(PP,TT,TileWeight);
+            // h2_TtVsPpHit[EventTypeId]->Fill(PP,TT);
 
           }
         }
@@ -1506,7 +1506,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(QrawEastSide[0][3][0] || QrawEastSide[0][3][1] ){ // EPD-3
           PsiRawEpdSub = GetPsi((double)(itr->second).X(),(double)(itr->second).Y(),EpOrder);
           mpPsiRawEpdSub.insert(pair<int, double>(itr->first, PsiRawEpdSub));
-          hist_Epd_Sub_psi_raw_ini->Fill(PsiRawEpdSub);
+          // hist_Epd_Sub_psi_raw_ini->Fill(PsiRawEpdSub);
           // std::cout << '\t' << itr->first
           //      << '\t' << PsiRawEpdSub << '\n';
         }
@@ -1531,8 +1531,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // Double_t QrawYtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][1];
           PsiEastRaw[iOrder-1][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
-            hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->Fill(PsiEastRaw[iOrder-1][EventTypeId]);
+            // hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
+            // hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->Fill(PsiEastRaw[iOrder-1][EventTypeId]);
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
           } else {
             cout << "PsiEastRaw[0]  " << EventTypeId << " = " << PsiEastRaw[iOrder-1][EventTypeId]<<endl;
@@ -1549,16 +1549,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
           PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
-            hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
+            // hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
+            // hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
             // cout << "Psi_raw = " << PsiEastRaw[iOrder-1][EventTypeId] << endl;
             // cout << "Psi_rec = " << PsiEastRecenter[iOrder-1][EventTypeId] << endl;
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
             // -------------------- "recenter correction histograms Output" ----------------
             // -------------------- "calculate recenter histograms for a future run" ----------------
             // Fill the recenter plots for next run
-            mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
-            mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
+            // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
+            // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
           }
           // cout << "QrawEastSide[0] Qx"<<EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][0] << endl;
           // cout << "QrawEastSide[0] Qy"<< EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][1] << endl;
@@ -1591,7 +1591,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               else if (PsiShiftedEpdSub>AngleWrapAround) PsiShiftedEpdSub -= AngleWrapAround;
 
             mpPsiShiftedEpdSub.insert(pair<int, double>(itr1->first, PsiShiftedEpdSub));
-            hist_Epd_Sub_psi_Shifted_ini->Fill(PsiShiftedEpdSub);
+            // hist_Epd_Sub_psi_Shifted_ini->Fill(PsiShiftedEpdSub);
             // std::cout << '\t' << itr1->first
             //      << '\t' << PsiShiftedEpdSub << '\n';
           }
@@ -1614,7 +1614,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     	        if (PsiEastShifted[iOrder-1][EventTypeId]<0) PsiEastShifted[iOrder-1][EventTypeId] += AngleWrapAround;
     	         else if (PsiEastShifted[iOrder-1][EventTypeId]>AngleWrapAround) PsiEastShifted[iOrder-1][EventTypeId] -= AngleWrapAround;
           }
-          hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId]->Fill(PsiEastShifted[iOrder-1][EventTypeId]);
+          // hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId]->Fill(PsiEastShifted[iOrder-1][EventTypeId]);
         }
     }
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
@@ -1624,9 +1624,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           pairs++;
           if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
             for(int n=0; n<2; n++){
-              profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
+              // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
             }
-            correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
+            // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
           }
         }
       }
@@ -1637,8 +1637,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
           double tmp = (double)(iOrder*i);
           if(PsiEastRecenter[iOrder-1][EventTypeId]==-999.0) continue;
-          mEpdShiftOutput_sin[iOrder-1][EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
-          mEpdShiftOutput_cos[iOrder-1][EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
+          // mEpdShiftOutput_sin[iOrder-1][EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
+          // mEpdShiftOutput_cos[iOrder-1][EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[iOrder-1][EventTypeId]));// use raw EP rather than Phi weighing EP
         }
       }
     }
@@ -1738,11 +1738,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mtKaon   = TMath::Sqrt(pt*pt + _massProton*_massProton);
       mtPion   = TMath::Sqrt(pt*pt + _massProton*_massProton);
       // ------------------------ TPC EP QA plots ------------------------------
-      h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
-      h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
+      // h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
+      // h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
       if(tofBeta!=-999.0){
-        h2_beta->Fill(charge*ptot,1.0/tofBeta);
-        h2_mass->Fill(charge*ptot,mass2);
+        // h2_beta->Fill(charge*ptot,1.0/tofBeta);
+        // h2_mass->Fill(charge*ptot,mass2);
       }
       // ------------------------ Particle identifications ------------------------------
       if( // Proton PID: require both TPC and TOF
@@ -1757,16 +1757,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         nProtons++;
         v_Proton_tracks.push_back(picoTrack); // push back K+ tracks
         // Fill histograms
-        hist_pt_proton->Fill(pt);
-        hist_eta_proton->Fill(eta);
-        hist_y_proton->Fill(rapProton);
-        hist_phi_proton->Fill(phi);
-        hist_rap_eta_proton->Fill(eta,rapProton);
-        hist_pt_y_proton->Fill(rapProton,pt,1);
-        hist_pt_eta_proton->Fill(eta,pt,1);
-        hist_dEdx_proton->Fill(charge*ptot,picoTrack->dEdx());
-        hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
-        hist_mass_proton->Fill(charge*ptot,mass2);
+        // hist_pt_proton->Fill(pt);
+        // hist_eta_proton->Fill(eta);
+        // hist_y_proton->Fill(rapProton);
+        // hist_phi_proton->Fill(phi);
+        // hist_rap_eta_proton->Fill(eta,rapProton);
+        // hist_pt_y_proton->Fill(rapProton,pt,1);
+        // hist_pt_eta_proton->Fill(eta,pt,1);
+        // hist_dEdx_proton->Fill(charge*ptot,picoTrack->dEdx());
+        // hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
+        // hist_mass_proton->Fill(charge*ptot,mass2);
       } else if( // Kaons PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
         tofBeta != -999.0 && mass2 > d_KaonM2low && mass2 < d_KaonM2high
@@ -1778,32 +1778,32 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
           v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
-          hist_pt_kaonPlus->Fill(pt);
-          hist_eta_kaonPlus->Fill(eta);
-          hist_y_kaonPlus->Fill(rapKaon);
-          hist_phi_kaonPlus->Fill(phi);
-          hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
-          hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
-          hist_pt_eta_kaonPlus->Fill(eta,pt,1);
-          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_kaonPlus->Fill(charge*ptot,mass2);
+          // hist_pt_kaonPlus->Fill(pt);
+          // hist_eta_kaonPlus->Fill(eta);
+          // hist_y_kaonPlus->Fill(rapKaon);
+          // hist_phi_kaonPlus->Fill(phi);
+          // hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
+          // hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
+          // hist_pt_eta_kaonPlus->Fill(eta,pt,1);
+          // hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
           v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
-          hist_pt_kaonMinus->Fill(pt);
-          hist_eta_kaonMinus->Fill(eta);
-          hist_y_kaonMinus->Fill(rapKaon);
-          hist_phi_kaonMinus->Fill(phi);
-          hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
-          hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
-          hist_pt_eta_kaonMinus->Fill(eta,pt,1);
-          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_kaonMinus->Fill(charge*ptot,mass2);
+          // hist_pt_kaonMinus->Fill(pt);
+          // hist_eta_kaonMinus->Fill(eta);
+          // hist_y_kaonMinus->Fill(rapKaon);
+          // hist_phi_kaonMinus->Fill(phi);
+          // hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
+          // hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
+          // hist_pt_eta_kaonMinus->Fill(eta,pt,1);
+          // hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
       } else if( // Pions PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
@@ -1815,30 +1815,30 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           particleType=3;// \Pi+
           nPionPlus++;
           // Fill histograms
-          hist_pt_pionPlus->Fill(pt);
-          hist_eta_pionPlus->Fill(eta);
-          hist_y_pionPlus->Fill(rapPion);
-          hist_phi_pionPlus->Fill(phi);
-          hist_rap_eta_pionPlus->Fill(eta,rapPion);
-          hist_pt_y_pionPlus->Fill(rapPion,pt,1);
-          hist_pt_eta_pionPlus->Fill(eta,pt,1);
-          hist_dEdx_pionPlus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_pionPlus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_pionPlus->Fill(charge*ptot,mass2);
+          // hist_pt_pionPlus->Fill(pt);
+          // hist_eta_pionPlus->Fill(eta);
+          // hist_y_pionPlus->Fill(rapPion);
+          // hist_phi_pionPlus->Fill(phi);
+          // hist_rap_eta_pionPlus->Fill(eta,rapPion);
+          // hist_pt_y_pionPlus->Fill(rapPion,pt,1);
+          // hist_pt_eta_pionPlus->Fill(eta,pt,1);
+          // hist_dEdx_pionPlus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_pionPlus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_pionPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
           particleType=4;// \Pi-
           nPionMinus++;
           // Fill histograms
-          hist_pt_pionMinus->Fill(pt);
-          hist_eta_pionMinus->Fill(eta);
-          hist_y_pionMinus->Fill(rapPion);
-          hist_phi_pionMinus->Fill(phi);
-          hist_rap_eta_pionMinus->Fill(eta,rapPion);
-          hist_pt_y_pionMinus->Fill(rapPion,pt,1);
-          hist_pt_eta_pionMinus->Fill(eta,pt,1);
-          hist_dEdx_pionMinus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_pionMinus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_pionMinus->Fill(charge*ptot,mass2);
+          // hist_pt_pionMinus->Fill(pt);
+          // hist_eta_pionMinus->Fill(eta);
+          // hist_y_pionMinus->Fill(rapPion);
+          // hist_phi_pionMinus->Fill(phi);
+          // hist_rap_eta_pionMinus->Fill(eta,rapPion);
+          // hist_pt_y_pionMinus->Fill(rapPion,pt,1);
+          // hist_pt_eta_pionMinus->Fill(eta,pt,1);
+          // hist_dEdx_pionMinus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_pionMinus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_pionMinus->Fill(charge*ptot,mass2);
         }
       }
       // Additional Kaon canditated that there's no TOF -> tofBeta == -999.0
@@ -1858,31 +1858,31 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           nKaonPlus++;
           v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
-          hist_pt_kaonPlus->Fill(pt);
-          hist_eta_kaonPlus->Fill(eta);
-          hist_y_kaonPlus->Fill(rapKaon);
-          hist_phi_kaonPlus->Fill(phi);
-          hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
-          hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
-          hist_pt_eta_kaonPlus->Fill(eta,pt,1);
-          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_kaonPlus->Fill(charge*ptot,mass2);
+          // hist_pt_kaonPlus->Fill(pt);
+          // hist_eta_kaonPlus->Fill(eta);
+          // hist_y_kaonPlus->Fill(rapKaon);
+          // hist_phi_kaonPlus->Fill(phi);
+          // hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
+          // hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
+          // hist_pt_eta_kaonPlus->Fill(eta,pt,1);
+          // hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
-          hist_pt_kaonMinus->Fill(pt);
-          hist_eta_kaonMinus->Fill(eta);
-          hist_y_kaonMinus->Fill(rapKaon);
-          hist_phi_kaonMinus->Fill(phi);
-          hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
-          hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
-          hist_pt_eta_kaonMinus->Fill(eta,pt,1);
-          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
-          hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
-          hist_mass_kaonMinus->Fill(charge*ptot,mass2);
+          // hist_pt_kaonMinus->Fill(pt);
+          // hist_eta_kaonMinus->Fill(eta);
+          // hist_y_kaonMinus->Fill(rapKaon);
+          // hist_phi_kaonMinus->Fill(phi);
+          // hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
+          // hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
+          // hist_pt_eta_kaonMinus->Fill(eta,pt,1);
+          // hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          // hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
+          // hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
       }
       // if(particleType==-999) continue; // No particle identified
@@ -1919,18 +1919,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // calculate the v1 in TPC region using EPD EP
       if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
         // ------------- Fill histograms for the determination of TPC eta range -----
-        profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
-        profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
+        // profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
+        // profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
       // ------------------- Fill the eta weighting histograms --------------------------
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0][0])));//Use EPD-full as event plane first
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+        // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+        // profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0][0])));//Use EPD-full as event plane first
+        // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
       // calculate the v2 in TPC region using EPD EP
       if(PsiEastRaw[1][0]!=-999.0){// Using EPD-0 => EPD-full
-        profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[1][0])));//Use EPD-full as event plane first
+        // profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[1][0])));//Use EPD-full as event plane first
       }
-      hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
+      // hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
 
     // cout << "nProtons " << nProtons<< endl;
@@ -1939,11 +1939,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // cout << "nPionPlus " << nPionPlus<< endl;
     // cout << "nPionMinus " << nPionMinus<< endl;
     // Track multiplicity for each particle
-    hist_trackmult_proton->Fill(nProtons);
-    hist_trackmult_pionPlus->Fill(nPionPlus);
-    hist_trackmult_pionMinus->Fill(nPionMinus);
-    hist_trackmult_kaonPlus->Fill(nKaonPlus);
-    hist_trackmult_kaonMinus->Fill(nKaonMinus);
+    // hist_trackmult_proton->Fill(nProtons);
+    // hist_trackmult_pionPlus->Fill(nPionPlus);
+    // hist_trackmult_pionMinus->Fill(nPionMinus);
+    // hist_trackmult_kaonPlus->Fill(nKaonPlus);
+    // hist_trackmult_kaonMinus->Fill(nKaonMinus);
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
@@ -1953,7 +1953,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
         if(QrawTpcAll[iOrder-1][EventTypeId_tpc][0] || QrawTpcAll[iOrder-1][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
           PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = GetPsi(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
-          hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
+          // hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
           // recenter corrections
           if(mTpcRecenterInput[iOrder-1][EventTypeId_tpc]==0){
@@ -1965,17 +1965,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1] = QrawTpcAll[iOrder-1][EventTypeId_tpc][1] - mTpcRecenterInput[iOrder-1][EventTypeId_tpc]->GetBinContent(2,centrality);
           }
           PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc] = GetPsi(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
-          hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]->Fill(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1]);
+          // hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]->Fill(QrecenterTpcAll[iOrder-1][EventTypeId_tpc][0],QrecenterTpcAll[iOrder-1][EventTypeId_tpc][1]);
           if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0){
-            hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]);
+            // hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]);
             // cout << "recenter psi TPC: "<<  PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]<<endl;
             // cout << "raw psi TPC: "<<  PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]<<endl;
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
             // -------------------- "recenter correction histograms Output" ----------------
             // -------------------- "calculate recenter histograms for a future run" ----------------
             // Fill the recenter plots for next run
-            mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[iOrder-1][EventTypeId_tpc][0]); // Qx raw
-            mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[iOrder-1][EventTypeId_tpc][1]); // Qy raw
+            // mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->Fill(1,centrality,QrawTpcAll[iOrder-1][EventTypeId_tpc][0]); // Qx raw
+            // mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->Fill(2,centrality,QrawTpcAll[iOrder-1][EventTypeId_tpc][1]); // Qy raw
           }
         }
       }
@@ -1997,7 +1997,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if (PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]<0) PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] += AngleWrapAround;
                else if (PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]>AngleWrapAround) PsiTpcAllShifted[iOrder-1][EventTypeId_tpc] -= AngleWrapAround;
         }
-        hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]);
+        // hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllShifted[iOrder-1][EventTypeId_tpc]);
       }
     }
     //---------------------------- Fill the directed flow from EPD (forward) region -----
@@ -2030,47 +2030,47 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       //     profile_v1VsEta[centrality-1]->Fill(eta,/*-(eta-_y_mid)**/TMath::Cos(phi-PsiTpcAllShifted[0][1])); // [] is from 0 to 8, centrality is from 1 to 9.
       // }
       if(PsiTpcAllRaw[1][0]!=-999.0){//Use TPC psi2 for EPD v2 Cos(\phi - \psi_1)>
-          profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[1][0])));//Use TPC-full
+          // profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[1][0])));//Use TPC-full
       }
       if(PsiTpcAllRaw[0][1]!=-999.0){//Use TPC EP for EPD v2 Cos(\phi - \psi_1)>
-          profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0][0])));//Use TPC-full
+          // profile2D_v2VsCentVsEta->Fill(eta,centrality, TMath::Cos(2 * (phi-PsiTpcAllShifted[0][0])));//Use TPC-full
       }
       if( eta > etaRange[0][0] && eta < etaRange[0][1]){// Using EPD-1
         if(PsiTpcAllRaw[0][3]!=-999.0){
           // ------------------- Fill the eta weighting histograms --------------------------
-            profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
-            profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+            // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]);//Use EPD-3 as primary event plane
+            // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][3])/d_resolution_EPD_3[centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
         }
       } else if(PsiEastRaw[0][1]!=-999.0){
-        profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+        // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+        // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
       }
     } // loop over EPD hits
     // std::cout << std::endl;
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
-      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
+      // profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
-    correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][0]);
+    // correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][0]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[0][1]!=-999.0){
         for(int n=0; n<2; n++){
-          profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
+          // profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
         }
-        correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
+        // correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
       }
     }
     if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][2]!=-999.0){ //EPD psi2 C, TPC Psi2 A
-      profile_correlation_psi2_epd_tpc[0]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][2] /*- TMath::Pi()/(double)EpOrder*/ )));
-      correlation2D_psi2_epd_tpc[0]->Fill(PsiTpcAllShifted[1][2],PsiEastShifted[1][4]);
+      // profile_correlation_psi2_epd_tpc[0]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][2] /*- TMath::Pi()/(double)EpOrder*/ )));
+      // correlation2D_psi2_epd_tpc[0]->Fill(PsiTpcAllShifted[1][2],PsiEastShifted[1][4]);
     }
     if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD psi2 C, TPC Psi2 B
-      profile_correlation_psi2_epd_tpc[1]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
-      correlation2D_psi2_epd_tpc[1]->Fill(PsiTpcAllShifted[1][5],PsiEastShifted[1][4]);
+      // profile_correlation_psi2_epd_tpc[1]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+      // correlation2D_psi2_epd_tpc[1]->Fill(PsiTpcAllShifted[1][5],PsiEastShifted[1][4]);
     }
     if(PsiTpcAllRaw[1][2]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD TPC Psi2 A, TPC Psi2 B
-      profile_correlation_psi2_tpcAB->Fill(centrality,TMath::Cos((double)2 * (PsiTpcAllShifted[1][2] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
-      correlation2D_psi2_tpcAB->Fill(PsiTpcAllShifted[1][5],PsiTpcAllShifted[1][2]);
+      // profile_correlation_psi2_tpcAB->Fill(centrality,TMath::Cos((double)2 * (PsiTpcAllShifted[1][2] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+      // correlation2D_psi2_tpcAB->Fill(PsiTpcAllShifted[1][5],PsiTpcAllShifted[1][2]);
     }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
@@ -2079,8 +2079,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for (int i=1; i<=_EpTermsMaxIni; i++){ // TPC shifted Output
           double tmp = (double)(iOrder*i);
           if(PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]==-999.0) break;
-          mTpcShiftOutput_sin[iOrder-1][EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
-          mTpcShiftOutput_cos[iOrder-1][EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
+          // mTpcShiftOutput_sin[iOrder-1][EventTypeId_tpc]->Fill(i,centrality,sin(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
+          // mTpcShiftOutput_cos[iOrder-1][EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[iOrder-1][EventTypeId_tpc]));
         }
       }
     }
@@ -2114,7 +2114,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
         }
       }
-      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
+      // if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
 
     }
     // cout << "The size of kaonPlus Vector " << v_KaonPlus_tracks.size() << endl;
@@ -2206,46 +2206,46 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
                               - 2.0 *(d_px0_rotation*d_px1_rotation+d_py0_rotation*d_py1_rotation+d_pz0*d_pz1) );
-        hist_SE_mass_Phi    ->Fill(d_inv_m);
-        hist_rotation_mass_Phi    ->Fill(d_inv_m_rotation);
-        hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
-        hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
-        hist_SE_PhiMeson_rap ->Fill(d_phi_y);
-        hist_SE_PhiMeson_eta ->Fill(d_phi_eta);
+        // hist_SE_mass_Phi    ->Fill(d_inv_m);
+        // hist_rotation_mass_Phi    ->Fill(d_inv_m_rotation);
+        // hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
+        // hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
+        // hist_SE_PhiMeson_rap ->Fill(d_phi_y);
+        // hist_SE_PhiMeson_eta ->Fill(d_phi_eta);
         if(centrality >= 1 && centrality <= 2){ // 0-10%
-          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
           if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            hist_SE_pt_y_Phi_tight_SigBkg[1] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[1] -> Fill(d_phi_y,d_Phi_pT);
           }
           if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
-            hist_SE_pt_y_Phi_tight_Bkg[1] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[1] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
           }
         }
         if(centrality >= 3 && centrality <= 5){ // 10-40%
-          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
           if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            hist_SE_pt_y_Phi_tight_SigBkg[2] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[2] -> Fill(d_phi_y,d_Phi_pT);
           }
           if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
-            hist_SE_pt_y_Phi_tight_Bkg[2] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[2] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
           }
         }
         if(centrality >= 6 && centrality <= 7){ // 40-60%
-          hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+          // hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
           if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            hist_SE_pt_y_Phi_tight_SigBkg[3] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+            // hist_SE_pt_y_Phi_tight_SigBkg[3] -> Fill(d_phi_y,d_Phi_pT);
           }
           if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
-            hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
+            // hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_roration,d_Phi_pT_rotation);
           }
         }
         // ---------------- phi-meson cuts: decay length, dip angle ------------
@@ -2257,7 +2257,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         TVector3 v3D_x_mother    = (v3D_x_daughter0+v3D_x_daughter1)*0.5;
         TVector3 v3D_xvec_decayl = v3D_x_mother - pVtx;
         double d_mother_decay_length =  v3D_xvec_decayl.Mag();
-        hist_mother_decay_length->Fill(d_mother_decay_length);
+        // hist_mother_decay_length->Fill(d_mother_decay_length);
         // if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
         Double_t dip_angle_cutLevel = 0.04;
         // # Systematic Analysis
@@ -2272,7 +2272,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
         if(d_dip_angle <= dip_angle_cutLevel) continue; // dip-angle cut
-        hist_dip_angle         ->Fill(d_dip_angle);
+        // hist_dip_angle         ->Fill(d_dip_angle);
         // --------------------- phi-meson flows -------------------------------
         TVector3 v3D_p_daughter0 = trackhelix0.momentumAt(pairLengths.first, f_MagField*kilogauss);
         TVector3 v3D_p_daughter1 = trackhelix1.momentumAt(pairLengths.second, f_MagField*kilogauss);
@@ -2308,7 +2308,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int jkk=0; jkk<11; jkk++){
           if(jkk == 0 || (randomJKK >= jkk - 1 && randomJKK <= jkk)){
             for(int pt=0; pt<2; pt++)
-            {// pt SetA, cent SetA
+            /*{
+              // pt SetA, cent SetA
               if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
                 if(centrality >= 1 && centrality <= 2){
                   mHist_SE_InvM_ptSetA_centSetA[jkk][pt][0]->Fill(d_inv_m); // 0-10%
@@ -2373,7 +2374,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                   mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][5]->Fill(d_inv_m_rotation); // 0-10%
                 }
               }
-            }
+            }*/
             for(int i=0; i<4; i++)
             {// pt SetB, cent SetA
               if(d_Phi_pT >= ptSetB[i] && d_Phi_pT <= ptSetB[i+1]){
@@ -2444,7 +2445,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
         for(int pt=0; pt<2; pt++)
-        {// pt SetA, cent SetB
+        /*{// pt SetA, cent SetB
           for(int cent=0; cent<9;cent++){
             if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
               if(centrality == cent+1 ){
@@ -2462,9 +2463,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
-        }
+        }*/
         for(int i=0; i<4; i++)
-        {// pt SetB, cent SetA
+        /*{// pt SetB, cent SetA
           // rap SetA, cent SetA
           if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
             if(centrality >= 1 && centrality <= 2){
@@ -2727,9 +2728,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
-        }
+        }*/
         for(int pt=0; pt<4; pt++)
-        {// pt SetB, cent SetB
+        /*{// pt SetB, cent SetB
           for(int cent=0; cent<9;cent++){
             if(d_Phi_pT >= ptSetB[pt] && d_Phi_pT <= ptSetB[pt+1]){
               if(centrality == cent+1 ){
@@ -2747,9 +2748,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
-        }
+        }*/
         for(int pt=0; pt<10; pt++)
-        {// pt SetC, cent 0-60%, 0-80%
+        /*{// pt SetC, cent 0-60%, 0-80%
           for(int cent=0; cent<2;cent++){
             if(d_Phi_pT >= ptSetC[pt] && d_Phi_pT <= ptSetC[pt+1]){
               if(centrality >= 1 && centrality <= cent*2 + 7 ){
@@ -2767,7 +2768,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
-        }
+        }*/
 
       }
     }
@@ -3222,7 +3223,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // pt SetA, cent SetA
   for(int jkk=1; jkk<11; jkk++){
     for(int pt=0; pt<2; pt++)
-    {
+    /*{
       for(int cent=0; cent<6;cent++){
         mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Add(mHist_SE_InvM_ptSetA_centSetA[0][pt][cent],mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent],1.,-1.);
         mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->Add(mHist_rotation_InvM_ptSetA_centSetA[0][pt][cent],mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent],1.,-1.);
@@ -3231,7 +3232,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Add(mHist_v2_raw_ptSetA_centSetA[0][pt][cent],mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent],1.,-1.);
         mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Add(mHist_v2_reso_ptSetA_centSetA[0][pt][cent],mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent],1.,-1.);
       }
-    }
+    }*/
     for(int pt=0; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -3246,14 +3247,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   for(int jkk=0; jkk<11; jkk++){
     for(int pt=0; pt<2; pt++)
-    {
+    /*{
       for(int cent=0; cent<6;cent++){
         mProfile_v1_raw_ptSetA_centSetA[jkk][pt][cent]  = mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->ProfileX();
         mProfile_v1_reso_ptSetA_centSetA[jkk][pt][cent] = mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->ProfileX();;
         mProfile_v2_raw_ptSetA_centSetA[jkk][pt][cent]  = mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->ProfileX();;
         mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent] = mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->ProfileX();;
       }
-    }
+    }*/
     // pt SetB, cent SetA
     for(int pt=0; pt<4; pt++)
     {
