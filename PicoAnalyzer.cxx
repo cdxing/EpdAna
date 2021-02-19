@@ -2307,8 +2307,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // cout << "randomJKK = " << randomJKK << endl;
         for(int jkk=0; jkk<11; jkk++){
           if(jkk == 0 || (randomJKK >= jkk - 1 && randomJKK <= jkk)){
-            for(int pt=0; pt<2; pt++)
-            /*{
+            /*for(int pt=0; pt<2; pt++)
+            {
               // pt SetA, cent SetA
               if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
                 if(centrality >= 1 && centrality <= 2){
@@ -2444,8 +2444,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }
-        for(int pt=0; pt<2; pt++)
-        /*{// pt SetA, cent SetB
+        /*for(int pt=0; pt<2; pt++)
+        {// pt SetA, cent SetB
           for(int cent=0; cent<9;cent++){
             if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
               if(centrality == cent+1 ){
@@ -2464,8 +2464,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }*/
-        for(int i=0; i<4; i++)
-        /*{// pt SetB, cent SetA
+        /*for(int i=0; i<4; i++)
+        {// pt SetB, cent SetA
           // rap SetA, cent SetA
           if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
             if(centrality >= 1 && centrality <= 2){
@@ -2729,8 +2729,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }*/
-        for(int pt=0; pt<4; pt++)
-        /*{// pt SetB, cent SetB
+        /*for(int pt=0; pt<4; pt++)
+        {// pt SetB, cent SetB
           for(int cent=0; cent<9;cent++){
             if(d_Phi_pT >= ptSetB[pt] && d_Phi_pT <= ptSetB[pt+1]){
               if(centrality == cent+1 ){
@@ -2749,8 +2749,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }*/
-        for(int pt=0; pt<10; pt++)
-        /*{// pt SetC, cent 0-60%, 0-80%
+        /*for(int pt=0; pt<10; pt++)
+        {// pt SetC, cent 0-60%, 0-80%
           for(int cent=0; cent<2;cent++){
             if(d_Phi_pT >= ptSetC[pt] && d_Phi_pT <= ptSetC[pt+1]){
               if(centrality >= 1 && centrality <= cent*2 + 7 ){
