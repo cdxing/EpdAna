@@ -3223,7 +3223,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   // pt SetA, cent SetA
   for(int jkk=1; jkk<11; jkk++){
-    for(int pt=0; pt<2; pt++)
+    // for(int pt=0; pt<2; pt++)
     /*{
       for(int cent=0; cent<6;cent++){
         mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Add(mHist_SE_InvM_ptSetA_centSetA[0][pt][cent],mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent],1.,-1.);
@@ -3237,7 +3237,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int pt=0; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
-        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Add(mHist_SE_InvM_ptSetB_centSetA[0][pt][cent],mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent],1.,-1.);
+        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Add(mHist_SE_InvM_ptSetB_centSetA[0][pt][cent],mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent],1.,-1.);
         mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Add(mHist_rotation_InvM_ptSetB_centSetA[0][pt][cent],mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent],1.,-1.);
         mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Add(mHist_v1_raw_ptSetB_centSetA[0][pt][cent],mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent],1.,-1.);
         mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Add(mHist_v1_reso_ptSetB_centSetA[0][pt][cent],mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent],1.,-1.);
@@ -3247,7 +3247,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   for(int jkk=0; jkk<11; jkk++){
-    for(int pt=0; pt<2; pt++)
+    // for(int pt=0; pt<2; pt++)
     /*{
       for(int cent=0; cent<6;cent++){
         mProfile_v1_raw_ptSetA_centSetA[jkk][pt][cent]  = mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->ProfileX();
