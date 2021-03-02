@@ -299,166 +299,166 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // ------------------- Event cuts QA histograms ------------------------------
-  TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
-  TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
-  TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
-  TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
-  TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
-  TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
-  TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
-  TH1D *hist_Vz_cut = new TH1D("hist_Vz_cut","V_{Z} after cut [cm]",6000,-300.0,300.0);
-  TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
-  TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
-  // -------------------- Track loop QA histograms --------------------------------
-  TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
-  TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
-  TH1D *hist_pt = new TH1D("hist_pt","p_{T} [GeV/c]",2000,0.0,10.0);
-  TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
-  TH1D *hist_mass2 = new TH1D("hist_mass2","hist_mass2",4000,-10.0,10.0);
-  TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-3.0,0.5);
-  TH1D *hist_phi = new TH1D("hist_phi","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH1D *hist_ratio = new TH1D("hist_ratio","hist_ratio",100,0,2);
-  TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
-  TH1D *hist_ndEdx = new TH1D("hist_ndEdx","hist_ndEdx",100,-0.5,99.5);
-  TH1D *hist_DCA = new TH1D("hist_DCA","hist_DCA",100,0,10.0);
-  TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
-  TH1D *hist_pz_cut = new TH1D("hist_pz_cut","p_{z} [GeV/c]",4000,-10.0,10.0);
-  TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
-  TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
-  TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
-  TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-3.0,0.5);
-  TH1D *hist_phi_cut = new TH1D("hist_phi_cut","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH1D *hist_ratio_cut = new TH1D("hist_ratio_cut","hist_ratio_cut",100,0,2);
-  TH1D *hist_nHits_cut = new TH1D("hist_nHits_cut","hist_nHits_cut",100,-0.5,99.5);
-  TH1D *hist_ndEdx_cut = new TH1D("hist_ndEdx_cut","hist_ndEdx_cut",100,-0.5,99.5);
-  TH1D *hist_DCA_cut = new TH1D("hist_DCA_cut","hist_DCA_cut",100,0,10.0);
-  // ------------------ Centrality QA histograms ----------------------------------
-  TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
-  TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
-  TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  // TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
+  // TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
+  // TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
+  // TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
+  // TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  // TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
+  // TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
+  // TH1D *hist_Vz_cut = new TH1D("hist_Vz_cut","V_{Z} after cut [cm]",6000,-300.0,300.0);
+  // TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
+  // TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  // // -------------------- Track loop QA histograms --------------------------------
+  // TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
+  // TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
+  // TH1D *hist_pt = new TH1D("hist_pt","p_{T} [GeV/c]",2000,0.0,10.0);
+  // TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
+  // TH1D *hist_mass2 = new TH1D("hist_mass2","hist_mass2",4000,-10.0,10.0);
+  // TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-3.0,0.5);
+  // TH1D *hist_phi = new TH1D("hist_phi","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH1D *hist_ratio = new TH1D("hist_ratio","hist_ratio",100,0,2);
+  // TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
+  // TH1D *hist_ndEdx = new TH1D("hist_ndEdx","hist_ndEdx",100,-0.5,99.5);
+  // TH1D *hist_DCA = new TH1D("hist_DCA","hist_DCA",100,0,10.0);
+  // TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
+  // TH1D *hist_pz_cut = new TH1D("hist_pz_cut","p_{z} [GeV/c]",4000,-10.0,10.0);
+  // TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
+  // TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
+  // TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
+  // TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-3.0,0.5);
+  // TH1D *hist_phi_cut = new TH1D("hist_phi_cut","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH1D *hist_ratio_cut = new TH1D("hist_ratio_cut","hist_ratio_cut",100,0,2);
+  // TH1D *hist_nHits_cut = new TH1D("hist_nHits_cut","hist_nHits_cut",100,-0.5,99.5);
+  // TH1D *hist_ndEdx_cut = new TH1D("hist_ndEdx_cut","hist_ndEdx_cut",100,-0.5,99.5);
+  // TH1D *hist_DCA_cut = new TH1D("hist_DCA_cut","hist_DCA_cut",100,0,10.0);
+  // // ------------------ Centrality QA histograms ----------------------------------
+  // TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
+  // TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
+  // TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
+  // TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  // TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  // TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
-  TH2D *hist2_Epd_east_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins];
-  TH2D *hist2_Epd_east_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins];
-  TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
-  TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
-  TH1D *hist_Epd_east_psi_raw_ini[mEpOrderMax][_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[mEpOrderMax][_nEventTypeBins],
+  // TH2D *hist2_Epd_east_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins];
+  // TH2D *hist2_Epd_east_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins];
+  // TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
+  // TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
+  // TH1D *hist_Epd_east_psi_raw_ini[mEpOrderMax][_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[mEpOrderMax][_nEventTypeBins],
   /**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east rec Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-      hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Recentered) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-      // hist_Epd_east_psi_Weighted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Weighted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-      hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Shifted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
-    }
-  }
-  // ------------------ EPD event plane ab intio QA histograms ----------------------------------
-  TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
-  TH1D *hist_Epdphi = new TH1D("hist_Epdphi","epd phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+  //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+  //     hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+  //     hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east rec Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+  //     hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+  //     hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Recentered) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+  //     // hist_Epd_east_psi_Weighted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Weighted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+  //     hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Shifted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Shifted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
+  //   }
+  // }
+  // // ------------------ EPD event plane ab intio QA histograms ----------------------------------
+  // TH1D *hist_Epdeta = new TH1D("hist_Epdeta","epd eta",700,-6.5,0.5);
+  // TH1D *hist_Epdphi = new TH1D("hist_Epdphi","epd phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
 
-  TProfile2D *profile2D_PpVsEta = new TProfile2D("profile2D_PpVsEta","<TnMIP> vs. #eta vs. supersector",700,-6.5,0.5,12,0.5,12.5,0.3,3.0,"");
-  profile2D_PpVsEta->Sumw2();
-  TH2D *h2_hits_PpVsEta = new TH2D("h2_hits_PpVsEta","# of hits vs. #eta vs. supersector ",700,-6.5,0.5,12,0.5,12.5);
-  TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
-  TH2D *h2_nMip_eta_cent = new TH2D("h2_nMip_eta_cent","Sum of nMIP VS. #eta VS. centrality ",20,-6.5,-1.5,_Ncentralities,0.5,_Ncentralities+0.5);
-  TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins], *h2_TtVsPpHit[_nEventTypeBins];
-  for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-    h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
-    h2_TtVsPpNmip[EventTypeId] = new TH2D(Form("h2_TtVsPpNmip_%d",EventTypeId),Form("nMIP in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
-    h2_TtVsPpHit[EventTypeId] = new TH2D(Form("h2_TtVsPpHit_%d",EventTypeId),Form("Hits in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
-  }
-  // --------------------- TPC event plane QA histograms ----------------------------------
-  TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *h2_dEdxVspTq = new TH2D("h2_dEdxVspTq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *h2_beta = new TH2D("h2_beta","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *h2_mass = new TH2D("hist_mass","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  // --------------------- TPC EP PID QA histograms ----------------------------------
-  TH1D *  hist_trackmult_proton = new TH1D("hist_trackmult_proton","hist_trackmult_proton",100,-0.5,99.5);
-  TH1D *  hist_trackmult_kaonPlus = new TH1D("hist_trackmult_kaonPlus","hist_trackmult_kaonPlus",100,-0.5,99.5);
-  TH1D *  hist_trackmult_kaonMinus = new TH1D("hist_trackmult_kaonMinus","hist_trackmult_kaonMinus",100,-0.5,99.5);
-  TH1D *  hist_trackmult_pionPlus = new TH1D("hist_trackmult_pionPlus","hist_trackmult_pionPlus",100,-0.5,99.5);
-  TH1D *  hist_trackmult_pionMinus = new TH1D("hist_trackmult_pionMinus","hist_trackmult_pionMinus",100,-0.5,99.5);
-  TH1D *hist_pt_proton = new TH1D("hist_pt_proton","p_{T} [GeV/c]",1000,0.0,5.0);
-  TH1D *hist_eta_proton = new TH1D("hist_eta_proton","#eta",200,-3.0,0.5);
-  TH1D *hist_y_proton = new TH1D("hist_y_proton","Rapidity y",200,-3.0,0.5);
-  TH1D *hist_phi_proton = new TH1D("hist_phi_proton","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH2D *hist_rap_eta_proton = new TH2D("hist_rap_eta_proton","proton y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_proton = new TH2D("hist_pt_y_proton","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_proton = new TH2D("hist_pt_eta_proton","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_dEdx_proton = new TH2D("hist_dEdx_proton","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *hist_beta_proton = new TH2D("hist_beta_proton","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *hist_mass_proton = new TH2D("hist_mass_proton","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  TH1D *hist_pt_kaonPlus = new TH1D("hist_pt_kaonPlus","p_{T} [GeV/c]",1000,0.0,5.0);
-  TH1D *hist_eta_kaonPlus = new TH1D("hist_eta_kaonPlus","#eta",200,-3.0,0.5);
-  TH1D *hist_y_kaonPlus = new TH1D("hist_y_kaonPlus","y",200,-3.0,0.5);
-  TH1D *hist_phi_kaonPlus = new TH1D("hist_phi_kaonPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH2D *hist_rap_eta_kaonPlus = new TH2D("hist_rap_eta_kaonPlus","kaonPlus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_kaonPlus = new TH2D("hist_pt_y_kaonPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_kaonPlus = new TH2D("hist_pt_eta_kaonPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_dEdx_kaonPlus = new TH2D("hist_dEdx_kaonPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *hist_beta_kaonPlus = new TH2D("hist_beta_kaonPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *hist_mass_kaonPlus = new TH2D("hist_mass_kaonPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  TH1D *hist_pt_kaonMinus = new TH1D("hist_pt_kaonMinus","p_{T} [GeV/c]",1000,0.0,5.0);
-  TH1D *hist_eta_kaonMinus = new TH1D("hist_eta_kaonMinus","#eta",200,-3.0,0.5);
-  TH1D *hist_y_kaonMinus = new TH1D("hist_y_kaonMinus","y",200,-3.0,0.5);
-  TH1D *hist_phi_kaonMinus = new TH1D("hist_phi_kaonMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH2D *hist_rap_eta_kaonMinus = new TH2D("hist_rap_eta_kaonMinus","kaonMinus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_kaonMinus = new TH2D("hist_pt_y_kaonMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_kaonMinus = new TH2D("hist_pt_eta_kaonMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_dEdx_kaonMinus = new TH2D("hist_dEdx_kaonMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *hist_beta_kaonMinus = new TH2D("hist_beta_kaonMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *hist_mass_kaonMinus = new TH2D("hist_mass_kaonMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  TH1D *hist_pt_pionPlus = new TH1D("hist_pt_pionPlus","p_{T} [GeV/c]",1000,0.0,5.0);
-  TH1D *hist_eta_pionPlus = new TH1D("hist_eta_pionPlus","#eta",200,-3.0,0.5);
-  TH1D *hist_y_pionPlus = new TH1D("hist_y_pionPlus","y",200,-3.0,0.5);
-  TH1D *hist_phi_pionPlus = new TH1D("hist_phi_pionPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH2D *hist_rap_eta_pionPlus = new TH2D("hist_rap_eta_pionPlus","pionPlus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_pionPlus = new TH2D("hist_pt_y_pionPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_pionPlus = new TH2D("hist_pt_eta_pionPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_dEdx_pionPlus = new TH2D("hist_dEdx_pionPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *hist_beta_pionPlus = new TH2D("hist_beta_pionPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *hist_mass_pionPlus = new TH2D("hist_mass_pionPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
-  TH1D *hist_pt_pionMinus = new TH1D("hist_pt_pionMinus","p_{T} [GeV/c]",1000,0.0,5.0);
-  TH1D *hist_eta_pionMinus = new TH1D("hist_eta_pionMinus","#eta",200,-3.0,0.5);
-  TH1D *hist_y_pionMinus = new TH1D("hist_y_pionMinus","y",200,-3.0,0.5);
-  TH1D *hist_phi_pionMinus = new TH1D("hist_phi_pionMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH2D *hist_rap_eta_pionMinus = new TH2D("hist_rap_eta_pionMinus","pionMinus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_pionMinus = new TH2D("hist_pt_y_pionMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_pionMinus = new TH2D("hist_pt_eta_pionMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_dEdx_pionMinus = new TH2D("hist_dEdx_pionMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
-  TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
-  TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // TProfile2D *profile2D_PpVsEta = new TProfile2D("profile2D_PpVsEta","<TnMIP> vs. #eta vs. supersector",700,-6.5,0.5,12,0.5,12.5,0.3,3.0,"");
+  // profile2D_PpVsEta->Sumw2();
+  // TH2D *h2_hits_PpVsEta = new TH2D("h2_hits_PpVsEta","# of hits vs. #eta vs. supersector ",700,-6.5,0.5,12,0.5,12.5);
+  // TH1D *hist_nMip = new TH1D("hist_nMip","nMIP of tile: 0:1:1 ",64,-0.5,9.5);
+  // TH2D *h2_nMip_eta_cent = new TH2D("h2_nMip_eta_cent","Sum of nMIP VS. #eta VS. centrality ",20,-6.5,-1.5,_Ncentralities,0.5,_Ncentralities+0.5);
+  // TH2D *h2_TtVsPp[_nEventTypeBins], *h2_TtVsPpNmip[_nEventTypeBins], *h2_TtVsPpHit[_nEventTypeBins];
+  // for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+  //   h2_TtVsPp[EventTypeId]= new TH2D(Form("h2_TtVsPp_%d",EventTypeId),Form("Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
+  //   h2_TtVsPpNmip[EventTypeId] = new TH2D(Form("h2_TtVsPpNmip_%d",EventTypeId),Form("nMIP in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
+  //   h2_TtVsPpHit[EventTypeId] = new TH2D(Form("h2_TtVsPpHit_%d",EventTypeId),Form("Hits in Tile vs Supersector of #eta range %d",EventTypeId),12,0.5,12.5,31,0.5,31.5);
+  // }
+  // // --------------------- TPC event plane QA histograms ----------------------------------
+  // TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *h2_dEdxVspTq = new TH2D("h2_dEdxVspTq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *h2_beta = new TH2D("h2_beta","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *h2_mass = new TH2D("hist_mass","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // // --------------------- TPC EP PID QA histograms ----------------------------------
+  // TH1D *  hist_trackmult_proton = new TH1D("hist_trackmult_proton","hist_trackmult_proton",100,-0.5,99.5);
+  // TH1D *  hist_trackmult_kaonPlus = new TH1D("hist_trackmult_kaonPlus","hist_trackmult_kaonPlus",100,-0.5,99.5);
+  // TH1D *  hist_trackmult_kaonMinus = new TH1D("hist_trackmult_kaonMinus","hist_trackmult_kaonMinus",100,-0.5,99.5);
+  // TH1D *  hist_trackmult_pionPlus = new TH1D("hist_trackmult_pionPlus","hist_trackmult_pionPlus",100,-0.5,99.5);
+  // TH1D *  hist_trackmult_pionMinus = new TH1D("hist_trackmult_pionMinus","hist_trackmult_pionMinus",100,-0.5,99.5);
+  // TH1D *hist_pt_proton = new TH1D("hist_pt_proton","p_{T} [GeV/c]",1000,0.0,5.0);
+  // TH1D *hist_eta_proton = new TH1D("hist_eta_proton","#eta",200,-3.0,0.5);
+  // TH1D *hist_y_proton = new TH1D("hist_y_proton","Rapidity y",200,-3.0,0.5);
+  // TH1D *hist_phi_proton = new TH1D("hist_phi_proton","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH2D *hist_rap_eta_proton = new TH2D("hist_rap_eta_proton","proton y versus #eta",250,-2.5,0,250,-2.5,0);
+  // TH2D *hist_pt_y_proton = new TH2D("hist_pt_y_proton","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_pt_eta_proton = new TH2D("hist_pt_eta_proton","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_dEdx_proton = new TH2D("hist_dEdx_proton","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *hist_beta_proton = new TH2D("hist_beta_proton","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *hist_mass_proton = new TH2D("hist_mass_proton","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // TH1D *hist_pt_kaonPlus = new TH1D("hist_pt_kaonPlus","p_{T} [GeV/c]",1000,0.0,5.0);
+  // TH1D *hist_eta_kaonPlus = new TH1D("hist_eta_kaonPlus","#eta",200,-3.0,0.5);
+  // TH1D *hist_y_kaonPlus = new TH1D("hist_y_kaonPlus","y",200,-3.0,0.5);
+  // TH1D *hist_phi_kaonPlus = new TH1D("hist_phi_kaonPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH2D *hist_rap_eta_kaonPlus = new TH2D("hist_rap_eta_kaonPlus","kaonPlus y versus #eta",250,-2.5,0,250,-2.5,0);
+  // TH2D *hist_pt_y_kaonPlus = new TH2D("hist_pt_y_kaonPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_pt_eta_kaonPlus = new TH2D("hist_pt_eta_kaonPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_dEdx_kaonPlus = new TH2D("hist_dEdx_kaonPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *hist_beta_kaonPlus = new TH2D("hist_beta_kaonPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *hist_mass_kaonPlus = new TH2D("hist_mass_kaonPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // TH1D *hist_pt_kaonMinus = new TH1D("hist_pt_kaonMinus","p_{T} [GeV/c]",1000,0.0,5.0);
+  // TH1D *hist_eta_kaonMinus = new TH1D("hist_eta_kaonMinus","#eta",200,-3.0,0.5);
+  // TH1D *hist_y_kaonMinus = new TH1D("hist_y_kaonMinus","y",200,-3.0,0.5);
+  // TH1D *hist_phi_kaonMinus = new TH1D("hist_phi_kaonMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH2D *hist_rap_eta_kaonMinus = new TH2D("hist_rap_eta_kaonMinus","kaonMinus y versus #eta",250,-2.5,0,250,-2.5,0);
+  // TH2D *hist_pt_y_kaonMinus = new TH2D("hist_pt_y_kaonMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_pt_eta_kaonMinus = new TH2D("hist_pt_eta_kaonMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_dEdx_kaonMinus = new TH2D("hist_dEdx_kaonMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *hist_beta_kaonMinus = new TH2D("hist_beta_kaonMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *hist_mass_kaonMinus = new TH2D("hist_mass_kaonMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // TH1D *hist_pt_pionPlus = new TH1D("hist_pt_pionPlus","p_{T} [GeV/c]",1000,0.0,5.0);
+  // TH1D *hist_eta_pionPlus = new TH1D("hist_eta_pionPlus","#eta",200,-3.0,0.5);
+  // TH1D *hist_y_pionPlus = new TH1D("hist_y_pionPlus","y",200,-3.0,0.5);
+  // TH1D *hist_phi_pionPlus = new TH1D("hist_phi_pionPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH2D *hist_rap_eta_pionPlus = new TH2D("hist_rap_eta_pionPlus","pionPlus y versus #eta",250,-2.5,0,250,-2.5,0);
+  // TH2D *hist_pt_y_pionPlus = new TH2D("hist_pt_y_pionPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_pt_eta_pionPlus = new TH2D("hist_pt_eta_pionPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_dEdx_pionPlus = new TH2D("hist_dEdx_pionPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *hist_beta_pionPlus = new TH2D("hist_beta_pionPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *hist_mass_pionPlus = new TH2D("hist_mass_pionPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
+  // TH1D *hist_pt_pionMinus = new TH1D("hist_pt_pionMinus","p_{T} [GeV/c]",1000,0.0,5.0);
+  // TH1D *hist_eta_pionMinus = new TH1D("hist_eta_pionMinus","#eta",200,-3.0,0.5);
+  // TH1D *hist_y_pionMinus = new TH1D("hist_y_pionMinus","y",200,-3.0,0.5);
+  // TH1D *hist_phi_pionMinus = new TH1D("hist_phi_pionMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TH2D *hist_rap_eta_pionMinus = new TH2D("hist_rap_eta_pionMinus","pionMinus y versus #eta",250,-2.5,0,250,-2.5,0);
+  // TH2D *hist_pt_y_pionMinus = new TH2D("hist_pt_y_pionMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_pt_eta_pionMinus = new TH2D("hist_pt_eta_pionMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  // TH2D *hist_dEdx_pionMinus = new TH2D("hist_dEdx_pionMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  // TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
+  // TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // // -------------------------- TPC event planes ----------------------------------
-  TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
-  ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
-  profile2D_v1VsEtaTpcOnly->Sumw2();
-  TProfile2D *profile2D_v1VsEtaTpcOnly_1 = new TProfile2D("profile2D_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
-  ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
-  profile2D_v1VsEtaTpcOnly_1->Sumw2();
-  TH2D *hist_nTracksVsEta= new TH2D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities);
-  TH2D *hist2_Tpc_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins_tpc];
-  TH2D *hist2_Tpc_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins_tpc];
-  TH1D *hist_tpc_all_psi_raw[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_recenter[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_shifted[mEpOrderMax][_nEventTypeBins_tpc];
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC raw Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC rec Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
-      hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
-      hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane (recentered)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
-      hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} EP (shifted)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
-    }
-  }
+  // TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
+  // ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
+  // profile2D_v1VsEtaTpcOnly->Sumw2();
+  // TProfile2D *profile2D_v1VsEtaTpcOnly_1 = new TProfile2D("profile2D_v1VsEtaTpcOnly_1","< cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
+  // ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
+  // profile2D_v1VsEtaTpcOnly_1->Sumw2();
+  // TH2D *hist_nTracksVsEta= new TH2D("hist_nTracksVsEta","# of good tracks VS #eta",64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities);
+  // TH2D *hist2_Tpc_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins_tpc];
+  // TH2D *hist2_Tpc_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins_tpc];
+  // TH1D *hist_tpc_all_psi_raw[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_recenter[mEpOrderMax][_nEventTypeBins_tpc], *hist_tpc_all_psi_shifted[mEpOrderMax][_nEventTypeBins_tpc];
+  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+  //   for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+  //     hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC raw Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
+  //     hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc]= new TH2D(Form("hist2_Tpc_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("TPC rec Qy vs Qx Order %d, EventTypeId%d",iOrder,EventTypeId_tpc),2000,-100.0,100.0,2000,-100.0,100.0);
+  //     hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_raw_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+  //     hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc]= new TH1D(Form("hist_tpc_all_psi_renter_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} event plane (recentered)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+  //     hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] = new TH1D(Form("hist_tpc_all_psi_shifted_Order_%d_typeID_%d",iOrder,EventTypeId_tpc),Form("#Psi_{%d}^{TPC-sub%d} EP (shifted)",iOrder,EventTypeId_tpc),1024,-1.0,7.0);
+  //   }
+  // }
   // Flow plots of P, pi, K
-  TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
-  profile3D_proton_v1->BuildOptions(-1,1,"");
-  profile3D_proton_v1->GetXaxis()->SetTitle("Centrality bin");
-  profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
-  profile3D_proton_v1->GetZaxis()->SetTitle("y");
-  profile3D_proton_v1->Sumw2();
+  // TProfile3D *profile3D_proton_v1 = new TProfile3D("profile3D_proton_v1","Proton v_{1}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  // profile3D_proton_v1->BuildOptions(-1,1,"");
+  // profile3D_proton_v1->GetXaxis()->SetTitle("Centrality bin");
+  // profile3D_proton_v1->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  // profile3D_proton_v1->GetZaxis()->SetTitle("y");
+  // profile3D_proton_v1->Sumw2();
 
   // "Recenter correction" histograms that we INPUT and apply here
   TProfile2D *mEpdRecenterInput[mEpOrderMax][_nEventTypeBins];
@@ -537,67 +537,67 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // "Shift correction" histograms that we produce and OUTPUT
   TString EpOutputNameIni = "EpCorrection_OUTPUT_";
   EpOutputNameIni += outFile;
-  TFile* mCorrectionOutputFile = new TFile(EpOutputNameIni,"RECREATE");
-  TProfile2D *mEpdRecenterOutput[mEpOrderMax][_nEventTypeBins]; // EPD EP output, x/y, centrality
-  TProfile2D *mTpcRecenterOutput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output, x/y, centrality
-  TProfile2D *mEpdShiftOutput_sin[mEpOrderMax][_nEventTypeBins], *mEpdShiftOutput_cos[mEpOrderMax][_nEventTypeBins]; // EPD EP output
-  TProfile2D *mTpcShiftOutput_sin[mEpOrderMax][_nEventTypeBins_tpc], *mTpcShiftOutput_cos[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output
+  // TFile* mCorrectionOutputFile = new TFile(EpOutputNameIni,"RECREATE");
+  // TProfile2D *mEpdRecenterOutput[mEpOrderMax][_nEventTypeBins]; // EPD EP output, x/y, centrality
+  // TProfile2D *mTpcRecenterOutput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output, x/y, centrality
+  // TProfile2D *mEpdShiftOutput_sin[mEpOrderMax][_nEventTypeBins], *mEpdShiftOutput_cos[mEpOrderMax][_nEventTypeBins]; // EPD EP output
+  // TProfile2D *mTpcShiftOutput_sin[mEpOrderMax][_nEventTypeBins_tpc], *mTpcShiftOutput_cos[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP output
   // TH1D* mPhiWeightOutput[_nEventTypeBins];     // the array index is for EPD sub 0,1,2,3,4
   // TH1D* mPhiAveraged[_nEventTypeBins];         // the bins are (Phi bin) Sum of TnMIP vs Phi bin
-  TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","v_{1} vs. #eta vs. centrality",
-          100,-7.0,3.0, // total eta range
-          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          -1.0,1.0,"");//Use EPD-3 as primary event plane
-  profile2D_v1VsCentVsEta->Sumw2();
-  TProfile2D *profile2D_v2VsCentVsEta = new TProfile2D("profile2D_v2VsCentVsEta","Cos(2 * (#phi - #psi)) vs. #eta vs. centrality",
-          100,-7.0,3.0, // total eta range
-          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          -1.0,1.0,"");//Use EPD-3 as primary event plane
-  profile2D_v2VsCentVsEta->Sumw2();
-  TProfile2D *profile2D_v2VsCentVsEta_psi2 = new TProfile2D("profile2D_v2VsCentVsEta_psi2","Cos(2 * (#phi - #psi_{2})) vs. #eta vs. centrality",
-          100,-7.0,3.0, // total eta range
-          _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-          -1.0,1.0,"");//Use EPD-3 as primary event plane
-  profile2D_v2VsCentVsEta_psi2->Sumw2();
-  TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
-  for(int cent=0; cent<_Ncentralities; cent++){
-    profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
-    profile_v1VsEta[cent]->Sumw2();
-  }
-  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-      // mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
-      // mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
-      mEpdRecenterOutput[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),
-              2,0.5,1.0*2+.5, // (x,y)
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              "");
-      mEpdRecenterOutput[iOrder-1][EventTypeId]->BuildOptions(0.0,0.0,"");
-      mEpdShiftOutput_sin[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),
-              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              -1.0,1.0);
-      mEpdShiftOutput_cos[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),
-              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              -1.0,1.0);
-    }
-    for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-      mTpcRecenterOutput[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),
-              2,0.5,1.0*2+.5, // (x,y)
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              "");
-      mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
-      mTpcShiftOutput_sin[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),
-              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              -1.0,1.0);
-      mTpcShiftOutput_cos[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),
-              _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-              _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-              -1.0,1.0);
-    }
-  }
+  // TProfile2D *profile2D_v1VsCentVsEta = new TProfile2D("profile2D_v1VsCentVsEta","v_{1} vs. #eta vs. centrality",
+  //         100,-7.0,3.0, // total eta range
+  //         _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //         -1.0,1.0,"");//Use EPD-3 as primary event plane
+  // profile2D_v1VsCentVsEta->Sumw2();
+  // TProfile2D *profile2D_v2VsCentVsEta = new TProfile2D("profile2D_v2VsCentVsEta","Cos(2 * (#phi - #psi)) vs. #eta vs. centrality",
+  //         100,-7.0,3.0, // total eta range
+  //         _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //         -1.0,1.0,"");//Use EPD-3 as primary event plane
+  // profile2D_v2VsCentVsEta->Sumw2();
+  // TProfile2D *profile2D_v2VsCentVsEta_psi2 = new TProfile2D("profile2D_v2VsCentVsEta_psi2","Cos(2 * (#phi - #psi_{2})) vs. #eta vs. centrality",
+  //         100,-7.0,3.0, // total eta range
+  //         _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //         -1.0,1.0,"");//Use EPD-3 as primary event plane
+  // profile2D_v2VsCentVsEta_psi2->Sumw2();
+  // TProfile *profile_v1VsEta[_Ncentralities]; // [] is from 0 to 8, centrality is from 1 to 9.
+  // for(int cent=0; cent<_Ncentralities; cent++){
+  //   profile_v1VsEta[cent]   = new TProfile(Form("profile_v1VsEta_cent%d",cent),Form("Directed flow VS. #eta in cent bin %d",cent),40,-7.0,3.0,-1.0,1.0,"");
+  //   profile_v1VsEta[cent]->Sumw2();
+  // }
+  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+  //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+  //     // mPhiWeightOutput[EventTypeId]   = new TH1D(Form("PhiWeight%d",EventTypeId),Form("Phi Weight divided by Averaged EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // bins are Phi bin
+  //     // mPhiAveraged[EventTypeId]       = new TH1D(Form("PhiAveraged%d",EventTypeId),Form("Average for this phi EPD-%d",EventTypeId),12,0.,2.0*TMath::Pi()); // just for normalization. discard after use
+  //     mEpdRecenterOutput[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),Form("EpdRecenterEW0Psi%d_typeID_%d",iOrder,EventTypeId),
+  //             2,0.5,1.0*2+.5, // (x,y)
+  //             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //             "");
+  //     mEpdRecenterOutput[iOrder-1][EventTypeId]->BuildOptions(0.0,0.0,"");
+  //     mEpdShiftOutput_sin[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),
+  //             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //             -1.0,1.0);
+  //     mEpdShiftOutput_cos[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),
+  //             _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //             _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //             -1.0,1.0);
+  //   }
+  //   // for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+  //   //   mTpcRecenterOutput[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),Form("mTpcRecenterOutputPsi%d_typeID_%d",iOrder,EventTypeId_tpc),
+  //   //           2,0.5,1.0*2+.5, // (x,y)
+  //   //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //   //           "");
+  //   //   mTpcRecenterOutput[iOrder-1][EventTypeId_tpc]->BuildOptions(0.0,0.0,"");
+  //   //   mTpcShiftOutput_sin[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),
+  //   //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //   //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //   //           -1.0,1.0);
+  //   //   mTpcShiftOutput_cos[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),
+  //   //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
+  //   //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
+  //   //           -1.0,1.0);
+  //   // }
+  // }
   // for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
   //   mEpdShiftOutput_sin[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),
   //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
@@ -619,64 +619,64 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //           -1.0,1.0);
   // }
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
-  TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2]
-  , *profile_correlation_psi2_epd_tpc[2], *profile_correlation_psi2_tpcAB;
-  TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all,
-  *correlation2D_psi2_epd_tpc[2], *correlation2D_psi2_tpcAB;
-  int pairs =0;
-  for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
-    for(int j=i+1;j<4;j++){
-      for(int n=0; n<2; n++){
-        profile_correlation_epd_east[n][pairs]  =
-        new TProfile(Form("profile_correlation_n%d_epd_east%d",n+1,pairs),
-        Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d]))>",n+1,i+1,j+1),
-        _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
-      }
-      correlation2D_epd_east[pairs]   =
-      new TH2D(Form("correlation2D_epd_east%d",pairs),
-      Form("#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]",i+1,j+1),
-      50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
-      pairs++;
-    }
-  }
-  for(int i=0;i<4;i++){// Correlaitons between TPC and 4 EPD event planes 1,2,3,4
-    for(int n=0; n<2; n++){
-      profile_correlation_epd_tpc[n][i]  =
-      new TProfile(Form("profile_correlation_n%d_epd%d_tpc",n+1,i+1),
-      Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{TPC}))>",n+1 ,i+1),
-      _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
-    }
-    correlation2D_epd_tpc[i]   =
-    new TH2D(Form("correlation2D_epd%d_tpc",i+1),
-    Form("#psi^{EPD east}[%d] vs. #psi^{TPC}",i+1),
-    50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  }
-  for(int n=0; n<2; n++){
-    profile_correlation_epd_tpc_all[n]  =
-    new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
-    Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
-    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
-    profile_correlation_psi2_epd_tpc[n]  =
-    new TProfile(Form("profile_correlation_psi2_epd_tpc_%d",n+1),
-    Form("<cos(2 * (#psi_{2}^{EPD east}[%d] #minus #psi_{2}^{TPC}))>", n+1),
-    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
-    correlation2D_psi2_epd_tpc[n]   =
-    new TH2D(Form("correlation2D_psi2_epd%d_tpc",n+1),
-    Form("#psi_{2}^{EPD east}[%d] vs. #psi_{2}^{TPC}",n+1),
-    50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  }
-  correlation2D_epd_tpc_all   =
-  new TH2D("correlation2D_epd_tpc_all",
-  "#psi^{EPD east}[full] vs. #psi^{TPC}",
-  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  profile_correlation_psi2_tpcAB  =
-  new TProfile("profile_correlation_psi2_tpcAB",
-  "<cos(2 * (#psi_{2}^{TPC}[A] #minus #psi_{2}^{TPC}[B]))>",
-  _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
-  correlation2D_psi2_tpcAB   =
-  new TH2D("correlation2D_psi2_tpcAB",
-  "#psi_{2}^{TPC}[A] vs. #psi_{2}^{TPC}[B]",
-  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2]
+  // , *profile_correlation_psi2_epd_tpc[2], *profile_correlation_psi2_tpcAB;
+  // TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all,
+  // *correlation2D_psi2_epd_tpc[2], *correlation2D_psi2_tpcAB;
+  // int pairs =0;
+  // for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+  //   for(int j=i+1;j<4;j++){
+  //     for(int n=0; n<2; n++){
+  //       profile_correlation_epd_east[n][pairs]  =
+  //       new TProfile(Form("profile_correlation_n%d_epd_east%d",n+1,pairs),
+  //       Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{EPD east}[%d]))>",n+1,i+1,j+1),
+  //       _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  //     }
+  //     correlation2D_epd_east[pairs]   =
+  //     new TH2D(Form("correlation2D_epd_east%d",pairs),
+  //     Form("#psi^{EPD east}[%d] vs. #psi^{EPD east}[%d]",i+1,j+1),
+  //     50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  //     pairs++;
+  //   }
+  // }
+  // for(int i=0;i<4;i++){// Correlaitons between TPC and 4 EPD event planes 1,2,3,4
+  //   for(int n=0; n<2; n++){
+  //     profile_correlation_epd_tpc[n][i]  =
+  //     new TProfile(Form("profile_correlation_n%d_epd%d_tpc",n+1,i+1),
+  //     Form("<cos(%d * (#psi^{EPD east}[%d] #minus #psi^{TPC}))>",n+1 ,i+1),
+  //     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  //   }
+  //   correlation2D_epd_tpc[i]   =
+  //   new TH2D(Form("correlation2D_epd%d_tpc",i+1),
+  //   Form("#psi^{EPD east}[%d] vs. #psi^{TPC}",i+1),
+  //   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // }
+  // for(int n=0; n<2; n++){
+  //   profile_correlation_epd_tpc_all[n]  =
+  //   new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
+  //   Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
+  //   _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  //   profile_correlation_psi2_epd_tpc[n]  =
+  //   new TProfile(Form("profile_correlation_psi2_epd_tpc_%d",n+1),
+  //   Form("<cos(2 * (#psi_{2}^{EPD east}[%d] #minus #psi_{2}^{TPC}))>", n+1),
+  //   _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  //   correlation2D_psi2_epd_tpc[n]   =
+  //   new TH2D(Form("correlation2D_psi2_epd%d_tpc",n+1),
+  //   Form("#psi_{2}^{EPD east}[%d] vs. #psi_{2}^{TPC}",n+1),
+  //   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // }
+  // correlation2D_epd_tpc_all   =
+  // new TH2D("correlation2D_epd_tpc_all",
+  // "#psi^{EPD east}[full] vs. #psi^{TPC}",
+  // 50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  // profile_correlation_psi2_tpcAB  =
+  // new TProfile("profile_correlation_psi2_tpcAB",
+  // "<cos(2 * (#psi_{2}^{TPC}[A] #minus #psi_{2}^{TPC}[B]))>",
+  // _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+  // correlation2D_psi2_tpcAB   =
+  // new TH2D("correlation2D_psi2_tpcAB",
+  // "#psi_{2}^{TPC}[A] vs. #psi_{2}^{TPC}[B]",
+  // 50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
   double ptSetA[3]  = {0.6, 1.2, 2.4};
   double ptSetB[5]  = {0.4, 0.6, 1.1, 2.0, 3.0};
@@ -690,291 +690,288 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TString PhiOutputName = "PhiMesonAna_OUTPUT_";
   PhiOutputName += outFile;
   TFile* PhiMesonAnaOutputFile = new TFile(PhiOutputName,"RECREATE");
-  TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
-  TH1D * hist_mother_decay_length = new TH1D("hist_mother_decay_length","hist_mother_decay_length",1000,-1.0,4.0);
-  TH1D * hist_SE_mass_Phi     = new TH1D("hist_SE_mass_Phi","Same event invariant mass",200,0.9,1.1);
-  TH1D * hist_rotation_mass_Phi  = new TH1D("hist_rotation_mass_Phi","K+K- rotated invariant mass",200,0.9,1.1);
-  TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
-  TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
-  TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
-  TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","#eta distribution of #phi",200,-10.,10);
-  TH2D *hist_SE_pt_y_PhiMeson[4];
-  TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
-  TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
-  TH2D *hist_SE_pt_y_Phi_tight_Sig[4];
-  hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-3.0,0.5,500,0.0,3.5);
-  hist_SE_pt_y_Phi_tight_SigBkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_SigBkg_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
-  hist_SE_pt_y_Phi_tight_Bkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_Bkg_0","p_{T} [GeV/c] vs. y of #phi^{Bkg}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
-  hist_SE_pt_y_Phi_tight_Sig[0] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[0]->Clone("hist_SE_pt_y_Phi_tight_Sig_0");
-  int centBES[4] = {0,10,40,60};
-  for(int cent = 1; cent<4;cent++){
-    hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-3.0,0.5,500,0.0,3.5);
-    hist_SE_pt_y_Phi_tight_SigBkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_SigBkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
-    hist_SE_pt_y_Phi_tight_Bkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_Bkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Bkg}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
-    hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
-  }
-  TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
+  // TH1D * hist_dip_angle = new TH1D("hist_dip_angle","hist_dip_angle",1000,-1,1.0);
+  // TH1D * hist_mother_decay_length = new TH1D("hist_mother_decay_length","hist_mother_decay_length",1000,-1.0,4.0);
+  // TH1D * hist_SE_mass_Phi     = new TH1D("hist_SE_mass_Phi","Same event invariant mass",200,0.9,1.1);
+  // TH1D * hist_rotation_mass_Phi  = new TH1D("hist_rotation_mass_Phi","K+K- rotated invariant mass",200,0.9,1.1);
+  // TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
+  // TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
+  // TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
+  // TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","#eta distribution of #phi",200,-10.,10);
+  // TH2D *hist_SE_pt_y_PhiMeson[4];
+  // TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
+  // TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
+  // TH2D *hist_SE_pt_y_Phi_tight_Sig[4];
+  // hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-3.0,0.5,500,0.0,3.5);
+  // hist_SE_pt_y_Phi_tight_SigBkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_SigBkg_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
+  // hist_SE_pt_y_Phi_tight_Bkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_Bkg_0","p_{T} [GeV/c] vs. y of #phi^{Bkg}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
+  // hist_SE_pt_y_Phi_tight_Sig[0] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[0]->Clone("hist_SE_pt_y_Phi_tight_Sig_0");
+  // int centBES[4] = {0,10,40,60};
+  // for(int cent = 1; cent<4;cent++){
+  //   hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-3.0,0.5,500,0.0,3.5);
+  //   hist_SE_pt_y_Phi_tight_SigBkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_SigBkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
+  //   hist_SE_pt_y_Phi_tight_Bkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_Bkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Bkg}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
+  //   hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
+  // }
+  // TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
 // pt SetA, cent SetA; jkk, pt bin, cent
-  TH1D *mHist_SE_InvM_ptSetA_centSetA[11][2][6];
-  TH1D *mHist_rotation_InvM_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v1_raw_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v1_reso_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v2_raw_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v2_reso_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v1_raw_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v1_reso_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v2_raw_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v2_reso_ptSetA_centSetA[11][2][6];
-  for(int jkk=0; jkk<11; jkk++){
-    for(int pt=0; pt<2; pt++)
-    {
-      for(int cent=0; cent<6;cent++){
-        mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        200,0.9,1.1);
-        mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        200,0.9,1.1);
-        mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-        mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
-        mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-        mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-      }
-    }
-  }
+  // TH1D *mHist_SE_InvM_ptSetA_centSetA[11][2][6];
+  // TH1D *mHist_rotation_InvM_ptSetA_centSetA[11][2][6];
+  // TH2D *mHist_v1_raw_ptSetA_centSetA[11][2][6];
+  // TH2D *mHist_v1_reso_ptSetA_centSetA[11][2][6];
+  // TH2D *mHist_v2_raw_ptSetA_centSetA[11][2][6];
+  // TH2D *mHist_v2_reso_ptSetA_centSetA[11][2][6];
+  // TProfile *mProfile_v1_raw_ptSetA_centSetA[11][2][6];
+  // TProfile *mProfile_v1_reso_ptSetA_centSetA[11][2][6];
+  // TProfile *mProfile_v2_raw_ptSetA_centSetA[11][2][6];
+  // TProfile *mProfile_v2_reso_ptSetA_centSetA[11][2][6];
+  // for(int jkk=0; jkk<11; jkk++){
+  //   for(int pt=0; pt<2; pt++)
+  //   {
+  //     for(int cent=0; cent<6;cent++){
+  //       mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       200,0.9,1.1);
+  //       mHist_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       200,0.9,1.1);
+  //       mHist_rotation_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //       mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+  //       mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+  //       mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //     }
+  //   }
+  // }
   // pt SetA, cent SetB
-  TH1D *mHist_SE_InvM_ptSetA_centSetB[2][9];
-  TH1D *mHist_rotation_InvM_ptSetA_centSetB[2][9];
-  TH2D *mHist_v1_raw_ptSetA_centSetB[2][9];
-  TH2D *mHist_v1_reso_ptSetA_centSetB[2][9];
-  TH2D *mHist_v2_raw_ptSetA_centSetB[2][9];
-  TH2D *mHist_v2_reso_ptSetA_centSetB[2][9];
-  TProfile *mProfile_v1_raw_ptSetA_centSetB[2][9];
-  TProfile *mProfile_v1_reso_ptSetA_centSetB[2][9];
-  TProfile *mProfile_v2_raw_ptSetA_centSetB[2][9];
-  TProfile *mProfile_v2_reso_ptSetA_centSetB[2][9];
-  for(int pt=0; pt<2; pt++)
-  {
-    for(int cent=0; cent<9;cent++){
-      mHist_SE_InvM_ptSetA_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetB%d",pt,cent),
-      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_SE_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_rotation_InvM_ptSetA_centSetB[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetA%d_centSetB%d",pt,cent),
-      Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-      mHist_v1_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetB%d",pt,cent),
-      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-      mHist_v1_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetB%d",pt,cent),
-      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
-
-      mHist_v2_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetB%d",pt,cent),
-      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-
-      mHist_v2_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetB%d",pt,cent),
-      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-    }
-  }
+  // TH1D *mHist_SE_InvM_ptSetA_centSetB[2][9];
+  // TH1D *mHist_rotation_InvM_ptSetA_centSetB[2][9];
+  // TH2D *mHist_v1_raw_ptSetA_centSetB[2][9];
+  // TH2D *mHist_v1_reso_ptSetA_centSetB[2][9];
+  // TH2D *mHist_v2_raw_ptSetA_centSetB[2][9];
+  // TH2D *mHist_v2_reso_ptSetA_centSetB[2][9];
+  // TProfile *mProfile_v1_raw_ptSetA_centSetB[2][9];
+  // TProfile *mProfile_v1_reso_ptSetA_centSetB[2][9];
+  // TProfile *mProfile_v2_raw_ptSetA_centSetB[2][9];
+  // TProfile *mProfile_v2_reso_ptSetA_centSetB[2][9];
+  // for(int pt=0; pt<2; pt++){
+  //   for(int cent=0; cent<9;cent++){
+  //     mHist_SE_InvM_ptSetA_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     200,0.9,1.1);
+  //     mHist_SE_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_rotation_InvM_ptSetA_centSetB[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     200,0.9,1.1);
+  //     mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //
+  //     mHist_v1_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //
+  //     mHist_v1_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+  //
+  //     mHist_v2_raw_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_raw_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+  //
+  //     mHist_v2_reso_ptSetA_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetB%d",pt,cent),
+  //     Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_reso_ptSetA_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //   }
+  // }
   // pt SetB, cent SetA
-  TH1D *mHist_SE_InvM_ptSetB_centSetA[11][4][6];
-  TH1D *mHist_rotation_InvM_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v1_raw_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v1_reso_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v2_raw_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v2_reso_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v1_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v1_reso_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v2_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v2_reso_ptSetB_centSetA[11][4][6];
-  for(int jkk=0; jkk<11; jkk++){
-    for(int pt=0; pt<4; pt++)
-    {
-      for(int cent=0; cent<6;cent++){
-        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
-        200,0.9,1.1);
-        mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        200,0.9,1.1);
-        mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-
-        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-      }
-    }
-  }
+  // TH1D *mHist_SE_InvM_ptSetB_centSetA[11][4][6];
+  // TH1D *mHist_rotation_InvM_ptSetB_centSetA[11][4][6];
+  // TH2D *mHist_v1_raw_ptSetB_centSetA[11][4][6];
+  // TH2D *mHist_v1_reso_ptSetB_centSetA[11][4][6];
+  // TH2D *mHist_v2_raw_ptSetB_centSetA[11][4][6];
+  // TH2D *mHist_v2_reso_ptSetB_centSetA[11][4][6];
+  // TProfile *mProfile_v1_raw_ptSetB_centSetA[11][4][6];
+  // TProfile *mProfile_v1_reso_ptSetB_centSetA[11][4][6];
+  // TProfile *mProfile_v2_raw_ptSetB_centSetA[11][4][6];
+  // TProfile *mProfile_v2_reso_ptSetB_centSetA[11][4][6];
+  // for(int jkk=0; jkk<11; jkk++){
+  //   for(int pt=0; pt<4; pt++)
+  //   {
+  //     for(int cent=0; cent<6;cent++){
+  //       mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       200,0.9,1.1);
+  //       mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       200,0.9,1.1);
+  //       mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //
+  //       mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //
+  //       mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //
+  //       mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //
+  //       mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk),
+  //       100,0.9,1.1,
+  //       1000,-1.0,1.0);
+  //       mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //       mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //     }
+  //   }
+  // }
   // pt SetB, cent SetB
-  TH1D *mHist_SE_InvM_ptSetB_centSetB[4][9];
-  TH1D *mHist_rotation_InvM_ptSetB_centSetB[4][9];
-  TH2D *mHist_v1_raw_ptSetB_centSetB[4][9];
-  TH2D *mHist_v1_reso_ptSetB_centSetB[4][9];
-  TH2D *mHist_v2_raw_ptSetB_centSetB[4][9];
-  TH2D *mHist_v2_reso_ptSetB_centSetB[4][9];
-  TProfile *mProfile_v1_raw_ptSetB_centSetB[4][9];
-  TProfile *mProfile_v1_reso_ptSetB_centSetB[4][9];
-  TProfile *mProfile_v2_raw_ptSetB_centSetB[4][9];
-  TProfile *mProfile_v2_reso_ptSetB_centSetB[4][9];
-  for(int pt=0; pt<4; pt++)
-  {
-    for(int cent=0; cent<9;cent++){
-      mHist_SE_InvM_ptSetB_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetB%d",pt,cent),
-      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_SE_InvM_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_rotation_InvM_ptSetB_centSetB[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetB%d",pt,cent),
-      Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_rotation_InvM_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-      mHist_v1_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetB%d",pt,cent),
-      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-      mHist_v1_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetB%d",pt,cent),
-      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
-
-      mHist_v2_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetB%d",pt,cent),
-      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-
-      mHist_v2_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetB%d",pt,cent),
-      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-    }
-  }
+  // TH1D *mHist_SE_InvM_ptSetB_centSetB[4][9];
+  // TH1D *mHist_rotation_InvM_ptSetB_centSetB[4][9];
+  // TH2D *mHist_v1_raw_ptSetB_centSetB[4][9];
+  // TH2D *mHist_v1_reso_ptSetB_centSetB[4][9];
+  // TH2D *mHist_v2_raw_ptSetB_centSetB[4][9];
+  // TH2D *mHist_v2_reso_ptSetB_centSetB[4][9];
+  // TProfile *mProfile_v1_raw_ptSetB_centSetB[4][9];
+  // TProfile *mProfile_v1_reso_ptSetB_centSetB[4][9];
+  // TProfile *mProfile_v2_raw_ptSetB_centSetB[4][9];
+  // TProfile *mProfile_v2_reso_ptSetB_centSetB[4][9];
+  // for(int pt=0; pt<4; pt++){
+  //   for(int cent=0; cent<9;cent++){
+  //     mHist_SE_InvM_ptSetB_centSetB[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     200,0.9,1.1);
+  //     mHist_SE_InvM_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_rotation_InvM_ptSetB_centSetB[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     200,0.9,1.1);
+  //     mHist_rotation_InvM_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //
+  //     mHist_v1_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //
+  //     mHist_v1_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+  //
+  //     mHist_v2_raw_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_raw_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+  //
+  //     mHist_v2_reso_ptSetB_centSetB[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetB%d_centSetB%d",pt,cent),
+  //     Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[pt],ptSetB[pt+1],centSetB[cent],centSetB[cent+1]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //   }
+  // }
   // pt SetC, cent 0-60%, 0-80%
-  TH1D *mHist_SE_InvM_ptSetC_centAll[10][2];
-  TH1D *mHist_rotation_InvM_ptSetC_centAll[10][2];
-  TH2D *mHist_v1_raw_ptSetC_centAll[10][2];
-  TH2D *mHist_v1_reso_ptSetC_centAll[10][2];
-  TH2D *mHist_v2_raw_ptSetC_centAll[10][2];
-  TH2D *mHist_v2_reso_ptSetC_centAll[10][2];
-  TProfile *mProfile_v1_raw_ptSetC_centAll[10][2];
-  TProfile *mProfile_v1_reso_ptSetC_centAll[10][2];
-  TProfile *mProfile_v2_raw_ptSetC_centAll[10][2];
-  TProfile *mProfile_v2_reso_ptSetC_centAll[10][2];
-  for(int pt=0; pt<10; pt++)
-  {
-    for(int cent=0; cent<2;cent++){
-      mHist_SE_InvM_ptSetC_centAll[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetC%d_centAll%d",pt,cent),
-      Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      200,0.9,1.1);
-      mHist_SE_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-      mHist_rotation_InvM_ptSetC_centAll[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetC%d_centAll%d",pt,cent),
-      Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      200,0.9,1.1);
-      mHist_rotation_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-      mHist_v1_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetC%d_centAll%d",pt,cent),
-      Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-      mHist_v1_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetC%d_centAll%d",pt,cent),
-      Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
-
-      mHist_v2_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetC%d_centAll%d",pt,cent),
-      Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-
-      mHist_v2_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetC%d_centAll%d",pt,cent),
-      Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-    }
-  }
+  // TH1D *mHist_SE_InvM_ptSetC_centAll[10][2];
+  // TH1D *mHist_rotation_InvM_ptSetC_centAll[10][2];
+  // TH2D *mHist_v1_raw_ptSetC_centAll[10][2];
+  // TH2D *mHist_v1_reso_ptSetC_centAll[10][2];
+  // TH2D *mHist_v2_raw_ptSetC_centAll[10][2];
+  // TH2D *mHist_v2_reso_ptSetC_centAll[10][2];
+  // TProfile *mProfile_v1_raw_ptSetC_centAll[10][2];
+  // TProfile *mProfile_v1_reso_ptSetC_centAll[10][2];
+  // TProfile *mProfile_v2_raw_ptSetC_centAll[10][2];
+  // TProfile *mProfile_v2_reso_ptSetC_centAll[10][2];
+  // for(int pt=0; pt<10; pt++){
+  //   for(int cent=0; cent<2;cent++){
+  //     mHist_SE_InvM_ptSetC_centAll[pt][cent] = new TH1D(Form("Hist_SE_InvM_ptSetC%d_centAll%d",pt,cent),
+  //     Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     200,0.9,1.1);
+  //     mHist_SE_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //
+  //     mHist_rotation_InvM_ptSetC_centAll[pt][cent] = new TH1D(Form("Hist_rotation_InvM_ptSetC%d_centAll%d",pt,cent),
+  //     Form("rotation, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     200,0.9,1.1);
+  //     mHist_rotation_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //
+  //     mHist_v1_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_raw_ptSetC%d_centAll%d",pt,cent),
+  //     Form("v_{1}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
+  //
+  //     mHist_v1_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v1_reso_ptSetC%d_centAll%d",pt,cent),
+  //     Form("v_{1}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v1_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v1_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>/R_{1}^{EPD}");
+  //
+  //     mHist_v2_raw_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_raw_ptSetC%d_centAll%d",pt,cent),
+  //     Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_raw_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
+  //
+  //     mHist_v2_reso_ptSetC_centAll[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetC%d_centAll%d",pt,cent),
+  //     Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetC[pt],ptSetC[pt+1],centSetA[0],centSetA[cent+3]),
+  //     100,0.9,1.1,
+  //     1000,-1.0,1.0);
+  //     mHist_v2_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
+  //     mHist_v2_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+  //   }
+  // }
   // rap SetA, cent SetA
   TH1D *mHist_SE_InvM_rapSetA_centSetA[11][4][6];
   TH1D *mHist_rotation_InvM_rapSetA_centSetA[11][4][6];
@@ -987,16 +984,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *mProfile_v2_raw_rapSetA_centSetA[11][4][6];
   TProfile *mProfile_v2_reso_rapSetA_centSetA[11][4][6];
   // pT range cut [0.1,1.0], [1.0, 2.0], [0.1, 2.0]
-  TH1D *mHist_SE_InvM_rapSetA_centSetA_pTRange[4][6][3];
-  TH1D *mHist_rotation_InvM_rapSetA_centSetA_pTRange[4][6][3];
-  TH2D *mHist_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
-  TH2D *mHist_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
-  TH2D *mHist_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
-  TH2D *mHist_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
-  TProfile *mProfile_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
-  TProfile *mProfile_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
-  TProfile *mProfile_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
-  TProfile *mProfile_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<6;cent++){
@@ -1038,97 +1025,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mHist_v2_reso_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
         mHist_v2_reso_rapSetA_centSetA[jkk][rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
       }
-      // phi-meson v1 vs. y with pT range pTRangePhiV1vsy [0.1, 1.0], [1.0, 2.0], [0.1, 2.0]
-      for(int pt=0; pt<3;pt++){
-        mHist_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH1D(Form("Hist_SE_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_SE_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        200,0.9,1.1);
-        mHist_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_rotation_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH1D(Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        200,0.9,1.1);
-        mHist_rotation_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v1_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_v1_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v1_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_v1_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_v2_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-
-        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = new TH2D(Form("Hist_v2_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        Form("Hist_v2_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt),
-        100,0.9,1.1,
-        1000,-1.0,1.0);
-        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-      }
-    }
-  }
-  // rap SetA, cent SetB
-  TH1D *mHist_SE_InvM_rapSetA_centSetB[4][9];
-  TH1D *mHist_rotation_InvM_rapSetA_centSetB[4][9];
-  TH2D *mHist_v1_raw_rapSetA_centSetB[4][9];
-  TH2D *mHist_v1_reso_rapSetA_centSetB[4][9];
-  TH2D *mHist_v2_raw_rapSetA_centSetB[4][9];
-  TH2D *mHist_v2_reso_rapSetA_centSetB[4][9];
-  TProfile *mProfile_v1_raw_rapSetA_centSetB[4][9];
-  TProfile *mProfile_v1_reso_rapSetA_centSetB[4][9];
-  TProfile *mProfile_v2_raw_rapSetA_centSetB[4][9];
-  TProfile *mProfile_v2_reso_rapSetA_centSetB[4][9];
-  for(int rap=0; rap<4; rap++)
-  {
-    for(int cent=0; cent<9;cent++){
-      mHist_SE_InvM_rapSetA_centSetB[rap][cent] = new TH1D(Form("Hist_SE_InvM_rapSetA%d_centSetB%d",rap,cent),
-      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_SE_InvM_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_rotation_InvM_rapSetA_centSetB[rap][cent] = new TH1D(Form("Hist_rotation_InvM_rapSetA%d_centSetB%d",rap,cent),
-      Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      200,0.9,1.1);
-      mHist_rotation_InvM_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-
-      mHist_v1_raw_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v1_raw_rapSetA%d_centSetB%d",rap,cent),
-      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_raw_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_raw_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-      mHist_v1_reso_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v1_reso_rapSetA%d_centSetB%d",rap,cent),
-      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v1_reso_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v1_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(#phi - #psi_{1})>");
-
-      mHist_v2_raw_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v2_raw_rapSetA%d_centSetB%d",rap,cent),
-      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_raw_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_raw_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
-
-      mHist_v2_reso_rapSetA_centSetB[rap][cent] = new TH2D(Form("Hist_v2_reso_rapSetA%d_centSetB%d",rap,cent),
-      Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[rap],rapSetA[rap+1],centSetB[cent],centSetB[cent+1]),
-      100,0.9,1.1,
-      1000,-1.0,1.0);
-      mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
-      mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
     }
   }
   // gRandom->SetSeed((unsigned) time(0));
@@ -1550,18 +1446,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             QrecenterEastSide[iOrder-1][EventTypeId][1] = QrawEastSide[iOrder-1][EventTypeId][1] - mEpdRecenterInput[iOrder-1][EventTypeId]->GetBinContent(2,centrality);
           }
           PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],iOrder);
-          if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
-            // hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
-            // hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
-            // cout << "Psi_raw = " << PsiEastRaw[iOrder-1][EventTypeId] << endl;
-            // cout << "Psi_rec = " << PsiEastRecenter[iOrder-1][EventTypeId] << endl;
-            // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
-            // -------------------- "recenter correction histograms Output" ----------------
-            // -------------------- "calculate recenter histograms for a future run" ----------------
-            // Fill the recenter plots for next run
-            // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
-            // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
-          }
+          // if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
+          //   // hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
+          //   // hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
+          //   // cout << "Psi_raw = " << PsiEastRaw[iOrder-1][EventTypeId] << endl;
+          //   // cout << "Psi_rec = " << PsiEastRecenter[iOrder-1][EventTypeId] << endl;
+          //   // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
+          //   // -------------------- "recenter correction histograms Output" ----------------
+          //   // -------------------- "calculate recenter histograms for a future run" ----------------
+          //   // Fill the recenter plots for next run
+          //   // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
+          //   // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(2,centrality,QrawEastSide[iOrder-1][EventTypeId][1]);
+          // }
           // cout << "QrawEastSide[0] Qx"<<EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][0] << endl;
           // cout << "QrawEastSide[0] Qy"<< EventTypeId <<" = " << QrawEastSide[iOrder-1][EventTypeId][1] << endl;
           // mEpdRecenterOutput[iOrder-1][EventTypeId]->Fill(1,centrality,QrawEastSide[iOrder-1][EventTypeId][0]);
@@ -1624,12 +1520,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
         for(int j=i+1;j<4;j++){
           pairs++;
-          if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
-            for(int n=0; n<2; n++){
-              // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
-            }
-            // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
-          }
+          // if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
+          //   for(int n=0; n<2; n++){
+          //     // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
+          //   }
+          //   // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
+          // }
         }
       }
     // -------------------- "Shift correction histograms Output" ----------------
@@ -1742,10 +1638,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // ------------------------ TPC EP QA plots ------------------------------
       // h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
       // h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
-      if(tofBeta!=-999.0){
-        // h2_beta->Fill(charge*ptot,1.0/tofBeta);
-        // h2_mass->Fill(charge*ptot,mass2);
-      }
+      // if(tofBeta!=-999.0){
+      //   // h2_beta->Fill(charge*ptot,1.0/tofBeta);
+      //   // h2_mass->Fill(charge*ptot,mass2);
+      // }
       // ------------------------ Particle identifications ------------------------------
       if( // Proton PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
@@ -1919,19 +1815,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
       }
       // calculate the v1 in TPC region using EPD EP
-      if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
-        // ------------- Fill histograms for the determination of TPC eta range -----
-        // profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
-        // profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
-      // ------------------- Fill the eta weighting histograms --------------------------
-        // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
-        // profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0][0])));//Use EPD-full as event plane first
-        // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
-      }
+      // if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
+      //   // ------------- Fill histograms for the determination of TPC eta range -----
+      //   // profile2D_v1VsEtaTpcOnly->Fill(eta,centrality,etaTrkWeight /*rapWeight*/ * TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
+      //   // profile2D_v1VsEtaTpcOnly_1->Fill(eta,centrality,TMath::Cos((phi-PsiEastShifted[0][1])*(Double_t)EpOrder));
+      // // ------------------- Fill the eta weighting histograms --------------------------
+      //   // profile2D_v1VsCentVsEta->Fill(eta,centrality,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]);//Use EPD-1 as primary event plane
+      //   // profile2D_v2VsCentVsEta->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[0][0])));//Use EPD-full as event plane first
+      //   // profile_v1VsEta[centrality-1]->Fill(eta,TMath::Cos(phi-PsiEastShifted[0][1])/d_resolution[0][centrality-1]); // [] is from 0 to 8, centrality is from 1 to 9.
+      // }
       // calculate the v2 in TPC region using EPD EP
-      if(PsiEastRaw[1][0]!=-999.0){// Using EPD-0 => EPD-full
-        // profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[1][0])));//Use EPD-full as event plane first
-      }
+      // if(PsiEastRaw[1][0]!=-999.0){// Using EPD-0 => EPD-full
+      //   // profile2D_v2VsCentVsEta_psi2->Fill(eta,centrality,TMath::Cos(2 * (phi-PsiEastShifted[1][0])));//Use EPD-full as event plane first
+      // }
       // hist_nTracksVsEta->Fill(eta,centrality);//histograms for the determination of TPC eta range
     } // TPC Q-vector loop
 
@@ -2050,30 +1946,30 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } // loop over EPD hits
     // std::cout << std::endl;
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
-    for(int n=0; n<2; n++){
-      // profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
-    }
+    // for(int n=0; n<2; n++){
+    //   // profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][0] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
+    // }
     // correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][0]);
-    for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
-      if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[0][1]!=-999.0){
-        for(int n=0; n<2; n++){
-          // profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
-        }
-        // correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
-      }
-    }
-    if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][2]!=-999.0){ //EPD psi2 C, TPC Psi2 A
-      // profile_correlation_psi2_epd_tpc[0]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][2] /*- TMath::Pi()/(double)EpOrder*/ )));
-      // correlation2D_psi2_epd_tpc[0]->Fill(PsiTpcAllShifted[1][2],PsiEastShifted[1][4]);
-    }
-    if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD psi2 C, TPC Psi2 B
-      // profile_correlation_psi2_epd_tpc[1]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
-      // correlation2D_psi2_epd_tpc[1]->Fill(PsiTpcAllShifted[1][5],PsiEastShifted[1][4]);
-    }
-    if(PsiTpcAllRaw[1][2]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD TPC Psi2 A, TPC Psi2 B
-      // profile_correlation_psi2_tpcAB->Fill(centrality,TMath::Cos((double)2 * (PsiTpcAllShifted[1][2] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
-      // correlation2D_psi2_tpcAB->Fill(PsiTpcAllShifted[1][5],PsiTpcAllShifted[1][2]);
-    }
+    // for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
+    //   if(PsiEastRaw[0][i+1]!=-999.0&&PsiTpcAllRaw[0][1]!=-999.0){
+    //     for(int n=0; n<2; n++){
+    //       // profile_correlation_epd_tpc[n][i]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiTpcAllShifted[0][1] /*- TMath::Pi()/(double)EpOrder*/ )));
+    //     }
+    //     // correlation2D_epd_tpc[i]->Fill(PsiTpcAllShifted[0][1],PsiEastShifted[0][i+1]);
+    //   }
+    // }
+    // if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][2]!=-999.0){ //EPD psi2 C, TPC Psi2 A
+    //   // profile_correlation_psi2_epd_tpc[0]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][2] /*- TMath::Pi()/(double)EpOrder*/ )));
+    //   // correlation2D_psi2_epd_tpc[0]->Fill(PsiTpcAllShifted[1][2],PsiEastShifted[1][4]);
+    // }
+    // if(PsiEastRaw[1][4]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD psi2 C, TPC Psi2 B
+    //   // profile_correlation_psi2_epd_tpc[1]->Fill(centrality,TMath::Cos((double)2 * (PsiEastShifted[1][4] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+    //   // correlation2D_psi2_epd_tpc[1]->Fill(PsiTpcAllShifted[1][5],PsiEastShifted[1][4]);
+    // }
+    // if(PsiTpcAllRaw[1][2]!=-999.0&&PsiTpcAllRaw[1][5]!=-999.0){ //EPD TPC Psi2 A, TPC Psi2 B
+    //   // profile_correlation_psi2_tpcAB->Fill(centrality,TMath::Cos((double)2 * (PsiTpcAllShifted[1][2] - PsiTpcAllShifted[1][5] /*- TMath::Pi()/(double)EpOrder*/ )));
+    //   // correlation2D_psi2_tpcAB->Fill(PsiTpcAllShifted[1][5],PsiTpcAllShifted[1][2]);
+    // }
     // -------------------- "Shift correction histograms (TPC) Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
@@ -2147,7 +2043,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_pq0   = fabs(d_mom0) * d_charge0;
       if(d_tofBeta0 != -999. && d_tofBeta0 != 0.){
         d_inv_tofBeta0 = 1.0 / d_tofBeta0;
-        h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
+        // h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
       }
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
         StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
@@ -2174,7 +2070,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_pq1   = fabs(d_mom0) * d_charge0;
         if(d_tofBeta1 != -999. && d_tofBeta1 != 0.){
           d_inv_tofBeta1 = 1.0 / d_tofBeta1;
-          h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
+          // h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
         }
         // phi Variables
         double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
@@ -2214,42 +2110,42 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
         // hist_SE_PhiMeson_rap ->Fill(d_phi_y);
         // hist_SE_PhiMeson_eta ->Fill(d_phi_eta);
-        if(centrality >= 1 && centrality <= 2){ // 0-10%
-          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          // hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
-          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            // hist_SE_pt_y_Phi_tight_SigBkg[1] -> Fill(d_phi_y,d_Phi_pT);
-          }
-          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-            // hist_SE_pt_y_Phi_tight_Bkg[1] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-          }
-        }
-        if(centrality >= 3 && centrality <= 5){ // 10-40%
-          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          // hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
-          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            // hist_SE_pt_y_Phi_tight_SigBkg[2] -> Fill(d_phi_y,d_Phi_pT);
-          }
-          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-            // hist_SE_pt_y_Phi_tight_Bkg[2] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-          }
-        }
-        if(centrality >= 6 && centrality <= 7){ // 40-60%
-          // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
-          // hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
-          if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
-            // hist_SE_pt_y_Phi_tight_SigBkg[3] -> Fill(d_phi_y,d_Phi_pT);
-          }
-          if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
-            // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-            // hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
-          }
-        }
+        // if(centrality >= 1 && centrality <= 2){ // 0-10%
+        //   // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+        //   // hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
+        //   // if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+        //   //   // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+        //   //   // hist_SE_pt_y_Phi_tight_SigBkg[1] -> Fill(d_phi_y,d_Phi_pT);
+        //   // }
+        //   // if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+        //   //   // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //   //   // hist_SE_pt_y_Phi_tight_Bkg[1] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //   // }
+        // }
+        // if(centrality >= 3 && centrality <= 5){ // 10-40%
+        //   // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+        //   // hist_SE_pt_y_PhiMeson[2] ->Fill(d_phi_y,d_Phi_pT);
+        //   if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+        //     // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+        //     // hist_SE_pt_y_Phi_tight_SigBkg[2] -> Fill(d_phi_y,d_Phi_pT);
+        //   }
+        //   if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+        //     // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //     // hist_SE_pt_y_Phi_tight_Bkg[2] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //   }
+        // }
+        // if(centrality >= 6 && centrality <= 7){ // 40-60%
+        //   // hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
+        //   // hist_SE_pt_y_PhiMeson[3] ->Fill(d_phi_y,d_Phi_pT);
+        //   if(d_inv_m >= 1.005 && d_inv_m <= 1.033){ // tight phi-mass cut
+        //     // hist_SE_pt_y_Phi_tight_SigBkg[0] -> Fill(d_phi_y,d_Phi_pT);
+        //     // hist_SE_pt_y_Phi_tight_SigBkg[3] -> Fill(d_phi_y,d_Phi_pT);
+        //   }
+        //   if(d_inv_m_rotation >= 1.005 && d_inv_m_rotation <= 1.033){ // tight phi-mass cut
+        //     // hist_SE_pt_y_Phi_tight_Bkg[0] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //     // hist_SE_pt_y_Phi_tight_Bkg[3] -> Fill(d_phi_y_rotation,d_Phi_pT_rotation);
+        //   }
+        // }
         // ---------------- phi-meson cuts: decay length, dip angle ------------
         StPicoPhysicalHelix    trackhelix0 = picoTrack0->helix(f_MagField);
         StPicoPhysicalHelix    trackhelix1 = picoTrack1->helix(f_MagField);
@@ -2574,10 +2470,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }  // Event Loop
 
   // subtraction
-  for(int cent=0;cent<4;cent++){
-    hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
-    hist_SE_pt_y_Phi_tight_Sig[cent]->Add(hist_SE_pt_y_Phi_tight_Bkg[cent],-1.);
-  }
+  // for(int cent=0;cent<4;cent++){
+  //   hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
+  //   hist_SE_pt_y_Phi_tight_Sig[cent]->Add(hist_SE_pt_y_Phi_tight_Bkg[cent],-1.);
+  // }
   // --------------------- Set histograms axises titles --------------------------------
   /*hist_runId->GetXaxis()->SetTitle("RunId");
   hist_runId->GetYaxis()->SetTitle("# of events");
@@ -3172,7 +3068,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
-  delete mCorrectionOutputFile;
+  // delete mCorrectionOutputFile;
   delete PhiMesonAnaOutputFile;
   delete picoReader;
 }
