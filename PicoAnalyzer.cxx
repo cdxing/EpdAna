@@ -345,7 +345,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   // TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   // TH1D *hist_Epd_east_psi_raw_ini[mEpOrderMax][_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[mEpOrderMax][_nEventTypeBins],
-  /**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
+  // *hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
   // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
   //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
   //     hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
@@ -1223,9 +1223,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
-    for(int i=0;i<5;i++){ // fill the tracks after cut
-      hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
-    }
+    // for(int i=0;i<5;i++){ // fill the tracks after cut
+    //   hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
+    // }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
@@ -1516,18 +1516,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
     }
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
-      pairs = -1;
-      for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
-        for(int j=i+1;j<4;j++){
-          pairs++;
-          // if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
-          //   for(int n=0; n<2; n++){
-          //     // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
-          //   }
-          //   // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
-          // }
-        }
-      }
+      // pairs = -1;
+      // for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+      //   for(int j=i+1;j<4;j++){
+      //     pairs++;
+      //     // if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
+      //     //   for(int n=0; n<2; n++){
+      //     //     // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
+      //     //   }
+      //     //   // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
+      //     // }
+      //   }
+      // }
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
@@ -1852,7 +1852,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(QrawTpcAll[iOrder-1][EventTypeId_tpc][0] || QrawTpcAll[iOrder-1][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
           PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = GetPsi(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
           // hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
-          if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
+          // if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
           // recenter corrections
           if(mTpcRecenterInput[iOrder-1][EventTypeId_tpc]==0){
             // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
