@@ -2916,6 +2916,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     for(int i=0; i<4; i++)
     {
       for(int cent=0; cent<6;cent++){
+        cout << "jkk " << jkk << " rap " << i << " cent " << cent << endl;
         mHist_SE_InvM_rapSetA_centSetA[jkk][i][cent]->Add(mHist_SE_InvM_rapSetA_centSetA[0][i][cent],mHist_SE_InvM_rapSetA_centSetA[jkk][i][cent],1.,-1.);
         mHist_rotation_InvM_rapSetA_centSetA[jkk][i][cent]->Add(mHist_rotation_InvM_rapSetA_centSetA[0][i][cent],mHist_rotation_InvM_rapSetA_centSetA[jkk][i][cent],1.,-1.);
         mHist_v1_raw_rapSetA_centSetA[jkk][i][cent]->Add(mHist_v1_raw_rapSetA_centSetA[0][i][cent],mHist_v1_raw_rapSetA_centSetA[jkk][i][cent],1.,-1.);
@@ -2935,7 +2936,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mProfile_v2_reso_ptSetA_centSetA[jkk][pt][cent] = mHist_v2_reso_ptSetA_centSetA[jkk][pt][cent]->ProfileX();;
       }
     }*/
-    // pt SetB, cent SetA
+    // rap SetA, cent SetA
     for(int i=0; i<4; i++)
     {
       for(int cent=0; cent<6;cent++){
