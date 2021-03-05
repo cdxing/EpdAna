@@ -1333,9 +1333,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
-    for(int i=0;i<5;i++){ // fill the tracks after cut
-      hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
-    }
+    // for(int i=0;i<5;i++){ // fill the tracks after cut
+    //   hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
+    // }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     bool a_b_cent[9]={false};
@@ -1626,18 +1626,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
     }
       // --------------------------- Fill the Correlations among EPD sub EPs ------------------------
-      pairs = -1;
-      for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
-        for(int j=i+1;j<4;j++){
-          pairs++;
-          if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
-            for(int n=0; n<2; n++){
-              // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
-            }
-            // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
-          }
-        }
-      }
+      // pairs = -1;
+      // for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
+      //   for(int j=i+1;j<4;j++){
+      //     pairs++;
+      //     if(PsiEastRaw[0][i+1]!=-999.0&&PsiEastRaw[0][j+1]!=-999.0){
+      //       for(int n=0; n<2; n++){
+      //         // profile_correlation_epd_east[n][pairs]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0][i+1] - PsiEastShifted[0][j+1] )));
+      //       }
+      //       // correlation2D_epd_east[pairs]->Fill(PsiEastShifted[0][i+1],PsiEastShifted[0][j+1]);
+      //     }
+      //   }
+      // }
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
@@ -1962,7 +1962,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(QrawTpcAll[iOrder-1][EventTypeId_tpc][0] || QrawTpcAll[iOrder-1][EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
           PsiTpcAllRaw[iOrder-1][EventTypeId_tpc] = GetPsi(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1],iOrder);
           // hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc]->Fill(QrawTpcAll[iOrder-1][EventTypeId_tpc][0],QrawTpcAll[iOrder-1][EventTypeId_tpc][1]);
-          if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
+          // if(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]!=-999.0) hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc]->Fill(PsiTpcAllRaw[iOrder-1][EventTypeId_tpc]);
           // recenter corrections
           if(mTpcRecenterInput[iOrder-1][EventTypeId_tpc]==0){
             // cout << "EventTypeId_tpc = " <<EventTypeId_tpc <<endl;
@@ -2153,7 +2153,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_pq0   = fabs(d_mom0) * d_charge0;
       if(d_tofBeta0 != -999. && d_tofBeta0 != 0.){
         d_inv_tofBeta0 = 1.0 / d_tofBeta0;
-        h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
+        // h2_TOF_beta_pq  -> Fill(d_pq0,d_inv_tofBeta0);
       }
       for(unsigned int j = 0; j < v_KaonMinus_tracks.size(); j++){
         StPicoTrack * picoTrack1 = v_KaonMinus_tracks.at(j); // j-th K- track
@@ -2180,7 +2180,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_pq1   = fabs(d_mom0) * d_charge0;
         if(d_tofBeta1 != -999. && d_tofBeta1 != 0.){
           d_inv_tofBeta1 = 1.0 / d_tofBeta1;
-          h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
+          // h2_TOF_beta_pq  -> Fill(d_pq1,d_inv_tofBeta1);
         }
         // phi Variables
         double d_dip_angle = TMath::ACos((d_pT0*d_pT1+d_pz0*d_pz1) / (d_mom0*d_mom1) );
@@ -3399,7 +3399,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
-  delete mCorrectionOutputFile;
+  // delete mCorrectionOutputFile;
   delete PhiMesonAnaOutputFile;
   delete picoReader;
 }
