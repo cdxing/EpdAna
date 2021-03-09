@@ -79,6 +79,7 @@ const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
 const Int_t _nEventTypeBins_tpc = 6; // 5 etaRange for TPC
+const Int_t _n_jkk = 10; // # of jkk set
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
@@ -720,17 +721,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   TH2D * h2_TOF_beta_pq       = new TH2D("h2_TOF_beta_pq","1/#beta vs. pq",500,-3,3,500,0,3);
 // pt SetA, cent SetA; jkk, pt bin, cent
-  TH1D *mHist_SE_InvM_ptSetA_centSetA[11][2][6];
-  TH1D *mHist_rotation_InvM_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v1_raw_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v1_reso_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v2_raw_ptSetA_centSetA[11][2][6];
-  TH2D *mHist_v2_reso_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v1_raw_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v1_reso_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v2_raw_ptSetA_centSetA[11][2][6];
-  TProfile *mProfile_v2_reso_ptSetA_centSetA[11][2][6];
-  for(int jkk=0; jkk<11; jkk++){
+  TH1D *mHist_SE_InvM_ptSetA_centSetA[_n_jkk+1][2][6];
+  TH1D *mHist_rotation_InvM_ptSetA_centSetA[_n_jkk+1][2][6];
+  TH2D *mHist_v1_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  TH2D *mHist_v1_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  TH2D *mHist_v2_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  TH2D *mHist_v2_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  TProfile *mProfile_v1_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  TProfile *mProfile_v1_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  TProfile *mProfile_v2_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  TProfile *mProfile_v2_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     for(int pt=0; pt<2; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -823,17 +824,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
 */
   // pt SetB, cent SetA
-  TH1D *mHist_SE_InvM_ptSetB_centSetA[11][4][6];
-  TH1D *mHist_rotation_InvM_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v1_raw_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v1_reso_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v2_raw_ptSetB_centSetA[11][4][6];
-  TH2D *mHist_v2_reso_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v1_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v1_reso_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v2_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_v2_reso_ptSetB_centSetA[11][4][6];
-  for(int jkk=0; jkk<11; jkk++){
+  TH1D *mHist_SE_InvM_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH1D *mHist_rotation_InvM_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH2D *mHist_v1_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH2D *mHist_v1_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH2D *mHist_v2_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH2D *mHist_v2_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_v1_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_v1_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_v2_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_v2_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     for(int pt=0; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -2315,7 +2316,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         Double_t randomJKK = gRandom->Uniform(1);
         randomJKK *= 10.;
         // cout << "randomJKK = " << randomJKK << endl;
-        for(int jkk=0; jkk<11; jkk++){
+        for(int jkk=0; jkk<_n_jkk+1; jkk++){
           if(jkk == 0 || (randomJKK >= jkk - 1 && randomJKK <= jkk)){
             /*for(int pt=0; pt<2; pt++)
             {
@@ -3140,7 +3141,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_v2_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
   }
   */
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     /*for(int pt=0; pt<2; pt++)
     {// pt SetA, cent SetA
       mHist_SE_InvM_ptSetA_centSetA[jkk][pt][0]->SetTitle(Form("jackknife%d SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",jkk,ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
@@ -3232,7 +3233,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // pt SetA, cent SetA
-  for(int jkk=1; jkk<11; jkk++){
+  for(int jkk=1; jkk<_n_jkk+1; jkk++){
     // for(int pt=0; pt<2; pt++)
     /*{
       for(int cent=0; cent<6;cent++){
@@ -3256,7 +3257,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     // for(int pt=0; pt<2; pt++)
     /*{
       for(int cent=0; cent<6;cent++){
@@ -3369,7 +3370,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   hist_SE_pt_y_Phi_tight_Bkg[cent]    ->Write();
   //   hist_SE_pt_y_Phi_tight_Sig[cent]    ->Write();
   // }
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     // for(int pt=0; pt<2; pt++)
     // {
     //   for(int cent=0; cent<6;cent++){
