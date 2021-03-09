@@ -2313,8 +2313,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
-        Double_t randomJKK = gRandom->Uniform(1);
-        randomJKK *= 10.;
+        Double_t randomJKK = gRandom->Uniform(_n_jkk);
         // cout << "randomJKK = " << randomJKK << endl;
         for(int jkk=0; jkk<_n_jkk+1; jkk++){
           if(jkk == 0 || (randomJKK >= jkk - 1 && randomJKK <= jkk)){
