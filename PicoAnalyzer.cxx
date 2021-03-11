@@ -2879,6 +2879,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     PhiMesonAnaOutputFile->Write();
+    for(int jkk=0; jkk<_n_jkk+1; jkk++){
+      for(int pt=0; pt<4; pt++)
+      {
+        for(int cent=0; cent<6;cent++){
+          mHist_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Reset();
+          mHist_rotation_InvM_ptSetB_centSetA[jkk][pt][cent]->Reset();
+          mHist_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Reset();
+          mHist_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Reset();
+          mHist_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Reset();
+          mHist_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Reset();
+        }
+      }
+    }
   }  // Event Loop
 
   // subtraction
