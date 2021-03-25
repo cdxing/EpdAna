@@ -721,10 +721,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *mHist_v1_reso_ptSetA_centSetA[2][6];
   TH2D *mHist_v2_raw_ptSetA_centSetA[2][6];
   TH2D *mHist_v2_reso_ptSetA_centSetA[2][6];
+  TH2D *mHist_pT_vs_invM_ptSetA_centSetA[2][6];
   TProfile *mProfile_v1_raw_ptSetA_centSetA[2][6];
   TProfile *mProfile_v1_reso_ptSetA_centSetA[2][6];
   TProfile *mProfile_v2_raw_ptSetA_centSetA[2][6];
   TProfile *mProfile_v2_reso_ptSetA_centSetA[2][6];
+  TProfile2D *mProfile_pT_vs_invM_ptSetA_centSetA[2][6];
   for(int pt=0; pt<2; pt++)
   {
     for(int cent=0; cent<6;cent++){
@@ -760,6 +762,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       1000,-1.0,1.0);
       mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
       mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
+      mHist_pT_vs_invM_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_pT_vs_invM_ptSetA%d_centSetA%d",pt,cent),
+      Form("Hist_pT_vs_invM_ptSetA%d_centSetA%d",pt,cent),
+      100,0.9,1.1,
+      1000,0.0,3.0);
+      mHist_pT_vs_invM_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+      mHist_pT_vs_invM_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("M_{inv}");
     }
   }
   // pt SetA, cent SetB
@@ -2308,6 +2316,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_Phi_pT); // 0-10%
             }
             if(centrality >= 3 && centrality <= 5){
               mHist_SE_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m); // 10-40%
@@ -2316,6 +2325,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_Phi_pT); // 10-40%
             }
             if(centrality >= 6 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m); // 40-60%
@@ -2324,6 +2334,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_Phi_pT); // 40-60%
             }
             if(centrality >= 6 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m); // 40-80%
@@ -2332,6 +2343,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_Phi_pT); // 40-80%
             }
             if(centrality >= 1 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m); // 0-60%
@@ -2340,6 +2352,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_Phi_pT); // 0-60%
             }
             if(centrality >= 1 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m); // 0-80%
@@ -2348,6 +2361,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_Phi_pT); // 0-80%
             }
           }
           if(d_Phi_pT_rotation >= ptSetA[pt] && d_Phi_pT_rotation <= ptSetA[pt+1]){
@@ -3204,12 +3218,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_v2_raw_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
     mHist_v2_raw_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
 
-    mHist_v2_reso_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
-    mHist_v2_reso_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
-    mHist_v2_reso_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
-    mHist_v2_reso_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
-    mHist_v2_reso_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
-    mHist_v2_reso_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+    mHist_v2_reso_ptSetA_centSetA[pt][0]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_v2_reso_ptSetA_centSetA[pt][1]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_v2_reso_ptSetA_centSetA[pt][2]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_v2_reso_ptSetA_centSetA[pt][3]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_v2_reso_ptSetA_centSetA[pt][4]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_v2_reso_ptSetA_centSetA[pt][5]->SetTitle(Form("v_{2}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
+
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][0]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[1]));
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][1]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[1],centSetA[2]));
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][2]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[3]));
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][3]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[2],centSetA[4]));
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][4]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
+    mHist_pT_vs_invM_ptSetA_centSetA[pt][5]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
   }
   // pt SetA, cent SetA
   for(int pt=0; pt<2; pt++)
@@ -3219,6 +3240,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v1_reso_ptSetA_centSetA[pt][cent] = mHist_v1_reso_ptSetA_centSetA[pt][cent]->ProfileX();;
       mProfile_v2_raw_ptSetA_centSetA[pt][cent]  = mHist_v2_raw_ptSetA_centSetA[pt][cent]->ProfileX();;
       mProfile_v2_reso_ptSetA_centSetA[pt][cent] = mHist_v2_reso_ptSetA_centSetA[pt][cent]->ProfileX();;
+      mProfile_pT_vs_invM_ptSetA_centSetA[pt][cent] = mHist_pT_vs_invM_ptSetA_centSetA[pt][cent]->ProfileX();;
     }
   }
   // pt SetA, cent SetB
