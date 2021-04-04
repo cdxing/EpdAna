@@ -3409,7 +3409,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   wt[1]->Write();
   wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
-  outputFile->Write();
+  outputFile->cd();
+  profile3D_KP_v2->Write();
+  profile3D_KM_v2->Write();
+  profile3D_Phi_bkg_v2->Write();
   // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
   //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
   //     hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId] ->Write();
