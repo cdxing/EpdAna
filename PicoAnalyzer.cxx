@@ -2170,7 +2170,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_flow_KP_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
         }
       }
-      if(d_phi_eta>=-1.2){
+      if(eta>=-1.2){
         if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
             d_flow_KP_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
         }
@@ -2211,7 +2211,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_flow_KM_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
         }
       }
-      if(d_phi_eta>=-1.2){
+      if(eta>=-1.2){
         if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
             d_flow_KM_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
         }
