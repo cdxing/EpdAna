@@ -460,6 +460,26 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_proton_v1->GetZaxis()->SetTitle("y");
   profile3D_proton_v1->Sumw2();
 
+  TProfile3D *profile3D_KP_v2 = new TProfile3D("profile3D_KP_v2","K^{+} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KP_v2->BuildOptions(-1,1,"");
+  profile3D_KP_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KP_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KP_v2->GetZaxis()->SetTitle("y");
+  profile3D_KP_v2->Sumw2();
+
+  TProfile3D *profile3D_KM_v2 = new TProfile3D("profile3D_KM_v2","K^{-} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_KM_v2->BuildOptions(-1,1,"");
+  profile3D_KM_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_KM_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_KM_v2->GetZaxis()->SetTitle("y");
+  profile3D_KM_v2->Sumw2();
+  // Flow plots of Phi bkg invM: [1.04, 1.09]
+  TProfile3D *profile3D_Phi_bkg_v2 = new TProfile3D("profile3D_Phi_bkg_v2","#phi^{bkg} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_Phi_bkg_v2->BuildOptions(-1,1,"");
+  profile3D_Phi_bkg_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_Phi_bkg_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_Phi_bkg_v2->GetZaxis()->SetTitle("y");
+  profile3D_Phi_bkg_v2->Sumw2();
   // "Recenter correction" histograms that we INPUT and apply here
   TProfile2D *mEpdRecenterInput[mEpOrderMax][_nEventTypeBins];
   TProfile2D *mTpcRecenterInput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
@@ -2090,7 +2110,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // (9) ======================= Flow calculation of P, Pi K  =========================
     for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
-      StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th K+ track
+      StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th proton track
       if(!picoTrack) continue;
       // Proton Variables
       double d_charge  = picoTrack->charge();
@@ -2118,11 +2138,91 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
         }
       }
-      if(d_flow_Proton_resolution[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
+      if(d_flow_Proton_raw[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
 
     }
     // cout << "The size of kaonPlus Vector " << v_KaonPlus_tracks.size() << endl;
+    for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_KaonPlus_tracks.at(i); // i-th K+ track
+      if(!picoTrack) continue;
+      // KP Variables
+      double d_charge  = picoTrack->charge();
+      double d_px      = picoTrack->pMom().x();
+      double d_py      = picoTrack->pMom().y();
+      double d_pz      = picoTrack->pMom().z();
+      double d_pT      = picoTrack->pPt();
+      double eta       = picoTrack->pMom().Eta();
+      double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
+      StPicoBTofPidTraits *trait = NULL;
+      double d_tofBeta    = -999.;
+      double d_inv_tofBeta    = -999.;
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait)        d_tofBeta = trait->btofBeta();
+      double d_M   = _massKaon;
+      double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massKaon*_massKaon);
+      double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
+      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+      if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      double d_flow_KP_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+      if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1 for v1
+        for(int km=0;km<1;km++){ // km - flow order
+          d_flow_KP_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
+        }
+      }
+      if(d_phi_eta>=-1.2){
+        if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_KP_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
+        }
+      } else {
+        if(PsiTpcAllShifted[1][5]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_KP_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
+        }
+      }
+      if(d_flow_KP_raw[1]!=-999.0) profile3D_KP_v2->Fill(centrality,d_pT,d_y,d_flow_KP_raw[1],1.0);
+
+    }
     // cout << "The size of kaonMimus Vector " << v_KaonMinus_tracks.size() << endl;
+    for(unsigned int i = 0; i < v_KaonMinus_tracks.size(); i++){
+      StPicoTrack * picoTrack = v_KaonMinus_tracks.at(i); // i-th K+ track
+      if(!picoTrack) continue;
+      // KM Variables
+      double d_charge  = picoTrack->charge();
+      double d_px      = picoTrack->pMom().x();
+      double d_py      = picoTrack->pMom().y();
+      double d_pz      = picoTrack->pMom().z();
+      double d_pT      = picoTrack->pPt();
+      double eta       = picoTrack->pMom().Eta();
+      double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
+      StPicoBTofPidTraits *trait = NULL;
+      double d_tofBeta    = -999.;
+      double d_inv_tofBeta    = -999.;
+      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(trait)        d_tofBeta = trait->btofBeta();
+      double d_M   = _massKaon;
+      double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massKaon*_massKaon);
+      double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
+      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
+      if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
+      double d_flow_KM_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
+      if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
+        for(int km=0;km<2;km++){ // km - flow order
+          d_flow_KM_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
+        }
+      }
+      if(d_phi_eta>=-1.2){
+        if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_KM_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
+        }
+      } else {
+        if(PsiTpcAllShifted[1][5]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_KM_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
+        }
+      }
+      if(d_flow_KM_raw[1]!=-999.0) profile3D_KM_v2->Fill(centrality,d_pT,d_y,d_flow_KM_raw[1],1.0);
+
+    }
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
@@ -2288,7 +2388,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
         double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
         double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
-        if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
+        if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1 for v1
           for(int km=0;km<1;km++){ // km - flow order
             d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
@@ -2305,6 +2405,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]))/(d_resolution_b[centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
+        //
+        if(d_flow_PHI_raw[1]!=-999.0 && d_inv_m>=1.04 && d_inv_m<=1.09) profile3D_Phi_bkg_v2->Fill(centrality,d_Phi_pT,d_phi_y,d_flow_PHI_raw[1],1.0);
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
         {// pt SetA, cent SetA
