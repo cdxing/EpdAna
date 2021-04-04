@@ -26,7 +26,7 @@
  */
 
 // This is needed for calling standalone classes (not needed on RACF)
-#define _VANILLA_ROOT_
+// #define _VANILLA_ROOT_
 
 // C++ headers
 #include <fstream>
