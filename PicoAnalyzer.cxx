@@ -23,6 +23,10 @@
  * Update to cross check with Kosuke's event plane
  * \author Ding Chen, Kosuke Okuba
  * \date Oct 10, 2020
+ *
+ * Update to answer Fuqiang's question on phi_bkg v2
+ * \author Ding Chen
+ * \date Apr 5, 2021
  */
 
 // This is needed for calling standalone classes (not needed on RACF)
@@ -1922,7 +1926,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
           int etaBin = (int)wt_tpc[iOrder-1]->GetXaxis()->FindBin(fabs(eta));
           double etaWeight = (double)wt_tpc[iOrder-1]->GetBinContent(etaBin,EventTypeId_tpc+1);
-          if(iOrder == 1){ // \psi_1^{TPC}
+          if(iOrder == 1 && particleType != 1 && particleType != 2){ // \psi_1^{TPC}, exclude KP,KM
             if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0){
               // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
               NTpcAll[EventTypeId_tpc]++;
@@ -1931,7 +1935,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             double Sine   = sin(phi*(double)iOrder);
             QrawTpcAll[iOrder-1][EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
             QrawTpcAll[iOrder-1][EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
-          } else { // \psi_2^{TPC}
+          } else if(iOrder >=2 && particleType != 1 && particleType != 2){ // \psi_2^{TPC}, exclude KP,KM
             if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
             double Cosine = cos(phi*(double)iOrder);
             double Sine   = sin(phi*(double)iOrder);
