@@ -3417,22 +3417,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_KP_v2->Write();
   profile3D_KM_v2->Write();
   profile3D_Phi_bkg_v2->Write();
-  // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
-  //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-  //     hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId] ->Write();
-  //     hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId] ->Write();
-  //     hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] -> Write() ;
-  //     hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] ->Write();
-  //     hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId] ->Write();
-  //   }
-  //   for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-  //     hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc] ->Write();
-  //     hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc] ->Write();
-  //     hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc] ->Write();
-  //     hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc] ->Write();
-  //     hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] ->Write();
-  //   }
-  // }
+  for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
+    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+      hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId] ->Write();
+      hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId] ->Write();
+      hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] -> Write() ;
+      hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] ->Write();
+      hist_Epd_east_psi_Shifted_ini[iOrder-1][EventTypeId] ->Write();
+    }
+    for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
+      hist2_Tpc_Qy_Qx_raw_ini[iOrder-1][EventTypeId_tpc] ->Write();
+      hist2_Tpc_Qy_Qx_rec_ini[iOrder-1][EventTypeId_tpc] ->Write();
+      hist_tpc_all_psi_raw[iOrder-1][EventTypeId_tpc] ->Write();
+      hist_tpc_all_psi_recenter[iOrder-1][EventTypeId_tpc] ->Write();
+      hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] ->Write();
+    }
+  }
   // outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
