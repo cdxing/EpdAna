@@ -200,13 +200,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
   double d_resolution[2][_Ncentralities] = { //0// EPD-1
     {0.317239,0.380755,0.439133,0.477116,0.504774,0.398817,0.267795,0.165502,0.353166},//recenter
-    {0.137326,0.220693,0.24983,0.208653,0.132604,1,1,1,1} //recenter
+    // {0.137326,0.220693,0.24983,0.208653,0.132604,1,1,1,1} //recenter, all PID particle
+    {0.0826898,0.140519,0.16207,0.13351,0.0745782,1,1,1,1} //recenter, w/o K+
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
     // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
     //{0.158,   0.1737,  0.2045,  0.2256,  0.2218,  0.2430,  0.20613,0.1312,0.1276}
   };
-  double d_resolution_b[_Ncentralities] = {0.148371,0.238345,0.242375,0.171972,0.0845528,1,1,1,1};
+  // double d_resolution_b[_Ncentralities] = {0.148371,0.238345,0.242375,0.171972,0.0845528,1,1,1,1}; // TPC EP w/ all PID particle
+  double d_resolution_b[_Ncentralities] = {0.129861,0.219196,0.221681,0.154083,0.0675004,1,1,1,1}; // TPC EP w/o Kaon track
   if ( (inputReso.rdstate() & std::ifstream::failbit ) != 0 ) {
     std::cout << "Error opening Resolution Input .txt Files" << std::endl;
     std::cout << "I will use primary resolution:" << std::endl;
