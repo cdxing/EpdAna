@@ -1884,7 +1884,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
-          particleType=1;// K+
+          // particleType=1;// K+
           nKaonPlus++;
           v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
@@ -1899,7 +1899,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
-          particleType=2;// K-
+          // particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
