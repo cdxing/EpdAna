@@ -1852,7 +1852,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
-          particleType=1;// K+
+          // particleType=1;// K+
           nKaonPlus++;
           v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
@@ -1867,7 +1867,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
-          particleType=2;// K-
+          // particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
@@ -1896,7 +1896,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
           int etaBin = (int)wt_tpc[iOrder-1]->GetXaxis()->FindBin(fabs(eta));
           double etaWeight = (double)wt_tpc[iOrder-1]->GetBinContent(etaBin,EventTypeId_tpc+1);
-          if(iOrder == 1){ // \psi_1^{TPC}
+          if(iOrder == 1 && particleType != 1 && particleType != 2){ // \psi_1^{TPC}
             if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0){
               // if(EventTypeId_tpc==3) cout << "EventTypeId_tpc = " <<EventTypeId_tpc << "; etaBin: "<< etaBin<<endl;
               NTpcAll[EventTypeId_tpc]++;
@@ -1905,7 +1905,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             double Sine   = sin(phi*(double)iOrder);
             QrawTpcAll[iOrder-1][EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
             QrawTpcAll[iOrder-1][EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
-          } else { // \psi_2^{TPC}
+          } else if(iOrder == 2 && particleType != 1 && particleType != 2) { // \psi_2^{TPC}
             if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
             double Cosine = cos(phi*(double)iOrder);
             double Sine   = sin(phi*(double)iOrder);
