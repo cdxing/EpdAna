@@ -2,7 +2,7 @@
 #  This script is for test run the PicoAnalyzer.cxx
 
 #This is argument for iteration, if supplied
-iter = 1
+iter=1
 if [ $# -ge 1 ]
 then
         iter=$1
