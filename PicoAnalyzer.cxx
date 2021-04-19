@@ -1492,7 +1492,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         }
     }
     // std::cout << std::endl;
-    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){ //etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
+    for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
         PsiEastShifted[EventTypeId] = PsiEastRecenter[EventTypeId]; // use raw EP rather than Phi weighing EP
         if(PsiEastShifted[EventTypeId]==-999.0) continue;
         if (mEpdShiftInput_sin[EventTypeId] != 0 && mEpdShiftInput_cos[EventTypeId]!= 0){
@@ -1526,7 +1526,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // -------------------- "Shift correction histograms Output" ----------------
     // -------------------- "calculate shift histograms for a future run" ----------------
     for (int i=1; i<=_EpTermsMaxIni; i++){
-      for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){//etaRange {-5.1,-4.2,-3.28,-2.87,-2.60}
+      for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
         double tmp = (double)(EpOrder*i);
         if(PsiEastRecenter[EventTypeId]==-999.0) continue;
         mEpdShiftOutput_sin[EventTypeId]->Fill(i,centrality,sin(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
