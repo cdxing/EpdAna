@@ -481,7 +481,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_KM_v2->Sumw2();
   // Flow plots of Phi bkg invM: [1.04, 1.09]
   TProfile3D *profile3D_Phi_bkg_v2 = new TProfile3D("profile3D_Phi_bkg_v2","#phi^{bkg} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
-  profile3D_Phi_bkg_v2->BuildOptions(-1,1,"");
+  profile3D_Phi_bkg_v2->BuildOptions(-1.,1.,"");
   profile3D_Phi_bkg_v2->GetXaxis()->SetTitle("Centrality bin");
   profile3D_Phi_bkg_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
   profile3D_Phi_bkg_v2->GetZaxis()->SetTitle("y");
