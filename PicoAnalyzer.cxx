@@ -2412,8 +2412,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
         }
         //
-        // if(d_flow_PHI_raw[1]!=-999.0 && d_inv_m>=1.04 && d_inv_m<=1.09) profile3D_Phi_bkg_v2->Fill(centrality,d_Phi_pT,d_phi_y,d_flow_PHI_raw[1],1.0);
-        if(d_flow_PHI_raw[1]!=-999.0 && d_inv_m>=1.09) profile3D_Phi_bkg_v2->Fill(centrality,d_Phi_pT,d_phi_y,d_flow_PHI_raw[1],1.0);
+        if(d_flow_PHI_raw[1]!=-999.0 && d_inv_m>=1.04 && d_inv_m<=1.09) profile3D_Phi_bkg_v2->Fill(centrality,d_Phi_pT,d_phi_y,d_flow_PHI_resolution[1],1.0);
+        // if(d_flow_PHI_raw[1]!=-999.0 && d_inv_m>=1.09) profile3D_Phi_bkg_v2->Fill(centrality,d_Phi_pT,d_phi_y,d_flow_PHI_raw[1],1.0);
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
         {// pt SetA, cent SetA
