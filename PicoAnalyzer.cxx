@@ -79,6 +79,7 @@
 
 // Define global constants
 // const Int_t daynumber     = 6;
+// ================ The block of parameters later move to a header file ======
 const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
@@ -88,7 +89,9 @@ const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
 const Double_t _massPhi = 1.019461;
 const Double_t _y_mid = -2.03; // mid rapidity
-
+const Double_t _triggerIDs[6] = {610001, 610011 , 610021, 610031, 610041, 610051};
+const Double_t _zvtxCut = 50.;
+// ================ parameters that used in the code =========================
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
@@ -102,7 +105,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                       Int_t   inputp4 = 1 // Iteration of the analysis is. In this analysis, 2 iterations is enough
                     )
 {
-
   Int_t mEpOrderMax = 2;//inputp1; // Event plane Fourier expansion order = 1, 2, 3
   cout << "\n**********\n*  Welcome to Ding's analysis.\n"
        << "*  This code is currently configured to go up to order=" << mEpOrderMax << "\n"
@@ -1208,9 +1210,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     bool b_bad_trig = true;
     for(unsigned int i=0; i < triggerIDs.size(); i++)
       {
-        Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
+        Double_t d_trigger = (Double_t)triggerIDs[i] - 610000.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        for(int j=0; j<6;i++){
+          if(triggerIDs[i] == _triggerIDs[j]) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        }
       }
 
     // --------------------------- Vertex cut -----------------------------------
@@ -1223,7 +1227,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     d_xvtx     = pVtx.x();
     d_yvtx     = pVtx.y();
     d_vtx_perp = pVtx.Perp();
-    bool b_bad_zvtx   =  ((d_zvtx < 198.0) || (d_zvtx > 202.0)); //FXT_26p5_2018
+    bool b_bad_zvtx   =  abs(d_zvtx) <= _zvtxCut; //FXT_26p5_2018
     // # Systematic Analysis
     // sys_cutN == 3; // vz
     if(sys_cutN == 3){
@@ -1235,7 +1239,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //FXT_26p5_2018
     bool b_bad_yvtx   =  ((d_yvtx < -3.0) || (d_yvtx > -0.5)); //FXT_26p5_2018
-    bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.0;
+    bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.0;
     // # Systematic Analysis
     // sys_cutN == 4; // vr
     if(sys_cutN == 4){
