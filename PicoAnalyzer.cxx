@@ -293,7 +293,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_pt = new TH1D("hist_pt","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2 = new TH1D("hist_mass2","hist_mass2",4000,-10.0,10.0);
-  TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-3.0,0.5);
+  TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-2.5,2.5);
   TH1D *hist_phi = new TH1D("hist_phi","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_ratio = new TH1D("hist_ratio","hist_ratio",100,0,2);
   TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
@@ -304,7 +304,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
-  TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-3.0,0.5);
+  TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-2.5,2.5);
   TH1D *hist_phi_cut = new TH1D("hist_phi_cut","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_ratio_cut = new TH1D("hist_ratio_cut","hist_ratio_cut",100,0,2);
   TH1D *hist_nHits_cut = new TH1D("hist_nHits_cut","hist_nHits_cut",100,-0.5,99.5);
@@ -314,7 +314,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_grefmult_refmult = new TH2D("hist_grefmult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
@@ -1198,17 +1198,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           b_bad_dEdx     = false; // no DCA cut
         }
       }
-      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
+      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 15;
       // # Systematic Analysis
       // sys_cutN == 7; // nHitsFit
       if(sys_cutN == 7){
         if(sys_varN == 1){
-          b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 10;
+          b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 10;
         } else if(sys_varN == 2){
-          b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 20;
+          b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 20;
         }
       }
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.51);
+      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.52);
       // # Systematic Analysis
       // sys_cutN == 8; // ratio
       if(sys_cutN == 8){
@@ -1243,27 +1243,24 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
-    bool a_b_cent[9]={false};
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
     Int_t cenSection[9]={6,13,25,44,72,113,169,245,295}; // From Shaowei's analysis note
-    bool b_pileup   = (refMult >= 241);
-    bool b_low_mult = (refMult < 2);
-    a_b_cent[0]     = (refMult >= cenSection[7] && refMult < cenSection[8]); // 0 - 5%, 240 - 191
-    a_b_cent[1]     = (refMult >= cenSection[6] && refMult < cenSection[7]); // 5 - 10%, 190 - 154
-    a_b_cent[2]     = (refMult >= cenSection[5] && refMult < cenSection[6]); // 10 - 20%, 153 - 100
-    a_b_cent[3]     = (refMult >= cenSection[4]  && refMult < cenSection[5]); // 20 - 30%, 99 - 64
-    a_b_cent[4]     = (refMult >= cenSection[3]  && refMult < cenSection[4]); // 30 - 40%, 63 - 39
-    a_b_cent[5]     = (refMult >= cenSection[2]  && refMult < cenSection[3]); // 40 - 50%, 38 - 22
-    a_b_cent[6]     = (refMult >= cenSection[1]  && refMult < cenSection[2]); // 50 - 60%, 21 - 12
-    a_b_cent[7]     = (refMult >= cenSection[0]  && refMult < cenSection[1]); // 60 - 70%, 11 - 6
-    a_b_cent[8]     = (refMult >= 2  && refMult < cenSection[0]); // 70 - 80% 5 - 2
-    for(int i=0;i<_Ncentralities;i++){
-      if(a_b_cent[i]) centrality = i+1;
-    }
+    bool b_pileup   = (gRefMult >= 600);
+    bool b_low_mult = (gRefMult < 2);
+    if      (gRefMult>=cenSection[8]) centrality=9;
+    else if (gRefMult>=cenSection[7]) centrality=8;
+    else if (gRefMult>=cenSection[6]) centrality=7;
+    else if (gRefMult>=cenSection[5]) centrality=6;
+    else if (gRefMult>=cenSection[4]) centrality=5;
+    else if (gRefMult>=cenSection[3]) centrality=4;
+    else if (gRefMult>=cenSection[2]) centrality=3;
+    else if (gRefMult>=cenSection[1]) centrality=2;
+    else if (gRefMult>=cenSection[0]) centrality=1;
+    else centrality = 0;
     hist_cent->Fill(centrality);
     hist_realTrackMult->Fill(refMult);
     hist_FXTTrackMult->Fill(nFXTMult);
-    hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
+    hist_grefmult_refmult->Fill(grefMult,refMult);
     hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
     hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
@@ -2664,8 +2661,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
   hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
   hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_FXTTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
+  hist_grefmult_refmult->GetXaxis()->SetTitle("gRefMult");
+  hist_grefmult_refmult->GetYaxis()->SetTitle("RefMult");
   hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
   hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
   hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
