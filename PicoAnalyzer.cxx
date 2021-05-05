@@ -72,6 +72,9 @@
 #include "StRoot/StEpdUtil/StEpdGeom.h"
 #include "StRoot/StEpdUtil/StEpdEpFinder.h"
 #include "StRoot/StEpdUtil/StEpdEpInfo.h"
+// input constants
+#include "StRoot/StPhiFlowAna/run.h"
+#include "StRoot/StPhiFlowAna/badrun.h"
 
 // Define global constants
 // const Int_t daynumber     = 6;
@@ -84,7 +87,14 @@ const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
 const Double_t _massPhi = 1.019461;
 const Double_t _y_mid = -2.03; // mid rapidity
-
+array<unsigned int, 6> const triggers = {
+    610001,
+    610011,
+    610021,
+    610031,
+    610041,
+    610051
+};
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
@@ -1081,7 +1091,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        for(int j =0;j<6;j++ ){
+          if(triggerIDs[i] == trigger[j]) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        }
       }
 
     // --------------------------- Vertex cut -----------------------------------

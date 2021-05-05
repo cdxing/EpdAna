@@ -7,5 +7,7 @@
 *.txt
 *.list
 *.png
-StRoot
+StRoot/StEpdUtil
+StRoot/StPicoEvent
+StRoot/CVS
 plots
