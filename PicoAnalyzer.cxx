@@ -1106,26 +1106,26 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     d_xvtx     = pVtx.x();
     d_yvtx     = pVtx.y();
     d_vtx_perp = pVtx.Perp();
-    bool b_bad_zvtx   =  ((d_zvtx < 198.0) || (d_zvtx > 202.0)); //FXT_26p5_2018
+    bool b_bad_zvtx   =  ((d_zvtx < -40.0) || (d_zvtx > 40.0)); //27
     // # Systematic Analysis
     // sys_cutN == 3; // vz
     if(sys_cutN == 3){
       if(sys_varN == 1){
-        b_bad_zvtx   =  ((d_zvtx < 198.4) || (d_zvtx > 201.6));
+        b_bad_zvtx   =  ((d_zvtx < -50.0) || (d_zvtx > 50.0));
       } else if(sys_varN == 2){
-        b_bad_zvtx   =  ((d_zvtx < 197.6) || (d_zvtx > 202.4));
+        b_bad_zvtx   =  ((d_zvtx < 30.0) || (d_zvtx > 30.0));
       }
     }
-    bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //FXT_26p5_2018
-    bool b_bad_yvtx   =  ((d_yvtx < -3.0) || (d_yvtx > -0.5)); //FXT_26p5_2018
-    bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.0;
+    bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //27
+    bool b_bad_yvtx   =  ((d_yvtx < -1.0) || (d_yvtx > 1.0)); //27
+    bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.0;
     // # Systematic Analysis
     // sys_cutN == 4; // vr
     if(sys_cutN == 4){
       if(sys_varN == 1){
-        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 1.6;
+        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 1.6;
       } else if(sys_varN == 2){
-        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx+2,2))> 2.4;
+        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.4;
       }
     }
     bool b_bad_evt  = b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
