@@ -1247,15 +1247,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t cenSection[9]={6,13,25,44,72,113,169,245,295}; // From Shaowei's analysis note
     bool b_pileup   = (grefMult >= 600);
     bool b_low_mult = (grefMult < 2);
-    if      (grefMult>=cenSection[8]) centrality=9;
-    else if (grefMult>=cenSection[7]) centrality=8;
-    else if (grefMult>=cenSection[6]) centrality=7;
-    else if (grefMult>=cenSection[5]) centrality=6;
+    if      (grefMult>=cenSection[8]) centrality=1;
+    else if (grefMult>=cenSection[7]) centrality=2;
+    else if (grefMult>=cenSection[6]) centrality=3;
+    else if (grefMult>=cenSection[5]) centrality=4;
     else if (grefMult>=cenSection[4]) centrality=5;
-    else if (grefMult>=cenSection[3]) centrality=4;
-    else if (grefMult>=cenSection[2]) centrality=3;
-    else if (grefMult>=cenSection[1]) centrality=2;
-    else if (grefMult>=cenSection[0]) centrality=1;
+    else if (grefMult>=cenSection[3]) centrality=6;
+    else if (grefMult>=cenSection[2]) centrality=7;
+    else if (grefMult>=cenSection[1]) centrality=8;
+    else if (grefMult>=cenSection[0]) centrality=9;
     else centrality = 0;
     hist_cent->Fill(centrality);
     hist_realTrackMult->Fill(refMult);
