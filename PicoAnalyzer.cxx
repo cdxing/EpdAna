@@ -1092,7 +1092,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
         for(int j =0;j<6;j++ ){
-          if(triggerIDs[i] == trigger[j]) b_bad_trig = false; // 27 GeV
+          if(triggerIDs[i] == triggers[j]) b_bad_trig = false; // 27 GeV
         }
       }
 
