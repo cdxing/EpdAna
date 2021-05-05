@@ -87,7 +87,7 @@ const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
 const Double_t _massPhi = 1.019461;
 const Double_t _y_mid = -2.03; // mid rapidity
-array<unsigned int, 6> const triggers = {
+const Int_t triggers[6] = {
     610001,
     610011,
     610021,
@@ -1092,7 +1092,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
         for(int j =0;j<6;j++ ){
-          if(triggerIDs[i] == trigger[j]) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+          if(triggerIDs[i] == trigger[j]) b_bad_trig = false; // 27 GeV
         }
       }
 
