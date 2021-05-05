@@ -315,7 +315,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH2D *hist_grefmult_refmult = new TH2D("hist_grefmult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. grefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
@@ -1245,17 +1245,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t centrality = 0;
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
     Int_t cenSection[9]={6,13,25,44,72,113,169,245,295}; // From Shaowei's analysis note
-    bool b_pileup   = (gRefMult >= 600);
-    bool b_low_mult = (gRefMult < 2);
-    if      (gRefMult>=cenSection[8]) centrality=9;
-    else if (gRefMult>=cenSection[7]) centrality=8;
-    else if (gRefMult>=cenSection[6]) centrality=7;
-    else if (gRefMult>=cenSection[5]) centrality=6;
-    else if (gRefMult>=cenSection[4]) centrality=5;
-    else if (gRefMult>=cenSection[3]) centrality=4;
-    else if (gRefMult>=cenSection[2]) centrality=3;
-    else if (gRefMult>=cenSection[1]) centrality=2;
-    else if (gRefMult>=cenSection[0]) centrality=1;
+    bool b_pileup   = (grefMult >= 600);
+    bool b_low_mult = (grefMult < 2);
+    if      (grefMult>=cenSection[8]) centrality=9;
+    else if (grefMult>=cenSection[7]) centrality=8;
+    else if (grefMult>=cenSection[6]) centrality=7;
+    else if (grefMult>=cenSection[5]) centrality=6;
+    else if (grefMult>=cenSection[4]) centrality=5;
+    else if (grefMult>=cenSection[3]) centrality=4;
+    else if (grefMult>=cenSection[2]) centrality=3;
+    else if (grefMult>=cenSection[1]) centrality=2;
+    else if (grefMult>=cenSection[0]) centrality=1;
     else centrality = 0;
     hist_cent->Fill(centrality);
     hist_realTrackMult->Fill(refMult);
@@ -2661,10 +2661,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
   hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
   hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_grefmult_refmult->GetXaxis()->SetTitle("gRefMult");
+  hist_grefmult_refmult->GetXaxis()->SetTitle("grefMult");
   hist_grefmult_refmult->GetYaxis()->SetTitle("RefMult");
   hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
+  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("grefMult");
   hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
   hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
