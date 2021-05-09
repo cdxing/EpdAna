@@ -1258,7 +1258,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     else if (grefMult>=cenSection[0]) centrality=9;
     else centrality = 0;
     hist_cent->Fill(centrality);
-    hist_realTrackMult->Fill(refMult);
+    hist_realTrackMult->Fill(grefMult);
     hist_FXTTrackMult->Fill(nFXTMult);
     hist_grefmult_refmult->Fill(grefMult,refMult);
     hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
