@@ -346,16 +346,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
+  /*
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins];
   TH2D *hist2_Epd_east_Qy_Qx_rec_ini[mEpOrderMax][_nEventTypeBins];
+  */
   TH1D *hist_Epd_Sub_psi_raw_ini = new TH1D("hist_Epd_Sub_psi_raw_ini","raw EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_Sub_psi_Shifted_ini = new TH1D("hist_Epd_Sub_psi_Shifted_ini","shifted EPD-Sub EP for each & every EPD hit in EPD-1",1024,-1.0,7.0);
   TH1D *hist_Epd_east_psi_raw_ini[mEpOrderMax][_nEventTypeBins],*hist_Epd_east_psi_recenter_ini[mEpOrderMax][_nEventTypeBins],
   /**hist_Epd_east_psi_Weighted_ini[_nEventTypeBins],*/*hist_Epd_east_psi_Shifted_ini[mEpOrderMax][_nEventTypeBins];
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+      /*
       hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east raw Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
       hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]= new TH2D(Form("hist2_Epd_east_Qy_Qx_rec_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east rec Qy vs Qx Order %d EventTypeId %d",iOrder, EventTypeId),2000,-100.0,100.0,2000,-100.0,100.0);
+      */
       hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_raw_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
       hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId] = new TH1D(Form("hist_Epd_east_psi_recenter_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Recentered) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
       // hist_Epd_east_psi_Weighted_ini[EventTypeId] = new TH1D(Form("hist_Epd_east_psi_Weighted_ini_Order_%d_typeID_%d",iOrder,EventTypeId),Form("EPD east EP (Weighted) Order %d EventTypeId %d",iOrder, EventTypeId),1024,-1.0,7.0);
@@ -1558,7 +1562,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           // Double_t QrawYtemp = (Double_t)QrawEastSide[iOrder-1][EventTypeId][1];
           PsiEastRaw[iOrder-1][EventTypeId] = (Double_t)GetPsi(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
+            // hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->Fill(QrawEastSide[iOrder-1][EventTypeId][0],QrawEastSide[iOrder-1][EventTypeId][1]);
             hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->Fill(PsiEastRaw[iOrder-1][EventTypeId]);
             // hist_Epd_east_psi_Weighted_ini[EventTypeId]->Fill(PsiEastPhiWeighted[EventTypeId]);
           } else {
@@ -1576,7 +1580,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
           PsiEastRecenter[iOrder-1][EventTypeId] = GetPsi(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1],iOrder);
           if(PsiEastRaw[iOrder-1][EventTypeId]!=-999.0){
-            hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
+            // hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->Fill(QrecenterEastSide[iOrder-1][EventTypeId][0],QrecenterEastSide[iOrder-1][EventTypeId][1]);
             hist_Epd_east_psi_recenter_ini[iOrder-1][EventTypeId]->Fill(PsiEastRecenter[iOrder-1][EventTypeId]);
             // cout << "Psi_raw = " << PsiEastRaw[iOrder-1][EventTypeId] << endl;
             // cout << "Psi_rec = " << PsiEastRecenter[iOrder-1][EventTypeId] << endl;
@@ -3001,10 +3005,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
+      /*
       hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->GetXaxis()->SetTitle("Q_x^{raw EPD east}_{1} ");
       hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId]->GetYaxis()->SetTitle("Q_y^{raw EPD east}_{1} ");
       hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->GetXaxis()->SetTitle("Q_x^{rec EPD east}_{1} ");
       hist2_Epd_east_Qy_Qx_rec_ini[iOrder-1][EventTypeId]->GetYaxis()->SetTitle("Q_y^{rec EPD east}_{1} ");
+      */
       hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->GetXaxis()->SetTitle(Form("#psi^{EPD east}_{%d} [Radian]",iOrder));
       hist_Epd_east_psi_raw_ini[iOrder-1][EventTypeId]->GetYaxis()->SetTitle("# of events");
       // hist_Epd_east_psi_Weighted_ini[EventTypeId]->GetXaxis()->SetTitle("#psi^{EPD east}_{1} [Radian]");
