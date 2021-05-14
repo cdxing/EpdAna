@@ -185,12 +185,37 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     } else if (sys_varN == 4){
       etaRange[0][0] = -5.00;
       etaRange[0][1] = -4.39;
-
     }
   }
   // -------------------------- TPC event planes ----------------------------------
   Double_t etaRange_tpc[2][6] = {{-2.0,-1.4,-1.3,-0.7,-0.6,0.},{-2.1,-2.0,-1.25,-1.2,-1.15,0.}}; // TPC eta range
-
+  // # Systematic Analysis
+  // sys_cutN == 1; // etaGap
+  if(sys_cutN == 1 && sys_varN == 1){ //  eta gap 0.15 between Psi_2 of TPC-A and TPC-B
+    etaRange_tpc[1][2] = -1.3;
+    etaRange_tpc[1][3] = -1.15;
+  }
+  if(sys_cutN == 1 && sys_varN == 2){ // eta gap 0.02 between Psi_2 of TPC-A and TPC-B
+    etaRange_tpc[1][2] = -1.24;
+    etaRange_tpc[1][3] = -1.22;
+  }
+  // # Systematic Analysis
+  // sys_cutN == 2; // etaRange
+  if(sys_cutN == 2){
+    if(sys_varN == 1){
+      etaRange[1][3] = -2.9-0.1;
+      etaRange[1][4] = -2.6;
+    } else if(sys_varN == 2){
+      etaRange[1][3] = -2.9;
+      etaRange[1][4] = -2.6-0.1;
+    } else if (sys_varN == 3){
+      etaRange[1][3] = -2.9-0.1;
+      etaRange[1][4] = -2.6-0.1;
+    } else if (sys_varN == 4){
+      etaRange[1][3] = -2.9+0.1;
+      etaRange[1][4] = -2.6+0.1;
+    }
+  }
   TString ResoName = "Resolution_INPUT_sys_";
   ResoName.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
   ResoName.Append(sys_object[sys_cutN]);
@@ -3446,7 +3471,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   wt[1]->Write();
   wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
-  outputFile->Write();
+  // outputFile->Write();
   // profile3D_KP_v2->Write();
   // profile3D_KM_v2->Write();
   // profile3D_Phi_bkg_v2->Write();
@@ -3471,7 +3496,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  PhiMesonAnaOutputFile->Write();
+  // PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
