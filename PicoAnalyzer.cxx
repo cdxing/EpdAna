@@ -624,26 +624,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               -1.0,1.0);
     }
   }
-  // for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
-  //   mEpdShiftOutput_sin[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_sin",iOrder,EventTypeId),
-  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-  //           -1.0,1.0);
-  //   mEpdShiftOutput_cos[iOrder-1][EventTypeId] = new TProfile2D(Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),Form("EpdShiftEW0Psi%d_typeID_%d_cos",iOrder,EventTypeId),
-  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-  //           -1.0,1.0);
-  // }
-  // for(int EventTypeId_tpc=0; EventTypeId_tpc<_nEventTypeBins_tpc; EventTypeId_tpc++){
-  //   mTpcShiftOutput_sin[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_sin",iOrder,EventTypeId_tpc),
-  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-  //           -1.0,1.0);
-  //   mTpcShiftOutput_cos[iOrder-1][EventTypeId_tpc] = new TProfile2D(Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),Form("mTpcShiftOutputPsi_%d_typeID_%d_cos",iOrder,EventTypeId_tpc),
-  //           _EpTermsMaxIni,0.5,1.0*_EpTermsMaxIni+.5, // Shift order
-  //           _Ncentralities,0.5,_Ncentralities+0.5, // Centrality
-  //           -1.0,1.0);
-  // }
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
   TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2]
   , *profile_correlation_psi2_epd_tpc[2], *profile_correlation_psi2_tpcAB;
@@ -901,6 +881,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // pt SetB, cent SetB
+  /*
   TH1D *mHist_SE_InvM_ptSetB_centSetB[4][9];
   TH1D *mHist_rotation_InvM_ptSetB_centSetB[4][9];
   TH2D *mHist_v1_raw_ptSetB_centSetB[4][9];
@@ -911,6 +892,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TProfile *mProfile_v1_reso_ptSetB_centSetB[4][9];
   TProfile *mProfile_v2_raw_ptSetB_centSetB[4][9];
   TProfile *mProfile_v2_reso_ptSetB_centSetB[4][9];
+
   for(int pt=0; pt<4; pt++)
   {
     for(int cent=0; cent<9;cent++){
@@ -952,7 +934,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_ptSetB_centSetB[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
     }
   }
+  */
   // pt SetC, cent 0-60%, 0-80%
+  /*
   TH1D *mHist_SE_InvM_ptSetC_centAll[10][2];
   TH1D *mHist_rotation_InvM_ptSetC_centAll[10][2];
   TH2D *mHist_v1_raw_ptSetC_centAll[10][2];
@@ -1005,6 +989,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_ptSetC_centAll[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
     }
   }
+  */
   // rap SetA, cent SetA
   TH1D *mHist_SE_InvM_rapSetA_centSetA[4][6];
   TH1D *mHist_rotation_InvM_rapSetA_centSetA[4][6];
@@ -1108,6 +1093,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // rap SetA, cent SetB
+  /*
   TH1D *mHist_SE_InvM_rapSetA_centSetB[4][9];
   TH1D *mHist_rotation_InvM_rapSetA_centSetB[4][9];
   TH2D *mHist_v1_raw_rapSetA_centSetB[4][9];
@@ -1159,6 +1145,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mHist_v2_reso_rapSetA_centSetB[rap][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>");
     }
   }
+  */
   // gRandom->SetSeed((unsigned) time(0));
   gRandom = new TRandom3(0);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
@@ -2836,6 +2823,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
           // rap SetA, cent SetB
+          /*
           for(int cent=0; cent<9;cent++){
             if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
               if(centrality == cent+1 ){
@@ -2848,7 +2836,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
+          */
         }
+        /*
         for(int pt=0; pt<4; pt++)
         {// pt SetB, cent SetB
           for(int cent=0; cent<9;cent++){
@@ -2869,6 +2859,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }
+        */
+        /*
         for(int pt=0; pt<10; pt++)
         {// pt SetC, cent 0-60%, 0-80%
           for(int cent=0; cent<2;cent++){
@@ -2889,7 +2881,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }
-
+        */
       }
     }
     v_Proton_tracks.clear();
@@ -3373,6 +3365,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // pt SetB, cent SetB
+  /*
   for(int pt=0; pt<4; pt++)
   {
     for(int cent=0; cent<9;cent++){
@@ -3382,6 +3375,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_ptSetB_centSetB[pt][cent] = mHist_v2_reso_ptSetB_centSetB[pt][cent]->ProfileX();
     }
   }
+  */
+  /*
   // pt SetC, cent 0-60%, 0-80%
   for(int pt=0; pt<10; pt++)
   {
@@ -3392,6 +3387,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_ptSetC_centAll[pt][cent] = mHist_v2_reso_ptSetC_centAll[pt][cent]->ProfileX();
     }
   }
+  */
   // rap SetA, cent SetA
   for(int rap=0; rap<4; rap++)
   {
@@ -3403,6 +3399,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   // rap SetA, cent SetB
+  /*
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<9;cent++){
@@ -3412,14 +3409,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_rapSetA_centSetB[rap][cent] = mHist_v2_reso_rapSetA_centSetB[rap][cent]->ProfileX();
     }
   }
+  */
   mCorrectionOutputFile->cd();
   wt[1]->Write();
   wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
-  outputFile->cd();
-  profile3D_KP_v2->Write();
-  profile3D_KM_v2->Write();
-  profile3D_Phi_bkg_v2->Write();
+  outputFile->Write();
+  // profile3D_KP_v2->Write();
+  // profile3D_KM_v2->Write();
+  // profile3D_Phi_bkg_v2->Write();
   // for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
   //   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
   //     hist2_Epd_east_Qy_Qx_raw_ini[iOrder-1][EventTypeId] ->Write();
