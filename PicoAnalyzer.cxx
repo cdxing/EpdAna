@@ -316,7 +316,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
   TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
   // -------------------- Track loop QA histograms --------------------------------
-  TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
+  // TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
   TH1D *hist_pt = new TH1D("hist_pt","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
@@ -327,7 +327,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
   TH1D *hist_ndEdx = new TH1D("hist_ndEdx","hist_ndEdx",100,-0.5,99.5);
   TH1D *hist_DCA = new TH1D("hist_DCA","hist_DCA",100,0,10.0);
-  TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
+  // TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz_cut = new TH1D("hist_pz_cut","p_{z} [GeV/c]",4000,-10.0,10.0);
   TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
@@ -991,6 +991,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   */
   // rap SetA, cent SetA
+  /*
   TH1D *mHist_SE_InvM_rapSetA_centSetA[4][6];
   TH1D *mHist_rotation_InvM_rapSetA_centSetA[4][6];
   TH2D *mHist_v1_raw_rapSetA_centSetA[4][6];
@@ -1092,6 +1093,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
+  */
   // rap SetA, cent SetB
   /*
   TH1D *mHist_SE_InvM_rapSetA_centSetB[4][9];
@@ -1267,7 +1269,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
-      hist_px_py->Fill(d_px,d_py);
+      // hist_px_py->Fill(d_px,d_py);
       hist_pz   ->Fill(d_pz);
       hist_pt   ->Fill(d_pT);
       hist_mom  ->Fill(d_mom);
@@ -1328,7 +1330,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
       vGoodTracks.push_back(picoTrack);
       // --------------- QA plots after major track cuts ----------------------
-      hist_px_py_cut->Fill(d_px,d_py);
+      // hist_px_py_cut->Fill(d_px,d_py);
       hist_pz_cut   ->Fill(d_pz);
       hist_pt_cut   ->Fill(d_pT);
       hist_mom_cut  ->Fill(d_mom);
@@ -2574,6 +2576,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
           // rap SetA, cent SetA
+          /*
           if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
             if(centrality >= 1 && centrality <= 2){
               mHist_SE_InvM_rapSetA_centSetA[i][0]->Fill(d_inv_m); // 0-10%
@@ -2822,6 +2825,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
+          */
           // rap SetA, cent SetB
           /*
           for(int cent=0; cent<9;cent++){
@@ -2925,8 +2929,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Vr_cut->GetYaxis()->SetTitle("# of events");
   hist_VyVx_cut->GetXaxis()->SetTitle("V_{X} [cm]");
   hist_VyVx_cut->GetYaxis()->SetTitle("V_{Y} [cm]");
-  hist_px_py->GetXaxis()->SetTitle("p_{x} [GeV/c]");
-  hist_px_py->GetYaxis()->SetTitle("p_{y} [GeV/c]");
+  // hist_px_py->GetXaxis()->SetTitle("p_{x} [GeV/c]");
+  // hist_px_py->GetYaxis()->SetTitle("p_{y} [GeV/c]");
   hist_pz->GetXaxis()->SetTitle("p_{z} [GeV/c]");
   hist_pz->GetYaxis()->SetTitle("# of tracks");
   hist_pt->GetXaxis()->SetTitle("p_{T} [GeV/c]");
@@ -2947,8 +2951,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_ndEdx->GetYaxis()->SetTitle("# of Tracks");
   hist_DCA->GetXaxis()->SetTitle("DCA [cm]");
   hist_DCA->GetYaxis()->SetTitle("# of Tracks");
-  hist_px_py_cut->GetXaxis()->SetTitle("p_{x} [GeV/c]");
-  hist_px_py_cut->GetYaxis()->SetTitle("p_{y} [GeV/c]");
+  // hist_px_py_cut->GetXaxis()->SetTitle("p_{x} [GeV/c]");
+  // hist_px_py_cut->GetYaxis()->SetTitle("p_{y} [GeV/c]");
   hist_pz_cut->GetXaxis()->SetTitle("p_{z} [GeV/c]");
   hist_pz_cut->GetYaxis()->SetTitle("# of tracks");
   hist_pt_cut->GetXaxis()->SetTitle("p_{T} [GeV/c]");
@@ -3240,6 +3244,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_v2_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
     mHist_v2_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
     // rap SetA, cent SetA
+    /*
     mHist_SE_InvM_rapSetA_centSetA[i][0]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
     mHist_SE_InvM_rapSetA_centSetA[i][1]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
     mHist_SE_InvM_rapSetA_centSetA[i][2]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
@@ -3281,6 +3286,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_v2_reso_rapSetA_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
     mHist_v2_reso_rapSetA_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
     mHist_v2_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
+    */
   }
   for(int pt=0; pt<2; pt++)
   {// pt SetA, cent SetA
@@ -3389,6 +3395,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   */
   // rap SetA, cent SetA
+  /*
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<6;cent++){
@@ -3398,6 +3405,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v2_reso_rapSetA_centSetA[rap][cent] = mHist_v2_reso_rapSetA_centSetA[rap][cent]->ProfileX();
     }
   }
+  */
   // rap SetA, cent SetB
   /*
   for(int rap=0; rap<4; rap++)
