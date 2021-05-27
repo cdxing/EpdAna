@@ -422,7 +422,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
-  cout<< "test 1" << endl;
   TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly->Sumw2();
@@ -617,7 +616,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
   TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","eta distribution of #phi",200,-10.,10);
-  cout<< "test 2" << endl;
 
   TH2D *hist_SE_pt_y_PhiMeson[4];
   TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
@@ -1052,7 +1050,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // (3) =========================== Event loop ====================================
   for(Long64_t iEvent=0; iEvent<events2read; iEvent++)
   {
-    cout<< "test 3" << endl;
 
     // ---------------------- Event reading quality assurance ----------------------
     if((iEvent+1)%100 == 0) {
@@ -1277,7 +1274,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
-    cout<< "test 4" << endl;
     // (7) ================ EPD event plane ====================================
     // (7.1) ------------- EPD ep from Mike Lisa's class StEpdEpFinder // removed due to redundancy
     // (7.2) ------------------- EPD EP by hand ---------------------------------
@@ -1554,7 +1550,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
-    cout<< "test 5" << endl;
 
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Fill Proton tracks for proton v1 analysis
@@ -1971,7 +1966,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[EventTypeId_tpc]));
       }
     }
-    cout<< "test 6" << endl;
 
     // (9) ======================= Flow calculation of P, Pi K  =========================
     for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
@@ -2008,7 +2002,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // cout << "The size of kaonPlus Vector "<< v_KaonPlus_tracks.size()<< endl;
     // cout << "The size of kaonMinus Vector "<< v_KaonMinus_tracks.size()<< endl;
-    cout<< "test 7" << endl;
 
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
@@ -2186,7 +2179,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }
-        cout<< "test 8" << endl;
 
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
@@ -2613,7 +2605,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_KaonPlus_tracks_flexTOF.clear();
     v_KaonMinus_tracks_flexTOF.clear();
   }  // Event Loop
-  cout<< "test 9" << endl;
 
   // subtraction
   for(int cent=0;cent<4;cent++){
