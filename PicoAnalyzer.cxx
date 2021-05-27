@@ -1565,12 +1565,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     std::vector<StPicoTrack *> v_KaonMinus_tracks;
     std::vector<StPicoTrack *> v_KaonMinus_tracks_flexTOF;
     // Define TPC EP parameters
-    Int_t NTpcAll[2] = {0};
-    Double_t QrawTpcAll[2][2]={0.0};       /// indices:[TPCetaRange] [x,y]
-    Double_t QrecenterTpcAll[2][2]={0.0};       /// indices:[TPCetaRange] [x,y]
-    Double_t PsiTpcAllRaw[2]={-999.0,-999.0};
-    Double_t PsiTpcAllRecenter[2]={-999.0,-999.0};
-    Double_t PsiTpcAllShifted[2]={-999.0,-999.0};
+    Int_t NTpcAll[3] = {0};
+    Double_t QrawTpcAll[3][2]={0.0};       /// indices:[TPCetaRange] [x,y]
+    Double_t QrecenterTpcAll[3][2]={0.0};       /// indices:[TPCetaRange] [x,y]
+    Double_t PsiTpcAllRaw[3]={-999.0,-999.0,-999.0};
+    Double_t PsiTpcAllRecenter[3]={-999.0,-999.0,-999.0};
+    Double_t PsiTpcAllShifted[3]={-999.0,-999.0,-999.0};
     std::vector<std::vector<Double_t> > vQrawTpcAll; // {{Xn,Yn},...} For TPC EP flow, one want to remove current track
     Int_t nProtons=0,nKaonPlus=0,nKaonMinus=0,nPionPlus=0,nPionMinus=0; // PID parameters
     Double_t d_nSigmaKaonCut, d_KaonM2low, d_KaonM2high, d_KaonpTlow;
