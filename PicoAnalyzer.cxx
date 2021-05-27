@@ -20,9 +20,7 @@
  *
  * Updated for systematic analysis for 7.2 (26.5) GeV Run 18 data
  *
- * Update to cross check with Kosuke's event plane
- * \author Ding Chen, Kosuke Okuba
- * \date Oct 10, 2020
+ * Update to do 27 GeV collder mode data
  */
 
 // This is needed for calling standalone classes (not needed on RACF)
@@ -81,7 +79,7 @@
 const Int_t _Ncentralities = 9; // 9 centrality bins
 const Int_t _EpTermsMaxIni = 20; // Shift Order
 const Int_t _nEventTypeBins = 5; // 5 etaRange
-const Int_t _nEventTypeBins_tpc = 2; // 2 etaRange for TPC
+const Int_t _nEventTypeBins_tpc = 3; // 2 etaRange for TPC
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
@@ -94,6 +92,295 @@ const Int_t triggers[6] = {
     610031,
     610041,
     610051
+};
+
+const Int_t badrun[286]={
+19130060,
+19130061,
+19130078,
+19130079,
+19131001,
+19131006,
+19131007,
+19131016,
+19131027,
+19131031,
+19131037,
+19131039,
+19131040,
+19131041,
+19131042,
+19131044,
+19131045,
+19131046,
+19131048,
+19131049,
+19131050,
+19131051,
+19131052,
+19131057,
+19132001,
+19132008,
+19132014,
+19132022,
+19132032,
+19132039,
+19132048,
+19132070,
+19132071,
+19132076,
+19132081,
+19133005,
+19133014,
+19133022,
+19133028,
+19133033,
+19133041,
+19133045,
+19133048,
+19133049,
+19133050,
+19133056,
+19133061,
+19134005,
+19134011,
+19134019,
+19134029,
+19134035,
+19134036,
+19134037,
+19134038,
+19134040,
+19134041,
+19134042,
+19134047,
+19135013,
+19135014,
+19135018,
+19135022,
+19135029,
+19135040,
+19136001,
+19136005,
+19136009,
+19136013,
+19136014,
+19136040,
+19136041,
+19136042,
+19136047,
+19137004,
+19137011,
+19137020,
+19137029,
+19137036,
+19137037,
+19137038,
+19137040,
+19137041,
+19137045,
+19137047,
+19137048,
+19137050,
+19137051,
+19137052,
+19137053,
+19137054,
+19137059,
+19138005,
+19138006,
+19138012,
+19138016,
+19139024,
+19139028,
+19139034,
+19139069,
+19139073,
+19140004,
+19140008,
+19140012,
+19140017,
+19140022,
+19140031,
+19140035,
+19140037,
+19140042,
+19140043,
+19140047,
+19140053,
+19141001,
+19141006,
+19141011,
+19141015,
+19141022,
+19141025,
+19141026,
+19141028,
+19141029,
+19141047,
+19141048,
+19141049,
+19141053,
+19142003,
+19142008,
+19142012,
+19142016,
+19142021,
+19142022,
+19142027,
+19142035,
+19142041,
+19142045,
+19142048,
+19142049,
+19142053,
+19142054,
+19142055,
+19142057,
+19142058,
+19142059,
+19142065,
+19143003,
+19143017,
+19144012,
+19144013,
+19144014,
+19144018,
+19144019,
+19144020,
+19144024,
+19144026,
+19144032,
+19144033,
+19144036,
+19144037,
+19144038,
+19144042,
+19144044,
+19145001,
+19145006,
+19145011,
+19145020,
+19145034,
+19145035,
+19145036,
+19145038,
+19145039,
+19145040,
+19145042,
+19145043,
+19145044,
+19145050,
+19146004,
+19146009,
+19146014,
+19146020,
+19147009,
+19147010,
+19147015,
+19147016,
+19147023,
+19147027,
+19147030,
+19147031,
+19147035,
+19147039,
+19147040,
+19147044,
+19147048,
+19148004,
+19148009,
+19148013,
+19148017,
+19148052,
+19149015,
+19149025,
+19149031,
+19149032,
+19149035,
+19149037,
+19149038,
+19149039,
+19149042,
+19149043,
+19149044,
+19149046,
+19149047,
+19149048,
+19149050,
+19149051,
+19149052,
+19150001,
+19150007,
+19150014,
+19156002,
+19156019,
+19156030,
+19156031,
+19156032,
+19156033,
+19156042,
+19156043,
+19156044,
+19156045,
+19156046,
+19157004,
+19157015,
+19158011,
+19158015,
+19159004,
+19159012,
+19159021,
+19159023,
+19159024,
+19159025,
+19159039,
+19159040,
+19159041,
+19160004,
+19160016,
+19160021,
+19160025,
+19161017,
+19162030,
+19162031,
+19162032,
+19162036,
+19162037,
+19162038,
+19162040,
+19162041,
+19162042,
+19163008,
+19163012,
+19163016,
+19163020,
+19163039,
+19163040,
+19163041,
+19164006,
+19164011,
+19164017,
+19165004,
+19165008,
+19165009,
+19165013,
+19165018,
+19165027,
+19165028,
+19165029,
+19166008,
+19166012,
+19167005,
+19167009,
+19167013,
+19167017,
+19167023,
+19167028,
+19167032,
+19167042,
+19168030,
+19168036
 };
 // const Int_t order         = 20;
 // const Int_t twoorder      = 2 * order;
@@ -408,14 +695,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // -------------------------- TPC event planes ----------------------------------
-  Double_t etaRange_tpc[2] = {-0.6,0.}; // TPC eta range {-0.4, 0.0}
-  TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,0,3.0,2,0,2);
+  Double_t etaRange_tpc[4] = {-1.0,-0.05,0.05,1.0}; // TPC eta range {-0.4, 0.0}
+  TH2D wt_tpc("Order1etaWeight_tpc","Order1etaWeight_tpc",300,-1.5,1.5,3,0,3);
   for (int ix=1; ix<301; ix++){
-    for (int iy=1; iy<3; iy++){
+    for (int iy=1; iy<4; iy++){
       double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
       if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
       else {
-        if(eta<=abs(etaRange_tpc[iy-2]) && eta>abs(etaRange_tpc[iy-1])) wt_tpc.SetBinContent(ix,iy,1.0);
+        if(eta<=etaRange_tpc[2*iy+1] && eta > etaRange_tpc[2*iy]) wt_tpc.SetBinContent(ix,iy,1.0);
         else wt_tpc.SetBinContent(ix,iy,0.0);
       }
     }
@@ -613,6 +900,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_pT  = new TH1D("hist_SE_PhiMeson_pT","pT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
+  TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","eta distribution of #phi",200,-10.,10);
   TH2D *hist_SE_pt_y_PhiMeson[4];
   TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
   TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
@@ -1069,7 +1357,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // (4) =================== Get event parameters ================================
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
-
+    bool bad_run = false;
+    for(int ii=0; ii<286; ii++)
+    {
+       if(runId == badrun[ii]) bad_run =true;
+    }
     const Float_t   f_MagField = event->bField(); // Magnetic field
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
     hist_runId->Fill(Day);
@@ -1128,7 +1420,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.4;
       }
     }
-    bool b_bad_evt  = b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
+    bool b_bad_evt  = bad_run || b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
     if(b_bad_evt) continue;
     hist_Vz_cut->Fill(primaryVertex_Z);
     hist_Vr_cut->Fill(primaryVertex_perp);
@@ -1188,7 +1480,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           b_bad_dEdx     = (picoTrack->nHitsDedx() <= 20);
         }
       }
-      bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
+      bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 1.0);
       // # Systematic Analysis
       // sys_cutN == 6; // dca
       if(sys_cutN == 6){
@@ -1797,6 +2089,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
         int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
+        double ptWeight = 0.;
+        if(0.2<=pt<=2.0) ptWeight = pt;
         if(EpOrder == 1){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
@@ -1807,8 +2101,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
-          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * pt * Cosine;
-          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * pt * Sine;
+          QrawTpcAll[EventTypeId_tpc][0] += etaWeight * ptWeight * Cosine;
+          QrawTpcAll[EventTypeId_tpc][1] += etaWeight * ptWeight * Sine;
         }
       }
       // calculate the v1 in TPC region using EPD EP
@@ -2050,8 +2344,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_Phi_pT = sqrt(d_px0*d_px0 + d_py0*d_py0 +d_px1*d_px1 +d_py1+d_py1 + 2.*d_px0*d_px1 + 2.*d_py0*d_py1);
         double d_mT_phi = sqrt(d_Phi_pT*d_Phi_pT + _massPhi*_massPhi );
         double d_phi_pz = d_pz0+d_pz1;
+        double d_phi_mom= sqrt(d_Phi_pT*d_Phi_pT + d_phi_pz*d_phi_pz);
         double d_phi_E  = d_E0+d_E1;
         double d_phi_y  = ((d_phi_E - d_phi_pz) != 0.0) ?  0.5*TMath::Log( (d_phi_E + d_phi_pz) / (d_phi_E - d_phi_pz) ) : -9999;
+        double d_phi_eta   = ((d_phi_mom - d_phi_pz) != 0.0) ? 0.5*TMath::Log( (d_phi_mom + d_phi_pz) / (d_phi_mom - d_phi_pz) ) : -999.0;
         double d_inv_m  = sqrt(  d_M0*d_M0
                               + d_M1*d_M1
                               + 2.0 *d_E0*d_E1
@@ -2074,6 +2370,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_SE_PhiMeson_pT ->Fill(d_Phi_pT);
         hist_SE_PhiMeson_mT ->Fill(d_mT_phi);
         hist_SE_PhiMeson_rap ->Fill(d_phi_y);
+        hist_SE_PhiMeson_eta ->Fill(d_phi_eta);
         if(centrality >= 1 && centrality <= 2){ // 0-10%
           hist_SE_pt_y_PhiMeson[0] ->Fill(d_phi_y,d_Phi_pT);
           hist_SE_pt_y_PhiMeson[1] ->Fill(d_phi_y,d_Phi_pT);
@@ -2147,9 +2444,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double d_flow_PHI_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
         double d_flow_PHI_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
         if(PsiEastRaw[1]!=-999.0){// Using EPD-1
-          for(int km=0;km<2;km++){ // km - flow order
+          for(int km=0;km<1;km++){ // km - flow order
             d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]));
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+          }
+        }
+        if(PsiTpcAllShifted[1]!=-999.0){// Using TPC
+          for(int km=1;km<2;km++){ // km - flow order
+            if(d_phi_eta>=0.){
+              d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[1]));
+              d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+            } else{
+              d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[0]));
+              d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[0]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+            }
           }
         }
         // -------------------- (10.1) Fill SE InvM plots -------------------------
