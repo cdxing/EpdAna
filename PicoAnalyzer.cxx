@@ -262,7 +262,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     for(int i=0;i<_Ncentralities;i++){
       inputReso >> d_resolution_b[i];
-      cout << "Resolution_TPC-B_psi2 "<<i <<": "<<d_resolution[1][i]<<endl;
+      cout << "Resolution_TPC-B_psi2 "<<i <<": "<<d_resolution_b[i]<<endl;
     }
 
   }
