@@ -617,6 +617,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_SE_PhiMeson_mT  = new TH1D("hist_SE_PhiMeson_mT","mT distribution of #phi",200,0.0,10);
   TH1D *hist_SE_PhiMeson_rap  = new TH1D("hist_SE_PhiMeson_rap","y distribution of #phi",200,-10.,10);
   TH1D *hist_SE_PhiMeson_eta  = new TH1D("hist_SE_PhiMeson_eta","eta distribution of #phi",200,-10.,10);
+  cout<< "test 2" << endl;
+
   TH2D *hist_SE_pt_y_PhiMeson[4];
   TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
   TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
