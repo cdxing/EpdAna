@@ -416,7 +416,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         if(eta<= 1.0 && eta>=-1.0)wt_tpc.SetBinContent(ix,iy,1);
         else wt_tpc.SetBinContent(ix,iy,0.0);
       }
-      else {
+      else if(iy>=2) {
         if(eta<=etaRange_tpc[2*iy-3] && eta > etaRange_tpc[2*iy-4]) wt_tpc.SetBinContent(ix,iy,1.0);
         else wt_tpc.SetBinContent(ix,iy,0.0);
       }
