@@ -422,6 +422,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
   }
+  cout<< "test 1"
   TProfile2D *profile2D_v1VsEtaTpcOnly = new TProfile2D("profile2D_v1VsEtaTpcOnly","<( y - y_{CM} ) * cos ( #phi_{Track} - #psi_{EPD-full} ) > vs #eta vs centrality"
   ,64,-3.0,3.0,_Ncentralities,0.5,0.5+_Ncentralities,"");
   profile2D_v1VsEtaTpcOnly->Sumw2();
