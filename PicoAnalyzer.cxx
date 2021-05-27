@@ -412,7 +412,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   for (int ix=1; ix<301; ix++){
     for (int iy=1; iy<4; iy++){
       double eta = wt_tpc.GetXaxis()->GetBinCenter(ix);
-      if(iy==1) wt_tpc.SetBinContent(ix,iy,1);
+      if(iy==1 && eta<= 1.0 && eta>=-1.0) wt_tpc.SetBinContent(ix,iy,1);
       else {
         if(eta<=etaRange_tpc[2*iy+1] && eta > etaRange_tpc[2*iy]) wt_tpc.SetBinContent(ix,iy,1.0);
         else wt_tpc.SetBinContent(ix,iy,0.0);
