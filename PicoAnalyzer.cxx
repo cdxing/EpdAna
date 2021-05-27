@@ -1554,6 +1554,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mEpdShiftOutput_cos[EventTypeId]->Fill(i,centrality,cos(tmp*PsiEastRecenter[EventTypeId]));// use raw EP rather than Phi weighing EP
       }
     }
+    cout<< "test 5" << endl;
+
     // (8) ================ TPC event plane : use identedfied particles ====================================
     // Fill Proton tracks for proton v1 analysis
     std::vector<StPicoTrack *> v_Proton_tracks;
@@ -1969,6 +1971,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         mTpcShiftOutput_cos[EventTypeId_tpc]->Fill(i,centrality,cos(tmp*PsiTpcAllRecenter[EventTypeId_tpc]));
       }
     }
+    cout<< "test 6" << endl;
+
     // (9) ======================= Flow calculation of P, Pi K  =========================
     for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
       StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th K+ track
@@ -2004,6 +2008,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     // cout << "The size of kaonPlus Vector "<< v_KaonPlus_tracks.size()<< endl;
     // cout << "The size of kaonMinus Vector "<< v_KaonMinus_tracks.size()<< endl;
+    cout<< "test 7" << endl;
+
     // (10) ======================= Phi meson analysis  =========================
     double d_cut_mother_decay_length_PHI = 0.5; // must be LESS than this
     for(unsigned int i = 0; i < v_KaonPlus_tracks.size(); i++){
@@ -2180,6 +2186,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
           }
         }
+        cout<< "test 8" << endl;
+
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         for(int pt=0; pt<2; pt++)
         {// pt SetA, cent SetA
@@ -2605,6 +2613,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     v_KaonPlus_tracks_flexTOF.clear();
     v_KaonMinus_tracks_flexTOF.clear();
   }  // Event Loop
+  cout<< "test 9" << endl;
+
   // subtraction
   for(int cent=0;cent<4;cent++){
     hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
