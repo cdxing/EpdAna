@@ -217,7 +217,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
   }
   TString ResoName = "Resolution_INPUT_sys_";
-  ResoName.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/");
+  ResoName.Prepend("/star/u/dchen/GitHub_7p2GeV_psi_2/EpdAna/resolution_correction/");
   ResoName.Append(sys_object[sys_cutN]);
   ResoName.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN-1));
   ResoName.Append(".txt");
@@ -257,10 +257,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   }
   else{
     for(int i=0;i<_Ncentralities;i++){
-      inputReso >> d_resolution[0][i];
-      cout << "Resolution_11 "<<i <<": "<<d_resolution[0][i]<<endl;
-      d_resolution[1][i] = 1;
+      inputReso >> d_resolution[1][i];
+      cout << "Resolution_TPC-A_psi2 "<<i <<": "<<d_resolution[1][i]<<endl;
     }
+    for(int i=0;i<_Ncentralities;i++){
+      inputReso >> d_resolution_b[i];
+      cout << "Resolution_TPC-B_psi2 "<<i <<": "<<d_resolution[1][i]<<endl;
+    }
+
   }
   inputReso.close();
   double d_resolution_EPD_3[_Ncentralities] = {0.189401,0.196268,0.195405,0.189716,0.177785,0.163757,0.170117,0.272917,0.296757};
