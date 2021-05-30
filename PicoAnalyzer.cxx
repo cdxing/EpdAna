@@ -1849,7 +1849,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //---------------------------------
     // Calculate unshifted EP angles
     //---------------------------------
-    cout <<"NTpcAll 0 = "<<NTpcAll[0] <<" "<<"NTpcAll 1 = "<<NTpcAll[1]<<"NTpcAll 2 = "<<NTpcAll[2] <<endl;
+    // cout <<"NTpcAll 0 = "<<NTpcAll[0] <<" "<<"NTpcAll 1 = "<<NTpcAll[1]<<"NTpcAll 2 = "<<NTpcAll[2] <<endl;
     for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
       if(NTpcAll[EventTypeId_tpc]<5) continue; // at least 5 tracks to get TPC event plane
       if(QrawTpcAll[EventTypeId_tpc][0] || QrawTpcAll[EventTypeId_tpc][1] ){ // Qx, Qy cannot be 0 at the same time
