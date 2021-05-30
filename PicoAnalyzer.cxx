@@ -1804,7 +1804,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         etaTrkWeight = -1;
       }
       for(int EventTypeId_tpc=0;EventTypeId_tpc<_nEventTypeBins_tpc;EventTypeId_tpc++){
-        int etaBin = (int)wt_tpc.GetXaxis()->FindBin(fabs(eta));
+        int etaBin = (int)wt_tpc.GetXaxis()->FindBin(eta);
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
         double ptWeight = 0.;
         if(0.2<=pt<=2.0) ptWeight = pt;
