@@ -280,6 +280,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
   TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
+  TH2D *hist_VzVPD_pri = new TH2D("hist_VzVPD_pri","V_{Z} [cm] vs. V_{Z}^{VPD} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
   TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
@@ -1087,7 +1088,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Double_t primaryVertex_Y    = (Double_t)event->primaryVertex().Y();
     Double_t primaryVertex_Z    = (Double_t)event->primaryVertex().Z();
     Double_t primaryVertex_perp = (Double_t)event->primaryVertex().Perp();
+    Double_t primaryVertex_Z_VPD = (Double_t)event->vzVpd();
     hist_Vz_pri  ->Fill(primaryVertex_Z);
+    hist_VzVPD_pri  ->Fill(primaryVertex_Z,primaryVertex_Z_VPD);
     hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
     hist_Vr_pri  ->Fill(primaryVertex_perp);
 
