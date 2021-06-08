@@ -413,6 +413,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // --------------------- TPC event plane QA histograms ----------------------------------
   TH2D *h2_dEdxVsPq = new TH2D("h2_dEdxVsPq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *h2_dEdxVspTq = new TH2D("h2_dEdxVspTq","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
+  TH2D *h2_dEdxVspTq_nSigK = new TH2D("h2_dEdxVspTq_nSigK","dE/dx vs q*|p| with nSigmaKaon < 2",500,-3.0,3.0,500,0.0,10.0);
   TH2D *h2_beta = new TH2D("h2_beta","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *h2_mass = new TH2D("hist_mass","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
   // --------------------- TPC EP PID QA histograms ----------------------------------
@@ -1334,6 +1335,26 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           b_bad_dEdx     = (picoTrack->nHitsDedx() <= 10);
         } else if(sys_varN == 2){
           b_bad_dEdx     = (picoTrack->nHitsDedx() <= 20);
+        } else if(sys_varN == 3){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 5);
+        } else if(sys_varN == 4){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 6);
+        } else if(sys_varN == 5){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 7);
+        } else if(sys_varN == 6){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 8);
+        } else if(sys_varN == 7){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 9);
+        } else if(sys_varN == 8){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 11);
+        } else if(sys_varN == 9){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 12);
+        } else if(sys_varN == 10){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 13);
+        } else if(sys_varN == 11){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 14);
+        } else if(sys_varN == 12){
+          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 15);
         }
       }
       bool    b_bad_DCA      = dca >= 3.0;
@@ -1825,6 +1846,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       // ------------------------ TPC EP QA plots ------------------------------
       h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
       h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
+      if(TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut) h2_dEdxVspTq_nSigK->Fill(charge*pt,picoTrack->dEdx());
       if(tofBeta!=-999.0){
         h2_beta->Fill(charge*ptot,1.0/tofBeta);
         h2_mass->Fill(charge*ptot,mass2);
@@ -3091,6 +3113,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   h2_dEdxVsPq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
   h2_dEdxVspTq->GetXaxis()->SetTitle("q*|pT| (GeV/c)");
   h2_dEdxVspTq->GetYaxis()->SetTitle("dE/dx (keV/cm)");
+  h2_dEdxVspTq_nSigK->GetXaxis()->SetTitle("q*|pT| (GeV/c)");
+  h2_dEdxVspTq_nSigK->GetYaxis()->SetTitle("dE/dx (keV/cm)");
   h2_beta->GetXaxis()->SetTitle("q*|p| (GeV/c)");
   h2_beta->GetYaxis()->SetTitle("1/#beta");
   h2_mass->GetXaxis()->SetTitle("q*|p| (GeV/c)");
@@ -3500,7 +3524,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   wt[1]->Write();
   wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
-  // outputFile->Write();
+  outputFile->Write();
   // profile3D_KP_v2->Write();
   // profile3D_KM_v2->Write();
   // profile3D_Phi_bkg_v2->Write();
@@ -3520,12 +3544,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   //     hist_tpc_all_psi_shifted[iOrder-1][EventTypeId_tpc] ->Write();
   //   }
   // }
-  // outputFile->Write();
   // for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
   //   mPhiWeightOutput[EventTypeId]->Divide(mPhiAveraged[EventTypeId]);
   //   delete mPhiAveraged[EventTypeId];
   // }
-  PhiMesonAnaOutputFile->Write();
+  // PhiMesonAnaOutputFile->Write();
   mCorrectionInputFile->Close();
   delete outputFile;
   delete mCorrectionInputFile;
