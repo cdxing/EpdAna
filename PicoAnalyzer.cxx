@@ -1306,7 +1306,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
       double mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0);
       Double_t eta = picoTrack->pMom().Eta();
-      Double_t phi    = picoTrack->pMom().Phi();
+      Double_t phi = picoTrack->pMom().Phi();
+      Double_t dca = picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z);
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
@@ -1320,7 +1321,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_ratio->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
       hist_nHits->Fill((double)picoTrack->nHitsFit());
       hist_ndEdx->Fill(picoTrack->nHitsDedx());
-      hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
+      hist_DCA  ->Fill(dca);
 
       if(!picoTrack->isPrimary()) continue;
       nFXTMult++;
@@ -1335,14 +1336,38 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           b_bad_dEdx     = (picoTrack->nHitsDedx() <= 20);
         }
       }
-      bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 3.0);
+      bool    b_bad_DCA      = dca >= 3.0;
       // # Systematic Analysis
       // sys_cutN == 6; // dca
       if(sys_cutN == 6){
         if(sys_varN == 1){
-          b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 1.0);
+          b_bad_DCA      = (dca >= 1.0);
         } else if(sys_varN == 2){
           b_bad_dEdx     = false; // no DCA cut
+        } else if(sys_varN == 3){
+          b_bad_DCA      = (dca >= 2.4);
+        } else if(sys_varN == 4){
+          b_bad_DCA      = (dca >= 2.5);
+        } else if(sys_varN == 5){
+          b_bad_DCA      = (dca >= 2.6);
+        } else if(sys_varN == 6){
+          b_bad_DCA      = (dca >= 2.7);
+        } else if(sys_varN == 7){
+          b_bad_DCA      = (dca >= 2.8);
+        } else if(sys_varN == 8){
+          b_bad_DCA      = (dca >= 2.9);
+        } else if(sys_varN == 9){
+          b_bad_DCA      = (dca >= 3.1);
+        } else if(sys_varN == 10){
+          b_bad_DCA      = (dca >= 3.2);
+        } else if(sys_varN == 11){
+          b_bad_DCA      = (dca >= 3.3);
+        } else if(sys_varN == 12){
+          b_bad_DCA      = (dca >= 3.4);
+        } else if(sys_varN == 13){
+          b_bad_DCA      = (dca >= 3.5);
+        } else if(sys_varN == 14){
+          b_bad_DCA      = (dca >= 3.6);
         }
       }
       bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) < 15;
@@ -1381,7 +1406,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_ratio_cut->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
       hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
       hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
-      hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
+      hist_DCA_cut  ->Fill(dca);
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
