@@ -556,8 +556,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             -1.0,1.0);
   }
   // ------------------ TPC event plane ab intio Correlations histograms ----------------------------------
-  TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2];
-  TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all;
+  TProfile *profile_correlation_epd_east[2][6], *profile_correlation_epd_tpc[2][4], *profile_correlation_epd_tpc_all[2], *profile_correlation_tpc_A_tpc_B[2];
+  TH2D *correlation2D_epd_east[6],*correlation2D_epd_tpc[4], *correlation2D_epd_tpc_all, *correlation2D_tpc_A_tpc_B;
   int pairs =0;
   for(int i = 0; i<3;i++){ // Correlations between EPD EP 1, 2, 3, 4. 6 pairs of correlations
     for(int j=i+1;j<4;j++){
@@ -591,10 +591,18 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     new TProfile(Form("profile_correlation_n%d_epd_tpc_all",n+1),
     Form("<cos(%d * (#psi^{EPD east}[full] #minus #psi^{TPC}))>", n+1),
     _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
+    profile_correlation_tpc_A_tpc_B[n]  =
+    new TProfile(Form("profile_correlation_n%d_tpc_A_tpc_B",n+1),
+    Form("<cos(%d * (#psi^{TPC-A} #minus #psi^{TPC-B}))>", n+1),
+    _Ncentralities,0.5,_Ncentralities+0.5,-1.0,1.0,"");
   }
   correlation2D_epd_tpc_all   =
   new TH2D("correlation2D_epd_tpc_all",
   "#psi^{EPD east}[full] vs. #psi^{TPC}",
+  50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
+  correlation2D_tpc_A_tpc_B   =
+  new TH2D("correlation2D_tpc_A_tpc_B",
+  "#psi^{TPC-A} vs. #psi^{TPC-B}",
   50,-0.5*TMath::Pi(),2.5*TMath::Pi(),50,-0.5*TMath::Pi(),2.5*TMath::Pi());
   // ------------- phi-meson output file and plots -----------------------------
   double ptSetA[3]  = {0.6, 1.2, 2.4};
@@ -1950,8 +1958,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
       profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+      profile_correlation_tpc_A_tpc_B[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[2] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
+    correlation2D_tpc_A_tpc_B->Fill(PsiTpcAllShifted[1],PsiTpcAllShifted[2]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
       if(PsiEastRaw[i+1]!=-999.0&&PsiTpcAllRaw[1]!=-999.0){
         for(int n=0; n<2; n++){
