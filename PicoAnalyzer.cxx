@@ -207,7 +207,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // resolution //{0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}
   double d_resolution[2][_Ncentralities] = { //0// EPD-1
     {0.317239,0.380755,0.439133,0.477116,0.504774,0.398817,0.267795,0.165502,0.353166},//recenter
-    {0.0490265,0.148407,0.1722,0.181354,0.166868,0.0153445,6.95331e-310,6.89974e-310,0.115892}, //recenter
+    {0.295316, 0.393266, 0.469086, 0.487261, 0.441992, 0.362143, 0.269485, 0.192562, 0.322997}, //recenter
     // {0.305527,0.346768,0.407968,0.452254,0.47444,0.486652,0.437499,0.276291,0.263857}, // default resolution
     // {0.282505,0.328325,0.396689,0.448594,0.483264,0.505358,0.414846,0.247204,0.209176}, // etaGap var2 0.1
     // {0.0553539,0.058153,0.265089,0.30708,0.165371,0.162038,0.0392603,0.0485935,0.0441441}
@@ -2188,8 +2188,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[1]));
               d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
             } else{
-              d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[0]));
-              d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[0]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
+              d_flow_PHI_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[2]));
+              d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiTpcAllShifted[2]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
             }
           }
         }
