@@ -362,8 +362,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_y_proton = new TH1D("hist_y_proton","Rapidity y",200,-3.0,0.5);
   TH1D *hist_phi_proton = new TH1D("hist_phi_proton","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH2D *hist_rap_eta_proton = new TH2D("hist_rap_eta_proton","proton y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_proton = new TH2D("hist_pt_y_proton","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_proton = new TH2D("hist_pt_eta_proton","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_y_proton = new TH2D("hist_pt_y_proton","p_{T} [GeV/c] vs. y",500,-1.5,1.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_proton = new TH2D("hist_pt_eta_proton","p_{T} [GeV/c] vs. #eta",500,-1.5,1.5,500,0.0,3.5);
   TH2D *hist_dEdx_proton = new TH2D("hist_dEdx_proton","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_proton = new TH2D("hist_beta_proton","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_proton = new TH2D("hist_mass_proton","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
@@ -372,8 +372,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_y_kaonPlus = new TH1D("hist_y_kaonPlus","y",200,-3.0,0.5);
   TH1D *hist_phi_kaonPlus = new TH1D("hist_phi_kaonPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH2D *hist_rap_eta_kaonPlus = new TH2D("hist_rap_eta_kaonPlus","kaonPlus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_kaonPlus = new TH2D("hist_pt_y_kaonPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_kaonPlus = new TH2D("hist_pt_eta_kaonPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_y_kaonPlus = new TH2D("hist_pt_y_kaonPlus","p_{T} [GeV/c] vs. y",500,-1.5,1.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonPlus = new TH2D("hist_pt_eta_kaonPlus","p_{T} [GeV/c] vs. #eta",500,-1.5,1.5,500,0.0,3.5);
   TH2D *hist_dEdx_kaonPlus = new TH2D("hist_dEdx_kaonPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_kaonPlus = new TH2D("hist_beta_kaonPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_kaonPlus = new TH2D("hist_mass_kaonPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
@@ -382,8 +382,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_y_kaonMinus = new TH1D("hist_y_kaonMinus","y",200,-3.0,0.5);
   TH1D *hist_phi_kaonMinus = new TH1D("hist_phi_kaonMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH2D *hist_rap_eta_kaonMinus = new TH2D("hist_rap_eta_kaonMinus","kaonMinus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_kaonMinus = new TH2D("hist_pt_y_kaonMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_kaonMinus = new TH2D("hist_pt_eta_kaonMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_y_kaonMinus = new TH2D("hist_pt_y_kaonMinus","p_{T} [GeV/c] vs. y",500,-1.5,1.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_kaonMinus = new TH2D("hist_pt_eta_kaonMinus","p_{T} [GeV/c] vs. #eta",500,-1.5,1.5,500,0.0,3.5);
   TH2D *hist_dEdx_kaonMinus = new TH2D("hist_dEdx_kaonMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_kaonMinus = new TH2D("hist_beta_kaonMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_kaonMinus = new TH2D("hist_mass_kaonMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
@@ -392,8 +392,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_y_pionPlus = new TH1D("hist_y_pionPlus","y",200,-3.0,0.5);
   TH1D *hist_phi_pionPlus = new TH1D("hist_phi_pionPlus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH2D *hist_rap_eta_pionPlus = new TH2D("hist_rap_eta_pionPlus","pionPlus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_pionPlus = new TH2D("hist_pt_y_pionPlus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_pionPlus = new TH2D("hist_pt_eta_pionPlus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_y_pionPlus = new TH2D("hist_pt_y_pionPlus","p_{T} [GeV/c] vs. y",500,-1.5,1.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_pionPlus = new TH2D("hist_pt_eta_pionPlus","p_{T} [GeV/c] vs. #eta",500,-1.5,1.5,500,0.0,3.5);
   TH2D *hist_dEdx_pionPlus = new TH2D("hist_dEdx_pionPlus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_pionPlus = new TH2D("hist_beta_pionPlus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionPlus = new TH2D("hist_mass_pionPlus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
@@ -402,8 +402,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_y_pionMinus = new TH1D("hist_y_pionMinus","y",200,-3.0,0.5);
   TH1D *hist_phi_pionMinus = new TH1D("hist_phi_pionMinus","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH2D *hist_rap_eta_pionMinus = new TH2D("hist_rap_eta_pionMinus","pionMinus y versus #eta",250,-2.5,0,250,-2.5,0);
-  TH2D *hist_pt_y_pionMinus = new TH2D("hist_pt_y_pionMinus","p_{T} [GeV/c] vs. y",500,-3.0,0.5,500,0.0,3.5);
-  TH2D *hist_pt_eta_pionMinus = new TH2D("hist_pt_eta_pionMinus","p_{T} [GeV/c] vs. #eta",500,-3.0,0.5,500,0.0,3.5);
+  TH2D *hist_pt_y_pionMinus = new TH2D("hist_pt_y_pionMinus","p_{T} [GeV/c] vs. y",500,-1.5,1.5,500,0.0,3.5);
+  TH2D *hist_pt_eta_pionMinus = new TH2D("hist_pt_eta_pionMinus","p_{T} [GeV/c] vs. #eta",500,-1.5,1.5,500,0.0,3.5);
   TH2D *hist_dEdx_pionMinus = new TH2D("hist_dEdx_pionMinus","dE/dx vs q*|p|",500,-3.0,3.0,500,0.0,10.0);
   TH2D *hist_beta_pionMinus = new TH2D("hist_beta_pionMinus","1/#beta vs q*|p|",1000,-5.0,5.0,500,0.0,5.0);
   TH2D *hist_mass_pionMinus = new TH2D("hist_mass_pionMinus","m^{2} vs q*|p|",1000,-5.0,5.0,1000,-0.6,4.0);
@@ -630,13 +630,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH2D *hist_SE_pt_y_Phi_tight_SigBkg[4];
   TH2D *hist_SE_pt_y_Phi_tight_Bkg[4];
   TH2D *hist_SE_pt_y_Phi_tight_Sig[4];
-  hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-3.0,0.5,500,0.0,3.5);
+  hist_SE_pt_y_PhiMeson[0] = new TH2D("hist_SE_pt_y_PhiMeson_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",500,-1.5,1.5,500,0.0,3.5);
   hist_SE_pt_y_Phi_tight_SigBkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_SigBkg_0","p_{T} [GeV/c] vs. y of #phi, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
   hist_SE_pt_y_Phi_tight_Bkg[0] = new TH2D("hist_SE_pt_y_Phi_tight_Bkg_0","p_{T} [GeV/c] vs. y of #phi^{Bkg}, 0-60% ",35,-3.0,0.5,35,0.0,3.5);
   hist_SE_pt_y_Phi_tight_Sig[0] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[0]->Clone("hist_SE_pt_y_Phi_tight_Sig_0");
   int centBES[4] = {0,10,40,60};
   for(int cent = 1; cent<4;cent++){
-    hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-3.0,0.5,500,0.0,3.5);
+    hist_SE_pt_y_PhiMeson[cent] = new TH2D(Form("hist_SE_pt_y_PhiMeson_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),500,-1.5,1.5,500,0.0,3.5);
     hist_SE_pt_y_Phi_tight_SigBkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_SigBkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
     hist_SE_pt_y_Phi_tight_Bkg[cent] = new TH2D(Form("hist_SE_pt_y_Phi_tight_Bkg_%d",cent),Form("p_{T} [GeV/c] vs. y of #phi^{Bkg}, %d-%d%%",centBES[cent-1],centBES[cent]),35,-3.0,0.5,35,0.0,3.5);
     hist_SE_pt_y_Phi_tight_Sig[cent] = (TH2D*) hist_SE_pt_y_Phi_tight_SigBkg[cent]->Clone(Form("hist_SE_pt_y_Phi_tight_Sig_%d",cent));
@@ -2200,51 +2200,77 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
             if(centrality >= 1 && centrality <= 2){
               mHist_SE_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m); // 0-10%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-10%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][0]->Fill(d_inv_m,d_Phi_pT); // 0-10%
             }
             if(centrality >= 3 && centrality <= 5){
               mHist_SE_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m); // 10-40%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 10-40%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][1]->Fill(d_inv_m,d_Phi_pT); // 10-40%
             }
             if(centrality >= 6 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m); // 40-60%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][2]->Fill(d_inv_m,d_Phi_pT); // 40-60%
             }
             if(centrality >= 6 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m); // 40-80%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 40-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][3]->Fill(d_inv_m,d_Phi_pT); // 40-80%
             }
             if(centrality >= 1 && centrality <= 7){
               mHist_SE_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m); // 0-60%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-60%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][4]->Fill(d_inv_m,d_Phi_pT); // 0-60%
             }
             if(centrality >= 1 && centrality <= 9){
               mHist_SE_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m); // 0-80%
-              mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
+              if(d_flow_PHI_resolution[1]!=-999.0) mHist_pT_vs_invM_ptSetA_centSetA[pt][5]->Fill(d_inv_m,d_Phi_pT); // 0-80%
+            }
+          }
+          if(d_Phi_pT_rotation >= ptSetA[pt] && d_Phi_pT_rotation <= ptSetA[pt+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][0]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][1]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][2]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][3]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][4]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_rotation_InvM_ptSetA_centSetA[pt][5]->Fill(d_inv_m_rotation); // 0-10%
             }
           }
         }
@@ -2254,11 +2280,16 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             if(d_Phi_pT >= ptSetA[pt] && d_Phi_pT <= ptSetA[pt+1]){
               if(centrality == cent+1 ){
                 mHist_SE_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m);
-                mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
+                // mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
                 if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
                 if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
                 if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
                 if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetA_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
+              }
+            }
+            if(d_Phi_pT_rotation >= ptSetA[pt] && d_Phi_pT_rotation <= ptSetA[pt+1]){
+              if(centrality == cent+1 ){
+                mHist_rotation_InvM_ptSetA_centSetB[pt][cent]->Fill(d_inv_m_rotation);
               }
             }
           }
@@ -2268,7 +2299,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           if(d_Phi_pT >= ptSetB[i] && d_Phi_pT <= ptSetB[i+1]){
             if(centrality >= 1 && centrality <= 2){
               mHist_SE_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m); // 0-10%
-              mHist_rotation_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m_rotation); // 0-10%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m_rotation); // 0-10%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-10%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-10%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][0]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-10%
@@ -2276,7 +2307,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 3 && centrality <= 5){
               mHist_SE_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m); // 10-40%
-              mHist_rotation_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m_rotation); // 10-40%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m_rotation); // 10-40%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 10-40%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 10-40%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][1]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 10-40%
@@ -2284,7 +2315,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 6 && centrality <= 7){
               mHist_SE_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m); // 40-60%
-              mHist_rotation_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m_rotation); // 40-60%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m_rotation); // 40-60%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][2]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-60%
@@ -2292,7 +2323,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 6 && centrality <= 9){
               mHist_SE_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m); // 40-80%
-              mHist_rotation_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m_rotation); // 40-80%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m_rotation); // 40-80%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 40-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 40-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][3]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 40-80%
@@ -2300,7 +2331,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 1 && centrality <= 7){
               mHist_SE_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m); // 0-60%
-              mHist_rotation_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m_rotation); // 0-60%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m_rotation); // 0-60%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-60%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-60%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][4]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-60%
@@ -2308,15 +2339,35 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             }
             if(centrality >= 1 && centrality <= 9){
               mHist_SE_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m); // 0-80%
-              mHist_rotation_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m_rotation); // 0-80%
+              // mHist_rotation_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m_rotation); // 0-80%
               if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[0]); // 0-80%
               if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[0]); // 0-80%
               if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_raw[1]); // 0-80%
               if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetA[i][5]->Fill(d_inv_m,d_flow_PHI_resolution[1]); // 0-80%
             }
           }
-
+          if(d_Phi_pT_rotation >= ptSetB[i] && d_Phi_pT_rotation <= ptSetB[i+1]){
+            if(centrality >= 1 && centrality <= 2){
+              mHist_rotation_InvM_ptSetB_centSetA[i][0]->Fill(d_inv_m_rotation); // 0-10%
+            }
+            if(centrality >= 3 && centrality <= 5){
+              mHist_rotation_InvM_ptSetB_centSetA[i][1]->Fill(d_inv_m_rotation); // 10-40%
+            }
+            if(centrality >= 6 && centrality <= 7){
+              mHist_rotation_InvM_ptSetB_centSetA[i][2]->Fill(d_inv_m_rotation); // 40-60%
+            }
+            if(centrality >= 6 && centrality <= 9){
+              mHist_rotation_InvM_ptSetB_centSetA[i][3]->Fill(d_inv_m_rotation); // 40-80%
+            }
+            if(centrality >= 1 && centrality <= 7){
+              mHist_rotation_InvM_ptSetB_centSetA[i][4]->Fill(d_inv_m_rotation); // 0-60%
+            }
+            if(centrality >= 1 && centrality <= 9){
+              mHist_rotation_InvM_ptSetB_centSetA[i][5]->Fill(d_inv_m_rotation); // 0-80%
+            }
+          }
           // rap SetA, cent SetA
+          /*
           if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
             if(centrality >= 1 && centrality <= 2){
               mHist_SE_InvM_rapSetA_centSetA[i][0]->Fill(d_inv_m); // 0-10%
@@ -2565,7 +2616,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
+          */
           // rap SetA, cent SetB
+          /*
           for(int cent=0; cent<9;cent++){
             if(d_phi_y >= rapSetA[i] && d_phi_y <= rapSetA[i+1]){
               if(centrality == cent+1 ){
@@ -2578,38 +2631,50 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               }
             }
           }
+          */
         }
+
         for(int pt=0; pt<4; pt++)
         {// pt SetB, cent SetB
           for(int cent=0; cent<9;cent++){
             if(d_Phi_pT >= ptSetB[pt] && d_Phi_pT <= ptSetB[pt+1]){
               if(centrality == cent+1 ){
                 mHist_SE_InvM_ptSetB_centSetB[pt][cent]->Fill(d_inv_m);
-                mHist_rotation_InvM_ptSetB_centSetB[pt][cent]->Fill(d_inv_m_rotation);
+                // mHist_rotation_InvM_ptSetB_centSetB[pt][cent]->Fill(d_inv_m_rotation);
                 if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
                 if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
                 if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
                 if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetB_centSetB[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
               }
             }
+            if(d_Phi_pT_rotation >= ptSetB[pt] && d_Phi_pT_rotation <= ptSetB[pt+1]){
+              if(centrality == cent+1 ){
+                mHist_rotation_InvM_ptSetB_centSetB[pt][cent]->Fill(d_inv_m_rotation);
+              }
+            }
           }
         }
+
         for(int pt=0; pt<10; pt++)
         {// pt SetC, cent 0-60%, 0-80%
           for(int cent=0; cent<2;cent++){
             if(d_Phi_pT >= ptSetC[pt] && d_Phi_pT <= ptSetC[pt+1]){
               if(centrality >= 1 && centrality <= cent*2 + 7 ){
                 mHist_SE_InvM_ptSetC_centAll[pt][cent]->Fill(d_inv_m);
-                mHist_rotation_InvM_ptSetC_centAll[pt][cent]->Fill(d_inv_m_rotation);
+                // mHist_rotation_InvM_ptSetC_centAll[pt][cent]->Fill(d_inv_m_rotation);
                 if(d_flow_PHI_raw[0]!=-999.0)        mHist_v1_raw_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[0]);
                 if(d_flow_PHI_resolution[0]!=-999.0) mHist_v1_reso_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[0]);
                 if(d_flow_PHI_raw[1]!=-999.0)        mHist_v2_raw_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_raw[1]);
                 if(d_flow_PHI_resolution[1]!=-999.0) mHist_v2_reso_ptSetC_centAll[pt][cent]->Fill(d_inv_m,d_flow_PHI_resolution[1]);
               }
             }
+            if(d_Phi_pT_rotation >= ptSetC[pt] && d_Phi_pT_rotation <= ptSetC[pt+1]){
+              if(centrality >= 1 && centrality <= cent*2 + 7 ){
+                mHist_rotation_InvM_ptSetC_centAll[pt][cent]->Fill(d_inv_m_rotation);
+              }
+            }
           }
         }
-
 
       }
     }
