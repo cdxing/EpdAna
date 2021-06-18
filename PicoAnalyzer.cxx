@@ -1774,7 +1774,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
-          particleType=1;// K+
+          // particleType=1;// K+
           nKaonPlus++;
           v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
           // Fill histograms
@@ -1789,7 +1789,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
-          particleType=2;// K-
+          // particleType=2;// K-
           nKaonMinus++;
           v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
           // Fill histograms
@@ -1819,13 +1819,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         double etaWeight = (double)wt_tpc.GetBinContent(etaBin,EventTypeId_tpc+1);
         double ptWeight = 0.;
         if(0.2<=pt<=2.0) ptWeight = pt;
-        if(EpOrder == 1){ // \psi_1^{TPC}
+        if(2.0<pt) ptWeight = 2.;
+        if(EpOrder == 1 && particleType != 1 && particleType != 2){ // \psi_1^{TPC}
           if(etaWeight>0.0 && etaTrkWeight /*rapWeight*/!=0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
           QrawTpcAll[EventTypeId_tpc][0] += etaWeight * etaTrkWeight /*rapWeight*/ * Cosine;
           QrawTpcAll[EventTypeId_tpc][1] += etaWeight * etaTrkWeight /*rapWeight*/ * Sine;
-        } else { // \psi_2^{TPC}
+        } else if(EpOrder == 2 && particleType != 1 && particleType != 2) { // \psi_2^{TPC}
           if(etaWeight>0.0) NTpcAll[EventTypeId_tpc]++;
           double Cosine = cos(phi*(double)EpOrder);
           double Sine   = sin(phi*(double)EpOrder);
