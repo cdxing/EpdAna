@@ -687,7 +687,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       1000,-1.0,1.0);
       mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetTitle("m_{inv} [GeV/c^{2}]");
       mHist_v2_reso_ptSetA_centSetA[pt][cent]->GetYaxis()->SetTitle("<cos(2(#phi - #psi_{1}))>/R_{1}^{EPD}");
-      mProfile_v2_reso_ptSetA_centSetA[pt][cent] = new TH2D(Form("Hist_v2_reso_ptSetA%d_centSetA%d_pfx",pt,cent),
+      mProfile_v2_reso_ptSetA_centSetA[pt][cent] = new TProfile(Form("Hist_v2_reso_ptSetA%d_centSetA%d_pfx",pt,cent),
       Form("Hist_v2_reso_ptSetA%d_centSetA%d_pfx",pt,cent),
       100,0.9,1.1,
       0,0,"");
