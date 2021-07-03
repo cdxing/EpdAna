@@ -1134,7 +1134,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     std::vector <unsigned int> triggerIDs;
     triggerIDs.clear();
     triggerIDs      = event->triggerIds();
-    bool b_bad_trig = true;
+    bool b_bad_trig = true; // disable trigger cut
     for(unsigned int i=0; i < triggerIDs.size(); i++)
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
