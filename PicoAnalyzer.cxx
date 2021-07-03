@@ -99,7 +99,7 @@ const Int_t triggers[6] = {
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 
 //////////////////////////////// Main Function /////////////////////////////////
-void PicoAnalyzer(const Char_t *inFile = "./ hlt_22031042_10_01_000.picoDst.root",
+void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root",
                       TString outFile = "test_EpdEP",
                       Int_t   inputp1 = 2, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
@@ -1112,10 +1112,10 @@ void PicoAnalyzer(const Char_t *inFile = "./ hlt_22031042_10_01_000.picoDst.root
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
     bool bad_run = false;
-    for(int ii=0; ii<286; ii++)
-    {
-       if(runId == badrun[ii]) bad_run =true;
-    }
+    // for(int ii=0; ii<286; ii++)
+    // {
+    //    if(runId == badrun[ii]) bad_run =true;
+    // }
     const Float_t   f_MagField = event->bField(); // Magnetic field
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
     hist_runId->Fill(Day);
