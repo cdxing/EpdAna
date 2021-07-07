@@ -20,8 +20,10 @@
  *
  * Updated for systematic analysis for 7.2 (26.5) GeV Run 18 data
  *
- * Update to do 27 GeV collder mode data
- */
+ * Update to do 27 GeV collider mode data
+ *
+ * Update to analyze the 7.7 GeV collider mode fastoffline data
+ * /
 
 // This is needed for calling standalone classes (not needed on RACF)
 //#define _VANILLA_ROOT_
@@ -1140,7 +1142,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
         for(int j =0;j<6;j++ ){
-          if(triggerIDs[i] == triggers[j]) b_bad_trig = false; // 27 GeV
+          if(triggerIDs[i] == triggers[j]) b_bad_trig = false; // 7.7 GeV
         }
       }
 
