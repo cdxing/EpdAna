@@ -23,7 +23,7 @@
  * Update to do 27 GeV collider mode data
  *
  * Update to analyze the 7.7 GeV collider mode fastoffline data
- * /
+ */
 
 // This is needed for calling standalone classes (not needed on RACF)
 //#define _VANILLA_ROOT_
