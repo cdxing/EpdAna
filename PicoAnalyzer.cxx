@@ -1294,7 +1294,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     // (6) ================ Centrality definition ===============================
     Int_t centrality = 0;
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
-    Int_t cenSection[9]={6,13,25,44,72,113,169,245,295}; // From Shaowei's analysis note
+    Int_t cenSection[9]={4, 9,17,30,50,78, 116,170,205}; // From Shaowei's analysis note
     bool b_pileup   = (grefMult >= 600);
     bool b_low_mult = (grefMult < 2);
     if      (grefMult>=cenSection[8]) centrality=1;
