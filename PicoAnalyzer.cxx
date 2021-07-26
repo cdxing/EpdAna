@@ -1155,7 +1155,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     d_xvtx     = pVtx.x();
     d_yvtx     = pVtx.y();
     d_vtx_perp = pVtx.Perp();
-    bool b_bad_zvtx   =  ((d_zvtx < -40.0) || (d_zvtx > 40.0)); //27
+    bool b_bad_zvtx   =  ((d_zvtx < -70.0) || (d_zvtx > 70.0)); //27
     // # Systematic Analysis
     // sys_cutN == 3; // vz
     if(sys_cutN == 3){
@@ -1177,6 +1177,10 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
         b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.4;
       }
     }
+    if( (d_xvtx < 1.e-5 && d_xvtx > -1.e-5) &&
+            (d_yvtx < 1.e-5 && d_yvtx > -1.e-5) &&
+            (d_zvtx < 1.e-5 && d_zvtx > -1.e-5)  )
+        b_bad_rvtx ==true;
     bool b_bad_evt  = bad_run || b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
     if(b_bad_evt) continue;
     hist_Vz_cut->Fill(primaryVertex_Z);
