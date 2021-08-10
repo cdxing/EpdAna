@@ -103,7 +103,7 @@ Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 //////////////////////////////// Main Function /////////////////////////////////
 void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root",
                       TString outFile = "test_EpdEP",
-                      Int_t   inputp1 = 2, // event plane orders: 1st, 2nd order \psi
+                      Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                       Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
                       Int_t   inputp4 = 0 // Iteration of the analysis is. In this analysis, 2 iterations is enough

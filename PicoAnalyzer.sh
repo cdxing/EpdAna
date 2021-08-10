@@ -17,6 +17,6 @@ wait
 wait
 root4star -b -q -l RunAnalyzer.C+
 wait
-root4star -b -q -l PicoAnalyzer.cxx+\(\"hlt_22031042_10_01_000.picoDst.root\",\"test\",2,$cut,$var,$iter\)
+root4star -b -q -l PicoAnalyzer.cxx+\(\"hlt_22031042_10_01_000.picoDst.root\",\"test\",1,$cut,$var,$iter\)
 wait
 # chmod u+x
