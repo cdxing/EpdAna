@@ -1298,8 +1298,8 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     Int_t centrality = 0;
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
     Int_t cenSection[9]={4, 9,17,30,50,78, 116,170,205}; // From Shaowei's analysis note
-    bool b_pileup   = (grefMult >= 600);
-    bool b_low_mult = (grefMult < 2);
+    bool b_pileup   = false;//(grefMult >= 600);
+    bool b_low_mult = false;//(grefMult < 2);
     if      (grefMult>=cenSection[8]) centrality=1;
     else if (grefMult>=cenSection[7]) centrality=2;
     else if (grefMult>=cenSection[6]) centrality=3;
