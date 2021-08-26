@@ -1114,7 +1114,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
     bool bad_run = false;
-    if(int ii=0;ii<44;ii++)
+    for(int ii=0;ii<44;ii++)
     {
       if(runId == badrun[ii]) bad_run =true;
     }
