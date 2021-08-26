@@ -281,13 +281,13 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
   TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
-  TH2D *hist_VzVPD_pri = new TH2D("hist_VzVPD_pri","V_{Z} [cm] vs. V_{Z}^{VPD} [cm]",500,-5.0,5.0,500,-5.0,5.0);
-  TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  TH2D *hist_VzVPD_pri = new TH2D("hist_VzVPD_pri","V_{Z} [cm] vs. V_{Z}^{VPD} [cm]",500,-150.0,150.0,500,-150.0,150.0);
+  TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",1000,-10.0,10.0,1000,-10.0,10.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
   TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
   TH1D *hist_Vz_cut = new TH1D("hist_Vz_cut","V_{Z} after cut [cm]",6000,-300.0,300.0);
   TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
-  TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",1000,-10.0,10.0,1000,-10.0,10.0);
   // -------------------- Track loop QA histograms --------------------------------
   TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
@@ -1114,6 +1114,10 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     Int_t runId       = event->runId();
     Int_t nTracks     = dst->numberOfTracks();
     bool bad_run = false;
+    if(int ii=0;ii<44;ii++)
+    {
+      if(runId == badrun[ii]) bad_run =true;
+    }
     // for(int ii=0; ii<286; ii++)
     // {
     //    if(runId == badrun[ii]) bad_run =true;
@@ -1200,6 +1204,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       StPicoTrack *picoTrack = dst->track(iTrk);
       mTrkcut[0]++; // 0. No track cut
       if(!picoTrack) continue;
+      if(!picoTrack->isPrimary()) continue;
       mTrkcut[1]++; // 1. pico track cut
       StPicoBTofPidTraits *trait = NULL;
       // ----------------------- Physics values of tracks --------------------------
@@ -1210,7 +1215,10 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       double d_py  = picoTrack->pMom().y();
       double d_pz  = picoTrack->pMom().z();
       double d_pT  = picoTrack->pPt();
+
       double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
+      TVector3 momentum = picoTrack->pMom();
+
       double mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0);
       Double_t eta = picoTrack->pMom().Eta();
       Double_t phi    = picoTrack->pMom().Phi();
@@ -1229,7 +1237,6 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       hist_ndEdx->Fill(picoTrack->nHitsDedx());
       hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
 
-      if(!picoTrack->isPrimary()) continue;
       nFXTMult++;
       mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
@@ -1274,6 +1281,8 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       }
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
       if(b_bad_track) continue;
+      if(momentum.Perp() < 0.15) continue;
+      if(momentum.Mag() > 10.0) continue;
       mTrkcut[3]++; // 3. Bad track cuts
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
       vGoodTracks.push_back(picoTrack);
