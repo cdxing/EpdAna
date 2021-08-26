@@ -313,6 +313,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   TH1D *hist_DCA_cut = new TH1D("hist_DCA_cut","hist_DCA_cut",100,0,10.0);
   // ------------------ Centrality QA histograms ----------------------------------
   TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
+  TH1D *hist_cent_ep = new TH1D("hist_cent_ep","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH2D *hist_grefmult_refmult = new TH2D("hist_grefmult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
@@ -1994,6 +1995,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
       profile_correlation_tpc_A_tpc_B[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[2] /*- TMath::Pi()/(double)EpOrder*/ )));
     }
+    hist_cent_ep->Fill(centrality);
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
     correlation2D_tpc_A_tpc_B->Fill(PsiTpcAllShifted[1],PsiTpcAllShifted[2]);
     for(int i=0;i<4;i++){// Correlaitons between TPC and EPD sub event planes 1,2,3,4
@@ -2805,6 +2807,8 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   hist_DCA_cut->GetYaxis()->SetTitle("# of Tracks");
   hist_cent->GetXaxis()->SetTitle("Centrality bin");
   hist_cent->GetYaxis()->SetTitle("# of events");
+  hist_cent_ep->GetXaxis()->SetTitle("Centrality bin");
+  hist_cent_ep->GetYaxis()->SetTitle("# of events");
   hist_realTrackMult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
   hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
