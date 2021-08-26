@@ -280,32 +280,52 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   TH1D *hist_runId = new TH1D("hist_runId","Event runId",20001,-0.5,20000.5);
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
   TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
-  TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
-  TH2D *hist_VzVPD_pri = new TH2D("hist_VzVPD_pri","V_{Z} [cm] vs. V_{Z}^{VPD} [cm]",500,-150.0,150.0,500,-150.0,150.0);
-  TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",1000,-10.0,10.0,1000,-10.0,10.0);
+
+  TH1F *href_vz = new TH1F("h_ref_vz","refmult_vz",1000,0.,1000.);
+  TH1F *hvz_b = new TH1F("h_vz_b","vz_dis_b",1000,-150,150);
+  TH2F *hvzvpdvz_b =new TH2F("h_vz_vpd_b","vz_vs_vpd_b",1000,-150,150,1000,-150,150);
+  TH2F *hvr_b = new TH2F("h_vr_b","vy_vs_vx_b",1000,-10,10,1000,-10,10);
+  TH2F *htofvsref_b = new TH2F("htofvsref_b","ref_vs_tof",2000,0.0,2000.0,2000,0.0,2000.0);
+  TH2F *htofmatchvsref_b=new TH2F("htofmatchvsref_b","",1500,0.0,1500.0,1500,0.0,1500.0);
+
+  TH1F *href = new TH1F("h_ref","refmult_dis",1000,0.,1000.);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
   TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
-  TH1D *hist_Vz_cut = new TH1D("hist_Vz_cut","V_{Z} after cut [cm]",6000,-300.0,300.0);
+  TH1F *hvz = new TH1F("h_vz","vz_dis",1000,-100,100);
+  TH2F *hvzvpdvz =new TH2F("h_vz_vpd","vz_vs_vpd",1000,-150,150,1000,-150,150);
+  TH2F *htofvsref = new TH2F("htofvsref","ref_vs_tof",2000,0.0,2000.0,2000,0.0,2000.0);
+  TH2F *htofmatchvsref=new TH2F("htofmatchvsref","",1500,0.0,1500.0,1500,0.0,1500.0);
   TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
-  TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",1000,-10.0,10.0,1000,-10.0,10.0);
+  TH2F *hvr = new TH2F("h_vr","vy_vs_vx",1000,-10,10,1000,-10,10);
+
+  TH2F *hbetavsp =new TH2F("hbetavsp","beta_vs_p",1000,0,6,1000,0,10);
+  TH2F *hmassvsp =new TH2F("hmassvsp","m2_vs_p*q",3000,-6.,6.,2000,-0.2,15.8);
+  TH2F *hdedxvsp =new TH2F("hdedxvsp","dedx_vs_p*q",4000,-6.,6.,2000,0.,50.);
+
+  TH2F *h_eta_phi =new TH2F("h_etaphi","eta_vs_phi",1000,-6.3,6.3,300,-1.5,1.5);
+  TH2F *h_eta_phi_before =new TH2F("h_etaphi_before","eta_vs_phi w/o cut",1000,-6.3,6.3,300,-1.8,1.8);
+  TProfile *h_runidvstofmult_b = new TProfile("runidvstofmult_b", "", 90000, 22031041, 22121041,"");
+  TProfile *h_runidvsrefmult_b = new TProfile("runidvsrefmult_b", "", 90000, 22031041, 22121041,"");
+
+  TProfile *h_runidvstofmult = new TProfile("runidvstofmult", "", 90000, 22031041, 22121041,"");
+  TProfile *h_runidvsrefmult = new TProfile("runidvsrefmult", "", 90000, 22031041, 22121041,"");
   // -------------------- Track loop QA histograms --------------------------------
-  TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
-  TH1D *hist_pt = new TH1D("hist_pt","p_{T} [GeV/c]",2000,0.0,10.0);
+  TH1F *h_pt = new TH1F("h_pt","",1000,0.,10.);
   TH1D *hist_mom = new TH1D("hist_mom","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2 = new TH1D("hist_mass2","hist_mass2",4000,-10.0,10.0);
-  TH1D *hist_eta = new TH1D("hist_eta","#eta",200,-2.5,2.5);
-  TH1D *hist_phi = new TH1D("hist_phi","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
-  TH1D *hist_ratio = new TH1D("hist_ratio","hist_ratio",100,0,2);
-  TH1D *hist_nHits = new TH1D("hist_nHits","hist_nHits",100,-0.5,99.5);
+  TH1F *h_eta_b= new TH1F("h_eta_b","",1000,-2.,2.);
+  TH1F *h_nhitratio=new TH1F("h_nhitratio","",1000,-0.5,1.5);
+  TH1F *h_nhitfit=new TH1F("h_nhitfit","",80,-0.5,79.5);
+  TH1F *h_nhitmax=new TH1F("h_nhitmax","",80,-0.5,79.5);
   TH1D *hist_ndEdx = new TH1D("hist_ndEdx","hist_ndEdx",100,-0.5,99.5);
-  TH1D *hist_DCA = new TH1D("hist_DCA","hist_DCA",100,0,10.0);
-  TH2D *hist_px_py_cut=new TH2D("hist_px_py_cut","hist_px_py_cut",4000,-10.0,10.0,4000,-10.0,10.0);
+  TH1F *h_dca = new TH1F("h_dca","",1000,0.,5.);
+  TH1F *h_phi = new TH1F("h_phi","",1000,-6.28,6.28);
   TH1D *hist_pz_cut = new TH1D("hist_pz_cut","p_{z} [GeV/c]",4000,-10.0,10.0);
   TH1D *hist_pt_cut = new TH1D("hist_pt_cut","p_{T} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mom_cut = new TH1D("hist_mom_cut","p_{mom} [GeV/c]",2000,0.0,10.0);
   TH1D *hist_mass2_cut = new TH1D("hist_mass2_cut","hist_mass2_cut",4000,-10.0,10.0);
-  TH1D *hist_eta_cut = new TH1D("hist_eta_cut","#eta",200,-2.5,2.5);
+  TH1F *h_eta= new TH1F("h_eta","",1000,-2.,2.);
   TH1D *hist_phi_cut = new TH1D("hist_phi_cut","#phi [Radian]",1000,-0.5*TMath::Pi(),2.5*TMath::Pi());
   TH1D *hist_ratio_cut = new TH1D("hist_ratio_cut","hist_ratio_cut",100,0,2);
   TH1D *hist_nHits_cut = new TH1D("hist_nHits_cut","hist_nHits_cut",100,-0.5,99.5);
@@ -1103,43 +1123,43 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
         break;
     }
     StPicoDst     *dst = picoReader->picoDst();
-    StPicoEvent *event = dst->event();
-    if( !event ) {
+    StPicoEvent *mPicoEvent = dst->event();
+    if( !mPicoEvent ) {
         std::cout << "Something went wrong, my Lord! Event is hiding from me..."
         << std::endl;
         break;
     }
     mEvtcut[0]++;// No event cut yet
     // (4) =================== Get event parameters ================================
-    Int_t runId       = event->runId();
+    TVector3 vertexPos = mPicoEvent->primaryVertex();
+
+    Int_t runId       = mPicoEvent->runId();
     Int_t nTracks     = dst->numberOfTracks();
     bool bad_run = false;
     for(int ii=0;ii<44;ii++)
     {
-      if(runId == badrun[ii]) bad_run =true;
+      if(runId == badrun[ii]) return 0;
     }
-    // for(int ii=0; ii<286; ii++)
-    // {
-    //    if(runId == badrun[ii]) bad_run =true;
-    // }
-    const Float_t   f_MagField = event->bField(); // Magnetic field
+    float tofMult = mPicoEvent->btofTrayMultiplicity();
+    float tofmatch= mPicoEvent->nBTOFMatch();
+    float refMult = mPicoEvent->refMult();
+    hvz_b  ->Fill(vertexPos.Z());
+    hvr_b->Fill(vertexPos.X(),vertexPos.Y());
+    hvzvpdvz_b  ->Fill(vertexPos.Z(),mPicoEvent->vzVpd());
+    hist_Vr_pri  ->Fill(vertexPos.Perp());
+    htofvsref_b->Fill(refMult,tofMult);
+    htofmatchvsref_b->Fill(refMult,tofmatch);
+    h_runidvstofmult_b->Fill(runId,tofMult);
+    h_runidvsrefmult_b->Fill(runId,refMult);
+    const Float_t   f_MagField = mPicoEvent->bField(); // Magnetic field
     Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
     hist_runId->Fill(Day);
 
-    Double_t primaryVertex_X    = (Double_t)event->primaryVertex().X();
-    Double_t primaryVertex_Y    = (Double_t)event->primaryVertex().Y();
-    Double_t primaryVertex_Z    = (Double_t)event->primaryVertex().Z();
-    Double_t primaryVertex_perp = (Double_t)event->primaryVertex().Perp();
-    Double_t primaryVertex_Z_VPD = (Double_t)event->vzVpd();
-    hist_Vz_pri  ->Fill(primaryVertex_Z);
-    hist_VzVPD_pri  ->Fill(primaryVertex_Z,primaryVertex_Z_VPD);
-    hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
-    hist_Vr_pri  ->Fill(primaryVertex_perp);
 
     // ---------------------- trigger selection ---------------------------------
     std::vector <unsigned int> triggerIDs;
     triggerIDs.clear();
-    triggerIDs      = event->triggerIds();
+    triggerIDs      = mPicoEvent->triggerIds();
     bool b_bad_trig = false; // disable trigger cut
     for(unsigned int i=0; i < triggerIDs.size(); i++)
       {
@@ -1151,132 +1171,134 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       }
 
     // --------------------------- Vertex cut -----------------------------------
-    double      d_zvtx  = -9999.0;
-    double      d_xvtx  = -9999.0;
-    double      d_yvtx  = -9999.0;
-    double  d_vtx_perp  = -9999.0;
-    TVector3       pVtx = event->primaryVertex();
-    d_zvtx     = pVtx.z();
-    d_xvtx     = pVtx.x();
-    d_yvtx     = pVtx.y();
-    d_vtx_perp = pVtx.Perp();
-    bool b_bad_zvtx   =  ((d_zvtx < -70.0) || (d_zvtx > 70.0)); //27
+    if( TMath::Abs(vertexPos.Z()) > 70 ) return 0;
+    if( ((vertexPos.X()-0)*(vertexPos.X()-0)+(vertexPos.Y()-0)*(vertexPos.Y()-0)) >= 4 ) return 0;
+    if(TMath::Abs(vertexPos.Z()) < 10 ){
+        href_vz->Fill(mPicoEvent->refMult());
+    }
+    bool b_bad_zvtx   =  ((vertexPos.Z() < -70.0) || (vertexPos.Z() > 70.0)); //27
     // # Systematic Analysis
     // sys_cutN == 3; // vz
     if(sys_cutN == 3){
       if(sys_varN == 1){
-        b_bad_zvtx   =  ((d_zvtx < -50.0) || (d_zvtx > 50.0));
+        b_bad_zvtx   =  ((vertexPos.Z() < -50.0) || (vertexPos.Z() > 50.0));
       } else if(sys_varN == 2){
-        b_bad_zvtx   =  ((d_zvtx < 30.0) || (d_zvtx > 30.0));
+        b_bad_zvtx   =  ((vertexPos.Z() < 30.0) || (vertexPos.Z() > 30.0));
       }
     }
-    bool b_bad_xvtx   =  ((d_xvtx < -1.0) || (d_xvtx > 1.0)); //27
-    bool b_bad_yvtx   =  ((d_yvtx < -1.0) || (d_yvtx > 1.0)); //27
-    bool b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.0;
+    bool b_bad_xvtx   =  ((vertexPos.X() < -1.0) || (vertexPos.X() > 1.0)); //27
+    bool b_bad_yvtx   =  ((vertexPos.Y() < -1.0) || (vertexPos.Y() > 1.0)); //27
+    bool b_bad_rvtx   =   sqrt(pow(vertexPos.X(),2)+pow(vertexPos.Y(),2))> 2.0;
     // # Systematic Analysis
     // sys_cutN == 4; // vr
     if(sys_cutN == 4){
       if(sys_varN == 1){
-        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 1.6;
+        b_bad_rvtx   =   sqrt(pow(vertexPos.X(),2)+pow(vertexPos.Y(),2))> 1.6;
       } else if(sys_varN == 2){
-        b_bad_rvtx   =   sqrt(pow(d_xvtx,2)+pow(d_yvtx,2))> 2.4;
+        b_bad_rvtx   =   sqrt(pow(vertexPos.X(),2)+pow(vertexPos.Y(),2))> 2.4;
       }
     }
-    if( (d_xvtx < 1.e-5 && d_xvtx > -1.e-5) &&
-            (d_yvtx < 1.e-5 && d_yvtx > -1.e-5) &&
-            (d_zvtx < 1.e-5 && d_zvtx > -1.e-5)  )
+    if( (vertexPos.X() < 1.e-5 && vertexPos.X() > -1.e-5) &&
+            (vertexPos.Y() < 1.e-5 && vertexPos.Y() > -1.e-5) &&
+            (vertexPos.Z() < 1.e-5 && vertexPos.Z() > -1.e-5)  )
         b_bad_rvtx ==true;
-    bool b_bad_evt  = bad_run || b_bad_zvtx || b_bad_trig /*|| b_bad_xvtx || b_bad_yvtx */|| b_bad_rvtx;
+    bool b_bad_evt  = bad_run || b_bad_zvtx || b_bad_trig || b_bad_rvtx;
     if(b_bad_evt) continue;
-    hist_Vz_cut->Fill(primaryVertex_Z);
-    hist_Vr_cut->Fill(primaryVertex_perp);
-    hist_VyVx_cut->Fill(primaryVertex_X,primaryVertex_Y);
+    href->Fill(mPicoEvent->refMult());
+    hvz->Fill(vertexPos.Z());
+    hvzvpdvz->Fill(vertexPos.Z(),mPicoEvent->vzVpd());
+    htofvsref->Fill(refMult,tofMult);
+    htofmatchvsref->Fill(refMult,tofmatch);
+    hist_Vr_cut->Fill(vertexPos.Perp());
+    hvr->Fill(vertexPos.X(),vertexPos.Y());
+
+    h_runidvstofmult->Fill(runId,tofMult);
+    h_runidvsrefmult->Fill(runId,refMult);
     mEvtcut[1]++; // 1. vertex event cut
 
-    Int_t  refMult = event->refMult(); // refMult
-    Int_t grefMult = event->grefMult();
-    Int_t  tofMult =(Int_t)event->nBTOFMatch();
     // (5) =============== Track loop to determine good tracks =================
     int nGoodTracks = 0;
     int nFXTMult = 0;
     std::vector<StPicoTrack *> vGoodTracks; // vector of good tracks for TPC event plane Q-vector loop
     for(Int_t iTrk=0; iTrk<nTracks; iTrk++){
-      StPicoTrack *picoTrack = dst->track(iTrk);
+      StPicoTrack *mPicoTrack = dst->track(iTrk);
       mTrkcut[0]++; // 0. No track cut
-      if(!picoTrack) continue;
-      if(!picoTrack->isPrimary()) continue;
+      if(!mPicoTrack) continue;
+      if(!mPicoTrack->isPrimary()) continue;
+      TVector3 momentum = mPicoTrack->pMom();
+      float dca=mPicoTrack->gDCA(vertexPos).Mag();
       mTrkcut[1]++; // 1. pico track cut
       StPicoBTofPidTraits *trait = NULL;
       // ----------------------- Physics values of tracks --------------------------
       double        tofBeta    = -999.;
-      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(mPicoTrack->isTofTrack()) trait = dst->btofPidTraits( mPicoTrack->bTofPidTraitsIndex() );
       if(trait)        tofBeta = trait->btofBeta();
-      double d_px  = picoTrack->pMom().x();
-      double d_py  = picoTrack->pMom().y();
-      double d_pz  = picoTrack->pMom().z();
-      double d_pT  = picoTrack->pPt();
+      double d_px  = momentum.Mag().x();
+      double d_py  = momentum.Mag().y();
+      double d_pz  = momentum.Mag().z();
+      double d_pT  = mPicoTrack->pPt();
 
-      double d_mom = sqrt(d_pT*d_pT + d_pz*d_pz);
-      TVector3 momentum = picoTrack->pMom();
+      double d_mom = momentum.Mag();
 
-      double mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0);
-      Double_t eta = picoTrack->pMom().Eta();
-      Double_t phi    = picoTrack->pMom().Phi();
+      double mass2;
+      if(tofBeta != -999.) mass2 = d_mom*d_mom*((1.0/(tofBeta*tofBeta))-1.0); else mass2 = -999.;
+      Double_t eta = mPicoTrack->pMom().Eta();
+      Double_t phi    = mPicoTrack->pMom().Phi();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // --------------- QA plots before major track cuts ----------------------
-      hist_px_py->Fill(d_px,d_py);
       hist_pz   ->Fill(d_pz);
-      hist_pt   ->Fill(d_pT);
+      h_pt->Fill(momentum.Perp());
       hist_mom  ->Fill(d_mom);
       hist_mass2->Fill(mass2);
-      hist_eta  ->Fill(eta);
-      hist_phi  ->Fill(phi);
-      hist_ratio->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
-      hist_nHits->Fill((double)picoTrack->nHitsFit());
-      hist_ndEdx->Fill(picoTrack->nHitsDedx());
-      hist_DCA  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
-
+      h_eta_b->Fill(momentum.PseudoRapidity());
+      h_nhitfit->Fill(mPicoTrack->nHitsFit());
+      h_nhitmax->Fill(mPicoTrack->nHitsMax());
+      h_nhitratio->Fill((float)mPicoTrack->nHitsFit()/(float)mPicoTrack->nHitsMax());
+      hist_ndEdx->Fill(mPicoTrack->nHitsDedx());
+      h_dca->Fill(dca);
+      h_phi->Fill(momentum.Phi());
+      h_eta_phi_before->Fill(momentum.Phi(),momentum.PseudoRapidity());
       nFXTMult++;
       mTrkcut[2]++; // 2. Primary track cut
-      bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
+      bool    b_bad_dEdx     = (mPicoTrack->nHitsDedx() <= 0);
       // # Systematic Analysis
       // sys_cutN == 5; // dedx
       if(sys_cutN == 5){
         if(sys_varN == 1){
-          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 10);
+          b_bad_dEdx     = (mPicoTrack->nHitsDedx() <= 10);
         } else if(sys_varN == 2){
-          b_bad_dEdx     = (picoTrack->nHitsDedx() <= 20);
+          b_bad_dEdx     = (mPicoTrack->nHitsDedx() <= 20);
         }
       }
-      bool    b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 1.0);
+      bool    b_bad_DCA      = (fabs(dca) > 1.0);
       // # Systematic Analysis
       // sys_cutN == 6; // dca
       if(sys_cutN == 6){
         if(sys_varN == 1){
-          b_bad_DCA      = (picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z) >= 1.0);
+          b_bad_DCA      = (fabs(dca) > 3.0 );
         } else if(sys_varN == 2){
           b_bad_dEdx     = false; // no DCA cut
         }
       }
-      bool b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 15;
+      bool b_not_enough_hits = ((double)mPicoTrack->nHitsFit()) < 15;
       // # Systematic Analysis
       // sys_cutN == 7; // nHitsFit
       if(sys_cutN == 7){
         if(sys_varN == 1){
-          b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 10;
+          b_not_enough_hits = ((double)mPicoTrack->nHitsFit()) < 10;
         } else if(sys_varN == 2){
-          b_not_enough_hits = ((double)picoTrack->nHitsFit()) <= 20;
+          b_not_enough_hits = ((double)mPicoTrack->nHitsFit()) < 20;
         }
       }
-      bool    b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.52);
+      bool    b_bad_tracking = (((double)mPicoTrack->nHitsFit() / (double)mPicoTrack->nHitsPoss()) < 0.52);
       // # Systematic Analysis
       // sys_cutN == 8; // ratio
       if(sys_cutN == 8){
         if(sys_varN == 1){
-          b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.45);
+          b_bad_tracking = (((double)mPicoTrack->nHitsFit() / (double)mPicoTrack->nHitsPoss()) < 0.45);
         } else if(sys_varN == 2){
-          b_bad_tracking = (((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()) < 0.55);
+          b_bad_tracking = (((double)mPicoTrack->nHitsFit() / (double)mPicoTrack->nHitsPoss()) < 0.55);
         }
       }
       bool    b_bad_track    = b_bad_dEdx || b_bad_tracking || b_not_enough_hits || b_bad_DCA;
@@ -1285,19 +1307,23 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       if(momentum.Mag() > 10.0) continue;
       mTrkcut[3]++; // 3. Bad track cuts
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
-      vGoodTracks.push_back(picoTrack);
+      vGoodTracks.push_back(mPicoTrack);
       // --------------- QA plots after major track cuts ----------------------
-      hist_px_py_cut->Fill(d_px,d_py);
+      if(TMath::Abs(beta)>1e-5)  hbetavsp->Fill(momentum.Mag(), 1/beta);
+      else hbetavsp->Fill(momentum.Mag(), 0);
+      hmassvsp->Fill(momentum.Mag()/mPicoTrack->charge(), mass2);
+      hdedxvsp->Fill(momentum.Mag()/mPicoTrack->charge(),mPicoTrack->dEdx());
+      h_eta_phi->Fill(momentum.Phi(),momentum.PseudoRapidity());
+      h_eta->Fill(momentum.PseudoRapidity());
       hist_pz_cut   ->Fill(d_pz);
       hist_pt_cut   ->Fill(d_pT);
       hist_mom_cut  ->Fill(d_mom);
       hist_mass2_cut->Fill(mass2);
-      hist_eta_cut  ->Fill(eta);
       hist_phi_cut  ->Fill(phi);
-      hist_ratio_cut->Fill(((double)picoTrack->nHitsFit() / (double)picoTrack->nHitsPoss()));
-      hist_nHits_cut->Fill((double)picoTrack->nHitsFit());
-      hist_ndEdx_cut->Fill(picoTrack->nHitsDedx());
-      hist_DCA_cut  ->Fill(picoTrack->gDCA(primaryVertex_X,primaryVertex_Y,primaryVertex_Z));
+      hist_ratio_cut->Fill(((double)mPicoTrack->nHitsFit() / (double)mPicoTrack->nHitsPoss()));
+      hist_nHits_cut->Fill((double)mPicoTrack->nHitsFit());
+      hist_ndEdx_cut->Fill(mPicoTrack->nHitsDedx());
+      hist_DCA_cut  ->Fill(mPicoTrack->gDCA(vertexPos.X(),vertexPos.Y(),vertexPos.Z()));
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
@@ -1356,7 +1382,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       if(PP==1 && TT==1) hist_nMip->Fill(nMip);
       if (nMip<mThresh) continue;
       double TileWeight = (nMip<mMax)?nMip:mMax;
-      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
+      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - mPicoEvent->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
@@ -1441,7 +1467,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
       if (nMip<mThresh) continue;
       double TileWeight = (nMip<mMax)?nMip:mMax;
-      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
+      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - mPicoEvent->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
@@ -1670,22 +1696,22 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     }
     // TPC Q-vector loop
     for(unsigned int i=0; i<vGoodTracks.size();i++){
-      StPicoTrack* picoTrack = vGoodTracks[i];
+      StPicoTrack* mPicoTrack = vGoodTracks[i];
       StPicoBTofPidTraits *trait        = NULL;
       Short_t charge;
       Double_t pt,pz,eta,ptot,phi;
       Double_t mass2 =-999.0,tofBeta =-999.0;
       Double_t rapWeight = 0.0; // Weight based on rapidity
-      charge = picoTrack->charge();
-      pt     = picoTrack->pPt();
-      pz     = picoTrack->pMom().Z();
-      eta    = picoTrack->pMom().Eta();
-      ptot = picoTrack->pPtot();
-      phi    = picoTrack->pMom().Phi();
+      charge = mPicoTrack->charge();
+      pt     = mPicoTrack->pPt();
+      pz     = mPicoTrack->pMom().Z();
+      eta    = mPicoTrack->pMom().Eta();
+      ptot = mPicoTrack->pPtot();
+      phi    = mPicoTrack->pMom().Phi();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
       // ---------------- Check if TOF info available --------------------------
-      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(mPicoTrack->isTofTrack()) trait = dst->btofPidTraits( mPicoTrack->bTofPidTraitsIndex() );
       if(trait) tofBeta               = trait->btofBeta();
       if(tofBeta != -999.0) mass2 = ptot * ptot *( ( 1.0 / ( tofBeta*tofBeta ) ) - 1.0 );
       // ---------------- Particle Physics Variables presumed --------------------------
@@ -1701,15 +1727,15 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       mtKaon   = TMath::Sqrt(pt*pt + _massProton*_massProton);
       mtPion   = TMath::Sqrt(pt*pt + _massProton*_massProton);
       // ------------------------ TPC EP QA plots ------------------------------
-      h2_dEdxVsPq->Fill(charge*ptot,picoTrack->dEdx());
-      h2_dEdxVspTq->Fill(charge*pt,picoTrack->dEdx());
+      h2_dEdxVsPq->Fill(charge*ptot,mPicoTrack->dEdx());
+      h2_dEdxVspTq->Fill(charge*pt,mPicoTrack->dEdx());
       if(tofBeta!=-999.0){
         h2_beta->Fill(charge*ptot,1.0/tofBeta);
         h2_mass->Fill(charge*ptot,mass2);
       }
       // ------------------------ Particle identifications ------------------------------
       if( // Proton PID: require both TPC and TOF
-        TMath::Abs(picoTrack->nSigmaProton()) < 2.0 &&
+        TMath::Abs(mPicoTrack->nSigmaProton()) < 2.0 &&
         (tofBeta != -999.0 && mass2 > 0.8 && mass2 < 1.0) &&
         // ((ptot <= 1.0) || (tofBeta != -999.0 && mass2 > 0.7 && mass2 < 1.1)) &&
         pt > 0.4 &&
@@ -1718,7 +1744,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       ){
         particleType=0;// Proton
         nProtons++;
-        v_Proton_tracks.push_back(picoTrack); // push back K+ tracks
+        v_Proton_tracks.push_back(mPicoTrack); // push back K+ tracks
         // Fill histograms
         hist_pt_proton->Fill(pt);
         hist_eta_proton->Fill(eta);
@@ -1727,19 +1753,19 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
         hist_rap_eta_proton->Fill(eta,rapProton);
         hist_pt_y_proton->Fill(rapProton,pt,1);
         hist_pt_eta_proton->Fill(eta,pt,1);
-        hist_dEdx_proton->Fill(charge*ptot,picoTrack->dEdx());
+        hist_dEdx_proton->Fill(charge*ptot,mPicoTrack->dEdx());
         hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
         hist_mass_proton->Fill(charge*ptot,mass2);
       } else if( // Kaons PID: require both TPC and TOF
-        TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
+        TMath::Abs(mPicoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
         tofBeta != -999.0 && mass2 > d_KaonM2low && mass2 < d_KaonM2high
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
           particleType=1;// K+
           nKaonPlus++;
-          v_KaonPlus_tracks.push_back(picoTrack); // push back K+ tracks
-          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tracks.push_back(mPicoTrack); // push back K+ tracks
+          v_KaonPlus_tracks_flexTOF.push_back(mPicoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
@@ -1748,14 +1774,14 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
           hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
           hist_pt_eta_kaonPlus->Fill(eta,pt,1);
-          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_kaonPlus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
           particleType=2;// K-
           nKaonMinus++;
-          v_KaonMinus_tracks.push_back(picoTrack); // push back K+ tracks
-          v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
+          v_KaonMinus_tracks.push_back(mPicoTrack); // push back K+ tracks
+          v_KaonMinus_tracks_flexTOF.push_back(mPicoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1764,12 +1790,12 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
           hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
           hist_pt_eta_kaonMinus->Fill(eta,pt,1);
-          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_kaonMinus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
       } else if( // Pions PID: require both TPC and TOF
-        TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
+        TMath::Abs(mPicoTrack->nSigmaPion()) <  2.0 &&
         tofBeta != -999.0 && mass2 > -0.01 && mass2 < 0.05 &&
         pt > 0.2  &&
         !(TMath::Abs(mass2)<0.005 && ptot<0.25) // Remove electron influence
@@ -1785,7 +1811,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_pionPlus->Fill(eta,rapPion);
           hist_pt_y_pionPlus->Fill(rapPion,pt,1);
           hist_pt_eta_pionPlus->Fill(eta,pt,1);
-          hist_dEdx_pionPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_pionPlus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_pionPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_pionPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
@@ -1799,7 +1825,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_pionMinus->Fill(eta,rapPion);
           hist_pt_y_pionMinus->Fill(rapPion,pt,1);
           hist_pt_eta_pionMinus->Fill(eta,pt,1);
-          hist_dEdx_pionMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_pionMinus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_pionMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_pionMinus->Fill(charge*ptot,mass2);
         }
@@ -1809,17 +1835,17 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       // sys_cutN == 16; // TPCpid
       if( // Kaons PID: tracks that only have TPC, no TOF
         // sys_cutN == 16 &&
-        TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
-        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaElectron()) &&
-        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaPion()) &&
-        // TMath::Abs(picoTrack->nSigmaKaon()) < TMath::Abs(picoTrack->nSigmaProton()) &&
+        TMath::Abs(mPicoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
+        // TMath::Abs(mPicoTrack->nSigmaKaon()) < TMath::Abs(mPicoTrack->nSigmaElectron()) &&
+        // TMath::Abs(mPicoTrack->nSigmaKaon()) < TMath::Abs(mPicoTrack->nSigmaPion()) &&
+        // TMath::Abs(mPicoTrack->nSigmaKaon()) < TMath::Abs(mPicoTrack->nSigmaProton()) &&
         tofBeta == -999.0
         && pt > d_KaonpTlow
       ){
         if(charge > 0){
           // particleType=1;// K+
           nKaonPlus++;
-          v_KaonPlus_tracks_flexTOF.push_back(picoTrack); // push back K+ tracks
+          v_KaonPlus_tracks_flexTOF.push_back(mPicoTrack); // push back K+ tracks
           // Fill histograms
           hist_pt_kaonPlus->Fill(pt);
           hist_eta_kaonPlus->Fill(eta);
@@ -1828,13 +1854,13 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_kaonPlus->Fill(eta,rapKaon);
           hist_pt_y_kaonPlus->Fill(rapKaon,pt,1);
           hist_pt_eta_kaonPlus->Fill(eta,pt,1);
-          hist_dEdx_kaonPlus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_kaonPlus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_kaonPlus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonPlus->Fill(charge*ptot,mass2);
         } else { // charge < 0
           // particleType=2;// K-
           nKaonMinus++;
-          v_KaonMinus_tracks_flexTOF.push_back(picoTrack); // push back K- tracks
+          v_KaonMinus_tracks_flexTOF.push_back(mPicoTrack); // push back K- tracks
           // Fill histograms
           hist_pt_kaonMinus->Fill(pt);
           hist_eta_kaonMinus->Fill(eta);
@@ -1843,7 +1869,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
           hist_rap_eta_kaonMinus->Fill(eta,rapKaon);
           hist_pt_y_kaonMinus->Fill(rapKaon,pt,1);
           hist_pt_eta_kaonMinus->Fill(eta,pt,1);
-          hist_dEdx_kaonMinus->Fill(charge*ptot,picoTrack->dEdx());
+          hist_dEdx_kaonMinus->Fill(charge*ptot,mPicoTrack->dEdx());
           hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
@@ -1971,7 +1997,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       //      nMip = (TT<10)?(double)ADC/160.0:(double)ADC/115.0;
       if (nMip<mThresh) continue;
       double TileWeight = (nMip<mMax)?nMip:mMax;
-      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - event->primaryVertex();
+      TVector3 StraightLine = mEpdGeom->TileCenter(tileId) - mPicoEvent->primaryVertex();
       double phi = StraightLine.Phi();
       double eta = StraightLine.Eta();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
@@ -2030,24 +2056,24 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
 
     // (9) ======================= Flow calculation of P, Pi K  =========================
     for(unsigned int i = 0; i < v_Proton_tracks.size(); i++){
-      StPicoTrack * picoTrack = v_Proton_tracks.at(i); // i-th K+ track
-      if(!picoTrack) continue;
+      StPicoTrack * mPicoTrack = v_Proton_tracks.at(i); // i-th K+ track
+      if(!mPicoTrack) continue;
       // Proton Variables
-      double d_charge  = picoTrack->charge();
-      double d_px      = picoTrack->pMom().x();
-      double d_py      = picoTrack->pMom().y();
-      double d_pz      = picoTrack->pMom().z();
-      double d_pT      = picoTrack->pPt();
+      double d_charge  = mPicoTrack->charge();
+      double d_px      = mPicoTrack->pMom().x();
+      double d_py      = mPicoTrack->pMom().y();
+      double d_pz      = mPicoTrack->pMom().z();
+      double d_pT      = mPicoTrack->pPt();
       double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
       StPicoBTofPidTraits *trait = NULL;
       double d_tofBeta    = -999.;
       double d_inv_tofBeta    = -999.;
-      if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
+      if(mPicoTrack->isTofTrack()) trait = dst->btofPidTraits( mPicoTrack->bTofPidTraitsIndex() );
       if(trait)        d_tofBeta = trait->btofBeta();
       double d_M   = _massProton;
       double d_E   = sqrt((d_px*d_px+d_py*d_py+d_pz*d_pz)+_massProton*_massProton);
       double d_y   = ((d_E-d_pz) != 0.0) ? 0.5*TMath::Log( (d_E + d_pz) / (d_E - d_pz) ) : -999.0;
-      Double_t d_phi_azimuth = picoTrack->pMom().Phi();
+      Double_t d_phi_azimuth = mPicoTrack->pMom().Phi();
       if(d_phi_azimuth < 0.0            ) d_phi_azimuth += 2.0*TMath::Pi();
       if(d_phi_azimuth > 2.0*TMath::Pi()) d_phi_azimuth -= 2.0*TMath::Pi();
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
@@ -2194,7 +2220,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
         TVector3 v3D_x_daughter0 = trackhelix0.at(pairLengths.first);
         TVector3 v3D_x_daughter1 = trackhelix1.at(pairLengths.second);
         TVector3 v3D_x_mother    = (v3D_x_daughter0+v3D_x_daughter1)*0.5;
-        TVector3 v3D_xvec_decayl = v3D_x_mother - pVtx;
+        TVector3 v3D_xvec_decayl = v3D_x_mother - vertexPos;
         double d_mother_decay_length =  v3D_xvec_decayl.Mag();
         hist_mother_decay_length->Fill(d_mother_decay_length);
         // if(d_mother_decay_length > d_cut_mother_decay_length_PHI) continue; //decay length cut
@@ -2758,44 +2784,40 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   hist_trackCuts->GetXaxis()->SetBinLabel(3,"primary track");
   hist_trackCuts->GetXaxis()->SetBinLabel(4,"Good track");
   hist_trackCuts->GetXaxis()->SetBinLabel(5,"With TOF");
-  hist_Vz_pri->GetXaxis()->SetTitle("V_{Z} [cm]");
-  hist_Vz_pri->GetYaxis()->SetTitle("# of events");
-  hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
-  hist_VyVx_pri->GetYaxis()->SetTitle("V_{Y} [cm]");
+  hvz_b->GetXaxis()->SetTitle("V_{Z} [cm]");
+  hvz_b->GetYaxis()->SetTitle("# of events");
+  hvr_b->GetXaxis()->SetTitle("V_{X} [cm]");
+  hvr_b->GetYaxis()->SetTitle("V_{Y} [cm]");
   hist_Vr_pri->GetXaxis()->SetTitle("V_{R} [cm]");
   hist_Vr_pri->GetYaxis()->SetTitle("# of events");
   hist_triggerID->GetXaxis()->SetTitle("TriggerID");
   hist_triggerID->GetYaxis()->SetTitle("# of events");
-  hist_Vz_cut->GetXaxis()->SetTitle("V_{Z} [cm]");
-  hist_Vz_cut->GetYaxis()->SetTitle("# of events");
+  hvz->GetXaxis()->SetTitle("V_{Z} [cm]");
+  hvz->GetYaxis()->SetTitle("# of events");
   hist_Vr_cut->GetXaxis()->SetTitle("V_{R} [cm]");
   hist_Vr_cut->GetYaxis()->SetTitle("# of events");
-  hist_VyVx_cut->GetXaxis()->SetTitle("V_{X} [cm]");
-  hist_VyVx_cut->GetYaxis()->SetTitle("V_{Y} [cm]");
-  hist_px_py->GetXaxis()->SetTitle("p_{x} [GeV/c]");
-  hist_px_py->GetYaxis()->SetTitle("p_{y} [GeV/c]");
+  hvr->GetXaxis()->SetTitle("V_{X} [cm]");
+  hvr->GetYaxis()->SetTitle("V_{Y} [cm]");
   hist_pz->GetXaxis()->SetTitle("p_{z} [GeV/c]");
   hist_pz->GetYaxis()->SetTitle("# of tracks");
-  hist_pt->GetXaxis()->SetTitle("p_{T} [GeV/c]");
-  hist_pt->GetYaxis()->SetTitle("# of tracks");
+  h_pt->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  h_pt->GetYaxis()->SetTitle("# of tracks");
   hist_mom->GetXaxis()->SetTitle("p_{mom} [GeV/c]");
   hist_mom->GetYaxis()->SetTitle("# of tracks");
   hist_mass2->GetXaxis()->SetTitle("M^{2} [(GeV/c^{2})^{2}]");
   hist_mass2->GetYaxis()->SetTitle("# of tracks");
-  hist_eta->GetXaxis()->SetTitle("#eta");
-  hist_eta->GetYaxis()->SetTitle("# of tracks");
-  hist_phi->GetXaxis()->SetTitle("#phi [Radian]");
-  hist_phi->GetYaxis()->SetTitle("# of tracks");
-  hist_ratio->GetXaxis()->SetTitle("nHitsFit/nHitsPoss");
-  hist_ratio->GetYaxis()->SetTitle("# of Tracks");
-  hist_nHits->GetXaxis()->SetTitle("nHits");
-  hist_nHits->GetYaxis()->SetTitle("# of Tracks");
+  h_eta_b->GetXaxis()->SetTitle("#eta");
+  h_eta_b->GetYaxis()->SetTitle("# of tracks");
+  h_phi->GetXaxis()->SetTitle("#phi [Radian]");
+  h_phi->GetYaxis()->SetTitle("# of tracks");
+  h_nhitratio->GetXaxis()->SetTitle("nHitsFit/nHitsPoss");
+  h_nhitratio->GetYaxis()->SetTitle("# of Tracks");
+  h_nhitfit->GetXaxis()->SetTitle("nHits");
+  h_nhitfit->GetYaxis()->SetTitle("# of Tracks");
   hist_ndEdx->GetXaxis()->SetTitle("nDedx");
   hist_ndEdx->GetYaxis()->SetTitle("# of Tracks");
-  hist_DCA->GetXaxis()->SetTitle("DCA [cm]");
-  hist_DCA->GetYaxis()->SetTitle("# of Tracks");
-  hist_px_py_cut->GetXaxis()->SetTitle("p_{x} [GeV/c]");
-  hist_px_py_cut->GetYaxis()->SetTitle("p_{y} [GeV/c]");
+  h_dca->GetXaxis()->SetTitle("DCA [cm]");
+  h_dca->GetYaxis()->SetTitle("# of Tracks");
   hist_pz_cut->GetXaxis()->SetTitle("p_{z} [GeV/c]");
   hist_pz_cut->GetYaxis()->SetTitle("# of tracks");
   hist_pt_cut->GetXaxis()->SetTitle("p_{T} [GeV/c]");
@@ -2804,8 +2826,8 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   hist_mom_cut->GetYaxis()->SetTitle("# of tracks");
   hist_mass2_cut->GetXaxis()->SetTitle("M^{2} [(GeV/c^{2})^{2}]");
   hist_mass2_cut->GetYaxis()->SetTitle("# of tracks");
-  hist_eta_cut->GetXaxis()->SetTitle("#eta");
-  hist_eta_cut->GetYaxis()->SetTitle("# of tracks");
+  h_eta->GetXaxis()->SetTitle("#eta");
+  h_eta->GetYaxis()->SetTitle("# of tracks");
   hist_phi_cut->GetXaxis()->SetTitle("#phi [Radian]");
   hist_phi_cut->GetYaxis()->SetTitle("# of tracks");
   hist_ratio_cut->GetXaxis()->SetTitle("nHitsFit/nHitsPoss");
