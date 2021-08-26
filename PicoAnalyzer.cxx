@@ -337,7 +337,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH2D *hist_grefmult_refmult = new TH2D("hist_grefmult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. grefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. refMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[_nEventTypeBins];
@@ -1138,7 +1138,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     bool bad_run = false;
     for(int ii=0;ii<44;ii++)
     {
-      if(runId == badrun[ii]) return 0;
+      if(runId == badrun[ii]) continue;
     }
     float tofMult = mPicoEvent->btofTrayMultiplicity();
     float tofmatch= mPicoEvent->nBTOFMatch();
@@ -1171,8 +1171,8 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       }
 
     // --------------------------- Vertex cut -----------------------------------
-    if( TMath::Abs(vertexPos.Z()) > 70 ) return 0;
-    if( ((vertexPos.X()-0)*(vertexPos.X()-0)+(vertexPos.Y()-0)*(vertexPos.Y()-0)) >= 4 ) return 0;
+    if( TMath::Abs(vertexPos.Z()) > 70 ) continue;
+    if( ((vertexPos.X()-0)*(vertexPos.X()-0)+(vertexPos.Y()-0)*(vertexPos.Y()-0)) >= 4 ) continue;
     if(TMath::Abs(vertexPos.Z()) < 10 ){
         href_vz->Fill(mPicoEvent->refMult());
     }
@@ -1233,9 +1233,9 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       double        tofBeta    = -999.;
       if(mPicoTrack->isTofTrack()) trait = dst->btofPidTraits( mPicoTrack->bTofPidTraitsIndex() );
       if(trait)        tofBeta = trait->btofBeta();
-      double d_px  = momentum.Mag().x();
-      double d_py  = momentum.Mag().y();
-      double d_pz  = momentum.Mag().z();
+      double d_px  = momentum.x();
+      double d_py  = momentum.y();
+      double d_pz  = momentum.z();
       double d_pT  = mPicoTrack->pPt();
 
       double d_mom = momentum.Mag();
@@ -1334,23 +1334,23 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
     Int_t centrality = 0;
     // Int_t cenSection[9]={11,22,37,57,82,113,151,174,245};//10,17,28,41,57,77,100,127,160,245 version 0 cent
     Int_t cenSection[9]={4, 9,17,30,50,78, 116,170,205}; // From Shaowei's analysis note
-    bool b_pileup   = false;//(grefMult >= 600);
-    bool b_low_mult = false;//(grefMult < 2);
-    if      (grefMult>=cenSection[8]) centrality=1;
-    else if (grefMult>=cenSection[7]) centrality=2;
-    else if (grefMult>=cenSection[6]) centrality=3;
-    else if (grefMult>=cenSection[5]) centrality=4;
-    else if (grefMult>=cenSection[4]) centrality=5;
-    else if (grefMult>=cenSection[3]) centrality=6;
-    else if (grefMult>=cenSection[2]) centrality=7;
-    else if (grefMult>=cenSection[1]) centrality=8;
-    else if (grefMult>=cenSection[0]) centrality=9;
+    bool b_pileup   = false;//(refMult >= 600);
+    bool b_low_mult = false;//(refMult < 2);
+    if      (refMult>=cenSection[8]) centrality=1;
+    else if (refMult>=cenSection[7]) centrality=2;
+    else if (refMult>=cenSection[6]) centrality=3;
+    else if (refMult>=cenSection[5]) centrality=4;
+    else if (refMult>=cenSection[4]) centrality=5;
+    else if (refMult>=cenSection[3]) centrality=6;
+    else if (refMult>=cenSection[2]) centrality=7;
+    else if (refMult>=cenSection[1]) centrality=8;
+    else if (refMult>=cenSection[0]) centrality=9;
     else centrality = 0;
     hist_cent->Fill(centrality);
-    hist_realTrackMult->Fill(grefMult);
+    hist_realTrackMult->Fill(refMult);
     hist_FXTTrackMult->Fill(nFXTMult);
-    hist_grefmult_refmult->Fill(grefMult,refMult);
-    hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
+    hist_grefmult_refmult->Fill(refMult,refMult);
+    hist_FXTTrackMult_grefmult->Fill(nFXTMult,refMult);
     hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
@@ -2846,10 +2846,10 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
   hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
   hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_grefmult_refmult->GetXaxis()->SetTitle("grefMult");
+  hist_grefmult_refmult->GetXaxis()->SetTitle("refMult");
   hist_grefmult_refmult->GetYaxis()->SetTitle("RefMult");
   hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("grefMult");
+  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("refMult");
   hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
   hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
