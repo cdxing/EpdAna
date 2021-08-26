@@ -1992,8 +1992,10 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
 
     // ------------------- Fill the Correlations among TPC EP and EPD sub EPs ------------------------
     for(int n=0; n<2; n++){
-      profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
-      profile_correlation_tpc_A_tpc_B[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[2] /*- TMath::Pi()/(double)EpOrder*/ )));
+      if(centraltiy > 0){
+        profile_correlation_epd_tpc_all[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiEastShifted[0] - PsiTpcAllShifted[1] /*- TMath::Pi()/(double)EpOrder*/ )));
+        profile_correlation_tpc_A_tpc_B[n]->Fill(centrality,TMath::Cos((double)(n+1) * (PsiTpcAllShifted[1] - PsiTpcAllShifted[2] /*- TMath::Pi()/(double)EpOrder*/ )));
+      }
     }
     hist_cent_ep->Fill(centrality);
     correlation2D_epd_tpc_all->Fill(PsiTpcAllShifted[1],PsiEastShifted[0]);
