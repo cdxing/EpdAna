@@ -1309,7 +1309,7 @@ void PicoAnalyzer(const Char_t *inFile = "./hlt_22031042_10_01_000.picoDst.root"
       nGoodTracks++; // nGoodTracks is used to determine centrality later in the event loop
       vGoodTracks.push_back(mPicoTrack);
       // --------------- QA plots after major track cuts ----------------------
-      if(TMath::Abs(beta)>1e-5)  hbetavsp->Fill(momentum.Mag(), 1/beta);
+      if(TMath::Abs(tofBeta)>1e-5)  hbetavsp->Fill(momentum.Mag(), 1/tofBeta);
       else hbetavsp->Fill(momentum.Mag(), 0);
       hmassvsp->Fill(momentum.Mag()/mPicoTrack->charge(), mass2);
       hdedxvsp->Fill(momentum.Mag()/mPicoTrack->charge(),mPicoTrack->dEdx());
