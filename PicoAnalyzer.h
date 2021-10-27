@@ -78,9 +78,9 @@ Double_t Psi2_up[3]  = {-1.0*TMath::Pi()/2.0, 1.0*TMath::Pi()/2.0,3.0*TMath::Pi(
 
 Int_t pt_total_phi = 23;
 
-Int_t Centrality_total = 4;    // shaowei
-Int_t Centrality_start = 0;
-Int_t Centrality_stop  = 4;    // shaowei
+const Int_t Centrality_total = 4;    // shaowei
+const Int_t Centrality_start = 0;
+const Int_t Centrality_stop  = 4;    // shaowei
 
 Int_t Phi_Psi_total = 7;
 // flow analysis
