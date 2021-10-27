@@ -718,11 +718,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                   TString Mode[2] = {"SE","ME"};
                   TString HistName;
                   HistName = Form("pt_%d_Centrality_%d_phi_Psi_%d_2nd_%s_%s",i,j,m,"Phi",Mode[X_flag].Data());
-                  h_mMass2_EP[i][j][l][m] = new TH1F(HistName.Data(),HistName.Data(),200,InvMass_low[mode],InvMass_high[mode]);
-                  h_mMass2_EP[i][j][l][m]->Sumw2();
-                  HistName = Form("pt_%d_Centrality_%d_phi_Psi_%d_3rd_%s_%s",i,j,m,"Phi",Mode[X_flag].Data());
-                  h_mMass3_EP[i][j][l][m] = new TH1F(HistName.Data(),HistName.Data(),200,InvMass_low[mode],InvMass_high[mode]);
-                  h_mMass3_EP[i][j][l][m]->Sumw2();
+                  h_mMass2_EP[i][j][X_flag][m] = new TH1F(HistName.Data(),HistName.Data(),200,0.98,1.05);
+                  h_mMass2_EP[i][j][X_flag][m]->Sumw2();
 
                   // subtract K0s
               }
@@ -740,8 +737,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
               TString Mode[2] = {"SE","ME"};
               TString HistName;
               HistName = Form("Spec_pt_%d_Centrality_%s_%s",i,j,"Phi",Mode[X_flag].Data());
-              h_mMass_Spec[i][j][l] = new TH1F(HistName.Data(),HistName.Data(),200,InvMass_low[mode],InvMass_high[mode]);
-              h_mMass_Spec[i][j][l]->Sumw2();
+              h_mMass_Spec[i][j][X_flag] = new TH1F(HistName.Data(),HistName.Data(),200,0.98,1.05);
+              h_mMass_Spec[i][j][X_flag]->Sumw2();
 
               // subtract K0s
           }
@@ -756,8 +753,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           TString Mode[2] = {"SE","ME"};
           TString HistName;
           HistName = Form("Yields_Centrality_%s_%s",j,"Phi",Mode[X_flag].Data());
-          h_mMass_Yields[j][l] = new TH1F(HistName.Data(),HistName.Data(),200,InvMass_low[mode],InvMass_high[mode]);
-          h_mMass_Yields[j][l]->Sumw2();
+          h_mMass_Yields[j][X_flag] = new TH1F(HistName.Data(),HistName.Data(),200,0.98,1.05);
+          h_mMass_Yields[j][X_flag]->Sumw2();
 
           // subtract K0s
       }
