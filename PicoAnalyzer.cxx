@@ -709,7 +709,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // flow analysis
   for(Int_t i = 0; i < pt_total_phi; i++) // pt bin | TODO: increase pt_bin to 8 GeV/c
   {
-      for(Int_t j = Centrality_start; j < Centrality_stop; j++) // centrality bin
+      for(Int_t j = 0; j < 4; j++) // centrality bin
       {
           for(Int_t X_flag = 0; X_flag < 2; X_flag++) // x_flag
           {
@@ -730,7 +730,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   // raw pt spectra | TODO: use finer pt_bin
   for(Int_t i = 0; i < pt_total_phi; i++) // pt bin
   {
-      for(Int_t j = Centrality_start; j < Centrality_stop; j++) // centrality bin
+      for(Int_t j = 0; j < 4; j++) // centrality bin
       {
         for(Int_t X_flag = 0; X_flag < 2; X_flag++) // x_flag
           {
@@ -2255,7 +2255,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                 Se_Rt = 0; // same event
                 if(d_Phi_pT > pt_low_phi[i] && d_Phi_pT < pt_up_phi[i])
                 {
-                    for(Int_t j = Centrality_start; j < Centrality_stop; j++) // centrality bin
+                    for(Int_t j = 0; j < 4; j++) // centrality bin
                     {
                         if(Cent9 >= cent_low[j] && Cent9 <= cent_up[j])
                         {
@@ -2285,7 +2285,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                 Se_Rt = 1; // rotated
                 if(d_Phi_pT_rotation > pt_low_phi[i] && d_Phi_pT_rotation < pt_up_phi[i])
                 {
-                    for(Int_t j = Centrality_start; j < Centrality_stop; j++) // centrality bin
+                    for(Int_t j = 0; j < 4; j++) // centrality bin
                     {
                         if(Cent9 >= cent_low[j] && Cent9 <= cent_up[j])
                         {
@@ -2905,7 +2905,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_pT_vs_invM_ptSetA_centSetA[pt][4]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
     mHist_pT_vs_invM_ptSetA_centSetA[pt][5]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
   }
-  
+
   // pt SetA, cent SetA
   for(int pt=0; pt<2; pt++)
   {
