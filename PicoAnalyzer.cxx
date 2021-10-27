@@ -28,6 +28,7 @@
  * \author Ding Chen
  * \date Apr 5, 2021
  */
+ #include "PicoAnalyzer.h"
 
 // This is needed for calling standalone classes (not needed on RACF)
 // #define _VANILLA_ROOT_

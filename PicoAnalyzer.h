@@ -101,4 +101,6 @@ TH1F *h_mMass_Spec[23][4][2]; //reweight
 // event plane resolution correction
 // 0 = centrality
 // 1 = SE, RT
-TH1F *h_mMass_Yields[9][2]; //reweight
+TH2F *h_mMass_Yields[9][2]; //reweight
+#endif
+
