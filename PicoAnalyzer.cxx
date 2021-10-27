@@ -2222,15 +2222,21 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             d_flow_PHI_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
           }
         }
+        Double_t phi_psi2 = -999;
+        Double_t Res2 = -999;
         if(d_phi_eta>=-1.2){
           if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
               d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
               d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]))/(d_resolution[1][centrality-1]); // km {0,1}, centrality [1,9]
+              phi_psi2 = d_phi_azimuth - PsiTpcAllShifted[1][2];
+              Res2 =  d_resolution[1][centrality-1];
           }
         } else {
           if(PsiTpcAllShifted[1][5]!=-999.0){// Using TPC-A psi 2 for v2
               d_flow_PHI_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
               d_flow_PHI_resolution[1] = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]))/(d_resolution_b[centrality-1]); // km {0,1}, centrality [1,9]
+              phi_psi2 = d_phi_azimuth - PsiTpcAllShifted[1][5];
+              Res2 =  d_resolution_b[centrality-1];
           }
         }
         //
@@ -2239,9 +2245,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         // -------------------- (10.1) Fill SE InvM plots -------------------------
         h_pt_y_mass_se->Fill(d_Phi_pT, d_phi_y, d_inv_m);
         h_pt_y_mass_rt->Fill(d_Phi_pT_rotation, d_phi_y_roration, d_inv_m_rotation);
-        Double_t Res2 = d_resolution_b[centrality-1];
         Double_t reweight = 1.;
         Int_t Se_Rt=-1;
+        Int_t Cent9 = centrality;
         if(Res2 > 0.0)
         {
             for(Int_t i = 0; i < pt_total_phi; i++) // pt_bin
@@ -2274,7 +2280,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                         }
                     }
                 }
-                h_mMass_Yields[Cent9][Se_Rt]->Fill(InvMass,reweight);
+                h_mMass_Yields[Cent9][Se_Rt]->Fill(d_inv_m,reweight);
 
                 Se_Rt = 1; // rotated
                 if(d_Phi_pT_rotation > pt_low_phi[i] && d_Phi_pT_rotation < pt_up_phi[i])
@@ -2803,6 +2809,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile2D_v2VsCentVsEta_psi2->GetYaxis()->SetBinLabel(9,"70-80");
 
   // -------------------------------- Set titles -------------------------------
+/*
   for(int i=0; i<4; i++)
   {// pt SetB, cent SetA
     mHist_SE_InvM_ptSetB_centSetA[i][0]->SetTitle(Form("SE, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[1]));
@@ -2846,50 +2853,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_v2_reso_ptSetB_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[2],centSetA[4]));
     mHist_v2_reso_ptSetB_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[3]));
     mHist_v2_reso_ptSetB_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetB[i],ptSetB[i+1],centSetA[0],centSetA[4]));
-    // rap SetA, cent SetA
-    /*
-    mHist_SE_InvM_rapSetA_centSetA[i][0]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_SE_InvM_rapSetA_centSetA[i][1]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_SE_InvM_rapSetA_centSetA[i][2]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_SE_InvM_rapSetA_centSetA[i][3]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_SE_InvM_rapSetA_centSetA[i][4]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_SE_InvM_rapSetA_centSetA[i][5]->SetTitle(Form("SE, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-
-    mHist_rotation_InvM_rapSetA_centSetA[i][0]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_rotation_InvM_rapSetA_centSetA[i][1]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_rotation_InvM_rapSetA_centSetA[i][2]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_rotation_InvM_rapSetA_centSetA[i][3]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_rotation_InvM_rapSetA_centSetA[i][4]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_rotation_InvM_rapSetA_centSetA[i][5]->SetTitle(Form("rotation, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v1_raw_rapSetA_centSetA[i][0]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_v1_raw_rapSetA_centSetA[i][1]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_v1_raw_rapSetA_centSetA[i][2]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_v1_raw_rapSetA_centSetA[i][3]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_v1_raw_rapSetA_centSetA[i][4]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_v1_raw_rapSetA_centSetA[i][5]->SetTitle(Form("v_{1}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v1_reso_rapSetA_centSetA[i][0]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_v1_reso_rapSetA_centSetA[i][1]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_v1_reso_rapSetA_centSetA[i][2]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_v1_reso_rapSetA_centSetA[i][3]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_v1_reso_rapSetA_centSetA[i][4]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_v1_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{1}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v2_raw_rapSetA_centSetA[i][0]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_v2_raw_rapSetA_centSetA[i][1]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_v2_raw_rapSetA_centSetA[i][2]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_v2_raw_rapSetA_centSetA[i][3]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_v2_raw_rapSetA_centSetA[i][4]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_v2_raw_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{raw}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-
-    mHist_v2_reso_rapSetA_centSetA[i][0]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[1]));
-    mHist_v2_reso_rapSetA_centSetA[i][1]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[1],centSetA[2]));
-    mHist_v2_reso_rapSetA_centSetA[i][2]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[3]));
-    mHist_v2_reso_rapSetA_centSetA[i][3]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[2],centSetA[4]));
-    mHist_v2_reso_rapSetA_centSetA[i][4]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[3]));
-    mHist_v2_reso_rapSetA_centSetA[i][5]->SetTitle(Form("v_{2}^{resolution}, %3.1f<y<%3.1f, %3.f -%3.f%%",rapSetA[i],rapSetA[i+1],centSetA[0],centSetA[4]));
-    */
   }
   for(int pt=0; pt<2; pt++)
   {// pt SetA, cent SetA
@@ -2942,6 +2905,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     mHist_pT_vs_invM_ptSetA_centSetA[pt][4]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[3]));
     mHist_pT_vs_invM_ptSetA_centSetA[pt][5]->SetTitle(Form("p_{T} vs. M_{inv}, %3.1f<pt<%3.1f, %3.f -%3.f%%",ptSetA[pt],ptSetA[pt+1],centSetA[0],centSetA[4]));
   }
+  
   // pt SetA, cent SetA
   for(int pt=0; pt<2; pt++)
   {
@@ -2971,53 +2935,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mProfile_v1_reso_ptSetB_centSetA[pt][cent] = mHist_v1_reso_ptSetB_centSetA[pt][cent]->ProfileX();
       mProfile_v2_raw_ptSetB_centSetA[pt][cent]  = mHist_v2_raw_ptSetB_centSetA[pt][cent]->ProfileX();
       mProfile_v2_reso_ptSetB_centSetA[pt][cent] = mHist_v2_reso_ptSetB_centSetA[pt][cent]->ProfileX();
-    }
-  }
-  // pt SetB, cent SetB
-  /*
-  for(int pt=0; pt<4; pt++)
-  {
-    for(int cent=0; cent<9;cent++){
-      mProfile_v1_raw_ptSetB_centSetB[pt][cent]  = mHist_v1_raw_ptSetB_centSetB[pt][cent]->ProfileX();
-      mProfile_v1_reso_ptSetB_centSetB[pt][cent] = mHist_v1_reso_ptSetB_centSetB[pt][cent]->ProfileX();
-      mProfile_v2_raw_ptSetB_centSetB[pt][cent]  = mHist_v2_raw_ptSetB_centSetB[pt][cent]->ProfileX();
-      mProfile_v2_reso_ptSetB_centSetB[pt][cent] = mHist_v2_reso_ptSetB_centSetB[pt][cent]->ProfileX();
-    }
-  }
-  */
-  /*
-  // pt SetC, cent 0-60%, 0-80%
-  for(int pt=0; pt<10; pt++)
-  {
-    for(int cent=0; cent<2;cent++){
-      mProfile_v1_raw_ptSetC_centAll[pt][cent]  = mHist_v1_raw_ptSetC_centAll[pt][cent]->ProfileX();
-      mProfile_v1_reso_ptSetC_centAll[pt][cent] = mHist_v1_reso_ptSetC_centAll[pt][cent]->ProfileX();
-      mProfile_v2_raw_ptSetC_centAll[pt][cent]  = mHist_v2_raw_ptSetC_centAll[pt][cent]->ProfileX();
-      mProfile_v2_reso_ptSetC_centAll[pt][cent] = mHist_v2_reso_ptSetC_centAll[pt][cent]->ProfileX();
-    }
-  }
-  */
-  // rap SetA, cent SetA
-  /*
-  for(int rap=0; rap<4; rap++)
-  {
-    for(int cent=0; cent<6;cent++){
-      mProfile_v1_raw_rapSetA_centSetA[rap][cent]  = mHist_v1_raw_rapSetA_centSetA[rap][cent]->ProfileX();
-      mProfile_v1_reso_rapSetA_centSetA[rap][cent] = mHist_v1_reso_rapSetA_centSetA[rap][cent]->ProfileX();
-      mProfile_v2_raw_rapSetA_centSetA[rap][cent]  = mHist_v2_raw_rapSetA_centSetA[rap][cent]->ProfileX();
-      mProfile_v2_reso_rapSetA_centSetA[rap][cent] = mHist_v2_reso_rapSetA_centSetA[rap][cent]->ProfileX();
-    }
-  }
-  */
-  // rap SetA, cent SetB
-  /*
-  for(int rap=0; rap<4; rap++)
-  {
-    for(int cent=0; cent<9;cent++){
-      mProfile_v1_raw_rapSetA_centSetB[rap][cent]  = mHist_v1_raw_rapSetA_centSetB[rap][cent]->ProfileX();
-      mProfile_v1_reso_rapSetA_centSetB[rap][cent] = mHist_v1_reso_rapSetA_centSetB[rap][cent]->ProfileX();
-      mProfile_v2_raw_rapSetA_centSetB[rap][cent]  = mHist_v2_raw_rapSetA_centSetB[rap][cent]->ProfileX();
-      mProfile_v2_reso_rapSetA_centSetB[rap][cent] = mHist_v2_reso_rapSetA_centSetB[rap][cent]->ProfileX();
     }
   }
   */

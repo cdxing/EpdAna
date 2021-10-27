@@ -64,8 +64,8 @@ const Double_t _y_mid = -2.02; // mid rapidity
 const Float_t pt_low_phi[23] = {0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.4,5.8,6.2};
 const Float_t pt_up_phi[23]  = {0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.4,5.8,6.2,6.6};
 // Centrality bin
-Int_t cent_low[4] = {0,7,4,0}; // 0 = 0-80%, 1 = 0-10%, 2 = 10-40%, 3 = 40-80%
-Int_t cent_up[4]  = {8,8,6,3}; // 0 = 0-80%, 1 = 0-10%, 2 = 10-40%, 3 = 40-80%
+Int_t cent_low[4] = {1,1,3,6}; // 0 = 0-80%, 1 = 0-10%, 2 = 10-40%, 3 = 40-80%
+Int_t cent_up[4]  = {9,2,5,9}; // 0 = 0-80%, 1 = 0-10%, 2 = 10-40%, 3 = 40-80%
 TString Centrality_01[4] = {"0080","0010","1040","4080"};
 TString Centrality_23[4] = {"0060","0010","1040","4060"};
 
@@ -101,6 +101,5 @@ TH1F *h_mMass_Spec[23][4][2]; //reweight
 // event plane resolution correction
 // 0 = centrality
 // 1 = SE, RT
-TH2F *h_mMass_Yields[9][2]; //reweight
+TH1F *h_mMass_Yields[9][2]; //reweight
 #endif
-
