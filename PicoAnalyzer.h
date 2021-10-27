@@ -96,7 +96,6 @@ TH3F *h_pt_y_mass_rt;
 // 0 = pt bin
 // 1 = centrality: 0 = 0-80%(0-60%), 1 = 0-10%, 2 = 10-40%, 3 = 40-80%(40-60%)
 // 2 = SE, RT
-TH1F *h_mMass_Spec[23][4][2]; //reweight
 
 // event plane resolution correction
 // 0 = centrality

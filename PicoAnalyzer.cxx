@@ -726,7 +726,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
       }
   }
-
+  TH1F *h_mMass_Spec[23][4][2]; //reweight
   // raw pt spectra | TODO: use finer pt_bin
   for(Int_t i = 0; i < pt_total_phi; i++) // pt bin
   {
