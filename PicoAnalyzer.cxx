@@ -726,7 +726,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           }
       }
   }
-  TH1F *h_mMass_Spec[23][4][2]; //reweight
+
   // raw pt spectra | TODO: use finer pt_bin
   for(Int_t i = 0; i < pt_total_phi; i++) // pt bin
   {
@@ -736,7 +736,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           {
               TString Mode[2] = {"SE","ME"};
               TString HistName;
-              HistName = Form("Spec_pt_%d_Centrality_%s_%s",i,j,"Phi",Mode[X_flag].Data());
+              HistName = Form("Spec_pt_%d_Centrality_%d_%s_%s",i,j,"Phi",Mode[X_flag].Data());
               h_mMass_Spec[i][j][X_flag] = new TH1F(HistName.Data(),HistName.Data(),200,0.98,1.05);
               h_mMass_Spec[i][j][X_flag]->Sumw2();
 
