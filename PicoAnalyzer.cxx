@@ -752,7 +752,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
           TString Mode[2] = {"SE","ME"};
           TString HistName;
-          HistName = Form("Yields_Centrality_%s_%s",j,"Phi",Mode[X_flag].Data());
+          HistName = Form("Yields_Centrality_%d_%s_%s",j,"Phi",Mode[X_flag].Data());
           h_mMass_Yields[j][X_flag] = new TH1F(HistName.Data(),HistName.Data(),200,0.98,1.05);
           h_mMass_Yields[j][X_flag]->Sumw2();
 
