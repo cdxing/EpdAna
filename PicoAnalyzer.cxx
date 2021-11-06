@@ -452,6 +452,13 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_proton_v1->GetZaxis()->SetTitle("y");
   profile3D_proton_v1->Sumw2();
 
+  TProfile3D *profile3D_proton_v2 = new TProfile3D("profile3D_proton_v2","Proton v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
+  profile3D_proton_v2->BuildOptions(-1,1,"");
+  profile3D_proton_v2->GetXaxis()->SetTitle("Centrality bin");
+  profile3D_proton_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
+  profile3D_proton_v2->GetZaxis()->SetTitle("y");
+  profile3D_proton_v2->Sumw2();
+
   TProfile3D *profile3D_KP_v2 = new TProfile3D("profile3D_KP_v2","K^{+} v_{2}",_Ncentralities,0.5,_Ncentralities+0.5,ptBins,ptLow,ptHigh,rapidityBins,rapidityLow,rapidityHigh,"");
   profile3D_KP_v2->BuildOptions(-1,1,"");
   profile3D_KP_v2->GetXaxis()->SetTitle("Centrality bin");
@@ -1961,12 +1968,22 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_flow_Proton_raw[2] = {-999.0,-999.0}; // v1, v2 raw flow
       double d_flow_Proton_resolution[2] = {-999.0,-999.0}; // v1, v2 flow corrected by resolution
       if(PsiEastRaw[0][1]!=-999.0){// Using EPD-1
-        for(int km=0;km<2;km++){ // km - flow order
+        for(int km=0;km<1;km++){ // km - flow order
           d_flow_Proton_raw[km]        = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]));
           d_flow_Proton_resolution[km] = TMath::Cos((double)(km+1.) * (d_phi_azimuth - PsiEastShifted[0][1]))/(d_resolution[km][centrality-1]); // km {0,1}, centrality [1,9]
         }
       }
       if(d_flow_Proton_raw[0]!=-999.0) profile3D_proton_v1->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[0],1.0);
+      if(eta>=-1.2){
+        if(PsiTpcAllShifted[1][2]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_Proton_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][2]));
+        }
+      } else {
+        if(PsiTpcAllShifted[1][5]!=-999.0){// Using TPC-A psi 2 for v2
+            d_flow_Proton_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
+        }
+      }
+      if(d_flow_Proton_raw[1]!=-999.0) profile3D_proton_v2->Fill(centrality,d_pT,d_y,d_flow_KP_raw[1],1.0);
 
     }
     // cout << "The size of kaonPlus Vector " << v_KaonPlus_tracks.size() << endl;
