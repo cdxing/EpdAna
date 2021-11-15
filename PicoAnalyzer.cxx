@@ -1953,6 +1953,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       double d_py      = picoTrack->pMom().y();
       double d_pz      = picoTrack->pMom().z();
       double d_pT      = picoTrack->pPt();
+      double eta       = picoTrack->pMom().Eta();
       double d_mom     = sqrt(d_pT*d_pT + d_pz*d_pz);
       StPicoBTofPidTraits *trait = NULL;
       double d_tofBeta    = -999.;
@@ -1983,7 +1984,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
             d_flow_Proton_raw[1]        = TMath::Cos((double)(1.+1.) * (d_phi_azimuth - PsiTpcAllShifted[1][5]));
         }
       }
-      if(d_flow_Proton_raw[1]!=-999.0) profile3D_proton_v2->Fill(centrality,d_pT,d_y,d_flow_KP_raw[1],1.0);
+      if(d_flow_Proton_raw[1]!=-999.0) profile3D_proton_v2->Fill(centrality,d_pT,d_y,d_flow_Proton_raw[1],1.0);
 
     }
     // cout << "The size of kaonPlus Vector " << v_KaonPlus_tracks.size() << endl;
