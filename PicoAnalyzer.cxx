@@ -1575,7 +1575,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       eta    = picoTrack->pMom().Eta();
       ptot = picoTrack->pPtot();
       // Kaon PID from Shaowei
-      Float_t momentum = track->pMom().Mag();
+      Float_t momentum = picoTrack->pMom().Mag();
       Float_t Mass2_low;
       Float_t Mass2_up;
       if(momentum < 0.5)
