@@ -938,8 +938,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 */
 
 // ================ Shaowei's phi-meson reconstruction
-  StTriFlowV0 mTriFlowV0 = new StTriFlowV0(3);
-  mTriFlowV0->InitPhi();
+  // StTriFlowV0 mTriFlowV0 = new StTriFlowV0(3);
+  // mTriFlowV0->InitPhi();
   // gRandom->SetSeed((unsigned) time(0));
   gRandom = new TRandom3(0);
   // ------------------ EPD & TPC event plane ab intio Correlations histograms ----------------------------------
@@ -1574,6 +1574,20 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       pz     = picoTrack->pMom().Z();
       eta    = picoTrack->pMom().Eta();
       ptot = picoTrack->pPtot();
+      // Kaon PID from Shaowei
+      Float_t momentum = track->pMom().Mag();
+      Float_t Mass2_low;
+      Float_t Mass2_up;
+      if(momentum < 0.5)
+      {
+          Mass2_low = 0.4*0.4;
+          Mass2_up = 0.6*0.6;
+      }
+      if(momentum >= 0.5)
+      {
+          Mass2_low = 0.277205 - 0.0812931*momentum;
+          Mass2_up = 0.215517 + 0.076801*momentum;
+      }
       phi    = picoTrack->pMom().Phi();
       if(phi < 0.0            ) phi += 2.0*TMath::Pi();
       if(phi > 2.0*TMath::Pi()) phi -= 2.0*TMath::Pi();
@@ -1581,6 +1595,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(picoTrack->isTofTrack()) trait = dst->btofPidTraits( picoTrack->bTofPidTraitsIndex() );
       if(trait) tofBeta               = trait->btofBeta();
       if(tofBeta != -999.0) mass2 = ptot * ptot *( ( 1.0 / ( tofBeta*tofBeta ) ) - 1.0 );
+      Float_t Mass2 = mass2;//mTriFlowCut->getMass2(track, pico); // shaowei
       // ---------------- Particle Physics Variables presumed --------------------------
       Double_t energyProton,energyKaon,energyPion,rapProton,rapKaon,rapPion,mtProton,mtKaon,mtPion;
       Int_t particleType = -999; //default -999. 0,1,2,3,4 indicate p, K+, K-, \Pi+, \Pi-
@@ -1624,10 +1639,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
         hist_dEdx_proton->Fill(charge*ptot,picoTrack->dEdx());
         hist_beta_proton->Fill(charge*ptot,1.0/tofBeta);
         hist_mass_proton->Fill(charge*ptot,mass2);
-      } else if( // Kaons PID: require both TPC and TOF
-        TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
-        tofBeta != -999.0 && mass2 > d_KaonM2low && mass2 < d_KaonM2high
-        && pt > d_KaonpTlow
+      }
+    if( // Kaons PID: require both TPC and TOF
+        // TMath::Abs(picoTrack->nSigmaKaon()) < d_nSigmaKaonCut &&
+        // tofBeta != -999.0 && mass2 > d_KaonM2low && mass2 < d_KaonM2high
+        // && pt > d_KaonpTlow
+        // kaon PID from Shaowei's package
+        (momentum < 0.65 && ((Mass2 > Mass2_low && Mass2 < Mass2_up) || Mass2 < -10.0)) // dE/dx + ToF
+        || (momentum >= 0.65 && (Mass2 > Mass2_low && Mass2 < Mass2_up)) // dE/dx + ToF(always)
       ){
         if(charge > 0){
           particleType=1;// K+
@@ -1662,7 +1681,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
           hist_beta_kaonMinus->Fill(charge*ptot,1.0/tofBeta);
           hist_mass_kaonMinus->Fill(charge*ptot,mass2);
         }
-      } else if( // Pions PID: require both TPC and TOF
+      }
+   if( // Pions PID: require both TPC and TOF
         TMath::Abs(picoTrack->nSigmaPion()) <  2.0 &&
         tofBeta != -999.0 && mass2 > -0.01 && mass2 < 0.05 &&
         pt > 0.2  &&
