@@ -45,6 +45,15 @@
 #include "StRoot/StEpdUtil/StEpdGeom.h"
 #include "StRoot/StEpdUtil/StEpdEpFinder.h"
 #include "StRoot/StEpdUtil/StEpdEpInfo.h"
+// Phi meson reconstruct package
+#include "StRoot/StAlexPhiMesonEvent/StAlexPhiMesonEvent.h"
+#include <vector>
+#include "TLorentzVector.h"
+#include "StPicoEvent/StPicoPhysicalHelix.h"
+#include "TH1F.h"
+#include "TH2F.h"
+#include "StarClassLibrary/SystemOfUnits.h"
+#include "StLorentzVectorD.hh"
 
 // Define global constants
 // const Int_t daynumber     = 6;
