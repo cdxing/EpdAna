@@ -66,6 +66,8 @@ const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
 const Double_t _massPhi = 1.019461;
 const Double_t _y_mid = -2.02; // mid rapidity
+const Double_t _mGlobPtMin = 0.1; // for phi, Lambda, K0s
+const Double_t _mPrimMomMax = 10.0; // also use for gMom
 //--------------------------------------------------------------------
 // Histogram
 // pt bin
@@ -99,6 +101,9 @@ Int_t Phi_Psi_total = 7;
 // 3 = phi - Psi
 TH1F *h_mMass2_EP[23][4][2][7]; //reweight/Res2
 
+TH2F *h_Mass2;
+TH2F *h_Mass2_rot;
+TH2F *h2_azimu_eta;
 TH3F *h_pt_y_mass_se;
 TH3F *h_pt_y_mass_rt;
 // raw pt spectra
@@ -111,4 +116,5 @@ TH1F *h_mMass_Spec[23][4][2]; //reweight
 // 0 = centrality
 // 1 = SE, RT
 TH1F *h_mMass_Yields[9][2]; //reweight
+TTree *MyTree;
 #endif

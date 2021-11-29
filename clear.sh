@@ -11,6 +11,7 @@ rm -rf  csh
 rm -rf  err
 rm -rf  list
 rm -rf  log
+rm -rf  out
 rm -rf  production
 rm -rf  LocalLibraries.zip
 rm -rf  LocalLibraries.package
@@ -22,5 +23,6 @@ mkdir csh
 mkdir err
 mkdir list
 mkdir log
+mkdir out
 mkdir production
 date

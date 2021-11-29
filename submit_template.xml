@@ -8,7 +8,6 @@
 		setenv FILELIST mynewile.list
 		root4star -q -b -l RunAnalyzer.C+
 		root4star -q -b -l PicoAnalyzer.cxx+\(\"$FILELIST\",\"$JOBID\",1,&cutID;,&varID;,&iterID;\)
-		tar -zcvf ${JOBID}.log.tgz ${JOBID}.log
   </command>
 
   <SandBox installer="ZIP">
@@ -17,6 +16,7 @@
       <File>file:./PicoAnalyzer.cxx</File>
       <File>file:./PicoAnalyzer.h</File>
       <File>file:./StRoot</File>
+      <File>file:./EpCorrection_INPUT_sys_primary_var0_iter2_.root</File>
     </Package>
   </SandBox>
 
@@ -32,8 +32,8 @@
 	  <ListLocation>./list/</ListLocation>
   </Generator>
 
-  <output fromScratch="*.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/epmethod/EpdAna/production/" />
-  <output fromScratch="*.log.tgz" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/epmethod/EpdAna/log/" />
+  <output fromScratch="*.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/production/" />
+  <output fromScratch="*.log" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/log/" />
 
 </job>
 
