@@ -1411,7 +1411,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     myEpdId.clear();
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
       for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        if(N_Epd_east[EventTypeId]<41 || EventTypeId == 4) continue; // dchen test, 5
+        if(N_Epd_east[EventTypeId]<41 && EventTypeId == 4) continue; // dchen test, 5
             for (int i=0; i<vEpdId.size(); i++)
 		            myEpdId.push_back(vEpdId[i]);
 	//myEpdId = vEpdId;
