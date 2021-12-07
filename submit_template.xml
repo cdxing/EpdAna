@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<job maxFilesPerProcess="50" fileListSyntax="xrootd" >
+<job maxFilesPerProcess="10" fileListSyntax="xrootd" simulateSubmission="false">
 
   <command>
     starver SL20d
-   		cat $FILELIST | grep -v "root://" > mynewile.list	
-		setenv FILELIST mynewile.list
+    <!--cat $FILELIST | grep -v "root://" > mynewile.list	-->
+    <!--setenv FILELIST mynewile.list-->
 		root4star -q -b -l RunAnalyzer.C+
-		root4star -q -b -l PicoAnalyzer.cxx+\(\"$FILELIST\",\"$JOBID\",1,&cutID;,&varID;,&iterID;\)
+		root4star -q -b -l PicoAnalyzer.cxx+\(\"$FILELIST\",\"$JOBID\",1,&cutID;,&varID;,&iterID;\) &gt;&amp; ${JOBID}.log
   </command>
 
   <SandBox installer="ZIP">
@@ -20,8 +20,12 @@
     </Package>
   </SandBox>
 
-  
-  <input URL="catalog:star.bnl.gov?production=P19ie,filetype=daq_reco_picoDst,trgsetupname=production_26p5GeV_fixedTarget_2018,library=SL20d,tpx=1,filename~st_physics,sanity=1,storage!=hpss" nFiles="all"/>
+
+  <input URL="filelist:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/&listOfFiles;" nFiles="all" />
+
+  <!-- <input URL="filelist:/star/u/fuchuan/3_85FXT/Analysis/v0Tree_Proton_Lm/3p85_local_goodrun.list" nFiles="all" /> -->
+   
+   <!-- <input URL="catalog:star.bnl.gov?production=P19ie,filetype=daq_reco_picoDst,trgsetupname=production_26p5GeV_fixedTarget_2018,library=SL20d,tpx=1,filename~st_physics,sanity=1,storage!=hpss" nFiles="all"/> -->
 
   <stdout discard="true" />
   <stderr URL="file:./err/$JOBID.err"/>
@@ -32,8 +36,8 @@
 	  <ListLocation>./list/</ListLocation>
   </Generator>
 
-  <output fromScratch="*.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/production/" />
-  <output fromScratch="*.log" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/log/" />
+  <output fromScratch="$JOBID.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/production/" />
+  <output fromScratch="$JOBID.log" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/check/EpdAna/log/" />
 
 </job>
 

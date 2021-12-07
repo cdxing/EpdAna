@@ -9,4 +9,6 @@ nJob2=$2
 nJob3=$3
 # inter
 
-star-submit-template -template submit_template.xml -entities cutID=$nJob1,varID=$nJob2,iterID=$nJob3
+Filelist=$4
+
+star-submit-template -template submit_template.xml -entities cutID=$nJob1,varID=$nJob2,iterID=$nJob3,listOfFiles=$Filelist

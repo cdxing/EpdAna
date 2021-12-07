@@ -48,11 +48,11 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
 {
   Int_t myRun;
   Int_t myEvent;
-  std::vector<Int_t> myEpdId;
+  //std::vector<Int_t> myEpdId;
 
-  MyTree = new TTree("mytree", "a tree");
-  MyTree->Branch("RunBranch", &myRun);
-  MyTree->Branch("EventBranch", &myEvent);
+  //MyTree = new TTree("mytree", "a tree");
+  //MyTree->Branch("RunBranch", &myRun);
+  //MyTree->Branch("EventBranch", &myEvent);
   //MyTree->Branch("EpdIdBranch", &myEpdId);
   Int_t mEpOrderMax = 2;//inputp1; // Event plane Fourier expansion order = 1, 2, 3
   cout << "\n**********\n*  Welcome to Ding's analysis.\n"
@@ -1408,12 +1408,15 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     //     // PsiEastPhiWeighted[EventTypeId] = GetPsi(QphiWeightedEastSide[EventTypeId][0],QphiWeightedEastSide[EventTypeId][1],EpOrder);
     //   }
     // }
-    myEpdId.clear();
+    //myEpdId.clear();
     for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
       for(int EventTypeId=0;EventTypeId<_nEventTypeBins;EventTypeId++){
-        if(N_Epd_east[EventTypeId]<41 && EventTypeId == 4) continue; // dchen test, 5
-            for (int i=0; i<vEpdId.size(); i++)
-		            myEpdId.push_back(vEpdId[i]);
+        if(N_Epd_east[EventTypeId]<41) continue; // dchen test, 5
+        /*if(EventTypeId == 4 && iOrder == 2){
+         for (int i=0; i<vEpdId.size(); i++){
+     	            myEpdId.push_back(vEpdId[i]);
+         }  
+	}*/
 	//myEpdId = vEpdId;
         if(QrawEastSide[iOrder-1][EventTypeId][0] || QrawEastSide[iOrder-1][EventTypeId][1] )
         {
@@ -2375,7 +2378,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                                         if(TMath::Abs(phi_psi2_final) >= phi_Psi2_low[m] && TMath::Abs(phi_psi2_final) < phi_Psi2_up[m])
                                         {
                                             // flow
-                                            h_mMass2_EP[i][j][Se_Rt][m]->Fill(d_inv_m,(reweight));///Res2));
+                                            h_mMass2_EP[i][j][Se_Rt][m]->Fill(d_inv_m,(double)reweight/Res2);
                                             // raw pt spectra
                                             h_mMass_Spec[i][j][Se_Rt]->Fill(d_inv_m,reweight);
                                             //		    cout << "m = " << m << endl;
@@ -2405,7 +2408,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
                                         if(TMath::Abs(phi_psi2_final) >= phi_Psi2_low[m] && TMath::Abs(phi_psi2_final) < phi_Psi2_up[m])
                                         {
                                             // flow
-                                            h_mMass2_EP[i][j][Se_Rt][m]->Fill(d_inv_m_rotation,(reweight));///Res2));
+                                            h_mMass2_EP[i][j][Se_Rt][m]->Fill(d_inv_m_rotation,(double)reweight/Res2);
                                             // raw pt spectra
                                             h_mMass_Spec[i][j][Se_Rt]->Fill(d_inv_m_rotation,reweight);
                                             //		    cout << "m = " << m << endl;
@@ -2596,10 +2599,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       }
     }
     
-    for (int i=0; i<myEpdId.size(); i++)
+    /*for (int i=0; i<myEpdId.size(); i++)
           cout <<  myEpdId[i] <<", ";
-    cout << endl << endl;
-    MyTree->Fill();
+    cout << endl << endl;*/
+    //MyTree->Fill();
     vEpdId.clear();
     vGoodTracks.clear();
     v_Proton_tracks.clear();
@@ -3056,7 +3059,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   wt_tpc[1]->Write();
   mCorrectionOutputFile->Write();
   outputFile->cd();
-  MyTree->Write();
+ // MyTree->Write();
   outputFile->Write();
   // profile3D_KP_v2->Write();
   // profile3D_KM_v2->Write();
