@@ -11,6 +11,6 @@ stardev
 wait
 root4star -b -q -l RunAnalyzer.C+
 wait
-root4star -b -q -l PicoAnalyzer.cxx+\(\"st_physics_adc_19158057_raw_3500002.picoDst.root\",\"test\",1,0,0,$iter\)
+root4star -b -q -l PicoAnalyzer.cxx+\(\"./st_physics_20179040_raw_2500006.picoDst.root\",\"test\",1,0,0,$iter\)
 wait
 # chmod u+x

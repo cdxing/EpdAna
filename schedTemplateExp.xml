@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE note [
+<!ENTITY cutID "0">
+<!ENTITY iterID "1">
+<!ENTITY run_end "20183025">
+<!ENTITY varID "0">
+<!ENTITY run_start "20183001">
+]>
+<!-- Created on Tue May 24 10:14:40 2022 -->
+
+<job maxFilesPerProcess="20" fileListSyntax="xrootd" simulateSubmission="false">
+
+  <command>
+    stardev
+    <!--cat $FILELIST | grep -v "root://" > mynewile.list	-->
+    <!--setenv FILELIST mynewile.list-->
+		root4star -q -b -l RunAnalyzer.C+
+		root4star -q -b -l PicoAnalyzer.cxx+\(\"$FILELIST\",\"$JOBID\",1,&cutID;,&varID;,&iterID;\) &gt;&amp; ${JOBID}.log
+		ls -l
+  </command>
+
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:./RunAnalyzer.C</File>
+      <File>file:./PicoAnalyzer.cxx</File>
+      <!--File>file:./PicoAnalyzer.h</File-->
+      <File>file:./StRoot</File>
+      <!--File>file:./EpCorrection_INPUT_sys_primary_var0_iter2_.root</File-->
+    </Package>
+  </SandBox>
+
+
+  <!--input URL="filelist:/star/u/dchen/centrality/4p59GeV/EpdAna/&listOfFiles;" nFiles="all" /-->
+
+  <!-- <input URL="filelist:/star/u/fuchuan/3_85FXT/Analysis/v0Tree_Proton_Lm/3p85_local_goodrun.list" nFiles="all" /> -->
+   
+   <!-- input URL="catalog:star.bnl.gov?production=P19ie,filetype=daq_reco_picoDst,trgsetupname=production_26p5GeV_fixedTarget_2018,library=SL20d,tpx=1,filename~st_physics,sanity=1,storage!=hpss" nFiles="all"/-->
+   <input URL="catalog:star.bnl.gov?production=P21id,filetype=daq_reco_picoDst,trgsetupname=production_4p59GeV_fixedTarget_2019,tpx=1,filename~st_physics,sanity=1,storage!=hpss,runnumber[]&run_start;-&run_end;" nFiles="all"/>
+
+  <stdout discard="true" />
+  <!--stdout URL="file:./out/$JOBID.out"/-->
+  <stderr URL="file:./err/$JOBID.err"/>
+
+  <Generator>
+	  <Location>./report/</Location>
+	  <ScriptLocation>./csh/</ScriptLocation>
+	  <ListLocation>./list/</ListLocation>
+  </Generator>
+
+  <output fromScratch="*.root" toURL="file:/star/u/dchen/centrality/4p59GeV/EpdAna/production/" />
+  <output fromScratch="$JOBID.log" toURL="file:/star/u/dchen/centrality/4p59GeV/EpdAna/log/" />
+
+</job>
+

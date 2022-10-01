@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<job maxFilesPerProcess="50" fileListSyntax="paths" >
+
+  <command>
+	  <!--starver SL20d-->
+	  stardev
+		cons
+		root4star -q -l -b readPicoDst.C\(\"$FILELIST\",\"$JOBID\"\) &gt;&amp; ${JOBID}.log
+  </command>
+
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:./readPicoDst.C</File>
+      <File>file:./StRoot</File>
+    </Package>
+  </SandBox>
+
+ <input URL="catalog:star.bnl.gov?production=P19ie,filetype=daq_reco_picoDst,trgsetupname=production_26p5GeV_fixedTarget_2018,library=SL20d,tpx=1,filename~st_physics,sanity=1,storage!=hpss" nFiles="all"/>
+
+  <stdout discard="true" />
+  <stderr URL="file:./err/$JOBID.err"/>
+
+  <Generator>
+	  <Location>./report/</Location>
+	  <ScriptLocation>./csh/</ScriptLocation>
+	  <ListLocation>./list/</ListLocation>
+  </Generator>
+
+  <output fromScratch="*.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/eventplane/recenter/production/" />
+  <output fromScratch="*.log" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018_psi2/eventplane/recenter/log/" />
+
+</job>
+

@@ -53,6 +53,7 @@
 #include "TVector3.h"
 #include "TH1D.h"
 #include "TH2D.h"
+#include "TH2F.h"
 #include "TH3D.h"
 #include "TRandom.h"
 #include "TRandom3.h"
@@ -94,7 +95,7 @@ const Double_t _y_mid = -2.03; // mid rapidity
 Double_t GetPsi(Double_t Qx, Double_t Qy, Int_t order);
 
 //////////////////////////////// Main Function /////////////////////////////////
-void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/files/PicoDst/st_physics_16140033_raw_0000002.picoDst.root",
+void PicoAnalyzer(const Char_t *inFile = "./st_physics_20179040_raw_2500006.picoDst.root",
                       TString outFile = "test_EpdEP",
                       Int_t   inputp1 = 1, // event plane orders: 1st, 2nd order \psi
                       Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
@@ -338,12 +339,12 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_eventCuts = new TH1D("hist_eventCuts","# of Events after cuts",10,-0.5,9.5);
   TH1D *hist_trackCuts = new TH1D("hist_trackCuts","# of tracks after cuts",10,-0.5,9.5);
   TH1D *hist_Vz_pri = new TH1D("hist_Vz_pri","V_{Z} [cm]",6000,-300.0,300.0);
-  TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  //TH2D *hist_VyVx_pri = new TH2D("hist_VyVx_pri","V_{Y} [cm] vs. V_{X} [cm]",500,-5.0,5.0,500,-5.0,5.0);
   TH1D *hist_Vr_pri = new TH1D("hist_Vr_pri","V_{R} [cm]",500,0.0,20.0);
   TH1D *hist_triggerID = new TH1D("hist_triggerID","Event TriggerId",20001,-0.5,20000.5);
   TH1D *hist_Vz_cut = new TH1D("hist_Vz_cut","V_{Z} after cut [cm]",6000,-300.0,300.0);
   TH1D *hist_Vr_cut = new TH1D("hist_Vr_cut","V_{R} after cut [cm]",500,0.0,20.0);
-  TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
+  //TH2D *hist_VyVx_cut = new TH2D("hist_VyVx_cut","V_{Y} [cm] vs. V_{X} after cut [cm]",500,-5.0,5.0,500,-5.0,5.0);
   // -------------------- Track loop QA histograms --------------------------------
   // TH2D *hist_px_py=new TH2D("hist_px_py","hist_px_py",4000,-10.0,10.0,4000,-10.0,10.0);
   TH1D *hist_pz = new TH1D("hist_pz","p_{z} [GeV/c]",4000,-10.0,10.0);
@@ -371,9 +372,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   TH1D *hist_cent = new TH1D("hist_cent","Centrality",_Ncentralities+1,-0.5,_Ncentralities+0.5);
   TH1D *hist_realTrackMult = new TH1D("hist_realTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
   TH1D *hist_FXTTrackMult = new TH1D("hist_FXTTrackMult","Actual track multiplicity",1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
-  TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  //TH2D *hist_FXTTrackMult_refmult = new TH2D("hist_FXTTrackMult_refmult","Actual track multiplicity vs. RefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  //TH2D *hist_FXTTrackMult_grefmult = new TH2D("hist_FXTTrackMult_grefmult","Actual track multiplicity vs. gRefMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
+  //TH2D *hist_FXTTrackMult_tofmult = new TH2D("hist_FXTTrackMult_tofmult","Actual track multiplicity vs. TofMult",1001,-0.5,1000.5,1001,-0.5,1000.5);
   // ------------------ EPD event plane histograms ----------------------------------
   /*
   TH2D *hist2_Epd_east_Qy_Qx_raw_ini[mEpOrderMax][_nEventTypeBins];
@@ -528,6 +529,37 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   profile3D_Phi_bkg_v2->GetYaxis()->SetTitle("p_{T} [GeV/c]");
   profile3D_Phi_bkg_v2->GetZaxis()->SetTitle("y");
   profile3D_Phi_bkg_v2->Sumw2();
+  
+  TProfile *profile_AveZdcEastVsRunNum = new TProfile("AveZdcEastVsRunNum","",5000,20179000,20184000,0,10000,"");
+  profile_AveZdcEastVsRunNum->GetXaxis()->SetTitle("run number");
+  profile_AveZdcEastVsRunNum->GetYaxis()->SetTitle("<Zdc East Rate>");
+  profile_AveZdcEastVsRunNum->Sumw2();
+  TProfile *profile_AveBbcEastVsRunNum = new TProfile("AveBbcEastultVsRunNum","",5000,20179000,20184000,0,8000000,"");
+  profile_AveBbcEastVsRunNum->GetXaxis()->SetTitle("run number");
+  profile_AveBbcEastVsRunNum->GetYaxis()->SetTitle("<Bbc East Rate>");
+  profile_AveBbcEastVsRunNum->Sumw2();
+  TProfile *profile_AveRefMultVsZdcEast = new TProfile("AveRefMultVsZdcEast","",10000,0,10000,0,1000,"");
+  profile_AveRefMultVsZdcEast->GetXaxis()->SetTitle("east ZDC rate");
+  profile_AveRefMultVsZdcEast->GetYaxis()->SetTitle("<FXTMult>");
+  profile_AveRefMultVsZdcEast->Sumw2();
+  TProfile *profile_AveRefMultVsBbcEast = new TProfile("AveRefMultVsBbcEast","",8000000,0,8000000,0,1000,"");
+  profile_AveRefMultVsBbcEast->GetXaxis()->SetTitle("east BBC rate");
+  profile_AveRefMultVsBbcEast->GetYaxis()->SetTitle("<FXRMult>");
+  profile_AveRefMultVsBbcEast->Sumw2();
+  TProfile *profile_AveRefMultVsZdcEast_c = new TProfile("AveRefMultVsZdcEast_c","",10000,0,10000,0,1000,"");
+  profile_AveRefMultVsZdcEast_c->GetXaxis()->SetTitle("east ZDC rate");
+  profile_AveRefMultVsZdcEast_c->GetYaxis()->SetTitle("<FXTMult>");
+  profile_AveRefMultVsZdcEast_c->Sumw2();
+  TProfile *profile_AveRefMultVsBbcEast_c = new TProfile("AveRefMultVsBbcEast_c","",8000000,0,8000000,0,1000,"");
+  profile_AveRefMultVsBbcEast_c->GetXaxis()->SetTitle("east BBC rate");
+  profile_AveRefMultVsBbcEast_c->GetYaxis()->SetTitle("<FXRMult>");
+  profile_AveRefMultVsBbcEast_c->Sumw2();
+  TH2F *h2_ZdcEastVsBbcEast = new TH2F("h2_ZdcEastVsBbcEast","",10000,0,8000000,10000,0,10000);
+  h2_ZdcEastVsBbcEast->GetXaxis()->SetTitle("east BBC rate");
+  h2_ZdcEastVsBbcEast->GetYaxis()->SetTitle("east ZDC rate");
+  TH2F *h2_ZdcEastVsBbcEast_c = new TH2F("h2_ZdcEastVsBbcEast_c","",10000,0,8000000,10000,0,10000);
+  h2_ZdcEastVsBbcEast_c->GetXaxis()->SetTitle("east BBC rate");
+  h2_ZdcEastVsBbcEast_c->GetYaxis()->SetTitle("east ZDC rate");
   // "Recenter correction" histograms that we INPUT and apply here
   TProfile2D *mEpdRecenterInput[mEpOrderMax][_nEventTypeBins];
   TProfile2D *mTpcRecenterInput[mEpOrderMax][_nEventTypeBins_tpc]; // TPC EP input
@@ -1227,15 +1259,19 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     Int_t nTracks     = dst->numberOfTracks();
 
     const Float_t   f_MagField = event->bField(); // Magnetic field
-    Double_t Day      = (Double_t)runId - 19151028.0; // a day bin
+    Double_t Day      = (Double_t)runId - 20000000.0; // a day bin
     hist_runId->Fill(Day);
 
     Double_t primaryVertex_X    = (Double_t)event->primaryVertex().X();
     Double_t primaryVertex_Y    = (Double_t)event->primaryVertex().Y();
     Double_t primaryVertex_Z    = (Double_t)event->primaryVertex().Z();
     Double_t primaryVertex_perp = (Double_t)event->primaryVertex().Perp();
+    Float_t zdcEastRate = (Float_t)event->zdcEastRate();
+    Float_t bbcEastRate = (Float_t)event->bbcEastRate();
+    //cout << "bbc east rate: " << bbcEastRate << endl;
+    
     hist_Vz_pri  ->Fill(primaryVertex_Z);
-    hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
+    //hist_VyVx_pri->Fill(primaryVertex_X,primaryVertex_Y);
     hist_Vr_pri  ->Fill(primaryVertex_perp);
 
     // ---------------------- trigger selection ---------------------------------
@@ -1247,7 +1283,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       {
         Double_t d_trigger = (Double_t)triggerIDs[i] - 620050.0;
         hist_triggerID->Fill(d_trigger);
-        if(triggerIDs[i] == 630052) b_bad_trig = false; // bbce_tofmult1 7.2GeV
+        if(triggerIDs[i] == 680001) b_bad_trig = false; // epde-or-bbce-or-vpde-tof1 3.2GeV
       }
 
     // --------------------------- Vertex cut -----------------------------------
@@ -1286,7 +1322,7 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     if(b_bad_evt) continue;
     hist_Vz_cut->Fill(primaryVertex_Z);
     hist_Vr_cut->Fill(primaryVertex_perp);
-    hist_VyVx_cut->Fill(primaryVertex_X,primaryVertex_Y);
+    //hist_VyVx_cut->Fill(primaryVertex_X,primaryVertex_Y);
     mEvtcut[1]++; // 1. vertex event cut
 
     Int_t  refMult = event->refMult(); // refMult
@@ -1301,6 +1337,9 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       mTrkcut[0]++; // 0. No track cut
       if(!picoTrack) continue;
       mTrkcut[1]++; // 1. pico track cut
+      if(!picoTrack->isPrimary()) continue;
+      nFXTMult++;
+      mTrkcut[2]++; // 2. Primary track cut
       StPicoBTofPidTraits *trait = NULL;
       // ----------------------- Physics values of tracks --------------------------
       double        tofBeta    = -999.;
@@ -1330,9 +1369,6 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       hist_ndEdx->Fill(picoTrack->nHitsDedx());
       hist_DCA  ->Fill(dca);
 
-      if(!picoTrack->isPrimary()) continue;
-      nFXTMult++;
-      mTrkcut[2]++; // 2. Primary track cut
       bool    b_bad_dEdx     = (picoTrack->nHitsDedx() <= 0);
       // # Systematic Analysis
       // sys_cutN == 5; // dedx
@@ -1437,6 +1473,17 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
       if(tofBeta == -999) continue;
       mTrkcut[4]++; // 4. Bad tof track cut, to see how many tracks with tof information
     } // Track loop to determine good tracks
+    profile_AveRefMultVsZdcEast->Fill(zdcEastRate,nFXTMult);
+    profile_AveRefMultVsBbcEast->Fill(bbcEastRate,nFXTMult);
+    h2_ZdcEastVsBbcEast->Fill(bbcEastRate,zdcEastRate);
+    if(nFXTMult > 20)
+    {
+    	profile_AveZdcEastVsRunNum->Fill(runId,zdcEastRate);
+    	profile_AveBbcEastVsRunNum->Fill(runId,bbcEastRate);
+    	profile_AveRefMultVsZdcEast_c->Fill(zdcEastRate,nFXTMult);
+    	profile_AveRefMultVsBbcEast_c->Fill(bbcEastRate,nFXTMult);
+        h2_ZdcEastVsBbcEast_c->Fill(bbcEastRate,zdcEastRate);
+    } 
     for(int i=0;i<5;i++){ // fill the tracks after cut
       hist_trackCuts->SetBinContent(i+1,mTrkcut[i]);
     }
@@ -1461,10 +1508,10 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
     }
     hist_cent->Fill(centrality);
     hist_realTrackMult->Fill(nGoodTracks);
-    hist_FXTTrackMult->Fill(nFXTMult);
-    hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
-    hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
-    hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
+    //hist_FXTTrackMult->Fill(nFXTMult);
+    //hist_FXTTrackMult_refmult->Fill(nFXTMult,refMult);
+    //hist_FXTTrackMult_grefmult->Fill(nFXTMult,grefMult);
+    //hist_FXTTrackMult_tofmult->Fill(nFXTMult,tofMult);
     if(b_pileup||b_low_mult) continue; //Pile/lowMult cut
     mEvtcut[2]++; // 2. Pile Up event cut
 
@@ -3017,8 +3064,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_trackCuts->GetXaxis()->SetBinLabel(5,"With TOF");
   hist_Vz_pri->GetXaxis()->SetTitle("V_{Z} [cm]");
   hist_Vz_pri->GetYaxis()->SetTitle("# of events");
-  hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
-  hist_VyVx_pri->GetYaxis()->SetTitle("V_{Y} [cm]");
+  ////hist_VyVx_pri->GetXaxis()->SetTitle("V_{X} [cm]");
+  //hist_VyVx_pri->GetYaxis()->SetTitle("V_{Y} [cm]");
   hist_Vr_pri->GetXaxis()->SetTitle("V_{R} [cm]");
   hist_Vr_pri->GetYaxis()->SetTitle("# of events");
   hist_triggerID->GetXaxis()->SetTitle("TriggerID");
@@ -3027,8 +3074,8 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_Vz_cut->GetYaxis()->SetTitle("# of events");
   hist_Vr_cut->GetXaxis()->SetTitle("V_{R} [cm]");
   hist_Vr_cut->GetYaxis()->SetTitle("# of events");
-  hist_VyVx_cut->GetXaxis()->SetTitle("V_{X} [cm]");
-  hist_VyVx_cut->GetYaxis()->SetTitle("V_{Y} [cm]");
+  //hist_VyVx_cut->GetXaxis()->SetTitle("V_{X} [cm]");
+  //hist_VyVx_cut->GetYaxis()->SetTitle("V_{Y} [cm]");
   // hist_px_py->GetXaxis()->SetTitle("p_{x} [GeV/c]");
   // hist_px_py->GetYaxis()->SetTitle("p_{y} [GeV/c]");
   hist_pz->GetXaxis()->SetTitle("p_{z} [GeV/c]");
@@ -3077,14 +3124,14 @@ void PicoAnalyzer(const Char_t *inFile = "/star/data01/pwg/dchen/Ana/fxtPicoAna/
   hist_cent->GetYaxis()->SetTitle("# of events");
   hist_realTrackMult->GetXaxis()->SetTitle("TrackMult");
   hist_realTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
-  hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
-  hist_FXTTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
-  hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
-  hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
-  hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
+  //hist_FXTTrackMult->GetXaxis()->SetTitle("FXTMult Multiplicity");
+  //hist_FXTTrackMult->GetYaxis()->SetTitle("# of events");
+  //hist_FXTTrackMult_refmult->GetXaxis()->SetTitle("TrackMult");
+  //hist_FXTTrackMult_refmult->GetYaxis()->SetTitle("RefMult");
+  //hist_FXTTrackMult_grefmult->GetXaxis()->SetTitle("TrackMult");
+  //hist_FXTTrackMult_grefmult->GetYaxis()->SetTitle("gRefMult");
+  //hist_FXTTrackMult_tofmult->GetXaxis()->SetTitle("TrackMult");
+  //hist_FXTTrackMult_tofmult->GetYaxis()->SetTitle("tofMult");
   for(int iOrder = 1; iOrder <= mEpOrderMax; iOrder ++){
     for(int EventTypeId=0; EventTypeId<_nEventTypeBins; EventTypeId++){
       /*
